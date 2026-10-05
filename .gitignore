@@ -1,0 +1,5 @@
+html/Databases/*.sql
+pi/Elmer/output/**/*.db
+pi/.claude/remote/ccd-cli/**
+pi/**/.git
+.DS_Store
