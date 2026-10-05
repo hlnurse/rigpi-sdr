@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=TestTerminal
+Exec=bash -c "echo 'Menu terminal works!' && sleep 5"
+Terminal=true
+Type=Application

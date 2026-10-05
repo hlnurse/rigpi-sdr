@@ -1,0 +1,3 @@
+[MIME Cache]
+application/gnuradio-grc=gnuradio-grc.desktop;
+x-scheme-handler/rpi-imager=com.raspberrypi.rpi-imager-uri-handler.desktop;

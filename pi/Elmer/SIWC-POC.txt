@@ -1,0 +1,80 @@
+ELMER SIWC PROOF OF CONCEPT - 2026-10-02
+
+Installed on rigpi5 as a separate CLI. Existing API-key and web paths were not edited.
+Run all commands as pi (prefix sudo -u pi when using the root Termius session).
+
+Files:
+  /home/pi/Elmer/siwc_poc.py
+  /home/pi/Elmer/test_siwc_poc.py
+  /home/pi/.config/rigpi-elmer-siwc/host.json
+  /home/pi/.config/rigpi-elmer-siwc/credentials.json (created only on import)
+State directory: 0700; state files: 0600, owned by pi.
+Tokens are never sent to MariaDB, browser storage, JavaScript, logs or the web root.
+No listener, service, browser route, radio command, or API-key fallback is installed.
+
+Existing flow:
+/var/www/html/elmer.php -> /elmer-api/ -> Nginx elmer.conf ->
+programs/elmerAuth.php checks signed-in approved RigPi account ->
+127.0.0.1:8900/api/ -> /home/pi/Elmer/elmer_web.py -> answer_knowledge.py.
+Local mode loads OPENAI_API_KEY or CREDENTIALS_DIRECTORY/openai_api_key.
+The existing server also has a separate cloud mode. Both are unchanged.
+answer_knowledge.py builds Responses requests using local evidence and INSTRUCTIONS.
+No process was listening on 8900 during inventory; no service was started or restarted.
+
+Backup:
+/home/pi/elmer-siwc-backup-20261002-101732
+Original source and Nginx files plus original.sha256 are stored there.
+
+Authentication prerequisite:
+Complete documented SIWC OAuth locally on the browser computer, using Elmer's own
+registration for the same user and workspace. The local OAuth client must validate
+state, PKCE, ID-token signature, issuer, audience, expiration and nonce before saving.
+This CLI is an importer, not a browser OAuth client; it trusts that protected export.
+Do not substitute Codex credentials or fabricate identity validation metadata.
+Transfer the single registration's protected JSON over SSH/SFTP as pi, e.g. to:
+/home/pi/.config/rigpi-elmer-siwc/import.json
+Ensure that source file is 0600. Do not paste credential contents in a terminal/chat.
+
+Record format follows OpenAI's documented local credential record:
+client_id (issued, not dynamic_agent_client), issuer (https://auth.openai.com),
+subject (validated ID-token sub), access_token, refresh_token, token_type (Bearer),
+scopes (array), expires_in, saved_at (UTC ISO timestamp or Unix seconds).
+Retain id_token and other saved metadata. Required scopes are
+chatgpt.tokens.use.direct, resource.invoke, offline_access.
+The importer replaces the source host ID with the persisted Pi ID; it never copies
+the laptop ID over host.json. Preserve host.json for subsequent Pi authorization.
+
+Commands:
+python3 -B /home/pi/Elmer/siwc_poc.py status
+python3 -B /home/pi/Elmer/siwc_poc.py import /home/pi/.config/rigpi-elmer-siwc/import.json
+python3 -B /home/pi/Elmer/siwc_poc.py models
+python3 -B /home/pi/Elmer/siwc_poc.py ask 'What is RigPi?' --model SELECTED_SLUG
+Replace SELECTED_SLUG with a slug returned by models for the signed-in account.
+The ask command uses the existing Elmer instructions and evidence functions, opens
+knowledge.db read-only, and sends store:false and stream:true to the public
+Responses endpoint. It only prints an answer after response.completed.
+
+After transfer, stop the local OAuth helper from refreshing that session. The Pi
+owns all later refreshes. Retire the transfer file after successful import; keep
+only the active protected credential store. Do not reuse a stale laptop copy.
+Refreshes are locked, use the issued client ID and resource, omit scope, and save
+the rotated token pair atomically. Temporary errors preserve credentials. Terminal
+refresh errors clear unusable tokens while preserving the registration and Pi ID.
+An active record cannot be overwritten by another import. Reauthorization and
+account switching beyond terminal-error recovery are outside this minimal PoC.
+Network failures are not automatically retried or switched to API-key billing.
+
+Validation:
+python3 -B /home/pi/Elmer/test_siwc_poc.py
+Eight offline tests passed: import identity/permissions, unsafe files, grants,
+concurrent refresh rotation, terminal refresh errors, temporary refresh failures,
+stream completion, and real Elmer evidence with a mocked OpenAI response.
+Syntax compilation passed. No real credentials were available, so neither real
+OAuth refresh nor paid/plan-backed inference has been validated.
+
+Official documentation:
+https://developers.openai.com/siwc/token-sharing-open-source/self-hosted-vms
+https://developers.openai.com/siwc/token-sharing-open-source/sign-in
+https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions
+https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference
+

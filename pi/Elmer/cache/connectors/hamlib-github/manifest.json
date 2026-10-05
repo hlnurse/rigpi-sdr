@@ -1,0 +1,12 @@
+{
+  "connector_id": "hamlib-github",
+  "owner": "Hamlib",
+  "repository": "Hamlib",
+  "default_branch": "master",
+  "commit": "7bbde194b4c806729539d7063b10c8636644421b",
+  "synced_at": "2026-08-13T15:42:33.144369+00:00",
+  "releases": 30,
+  "issues": 1350,
+  "issue_comments": 5656,
+  "wiki_synced": true
+}

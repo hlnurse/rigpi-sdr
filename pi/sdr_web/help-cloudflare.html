@@ -1,0 +1,176 @@
+Remote Access Setup â€” Cloudflare Tunnel Quick summary ELMER is reached from
+the internet through one Cloudflare Tunnel (cloudflared) running on the Pi as a
+systemd service. It's token-managed, not file-managed —
+/etc/cloudflared/config.yml is ignored. Routing rules live on Cloudflare's
+servers, not on the Pi. nginx (port 80) does the real work of routing each
+account's path (/sdr, /sdr2, etc.) to its backend port (8001–8005) — Cloudflare
+only needs to know about localhost:80. If a hostname returns 503, suspect
+Cloudflare's remote ingress config first — check the journal for "No ingress
+rules were defined." The dashboard's tunnel tabs (Public Hostname, Hostname
+Routes, Published Application Routes) were all empty for this tunnel despite it
+working — the only reliable way to read or change ingress rules is the
+Cloudflare API, using an API token with the Argo Tunnel (Legacy) → Edit
+permission (not labeled "Cloudflare Tunnel"). If only some accounts fail
+remotely while others work, check their SDRHostRemote database field before
+touching Cloudflare at all — a blank value or a domain typo is a far more common
+cause. See Alternatives to Cloudflare if this workflow becomes more trouble than
+it's worth. ELMER is exposed to the internet through a single Cloudflare Tunnel
+running on the Pi (cloudflared). nginx handles path-based routing to each SDR
+instance locally; Cloudflare only needs to know about one local origin
+(localhost:80) plus optional per-port hostnames if direct port access is ever
+needed. Architecture nginx (port 80) proxies /sdr, /sdr2, /sdr3, /sdr4, /sdr5 to
+local ports 8001–8005, including /api/ and /ws/ sub-paths for each. Config:
+/etc/nginx/sites-enabled/myserver. cloudflared runs as a systemd service,
+connected to Cloudflare using a token (not a local config.yml file — see warning
+below). DNS: sdr.rigpi.org and sdr8001–sdr8004.rigpi.org are all CNAME/Tunnel
+records pointing at the same tunnel (<tunnel-id
+  >.cfargotunnel.com). Per-user routing: each ELMER account has its own SDRHost
+  (LAN) and SDRHostRemote (WAN) URL stored in the Users table. index.php picks
+  LAN or Remote based on the visitor's IP. This is what lets four accounts share
+  one tunnel/hostname while landing on different backend ports via path (/sdr,
+  /sdr2, etc). ⚠ Critical: this tunnel is token-managed, not file-managed The
+  systemd unit (/etc/systemd/system/cloudflared.service) launches cloudflared
+  with tunnel run --token
+  <long-token-string>
+    and no --config flag. This means: /etc/cloudflared/config.yml on the Pi is
+    completely ignored, even if it looks correct and even if cloudflared tunnel
+    ingress validate says it's OK. Don't waste time editing it. Adding --config
+    /etc/cloudflared/config.yml to the ExecStart line does not help — the remote
+    token-based config still wins. The actual ingress rules (which hostname maps
+    to which local service) live entirely on Cloudflare's servers and must be
+    set via the dashboard or the API. You can confirm whether ingress rules are
+    present by checking the journal right after a restart: sudo journalctl -u
+    cloudflared -n 20 --no-pager If you see this line, ingress is empty and
+    every hostname will 503: WRN No ingress rules were defined in provided
+    config (if any) nor from the cli, cloudflared will return 503 for all
+    incoming HTTP requests And this line confirms it's pulling a remote config
+    (the value shown is what's actually live — if ingress is missing from it,
+    that's the problem): INF Updated to new configuration
+    config="{\"warp-routing\":{\"enabled\":true}}" version=1 Checking tunnel
+    health sudo systemctl status cloudflared --no-pager sudo journalctl -u
+    cloudflared -n 30 --no-pager curl -sI http://localhost:80/sdr # confirm
+    nginx/origin is fine locally first curl -sI https://sdr.rigpi.org/sdr #
+    confirm Cloudflare edge is serving it If the local curl works (200) but the
+    public one doesn't (503), the problem is Cloudflare-side ingress, not the
+    Pi. Don't go troubleshooting nginx, PHP, or the SDR services — they're fine.
+    Where the dashboard hides this (as of mid-2026) Cloudflare's dashboard has
+    multiple overlapping UIs for tunnels and none of the obvious tabs show
+    ingress rules for a token-managed tunnel: Networks → Tunnels → [tunnel] →
+    Public Hostname / Published application routes / Hostname routes (Beta) —
+    all of these were empty for this tunnel despite it working. Hostname routes
+    (Beta) in particular is for WARP/private-network routing (it'll prompt you
+    to configure a "Cloudflare One Client device profile") and is the wrong tool
+    for a plain public website. Access → Applications — this is for gating a
+    hostname behind a login wall (Zero Trust Access policies). Also the wrong
+    tool; we want anonymous public access. DNS → Records — confirms the
+    CNAME/Tunnel records exist and point at the right tunnel, but editing a
+    record here only changes DNS, not the ingress rule Cloudflare uses to route
+    the request once it arrives. None of these write to the actual ingress
+    config for a token-based tunnel. The only reliable path found was the raw
+    API. Fixing or changing ingress rules via the API 1. Create an API token
+    with the right permission Go to dash.cloudflare.com → profile icon → API
+    Tokens → Create Token → Create Custom Token. The permission is not called
+    "Cloudflare Tunnel." Search/scroll to the Cloudflare One / Zero Trust group
+    and look for: Argo Tunnel (Legacy) — check Edit (this includes Read) Under
+    Account Resources, select Include → your account. Leave IP filtering off
+    unless you have a reason to restrict it. Click through to Create Token and
+    copy the value immediately — it's shown once (cfat_…, 53 characters). Tip:
+    if a freshly-created token returns "Invalid access token" or "Authentication
+    error" on even a basic call like GET /accounts, delete any other
+    recently-created tokens for this account and try again. In practice,
+    old/duplicate tokens caused valid new ones to fail until they were removed —
+    root cause unclear, but reproducible. 2. Find your account ID and tunnel ID
+    cloudflared tunnel list (Requires cloudflared tunnel login first if
+    ~/.cloudflared/cert.pem doesn't exist — this opens a browser auth flow.)
+    Account ID is also visible in any dashboard URL:
+    dash.cloudflare.com/<account-id
+      >/... 3. Read the current ingress config
+      TOKEN='cfat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+      ACCOUNT_ID='012ba76937a9da11a75ae7a3fbb2af52'
+      TUNNEL_ID='0a1451c4-d8d5-473e-a271-9872c3142e21' curl -s -X GET \
+      "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/configurations"
+      \ -H "Authorization: Bearer $TOKEN" 4. Write the ingress config curl -s -X
+      PUT \
+      "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/cfd_tunnel/$TUNNEL_ID/configurations"
+      \ -H "Authorization: Bearer $TOKEN" \ -H "Content-Type: application/json"
+      \ --data '{ "config": { "ingress": [ {"hostname": "sdr.rigpi.org",
+      "service": "http://localhost:80"}, {"hostname": "sdr8001.rigpi.org",
+      "service": "http://localhost:8001"}, {"hostname": "sdr8002.rigpi.org",
+      "service": "http://localhost:8002"}, {"hostname": "sdr8003.rigpi.org",
+      "service": "http://localhost:8003"}, {"hostname": "sdr8004.rigpi.org",
+      "service": "http://localhost:8004"}, {"service": "http_status:404"} ] } }'
+      A trailing catch-all rule ({"service": "http_status:404"}) is required —
+      Cloudflare rejects configs without one. Changes take effect within ~10–15
+      seconds, no restart needed. Verify: curl -sI https://sdr.rigpi.org/sdr
+      curl -sI https://sdr8002.rigpi.org Both should return HTTP/2 200. Adding a
+      new instance/port later Add the nginx location blocks for the new port
+      (mirror the existing /sdr2 pattern: base path, /api/, /ws/). Create a DNS
+      record for the new hostname (e.g. sdr8005.rigpi.org), type Tunnel,
+      pointing at sdr.rigpi.org (or directly at
+      <tunnel-id
+        >.cfargotunnel.com) — this can be done from DNS → Records → Add record
+        in the normal dashboard, that part works fine. Re-run the API PUT above
+        with the new hostname added to the ingress array (the whole array is
+        replaced each time, so include all existing entries, not just the new
+        one). Add the new user's SDRHost / SDRHostRemote / SDRPort row in the
+        Users table. Database fields per account Each ELMER user account needs
+        three fields set correctly in the Users table (checked via mysql -u ham
+        -p7388 station -e "SELECT Username, SDRHost, SDRHostRemote, SDRPort FROM
+        Users;"): Field Example Notes SDRHost http://rigpi5.local/sdr2 Used when
+        the visitor's IP looks like a LAN address (192.168.*, 10.*, 172.*, or
+        127.0.0.1) SDRHostRemote https://sdr.rigpi.org/sdr2 Used for everyone
+        else. Must use the .org domain and the correct /sdrN path — a typo here
+        (wrong TLD, blank field, wrong path) is invisible until that specific
+        account tries to connect remotely. SDRPort 8002 Informational/legacy;
+        actual routing is by path via nginx, not by this field directly. Tip: a
+        blank SDRHostRemote or a typo'd domain is a much more common cause of
+        "account works on LAN but not remotely" than anything Cloudflare-side.
+        Check this table first before touching the tunnel. Quick diagnosis
+        flowchart Does curl -sI http://localhost:80/sdrN on the Pi return 200? –
+        No → nginx/PHP/backend problem, not Cloudflare. Check sudo systemctl
+        status sdr_web@800N and nginx config. Does curl -sI
+        https://sdr.rigpi.org/sdrN return 200? – No, and step 1 was yes →
+        Cloudflare ingress problem. Check the journal for "No ingress rules"
+        warning, then use the API steps above. Does the affected user's
+        SDRHostRemote in the database exactly match a working pattern
+        (https://sdr.rigpi.org/sdrN)? – No → fix the database row, not the
+        tunnel. Alternatives to Cloudflare Cloudflare Tunnel's core mechanism —
+        an outbound-only connection from the Pi to Cloudflare's edge, no port
+        forwarding needed — is genuinely a good fit for ELMER. The pain
+        documented above is entirely in the dashboard/API for managing ingress
+        rules, not the tunnel technology itself. If that friction becomes a
+        recurring problem (e.g. needing to add ports often, or onboarding
+        someone else who'll manage this later), a couple of alternatives are
+        worth knowing about: Option What it is Tradeoff vs. Cloudflare Tunnel
+        Tailscale + Funnel WireGuard mesh VPN; tailscale funnel exposes one
+        local port publicly. Setup is a single command per port, no dashboard
+        hunting. Funnel is the public-exposure feature layered on top of
+        Tailscale's private mesh network. Downside: Funnel is still labeled beta
+        as of early 2026, and routing four separate public ports means four
+        funnel commands instead of one tunnel config — simpler per-step, but
+        more moving parts to track across ports 8001–8004. Free tier covers
+        personal use comfortably. ngrok The original "one command, get a public
+        URL" tunnel tool. Fastest to stand up for a single quick test. Its free
+        tier was cut sharply in early 2026 (1 GB bandwidth, 2-hour session
+        limits, an interstitial warning page on every visit) — not realistic for
+        an always-on station like ELMER without a paid plan. Self-hosted (frp /
+        chisel / boringproxy) Open-source tunnel daemon you run on a public VPS
+        you control. Full ownership, no third-party dashboard at all to fight
+        with. Cost is a small VPS (~$5/mo) plus you own all the ops (updates,
+        TLS certs, the VPS itself going down). Reasonable if you already run a
+        VPS for something else. Direct port-forward + Dynamic DNS No tunnel
+        middleman; forward a router port straight to the Pi, use a DDNS
+        hostname. Simplest mental model, but opens an inbound port on the home
+        network and loses Cloudflare's free DDoS/CDN protection. Generally the
+        least preferred option for a station reachable by guest operators. For
+        now, Cloudflare Tunnel stays the right call — free bandwidth, free DDoS
+        protection, and a free CDN are hard to beat for a self-hosted hobby
+        project, and the ingress-rule problem above is now a documented
+        10-minute fix instead of an hour-long dashboard hunt. Revisit this table
+        only if Cloudflare's dashboard gets worse, not better, or if a future
+        need (request inspection/replay, team SSO gating per-account) tips the
+        balance toward one of the alternatives.</tunnel-id
+      ></account-id
+    ></long-token-string
+  ></tunnel-id
+>

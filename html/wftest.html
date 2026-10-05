@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>FFT Viewer</title>
+    <style>
+      canvas {
+        width: 100%;
+        height: 300px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Live FFT Stream</h2>
+    <canvas id="fftCanvas"></canvas>
+
+    <script>
+      const canvas = document.getElementById("fftCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = 300;
+
+      const ws = new WebSocket("ws://localhost:8080");
+
+      ws.onmessage = (event) => {
+        const fft = JSON.parse(event.data);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const barWidth = canvas.width / fft.length;
+        fft.forEach((value, i) => {
+          const height = value * canvas.height;
+          ctx.fillStyle = "lime";
+          ctx.fillRect(i * barWidth, canvas.height - height, barWidth, height);
+        });
+      };
+    </script>
+  </body>
+</html>

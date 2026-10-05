@@ -1,0 +1,15 @@
+ADIF Export
+<adif_ver:5>3.1.1
+<created_timestamp:15>20260721 202633
+<programid:6>WSJT-X
+<programversion:5>2.7.0
+<eoh>
+<call:4>w1aw <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>202622 <qso_date_off:8>20260721 <time_off:6>202622 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:4>W6YX <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>203948 <qso_date_off:8>20260721 <time_off:6>203948 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:4>F7DX <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>204311 <qso_date_off:8>20260721 <time_off:6>204311 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:4>K1HI <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>204745 <qso_date_off:8>20260721 <time_off:6>204745 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:5>W6ABC <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>205039 <qso_date_off:8>20260721 <time_off:6>205039 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:6>SM3VFA <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>205146 <qso_date_off:8>20260721 <time_off:6>205146 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:5>G4EAB <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>212920 <qso_date_off:8>20260721 <time_off:6>212920 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:6>WB6HQF <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260721 <time_on:6>213035 <qso_date_off:8>20260721 <time_off:6>213035 <band:3>20m <freq:9>14.075570 <station_callsign:0> <eor>
+<call:4>W8DX <gridsquare:0> <mode:3>FT8 <rst_sent:0> <rst_rcvd:0> <qso_date:8>20260722 <time_on:6>222600 <qso_date_off:8>20260722 <time_off:6>222707 <band:3>40m <freq:8>7.075500 <station_callsign:0> <state:2>CA <eor>

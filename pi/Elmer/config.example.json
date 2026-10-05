@@ -1,0 +1,19 @@
+{
+  "include": [
+    "config/project.json",
+    "config/sources.json",
+    "config/analysis.json",
+    "config/report.json"
+  ],
+  "project": {
+    "product_name": "My Product",
+    "help_name": "Assistant",
+    "builder_name": "My Documentation Builder",
+    "report_title": "My Product Documentation QA",
+    "version": "0.19"
+  },
+  "messages": {
+    "report_closing": "Build complete.",
+    "console_closing": "Build complete."
+  }
+}

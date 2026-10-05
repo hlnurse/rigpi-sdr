@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Raspberry Pi Imager
+Exec=/usr/bin/rpi-imager %u
+Icon=rpi-imager
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/rpi-imager;

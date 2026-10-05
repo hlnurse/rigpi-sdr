@@ -1,0 +1,47 @@
+[
+  {
+    "port": 8005,
+    "label": "SDR @ 8005",
+    "device": "airspyhf",
+    "active": true,
+    "last_seen": 1786278267.526018,
+    "in_use_by": "",
+    "device_serial": "c8529780ea4946c7"
+  },
+  {
+    "port": 8001,
+    "label": "SDR @ 8001",
+    "device": "airspyhf",
+    "device_serial": "c8529780be444686",
+    "active": true,
+    "last_seen": 1786278264.6555462,
+    "in_use_by": ""
+  },
+  {
+    "port": 8002,
+    "label": "SDR @ 8002",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1786278279.6832623,
+    "in_use_by": ""
+  },
+  {
+    "port": 8003,
+    "label": "SDR @ 8003",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1786278279.2324812,
+    "in_use_by": ""
+  },
+  {
+    "port": 8004,
+    "label": "SDR @ 8004",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1786278292.6289165,
+    "in_use_by": ""
+  }
+]

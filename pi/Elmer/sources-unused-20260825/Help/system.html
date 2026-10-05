@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; System</title>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="System Settings System Settings provides information about system aspects of RSS and buttons to reboot RigPi or shut it down. System Settings is only available for Access Level" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: 4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("RigPi.html", "system.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">System</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="RigPi.html?system.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">System</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="macros.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="settings.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="scheduler.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick=";$('div#idcontent').css('margin-top', '1em');window.print();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal" style="text-align: center;"><img alt="2026-06-15_20-58-03" width="486" height="361" style="margin:0 auto 0 auto;width:486px;height:361px;border:none" src="2026-06-15_20-58-03.png"/></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: thin; border-top: none; border-right: none; border-left: none; margin: 9px 0 0 0;"><span class="f_Heading1" style="color: #2c5d88;">System Settings</span></h1>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="color: #222222;">System Settings provides information about system aspects of RSS and buttons to reboot RigPi or shut it down. System Settings is only available for Access Level 1 accounts.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Reboot RigPi</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Restarts RigPi. Any active user accounts must be restarted along with connecting radios after rebooting.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Shut Down RigPi</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Use the Shut Down button before disconnecting power to RigPi. Wait for the green activity light to stop blinking before proceeding. Not doing so could damage the RigPi memory card.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Update FCC Database</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Refreshes the FCC callsign lookup database loaded on RigPi. The refresh process takes about 15 minutes to complete. Note the entire FCC database is updated by the FCC once per week.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Update Cluster List</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Updates the DX cluster database from the public cluster directory at</span><span style="color: #222222;"> </span><span style="color: #222222;"><a href="https://www.dxcluster.info/" class="weblink">dxcluster.info</a>. The database contains over 900 DX cluster nodes worldwide, including host addresses, ports, and locations.</span></p>
+<p class="p_Normal" style="margin: 5px 0 0 0;"><span style="color: #222222;">The update fetches the current list and adds any new nodes while updating existing entries. The result shows the number of new nodes added, nodes matched and updated, and the total node count. The cluster list is used by RigPi to connect to DX spotting networks.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 7px 7px 7px 7px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> </span><span style="color: #222222;">An internet connection is required. The update typically completes in a few seconds</span><span style="font-size: 8px; color: #222222;">.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">LAN IP 1</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">RSS can connect to the Internet through Ethernet and/or Wi-Fi. If only Ethernet or Wi-Fi is used, LAN IP 1 is the IP address for that connection. Use LAN IP 1 for the LAN IP if you are setting up port forwarding in your Internet router.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">LAN IP 2</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">If RSS is connected to the Internet through an Ethernet connection and through Wi-Fi, the Ethernet connection is shown in LAN IP 1 and the Wi-Fi address is shown in LAN IP 2.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">WAN IP</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">WAN IP is the public IP of your connection to the Internet. This is the IP you can use to connect to RSS when away from home. You must set up port forwarding in your router for RSS and Mumble to operate remotely. See also</span><span style="color: #222222;"> </span><span style="color: #222222;"><a href="https://www.claudeusercontent.com/cloudflare-tunnel.html" class="weblink">Cloudflare Tunnel</a></span><span style="color: #222222;"> </span><span style="color: #222222;">for remote access without port forwarding.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">RPi Temp</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Shows the temperature of the CPU chip on the Raspberry Pi. The core temperature goes up as the Raspberry Pi gets more heavily loaded. The maximum operating temperature is rated for 80°C. If the temperature goes above 85°C, the CPU is throttled. Normally you will see the temperature under 50°C. The Raspberry Pi official case and the K1EL RigPi case has a fan that will keep the CPU cool.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Rigctl Port</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">The port used to control the radio for the current account. Use this port number if connecting to another application (such as Fldigi) and you want to have both RSS and the other application control the radio. You can also use this number to connect a second (or more) accounts to the current radio. Enter the port number in the Port field in Basic or Advanced Radio settings.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">CCM Port</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">The port used to connect CommCat Mobile or CommCat to RSS to control the current radio. (CommCat is no longer available.)</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">RSS Vers</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">The current RSS version number.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Hamlib Vers</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">The current Hamlib version (rig and rotor control library) installed in RSS.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Update RSS Files</span></h2>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Update the RSS files to the most recent version. The update is a two-step process. The first step checks version numbers. If the version check shows an update is available, the second step installs the files from the RigPi web site. See Update RSS Files in Other Programs.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 12px 0 0 0;"><span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Get RSS Stats</span></h2>
+<p class="p_Normal" style="margin: 3px 0 5px 0;"><span style="color: #222222;">Provides a brief summary of RSS Statistics, including time since last reboot, number of connected users, and system loading.</span><br />
+<span style="color: #222222;">&nbsp;</span><br />
+<span class="f_Heading2" style="font-size: 17px; color: #2c5d88;">Factory Reset</span></p>
+<p class="p_Normal" style="margin: 3px 0 0 0;"><span style="color: #222222;">Resets RigPi to factory default settings. This operation performs the following steps:</span></p>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">1.</span><span style="color: #222222;">Creates a timestamped backup ZIP file of all current settings and files</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">2.</span><span style="color: #222222;">Cleans up temporary and development files from the SDR directory</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">3.</span><span style="color: #222222;">Resets the station database to factory defaults</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">4.</span><span style="color: #222222;">Resets all user passwords to factory defaults:</span></p><p style="text-indent: 0; padding-left: 40px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: 'Courier New';color:#222222;display:inline-block;width:20px;margin-left:-20px">o</span><span style="color: #222222;">admin — 7388</span></p><p style="text-indent: 0; padding-left: 40px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: 'Courier New';color:#222222;display:inline-block;width:20px;margin-left:-20px">o</span><span style="color: #222222;">guest1 — 7389</span></p><p style="text-indent: 0; padding-left: 40px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: 'Courier New';color:#222222;display:inline-block;width:20px;margin-left:-20px">o</span><span style="color: #222222;">guest2 — 7390</span></p><p style="text-indent: 0; padding-left: 40px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: 'Courier New';color:#222222;display:inline-block;width:20px;margin-left:-20px">o</span><span style="color: #222222;">guest3 — 7391</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">5.</span><span style="color: #222222;">Clears SDR user settings and saved configurations</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="color:#222222;display:inline-block;width:20px;margin-left:-20px">6.</span><span style="color: #222222;">Clears system logs and temporary files</span></p><p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #fff8f0; padding: 7px 7px 7px 7px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Warning:</span><span style="color: #222222;"> </span><span style="color: #222222;">Factory Reset clears all user settings, band memories, and saved configurations. A backup is created automatically before the reset, but verify the backup before proceeding. Acount credentials (QRZ, Cloudflare, Pushover, Gmail) must be re-entered after a factory reset.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 7px 7px 7px 7px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> </span><span style="color: #222222;">The backup ZIP file is saved to</span><span style="color: #222222;"> </span><span style="color: #222222; background-color: #f4f4f4;">/home/pi/</span><span style="color: #222222;"> </span><span style="color: #222222;">with a timestamped filename. It can be downloaded if needed for recovery.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

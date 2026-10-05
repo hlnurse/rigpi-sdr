@@ -1,0 +1,15 @@
+[Unit]
+Description=Raspberry Pi Connect
+Wants=rpi-connect-signin.service
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/default/rpi-connect
+ExecStart=/usr/bin/rpi-connectd -socket %t/rpi-connect-wayvnc.sock
+RestartSec=2
+Restart=on-failure
+SyslogIdentifier=rpi-connect
+
+[Install]
+Also=rpi-connect-wayvnc.service rpi-connect-signin.path
+WantedBy=default.target

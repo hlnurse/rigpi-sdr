@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; External Accounts</title>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="External Accounts RigPi SDR works with several optional third-party services that extend its capabilities. Each service requires a free or low-cost account. This page describes..." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: 4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("RigPi.html", "external-accounts.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">External Accounts</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="RigPi.html?external-accounts.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">External Accounts</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="users.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="settings.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="set-up-elmer.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick=";$('div#idcontent').css('margin-top', '1em');window.print();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 7px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">External Accounts</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">RigPi SDR works with several optional third-party services that extend its capabilities. Each service requires a free or low-cost account. This page describes what each service does and how to set it up.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">RigPi Elmer Service</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">The hosted RigPi Elmer Service provides Ask Elmer answers, Elmer Control command interpretation, and live-caption translation. A ChatGPT subscription, OpenAI account, and personal OpenAI API key are not required.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Connect this RigPi</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">1. Sign in to RigPi with an administrator account.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">2. Open SETTINGS &gt; Accounts &gt; Edit &gt;Account Editor and locate RigPi Elmer Service.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">3. Click Configure, enter a name for the station, and have the displayed six-character code approved by the RigPi Elmer administrator. It can take up to 24 hours for approval to be granted. &nbsp;RigPi checks the approval automatically.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">4. When Connected appears, use View Usage to see this station's allowance and aggregate activity.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Security:</span><span style="color: #222222;"> The protected station credential is stored locally and is never displayed in the browser. Disconnect revokes it immediately. After a Factory Reset, connect the RigPi again.</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">See <a href="http://rigpi5.local/Help/elmer-setup.html" class="weblink">Set Up Ask Elmer, Elmer Voice and Elmer Control</a> for complete operating instructions, examples, privacy information, and troubleshooting.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">Cloudflare Tunnel</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">Cloudflare Tunnel provides secure remote access to RigPi SDR from anywhere on the internet — without opening ports in your router or exposing your home IP address. Traffic is encrypted end-to-end through Cloudflare's global network.</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">RigPi SDR is pre-configured to publish two URLs through Cloudflare Tunnel:</span></p>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">•sdr.rigpi.org — the main SDR panadapter and radio control interface</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•sdr8001.rigpi.org — direct access to SDR instance on port 8001</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Why Use Cloudflare Tunnel?</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">•No port forwarding required in your router</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•Your home IP address is never exposed</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•Works through carrier-grade NAT and IPv6-only connections</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•Free tier is sufficient for RigPi SDR use</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Setting Up Cloudflare Tunnel</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">1.Create a free account at </span><span style="color: #222222; text-decoration: underline;"><a href="https://www.cloudflare.com/" class="weblink">cloudflare.com</a></span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">2.Add a domain to your Cloudflare account, or use Cloudflare's free trycloudflare.com subdomain for testing.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">3.In the Cloudflare dashboard, go to </span><span style="font-weight: bold; color: #222222;">Zero Trust → Networks → Tunnels</span><span style="color: #222222;"> and click </span><span style="font-weight: bold; color: #222222;">Create a tunnel</span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">4.Choose </span><span style="font-weight: bold; color: #222222;">Cloudflared</span><span style="color: #222222;"> as the connector type and give the tunnel a name (e.g., rigpi).</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">5.Copy the tunnel token provided by Cloudflare.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">6.On RigPi, install and configure the cloudflared connector using the token. Enter the following commands in an SSH terminal:</span></p>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">curl -L https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg &gt;/dev/null</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">sudo apt install cloudflared</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">sudo cloudflared service install &lt;your-token&gt;</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">7.In the Cloudflare tunnel dashboard, add public hostnames pointing to http://localhost:80 for the main interface and http://localhost:8001 for the SDR instance.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">8.Save the configuration. RigPi SDR is now accessible remotely via your Cloudflare hostname.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> The Cloudflare free tier supports unlimited tunnels and bandwidth for personal use. A paid plan is not required for RigPi SDR.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">Pushover</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">Pushover delivers real-time push notifications from RigPi SDR to your iPhone, Android, or desktop. RigPi SDR uses Pushover to alert you to events such as new DX spots matching your filters, propagation changes, or system alerts.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Why Use Pushover?</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">•Instant alerts on your phone when a wanted DX station is spotted</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•Works when you are away from the radio</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•One-time purchase of $5 per platform (iOS or Android); no subscription required</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Setting Up Pushover</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">1.Create a free account at </span><span style="color: #222222; text-decoration: underline;"><a href="https://pushover.net/" class="weblink">pushover.net</a></span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">2.Note your </span><span style="font-weight: bold; color: #222222;">User Key</span><span style="color: #222222;"> shown on your Pushover dashboard after logging in.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">3.Create an application in the Pushover dashboard: click </span><span style="font-weight: bold; color: #222222;">Create an Application/API Token</span><span style="color: #222222;">, give it a name (e.g., RigPi SDR), and save. Note the </span><span style="font-weight: bold; color: #222222;">API Token</span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">4.Install the Pushover app on your iPhone or Android device. A 30-day free trial is included; after that, a one-time $5 purchase unlocks the app permanently.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">5.In RigPi SDR Settings, enter your Pushover </span><span style="font-weight: bold; color: #222222;">User Key</span><span style="color: #222222;"> and </span><span style="font-weight: bold; color: #222222;">API Token</span><span style="color: #222222;"> in the Notifications section.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">6.Use the </span><span style="font-weight: bold; color: #222222;">Test</span><span style="color: #222222;"> button in RigPi SDR to confirm notifications are working.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> Your User Key and API Token are sensitive. Do not share them. They can be regenerated from the Pushover dashboard if compromised.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">QRZ</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">QRZ is the world's largest amateur radio callsign database. RigPi SDR uses the QRZ XML API to look up callsign information including the operator's name, address, grid square, country, DXCC entity, LoTW status, and photo. This information appears in the ELMER Workability Index panel when you look up a DX station.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">QRZ Account Levels</span></h2>
+<p class="p_Normal" style="background: #ffffff; margin: 1px 0 0 0;"><span style="color: #222222;">QRZ offers several account levels. The XML API used by RigPi SDR requires a </span><span style="font-weight: bold; color: #222222;">QRZ XML Subscription</span><span style="color: #222222;">:</span></p>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">•</span><span style="font-weight: bold; color: #222222;">Free account</span><span style="color: #222222;"> — callsign page access via browser only; XML API not included</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">•</span><span style="font-weight: bold; color: #222222;">QRZ XML Subscription</span><span style="color: #222222;"> — required for RigPi SDR integration; provides programmatic callsign lookup. Available at </span><span style="color: #222222; text-decoration: underline;"><a href="https://www.qrz.com/page/xml_data.html" class="weblink">qrz.com/page/xml_data.html</a></span><span style="color: #222222;">.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #fff8f0; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> Without a QRZ XML Subscription, callsign lookups in the ELMER Workability Index will return limited data. Grid square information used for path calculations may not be available.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Setting Up QRZ</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">1.Create or log in to your account at </span><span style="color: #222222; text-decoration: underline;"><a href="https://www.qrz.com/" class="weblink">qrz.com</a></span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">2.Purchase a QRZ XML Subscription if you do not already have one.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">3.In RigPi SDR Settings, enter your QRZ </span><span style="font-weight: bold; color: #222222;">username</span><span style="color: #222222;"> and </span><span style="font-weight: bold; color: #222222;">password</span><span style="color: #222222;"> in the QRZ section. RigPi SDR uses these credentials to obtain a session key from QRZ at lookup time; your password is stored locally on RigPi and is never transmitted to third parties.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">4.Click any DX callsign in the ELMER Workability Index to test the lookup. The operator's name, location, grid square, and photo (if available) will appear in the QRZ panel.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> After a Factory Reset, QRZ credentials must be re-entered in Settings. See </span><span style="color: #222222; text-decoration: underline;"><a href="file:///Users/howardlnurse/Downloads/system.html" class="weblink">System Settings</a></span><span style="color: #222222;"> for more information.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid; border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-left: none; background: #ffffff; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; color: #2c5d88;">Google API Key (Gmail)</span></h1>
+<p class="p_Normal" style="background: #ffffff; margin: 3px 0 0 0;"><span style="color: #222222;">RigPi SDR uses a Google API key to send outgoing email via Gmail. This is used when you email a Workability Index report to a DX station directly from the ELMER panel. The key authorizes RigPi to send mail through your Gmail account using the msmtp mail transfer agent.</span></p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 6px 0 0 0;"><span class="f_Heading2" style="font-size: 15px; color: #2c5d88;">Setting Up Google API Access</span></h2>
+<p style="background: #ffffff; margin: 2px 0 0 3px;"><span style="color: #222222;">1.Sign in to your Google account and go to </span><span style="color: #222222; text-decoration: underline;"><a href="https://console.cloud.google.com/" class="weblink">console.cloud.google.com</a></span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">2.Create a new project (e.g., RigPi SDR).</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">3.Enable the </span><span style="font-weight: bold; color: #222222;">Gmail API</span><span style="color: #222222;"> for the project: go to </span><span style="font-weight: bold; color: #222222;">APIs &amp; Services → Library</span><span style="color: #222222;">, search for Gmail API, and click </span><span style="font-weight: bold; color: #222222;">Enable</span><span style="color: #222222;">.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">4.Go to </span><span style="font-weight: bold; color: #222222;">APIs &amp; Services → Credentials</span><span style="color: #222222;"> and click </span><span style="font-weight: bold; color: #222222;">Create Credentials → API Key</span><span style="color: #222222;">. Copy the key that is generated.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">5.In RigPi SDR Settings, paste the API key into the </span><span style="font-weight: bold; color: #222222;">Google API Key</span><span style="color: #222222;"> field.</span></p>
+<p style="background: #ffffff; margin: 1px 0 0 3px;"><span style="color: #222222;">6.Send a test WI report from the ELMER panel to confirm email delivery.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #fff8f0; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Warning:</span><span style="color: #222222;"> Your Google API Key is sensitive. Restrict it in the Google Cloud Console to the Gmail API only to limit exposure if the key is ever compromised. After a Factory Reset, the key must be re-entered in Settings.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 3px 3px 3px 3px; margin: 0 0 0 0;"><span style="font-weight: bold; color: #222222;">Note:</span><span style="color: #222222;"> Google may require you to configure an OAuth consent screen for the project. For personal use, setting the app to </span><span style="font-weight: bold; color: #222222;">Internal</span><span style="color: #222222;"> or leaving it in testing mode with your own account as a test user is sufficient.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

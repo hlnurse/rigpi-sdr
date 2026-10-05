@@ -1,0 +1,479 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; Account &gt; Set Up Ask Elmer, Elmer Voice and Elmer Control</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="Elmer adds three related capabilities to RigPi: &nbsp;Feature Purpose Ask Elmer Answers RigPi and amateur-radio questions using an indexed technical library, approved live station" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "set-up-elmer.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Set Up Ask Elmer, Elmer Voice and Elmer Control</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?set-up-elmer.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a> &gt; <a href="accounts2.html">Account</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Set Up Ask Elmer, Elmer Voice and Elmer Control</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="remote-support.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="accounts2.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="external-accounts.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer adds three related capabilities to RigPi:</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Feature</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Purpose</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Ask Elmer</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Answers RigPi and amateur-radio questions using an indexed technical library, approved live station and internet data, deterministic tools, and information supplied by the operator. Sources used for an answer are identified in its References section.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Voice</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Accepts spoken questions and commands, reads answers aloud, and can provide live transcription and translation.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Control</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Provides a compact command drawer in the Tuner and Keyer windows for safe radio, CW, macro, scanning, and recording actions.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Requirements</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">An internet connection.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">A current RigPi release containing Elmer.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">A paired </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Elmer Service</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> connection.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">For voice input, microphone permission and a secure HTTPS RigPi connection. A local secure browser context may also work.</span></p><p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 2px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No OpenAI setup is required.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi users do not need a ChatGPT subscription, OpenAI account, or personal API key. RigPi.net supplies the hosted service through the station's Elmer plan or beta allowance.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connect the RigPi Elmer Service</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Sign in to RigPi with an administrator account.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Settings &gt; Accounts &gt; User Settings</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Locate </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Elmer Service</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> and select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Configure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If the station is not connected, enter a recognizable station name.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Provide the displayed six-character approval code to the RigPi Elmer administrator. Approval may take up to 24 hours.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">You may leave the page and return later. RigPi checks the request again and displays </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connected</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> after approval.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">View Usage</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to see the station plan, allowance, questions, tokens, response timing, and voluntary feedback totals. Usage is shared by the accounts on that physical RigPi.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Disconnect</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> immediately revokes the protected station credential. Ask Elmer, hosted voice processing, and cloud command interpretation will stop until the station is paired again.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use Ask Elmer</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Help &gt; Ask Elmer</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Enter a question in everyday language. Press Enter to ask; use Shift+Enter for a new line. To ask by voice, tap </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer PTT</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, speak after the tone, then tap it again when finished. No wake phrase is required.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer searches the RigPi knowledge collection and, when appropriate, station-local live services such as QRZ, the onboard FCC database, repeater data, or shortwave schedules.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the speaker control to turn spoken answers on or off. The animated voice indicator shows when Elmer is listening or speaking.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Copy</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to copy the formatted answer. Links and approved images remain available in the displayed answer.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Rate the answer from 1 through 10 and optionally explain why. Submitted feedback helps improve RigPi.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Example questions include:</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">How do I configure an IC-7300 for remote audio and CAT control?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">How do I set up remote CW keying?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Start CW simulator</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show me a photograph and biography for W6HN</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show K8AJS on a map</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Find all ham clubs within 40 miles of ZIP 44691</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show all Extra-class hams within 10 miles of Wooster, Ohio</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What shortwave stations are broadcasting in Spanish now?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What are the W8WOO repeater frequencies?</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">References marked </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Official Help</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> are the preferred source for current RigPi operation. Community posts and contributed files may describe older releases; Elmer identifies uncertainty and conflicting procedures when the evidence permits.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Ask Elmer information sources</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Ask Elmer selects sources according to the question. A normal answer uses only the relevant items and identifies them in its References section. Availability of live sources depends on the signed-in RigPi account, configured external accounts, station connection, and internet access.</span></p>
+<h3 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Indexed knowledge library</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Source</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Information provided</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Official RigPi Help</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current operating instructions and the preferred authority for RigPi features and settings.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi GitHub</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi source code, README material, releases, issues, issue discussions, and other project documentation.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Hamlib GitHub</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Hamlib source code, radio backends, documentation, releases, issues, issue discussions, and wiki material.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WSJT-X</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The official WSJT-X 3.0 User Guide plus WSJT-X source, documentation, releases, and issue discussions.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Groups.io</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Community support messages, discussion threads, and contributed files. These may describe older RigPi versions and are treated as community evidence.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SIGIDWiki Amateur Radio Signals</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Community-maintained descriptions and examples of amateur-radio signal types and digital modes.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">47 CFR Part 97</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The current Amateur Radio Service rules imported from the official eCFR developer service.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Live, local, and calculated sources</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Source</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Information provided</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Operator and conversation context</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The current question, an attached image, recent Ask Elmer exchanges, and relevant signed-in station details supplied by RigPi.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi station databases and live services</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Selected radio, station and user settings, radio status and readback, rigctld and rotctld state, CW/keyer runtime, serial-device availability, browser-audio status, and other read-only diagnostic observations.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi frequency intelligence</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">BandActivity customary operating ranges and calling frequencies, BandPrivileges license and emission privileges, and the operator's configured country, IARU region, and license class. Activity entries are guidance rather than exclusive allocations or permission to transmit.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi local logbook</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Previous contacts with a requested callsign when the question calls for logbook history.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">QRZ XML, HamQTH XML, and the RigPi onboard FCC database</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Callsign identity, license and location details, grid and coordinates when available, plus QRZ biography, photographs, and station information when authorized by the configured account.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">NCVEC Question Pool Committee</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current Technician, General, and Amateur Extra question pools, answer keys, diagrams, and syllabus topics used by Elmer's study questions and simulated exams.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">HearHam</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Cached repeater-directory records and approximate transmitter-site coordinates.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ILGRadio and EiBi</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Cached shortwave broadcast schedules. Licensed ILGRadio data remains for local RigPi use and is not redistributed; EiBi provides fallback schedule coverage.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Open-Meteo</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current, forecast, and historical gridded weather plus supporting forecast data used for operating and antenna-safety questions.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">NOAA Space Weather Prediction Center</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Solar-flux, geomagnetic, and planetary K-index forecast information used in propagation guidance.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DX Summit</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Recent cluster spots used to find observed path and time patterns. Spots are reports, not confirmed contacts or propagation guarantees.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WorldFactbook.io</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current country profiles for international callsign and country questions.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Natural Earth and OpenStreetMap</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Country outlines, map tiles, place lookup, and geographic context. Callsign markers use callbook coordinates when available; inferred or approximate locations are identified.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Ham Tools</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Deterministic antenna, wavelength, transmission-line, power, impedance, unit-conversion, and related amateur-radio calculations.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">The language model is the explainer, not the evidence.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> It organizes and explains the retrieved material. Official rules and current RigPi Help outrank community reports; live observations are timestamped or described as snapshots, and customary activity information is not presented as regulatory authorization.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CW practice and contest simulators</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Ask Elmer includes browser-based CW receiving practice. Enter </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">CW simulator</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to resume the last-used exercise, or ask for a specific exercise by name. Use the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Practice</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> selector to move between exercises without losing the selected character speed, spacing speed, or band conditions.</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Practice mode</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">What it sends</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CW QSO</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Natural, varied contacts containing callsigns, signal reports, names, locations, rigs, power, antennas, and closing exchanges.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Callsigns</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Random amateur-radio callsigns for focused copying practice.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Random 5-character groups</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Five groups of five mixed letters and numbers.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Sweepstakes Contest</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Serial number, precedence, callsign, check, and ARRL/RAC section.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ARRL Field Day</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Operating class and ARRL/RAC section. Field Day does not use an RST in its exchange.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DX Pileup</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">A DX station and overlapping callers, including partial-call requests, occasional callers transmitting at the wrong time, and selectable pileup intensity.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CQ WW</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RST and CQ zone.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CQ WPX</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RST and a progressive serial number.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ARRL International DX</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">W/VE stations copy RST and transmitter power from DX stations; DX stations copy RST and state or province from W/VE stations.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the exercise, character speed, spacing speed, and band conditions. A spacing speed below the character speed provides Farnsworth practice.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">With the copy box focused, press Enter to play the CW.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Type everything copied and press Enter to check it.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Press Enter again for the next callsign or exchange, then press Enter once more to play it.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Clean, light, and busy conditions add progressively stronger recorded receiver noise, off-frequency QRM, and fading. DX Pileup provides separate light, moderate, and heavy caller settings. The selected exercise and settings are remembered for the signed-in callsign in that browser.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Practice is safe and self-contained.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The simulator generates CW audio in the browser. It does not key the radio, assert PTT, change the station, or require an SDR audio connection.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use Ham Tools</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Ask Elmer includes deterministic amateur-radio calculators and operating references. RigPi Ham Tools performs the numerical work and Elmer explains the result, so the answer is based on the displayed inputs and formula rather than an estimated language-model calculation.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Examples include:</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">How long is a dipole for 14.2 MHz?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Design a quarter-wave ground-plane antenna for 146.52 MHz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Give me starting HB9CV dimensions for 144.3 MHz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Design a 10-turn axial helix for 2.4 GHz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What is the wavelength at 7.2 MHz?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Estimate the loss in 75 feet of LMR-400 at 146 MHz with 100 watts</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What is the VSWR with 100 watts forward and 4 watts reflected?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Using Ohm's law, what current flows with 13.8 volts and 50 ohms?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Convert 37 dBm to watts</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What is the output after 3 dB loss from 100 watts?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Spell W6HN phonetically</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What does QSY mean?</span></p><p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 2px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use calculated antenna dimensions as starting values.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Element diameter, insulation, installation height, nearby objects, and construction details affect resonance and impedance. Cut elements slightly long and make final adjustments with an antenna analyzer. Coax-loss results use representative cable data for planning; confirm the exact manufacturer's specifications and allow for connector, adapter, weather, age, moisture, and VSWR losses.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use Elmer Voice</span></h2>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Browser requirements:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Use a current browser, an HTTPS RigPi address, and allow microphone access for the RigPi site. Elmer voice input uses hosted speech recognition and works in supported desktop and mobile browsers, including current Chrome and Safari. Typed Ask Elmer questions and Elmer Control commands remain available when voice is unavailable.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Chrome local-LAN microphone override:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> HTTPS remains the preferred method. If Chrome blocks microphone access to a trusted local RigPi address, open </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">chrome://flags/#unsafely-treat-insecure-origin-as-secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Enable </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Insecure origins treated as secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, enter the complete origin—normally </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">http://rigpi5.local</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">—and relaunch Chrome. Include the port when one is present. Reopen RigPi and grant microphone permission. Use this exception only for a trusted RigPi on the local network; it does not encrypt HTTP traffic and is not a substitute for HTTPS remote access.</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open Ask Elmer or the Elmer Control drawer and tap </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer PTT</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Allow microphone access when the browser asks. The permission belongs to the RigPi site and browser being used.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">After the tone, speak normally, then tap </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer PTT</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> again to finish. The button is push-to-talk; no wake phrase is needed.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Review any frequency or other safety-sensitive value that RigPi asks you to confirm. In Elmer Control, tap </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Affirm</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> or </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cancel</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, press Enter for the default </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Affirm</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> action, or use Elmer PTT to speak the response.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the speaker control to enable or disable spoken playback. When enabled, Elmer reads answers, proposed actions, and results in an AI-generated voice.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer automatically recognizes supported languages, searches using English source material, and answers in the speaker's language. Elmer Control also accepts approval words in the language used for the command. Live captions can transcribe received audio and translate it to a selected language.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Voice audio is sent to the hosted Elmer service only between the two Elmer PTT taps or while live captions are active. The listening indicator and tone show when capture begins. Turn off live captions when they are not needed.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use Elmer Control</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the Elmer Control drawer from the side tab in the main </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Tuner</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> or </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Keyer</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> window. Type a command and select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Run</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, or tap </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer PTT</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, speak after the tone, and tap it again when finished. Typed and spoken commands use the same control path; no wake phrase is required.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">When a command requires approval, Elmer displays the proposed action before changing the station. With spoken results enabled, Elmer reads the proposal first and the approval timer starts after the reading finishes. Respond with </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Affirm</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> or </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cancel</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, press Enter to choose the default </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Affirm</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> button, or tap Elmer PTT and speak the response. Elmer then carries out the approved action and verifies the result when possible.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Examples include:</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Connect radio and power on</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Disconnect radio</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Tune to FT8 on 20 meters</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Tune radio 1 to 14.025 MHz CW</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set mode to CW and bandwidth to 500 Hz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Split up 5 kHz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Split down 2 kHz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Split off</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Restore the previous frequency and mode</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Swap VFOs</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Copy VFO A to VFO B</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set volume to 20 percent</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set microphone level to 50 percent</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set RF gain to 40 percent</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set CW speed to 22 words per minute</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Put CQ CQ DE W6HN in the CW buffer</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Run macro CW BW 500 HZ from bank 2</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Scan shortwave broadcasts in Spanish and stop on a signal</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the up/down triangles or keyboard Up/Down arrows to recall previous commands. During a supported scan, Space stops on the current frequency; press Space again to resume.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Operator remains in control.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Elmer uses allowlisted station actions, confirms sensitive changes, verifies results when possible, and does not treat ordinary text as permission to transmit. Check the selected radio, frequency, mode, bandwidth, power, antenna, and operating privileges before transmitting.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radio and browser troubleshooting</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Symptom</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">What to check</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer reports that radio control is unavailable.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the Tuner and connect the selected radio first. Confirm that normal RigPi tuning works, then repeat the command.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The microphone is unavailable.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use HTTPS, check the browser's microphone permission for the RigPi site, reload the page, and select the microphone again. For trusted local HTTP access in Chrome, use the documented </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic;">Insecure origins treated as secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> override.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The wrong language is recognized.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Check the voice-language selection. Automatic recognition usually works best when the command contains a complete phrase and a clearly spoken frequency.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">A spoken frequency is uncertain.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer should request confirmation. Cancel the change if the displayed frequency is not exactly what you intended, then type the command.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The allowance is exhausted.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">View Usage</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. During the beta, contact the RigPi Elmer administrator; production plans and refills are managed through RigPi.net.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">References open the wrong page.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Reload Ask Elmer and try the reference again. Official Help references resolve locally on the RigPi.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Privacy and account scope</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The station credential is stored on the RigPi and is never displayed in the browser.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">QRZ and HamQTH passwords remain on the RigPi. Only facts requested for an answer are sent to the hosted Elmer service.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Station statistics contain operational totals; the station statistics page does not display question, answer, or feedback-comment text.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Answer feedback is optional. The feedback notice explains what is submitted before it is sent.</span></p><h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">After a Factory Reset</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Elmer station credential is not restored from the RigPi user database backup. Sign in as administrator and pair </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Elmer Service</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> again. Reconnect other external services whose protected credentials were not restored.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi Help — Set Up Ask Elmer, Elmer Voice and Elmer Control</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

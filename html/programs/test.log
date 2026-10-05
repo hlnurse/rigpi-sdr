@@ -1,0 +1,898 @@
+2026-06-27 13:14:31 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-27 13:14:31 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-27 13:15:24 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-27 13:15:24 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-27 13:50:37 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-27 13:50:37 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-27 20:46:31 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-27 20:46:31 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-28 22:14:35 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-28 22:14:35 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-28 22:15:11 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-28 22:15:11 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-06-29 01:06:42 CWPORT: None MyKeyer: None
+2026-06-29 01:06:42 setting up portserver: 30040 None None 2
+2026-06-30 13:17:55 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-06-30 13:17:55 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 01:28:02 CWPORT: None MyKeyer: None
+2026-07-02 01:28:02 setting up portserver: 30040 None None 2
+2026-07-02 01:35:25 CWPORT: None MyKeyer: None
+2026-07-02 01:35:25 setting up portserver: 30040 None None 2
+2026-07-02 01:38:38 CWPORT: None MyKeyer: None
+2026-07-02 01:38:38 setting up portserver: 30040 None None 2
+2026-07-02 01:44:19 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 01:44:19 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 01:45:10 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 01:45:10 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 01:59:13 CWPORT: None MyKeyer: None
+2026-07-02 01:59:13 setting up portserver: 30040 None None 2
+2026-07-02 01:59:56 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 01:59:56 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 12:47:15 CWPORT: None MyKeyer: None
+2026-07-02 12:47:15 setting up portserver: 30040 None None 2
+2026-07-02 13:14:53 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:14:53 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 13:15:14 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:15:14 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 13:16:06 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:16:06 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 13:17:17 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:17:17 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 13:17:46 CWPORT: None MyKeyer: None
+2026-07-02 13:17:46 setting up portserver: 30040 None None 2
+2026-07-02 13:21:05 CWPORT: None MyKeyer: None
+2026-07-02 13:21:05 setting up portserver: 30040 None None 2
+2026-07-02 13:23:38 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:23:38 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-02 13:24:08 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-02 13:24:08 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-03 22:31:16 CWPORT: None MyKeyer: None
+2026-07-03 22:31:16 setting up portserver: 30040 None None 1
+2026-07-03 22:33:41 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-07-03 22:33:41 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-07-03 22:36:16 CWPORT: None MyKeyer: None
+2026-07-03 22:36:16 setting up portserver: 30040 None None 1
+2026-07-09 16:51:54 CWPORT: None MyKeyer: None
+2026-07-09 16:51:54 setting up portserver: 30040 None None 1
+2026-07-11 21:26:59 CWPORT: None MyKeyer: None
+2026-07-11 21:26:59 setting up portserver: 30040 None None 1
+2026-07-11 21:27:39 CWPORT: None MyKeyer: None
+2026-07-11 21:27:39 setting up portserver: 30040 None None 1
+2026-07-11 21:39:47 CWPORT: None MyKeyer: None
+2026-07-11 21:39:47 setting up portserver: 30040 None None 1
+2026-07-12 00:49:12 CWPORT: None MyKeyer: None
+2026-07-12 00:49:12 setting up portserver: 30040 None None 1
+2026-07-12 12:45:44 CWPORT: None MyKeyer: None
+2026-07-12 12:45:44 setting up portserver: 30040 None None 1
+2026-07-12 12:46:08 CWPORT: None MyKeyer: None
+2026-07-12 12:46:08 setting up portserver: 30040 None None 1
+2026-07-12 13:36:27 CWPORT: None MyKeyer: None
+2026-07-12 13:36:27 setting up portserver: 30040 None None 1
+2026-07-12 14:44:17 CWPORT: None MyKeyer: None
+2026-07-12 14:44:17 setting up portserver: 30040 None None 1
+2026-07-14 20:03:28 CWPORT: None MyKeyer: None
+2026-07-14 20:03:28 setting up portserver: 30040 None None 1
+2026-07-18 13:23:02 CWPORT: None MyKeyer: None
+2026-07-18 13:23:02 setting up portserver: 30040 None None 1
+2026-07-18 13:23:23 CWPORT: None MyKeyer: None
+2026-07-18 13:23:23 setting up portserver: 30040 None None 1
+2026-07-18 13:35:48 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 13:35:48 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 14:31:27 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 14:31:27 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 14:57:58 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 14:57:58 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:10:41 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:10:41 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:12:15 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:12:15 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:13:05 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:13:05 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:21:40 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:21:40 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:53:27 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:53:27 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:53:27  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-18 15:58:37 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-18 15:58:37 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-18 15:58:37  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:00:02 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:00:02 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:00:02  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:10:59 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:10:59 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:10:59  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:15:52 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:15:52 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:15:52  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:25:54 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:25:54 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:25:54  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:33:53 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:33:53 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:33:53  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:39:04 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:39:04 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:39:04  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:44:52 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:44:52 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:44:52  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:55:04 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:55:04 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:55:04  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:55:52 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:55:52 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:55:52  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 01:59:48 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 01:59:48 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 01:59:48  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 02:00:26 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 02:00:26 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 02:00:26  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 02:01:59 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 02:01:59 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 02:01:59  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 02:37:21 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-07-24 02:37:21 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-07-24 02:37:21  line: /dev/ttyS0 /dev/ttyS0 1 admin
+
+2026-07-24 23:07:52 CWPORT: None MyKeyer: non
+2026-07-24 23:07:52 setting up portserver: 30040 None non 1
+2026-07-25 13:20:48 CWPORT: None MyKeyer: None
+2026-07-25 13:20:48 setting up portserver: 30040 None None 1
+2026-07-25 14:59:37 CWPORT: None MyKeyer: None
+2026-07-25 14:59:37 setting up portserver: 30040 None None 1
+2026-07-25 15:35:23 CWPORT: None MyKeyer: None
+2026-07-25 15:35:23 setting up portserver: 30040 None None 1
+2026-07-25 19:30:43 CWPORT: None MyKeyer: None
+2026-07-25 19:30:43 setting up portserver: 30040 None None 3
+2026-07-25 19:34:09 CWPORT: None MyKeyer: None
+2026-07-25 19:34:09 setting up portserver: 30040 None None 3
+2026-07-25 21:05:46 CWPORT: None MyKeyer: rpk1
+2026-07-25 21:05:46 setting up portserver: 30040 None rpk1 1
+2026-07-25 21:05:46  line: 30040 None 1 admin
+
+2026-07-26 21:31:22 CWPORT: None MyKeyer: None
+2026-07-26 21:31:22 setting up portserver: 30040 None None 1
+2026-07-26 21:35:30 CWPORT: None MyKeyer: None
+2026-07-26 21:35:30 setting up portserver: 30040 None None 1
+2026-07-26 21:38:48 CWPORT: None MyKeyer: None
+2026-07-26 21:38:48 setting up portserver: 30040 None None 1
+2026-07-26 21:40:21 CWPORT: None MyKeyer: None
+2026-07-26 21:40:21 setting up portserver: 30040 None None 1
+2026-07-26 21:43:26 CWPORT: None MyKeyer: None
+2026-07-26 21:43:26 setting up portserver: 30040 None None 1
+2026-07-26 21:46:46 CWPORT: None MyKeyer: None
+2026-07-26 21:46:46 setting up portserver: 30040 None None 1
+2026-07-26 21:54:28 CWPORT: None MyKeyer: None
+2026-07-26 21:54:28 setting up portserver: 30040 None None 1
+2026-07-26 21:55:10 CWPORT: None MyKeyer: None
+2026-07-26 21:55:10 setting up portserver: 30040 None None 1
+2026-07-26 21:55:52 CWPORT: None MyKeyer: None
+2026-07-26 21:55:52 setting up portserver: 30040 None None 1
+2026-07-26 21:56:34 CWPORT: None MyKeyer: None
+2026-07-26 21:56:34 setting up portserver: 30040 None None 1
+2026-07-26 22:00:06 CWPORT: None MyKeyer: None
+2026-07-26 22:00:06 setting up portserver: 30040 None None 1
+2026-07-28 12:37:56 CWPORT: None MyKeyer: None
+2026-07-28 12:37:56 setting up portserver: 30040 None None 1
+2026-07-28 12:38:53 CWPORT: None MyKeyer: None
+2026-07-28 12:38:53 setting up portserver: 30040 None None 1
+2026-07-28 13:13:44 CWPORT: None MyKeyer: None
+2026-07-28 13:13:44 setting up portserver: 30040 None None 1
+2026-07-28 13:37:51 CWPORT: None MyKeyer: None
+2026-07-28 13:37:51 setting up portserver: 30040 None None 1
+2026-07-28 13:44:31 CWPORT: None MyKeyer: None
+2026-07-28 13:44:31 setting up portserver: 30040 None None 1
+2026-07-29 14:48:56 CWPORT: None MyKeyer: None
+2026-07-29 14:48:56 setting up portserver: 30040 None None 1
+2026-07-29 20:12:16 CWPORT: None MyKeyer: None
+2026-07-29 20:12:16 setting up portserver: 30040 None None 1
+2026-07-29 20:24:58 CWPORT: None MyKeyer: None
+2026-07-29 20:24:58 setting up portserver: 30040 None None 1
+2026-07-30 01:14:04 CWPORT: None MyKeyer: None
+2026-07-30 01:14:04 setting up portserver: 30040 None None 1
+2026-07-30 02:11:02 CWPORT: None MyKeyer: None
+2026-07-30 02:11:02 setting up portserver: 30040 None None 1
+2026-07-30 14:11:09 CWPORT: None MyKeyer: None
+2026-07-30 14:11:09 setting up portserver: 30040 None None 1
+2026-07-30 14:59:22 CWPORT: None MyKeyer: None
+2026-07-30 14:59:22 setting up portserver: 30040 None None 1
+2026-07-30 15:04:59 CWPORT: None MyKeyer: None
+2026-07-30 15:04:59 setting up portserver: 30040 None None 1
+2026-07-30 15:17:56 CWPORT: None MyKeyer: None
+2026-07-30 15:17:56 setting up portserver: 30040 None None 1
+2026-07-30 15:57:32 CWPORT: None MyKeyer: None
+2026-07-30 15:57:32 setting up portserver: 30040 None None 1
+2026-07-30 16:03:57 CWPORT: None MyKeyer: None
+2026-07-30 16:03:57 setting up portserver: 30040 None None 1
+2026-07-30 16:21:29 CWPORT: None MyKeyer: None
+2026-07-30 16:21:29 setting up portserver: 30040 None None 1
+2026-07-30 21:55:22 CWPORT: None MyKeyer: None
+2026-07-30 21:55:22 setting up portserver: 30040 None None 1
+2026-07-30 21:59:05 CWPORT: None MyKeyer: None
+2026-07-30 21:59:05 setting up portserver: 30040 None None 1
+2026-07-30 22:08:25 CWPORT: None MyKeyer: None
+2026-07-30 22:08:25 setting up portserver: 30040 None None 3
+2026-07-30 22:10:12 CWPORT: None MyKeyer: None
+2026-07-30 22:10:12 setting up portserver: 30040 None None 2
+2026-07-30 22:33:59 CWPORT: None MyKeyer: None
+2026-07-30 22:33:59 setting up portserver: 30040 None None 2
+2026-07-30 22:36:59 CWPORT: None MyKeyer: None
+2026-07-30 22:36:59 setting up portserver: 30040 None None 2
+2026-07-30 22:40:04 CWPORT: None MyKeyer: None
+2026-07-30 22:40:04 setting up portserver: 30040 None None 2
+2026-07-31 02:25:39 CWPORT: None MyKeyer: None
+2026-07-31 02:25:39 setting up portserver: 30040 None None 1
+2026-07-31 03:04:26 CWPORT: None MyKeyer: None
+2026-07-31 03:04:26 setting up portserver: 30040 None None 1
+2026-07-31 15:19:05 CWPORT: None MyKeyer: non
+2026-07-31 15:19:05 setting up portserver: 30040 None non 1
+2026-07-31 15:19:40 CWPORT: None MyKeyer: None
+2026-07-31 15:19:40 setting up portserver: 30040 None None 1
+2026-07-31 15:59:47 CWPORT: None MyKeyer: None
+2026-07-31 15:59:47 setting up portserver: 30040 None None 1
+2026-07-31 16:01:42 CWPORT: None MyKeyer: None
+2026-07-31 16:01:42 setting up portserver: 30040 None None 1
+2026-07-31 16:03:41 CWPORT: None MyKeyer: None
+2026-07-31 16:03:41 setting up portserver: 30040 None None 1
+2026-07-31 20:14:58 CWPORT: None MyKeyer: None
+2026-07-31 20:14:58 setting up portserver: 30040 None None 1
+2026-07-31 20:15:53 CWPORT: None MyKeyer: None
+2026-07-31 20:15:53 setting up portserver: 30040 None None 1
+2026-07-31 20:20:37 CWPORT: None MyKeyer: non
+2026-07-31 20:20:37 setting up portserver: 30040 None non 1
+2026-07-31 20:22:50 CWPORT: None MyKeyer: None
+2026-07-31 20:22:50 setting up portserver: 30040 None None 1
+2026-07-31 20:44:32 CWPORT: None MyKeyer: non
+2026-07-31 20:44:32 setting up portserver: 30040 None non 1
+2026-08-19 01:06:01 CWPORT: None MyKeyer: None
+2026-08-19 01:06:01 setting up portserver: 30040 None None 1
+2026-08-19 01:18:35 CWPORT: None MyKeyer: None
+2026-08-19 01:18:35 setting up portserver: 30040 None None 1
+2026-08-19 15:43:12 CWPORT: None MyKeyer: None
+2026-08-19 15:43:12 setting up portserver: 30040 None None 1
+2026-08-19 19:02:28 CWPORT: None MyKeyer: None
+2026-08-19 19:02:28 setting up portserver: 30040 None None 1
+2026-08-19 19:04:38 CWPORT: None MyKeyer: None
+2026-08-19 19:04:38 setting up portserver: 30040 None None 1
+2026-08-19 19:34:36 CWPORT: None MyKeyer: None
+2026-08-19 19:34:36 setting up portserver: 30040 None None 1
+2026-08-20 20:11:22 CWPORT: None MyKeyer: None
+2026-08-20 20:11:22 setting up portserver: 30040 None None 1
+2026-08-20 20:52:22 CWPORT: via CAT MyKeyer: cat
+2026-08-20 20:52:22 setting up portserver: 30040 via CAT cat 1
+2026-08-20 20:54:37 sending CAT2
+
+2026-08-21 21:45:06 CWPORT: None MyKeyer: None
+2026-08-21 21:45:06 setting up portserver: 30040 None None 1
+2026-08-22 11:17:36 CWPORT: None MyKeyer: None
+2026-08-22 11:17:36 setting up portserver: 30040 None None 1
+2026-08-23 14:01:49 CWPORT: None MyKeyer: None
+2026-08-23 14:01:49 setting up portserver: 30040 None None 1
+2026-08-23 14:31:49 CWPORT: None MyKeyer: None
+2026-08-23 14:31:49 setting up portserver: 30040 None None 2
+2026-08-23 15:25:53 CWPORT: None MyKeyer: None
+2026-08-23 15:25:53 setting up portserver: 30040 None None 1
+2026-08-24 02:35:34 CWPORT: None MyKeyer: None
+2026-08-24 02:35:34 setting up portserver: 30040 None None 1
+2026-08-26 13:51:14 CWPORT: None MyKeyer: None
+2026-08-26 13:51:14 setting up portserver: 30040 None None 1
+2026-08-26 14:10:01 CWPORT: None MyKeyer: None
+2026-08-26 14:10:01 setting up portserver: 30040 None None 2
+2026-08-26 14:38:49 CWPORT: None MyKeyer: None
+2026-08-26 14:38:49 setting up portserver: 30040 None None 1
+2026-08-27 21:10:34 CWPORT: None MyKeyer: None
+2026-08-27 21:10:34 setting up portserver: 30040 None None 1
+2026-09-04 22:10:52 CWPORT: None MyKeyer: None
+2026-09-04 22:10:52 setting up portserver: 30040 None None 1
+2026-09-05 16:55:02 CWPORT: via CAT MyKeyer: cat
+2026-09-05 16:55:02 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-05 16:56:14 sending CAT
+
+2026-09-05 16:56:15 sending CAT
+
+2026-09-05 16:56:16 sending CAT
+
+2026-09-05 16:58:27 sending CAT2
+
+2026-09-05 17:06:29 sending CAT2
+
+2026-09-05 17:06:56 sending CAT2
+
+2026-09-05 17:06:58 sending CAT2
+
+2026-09-05 17:23:21 sending CAT2
+
+2026-09-05 17:24:03 sending CAT
+
+2026-09-05 17:26:40 sending CAT
+
+2026-09-05 17:26:40 sending CAT
+
+2026-09-05 17:26:40 sending CAT
+
+2026-09-05 17:30:08 sending CAT2
+
+2026-09-05 19:31:33 sending CAT2
+
+2026-09-05 19:31:45 CWPORT: via CAT MyKeyer: cat
+2026-09-05 19:31:45 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-05 19:38:13 sending CAT2
+
+2026-09-05 19:40:52 sending CAT
+
+2026-09-05 19:40:52 sending CAT
+
+2026-09-05 19:40:53 sending CAT
+
+2026-09-05 19:40:53 sending CAT
+
+2026-09-05 19:40:55 sending CAT
+
+2026-09-05 19:40:59 sending CAT
+
+2026-09-05 19:40:59 sending CAT
+
+2026-09-05 19:40:59 sending CAT
+
+2026-09-05 19:41:02 sending CAT
+
+2026-09-05 19:41:02 sending CAT
+
+2026-09-05 19:44:16 sending CAT
+
+2026-09-05 19:44:16 sending CAT
+
+2026-09-05 19:44:18 sending CAT
+
+2026-09-05 19:44:19 sending CAT
+
+2026-09-05 19:44:21 sending CAT
+
+2026-09-05 19:44:22 sending CAT
+
+2026-09-05 19:44:22 sending CAT
+
+2026-09-05 19:44:22 sending CAT
+
+2026-09-05 19:44:22 sending CAT
+
+2026-09-05 19:44:23 sending CAT
+
+2026-09-05 19:44:23 sending CAT
+
+2026-09-05 19:44:23 sending CAT
+
+2026-09-05 19:44:23 sending CAT
+
+2026-09-05 19:44:38 sending CAT
+
+2026-09-05 19:52:37 sending CAT2
+
+2026-09-05 19:52:37 sending CAT2
+
+2026-09-05 19:53:32 sending CAT2
+
+2026-09-05 19:53:32 sending CAT2
+
+2026-09-05 19:53:32 sending CAT2
+
+2026-09-05 19:53:32 sending CAT2
+
+2026-09-05 19:53:39 sending CAT2
+
+2026-09-05 19:53:40 sending CAT2
+
+2026-09-05 19:55:49 sending CAT2
+
+2026-09-05 19:56:09 CWPORT: via CAT MyKeyer: cat
+2026-09-05 19:56:09 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-05 19:57:47 sending CAT2
+
+2026-09-05 19:57:47 sending CAT2
+
+2026-09-05 19:57:53 sending CAT2
+
+2026-09-05 20:00:28 CWPORT: via CAT MyKeyer: cat
+2026-09-05 20:00:28 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-05 20:01:19 sending CAT2
+
+2026-09-05 20:04:05 sending CAT2
+
+2026-09-05 20:04:05 sending CAT2
+
+2026-09-05 20:04:06 sending CAT2
+
+2026-09-05 20:07:33 sending CAT2
+
+2026-09-05 20:07:33 sending CAT2
+
+2026-09-05 20:07:34 sending CAT2
+
+2026-09-05 20:07:34 sending CAT2
+
+2026-09-05 20:07:34 sending CAT2
+
+2026-09-05 20:07:34 sending CAT2
+
+2026-09-05 20:07:34 sending CAT2
+
+2026-09-05 20:13:12 sending CAT2
+
+2026-09-05 20:13:22 sending CAT2
+
+2026-09-05 20:13:41 sending CAT2
+
+2026-09-05 20:15:14 sending CAT2
+
+2026-09-05 20:15:36 sending CAT2
+
+2026-09-05 20:20:22 sending CAT2
+
+2026-09-05 20:20:52 sending CAT2
+
+2026-09-05 20:21:25 sending CAT2
+
+2026-09-05 20:27:01 sending CAT2
+
+2026-09-06 00:20:35 sending CAT2
+
+2026-09-06 13:40:54 CWPORT: None MyKeyer: None
+2026-09-06 13:40:54 setting up portserver: 30040 None None 1
+2026-09-06 13:43:36 CWPORT: None MyKeyer: None
+2026-09-06 13:43:36 setting up portserver: 30040 None None 1
+2026-09-08 16:43:04 CWPORT: /dev/serial0 MyKeyer: rpk1
+2026-09-08 16:43:04 setting up portserver: /dev/serial0 /dev/serial0 rpk1 1
+2026-09-10 14:29:46 CWPORT: None MyKeyer: None
+2026-09-10 14:29:46 setting up portserver: 30040 None None 1
+2026-09-10 20:32:39 CWPORT: None MyKeyer: None
+2026-09-10 20:32:39 setting up portserver: 30040 None None 1
+2026-09-10 21:28:46 CWPORT: None MyKeyer: None
+2026-09-10 21:28:46 setting up portserver: 30040 None None 1
+2026-09-10 21:45:16 CWPORT: None MyKeyer: None
+2026-09-10 21:45:16 setting up portserver: 30040 None None 1
+2026-09-11 11:57:43 CWPORT: None MyKeyer: None
+2026-09-11 11:57:43 setting up portserver: 30040 None None 1
+2026-09-11 11:58:42 CWPORT: None MyKeyer: None
+2026-09-11 11:58:42 setting up portserver: 30040 None None 1
+2026-09-11 11:59:54 CWPORT: None MyKeyer: None
+2026-09-11 11:59:54 setting up portserver: 30040 None None 1
+2026-09-11 12:05:57 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:05:57 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 12:07:15 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:07:15 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 12:15:08 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:15:08 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 12:22:35 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:22:35 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 12:29:17 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:29:17 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 12:30:36 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 12:30:36 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:10:20 CWPORT: via CAT MyKeyer: wkr
+2026-09-11 13:10:20 setting up portserver: 30040 via CAT wkr 1
+2026-09-11 13:10:57 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:10:57 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:12:11 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:12:11 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:15:31 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:15:31 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:31:19 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:31:19 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:45:57 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:45:57 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 13:56:19 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 13:56:19 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 14:27:48 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 14:27:48 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 14:32:23 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 14:32:23 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 14:41:11 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 14:41:11 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 14:44:38 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 14:44:38 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 20:08:38 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 20:08:38 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 20:24:40 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 20:24:40 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 20:45:24 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 20:45:24 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 20:47:31 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 20:47:31 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 20:59:51 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 20:59:51 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 21:16:28 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 21:16:28 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:20:52 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:20:52 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:21:42 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:21:42 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:35:57 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:35:57 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:37:46 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:37:46 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:46:46 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:46:46 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:50:41 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:50:41 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:55:58 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:55:58 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 22:56:49 CWPORT: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 MyKeyer: wkr
+2026-09-11 22:56:49 setting up portserver: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A601TZXR-if00-port0 wkr 1
+2026-09-11 23:06:12 CWPORT: /dev/ttyS0 MyKeyer: wkr
+2026-09-11 23:06:12 setting up portserver: /dev/ttyS0 /dev/ttyS0 wkr 1
+2026-09-11 23:07:23 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-09-11 23:07:23 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-09-12 01:07:59 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-09-12 01:07:59 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-09-12 01:15:59 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-09-12 01:15:59 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-09-12 12:17:03 CWPORT: /dev/ttyS0 MyKeyer: rpk1
+2026-09-12 12:17:03 setting up portserver: /dev/ttyS0 /dev/ttyS0 rpk1 1
+2026-09-12 12:21:42 CWPORT: via CAT MyKeyer: cat
+2026-09-12 12:21:42 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-12 12:22:29 sending CAT2
+
+2026-09-12 12:22:29 sending CAT2
+
+2026-09-12 12:22:29 sending CAT2
+
+2026-09-12 12:22:37 sending CAT2
+
+2026-09-12 12:22:37 sending CAT2
+
+2026-09-12 12:22:37 sending CAT2
+
+2026-09-12 12:22:40 sending CAT2
+
+2026-09-12 12:22:40 sending CAT2
+
+2026-09-12 12:22:41 sending CAT2
+
+2026-09-12 12:23:31 sending CAT
+
+2026-09-12 12:23:32 sending CAT
+
+2026-09-12 12:23:33 sending CAT
+
+2026-09-12 12:23:33 sending CAT
+
+2026-09-12 12:24:55 sending CAT
+
+2026-09-12 12:24:55 sending CAT
+
+2026-09-12 12:24:56 sending CAT
+
+2026-09-12 12:24:57 sending CAT
+
+2026-09-12 12:25:31 sending CAT2
+
+2026-09-12 12:25:31 sending CAT2
+
+2026-09-12 12:25:38 sending CAT
+
+2026-09-12 12:25:41 sending CAT
+
+2026-09-12 12:25:48 sending CAT2
+
+2026-09-12 12:26:01 CWPORT: via CAT MyKeyer: cat
+2026-09-12 12:26:01 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-12 12:26:35 sending CAT
+
+2026-09-12 12:26:35 sending CAT
+
+2026-09-12 12:27:27 sending CAT
+
+2026-09-12 12:27:27 sending CAT
+
+2026-09-12 12:27:33 sending CAT
+
+2026-09-12 12:27:33 sending CAT
+
+2026-09-12 12:28:02 sending CAT
+
+2026-09-12 12:28:02 sending CAT
+
+2026-09-12 12:28:02 sending CAT
+
+2026-09-12 12:28:03 sending CAT
+
+2026-09-12 12:28:03 sending CAT
+
+2026-09-12 12:28:03 sending CAT
+
+2026-09-12 12:28:03 sending CAT
+
+2026-09-12 12:28:04 sending CAT
+
+2026-09-12 12:28:04 sending CAT
+
+2026-09-12 12:28:07 sending CAT
+
+2026-09-12 12:28:07 sending CAT
+
+2026-09-12 12:28:07 sending CAT
+
+2026-09-12 12:28:07 sending CAT
+
+2026-09-12 12:28:08 sending CAT
+
+2026-09-12 12:28:08 sending CAT
+
+2026-09-12 12:28:08 sending CAT
+
+2026-09-12 12:28:09 sending CAT
+
+2026-09-12 12:28:09 sending CAT
+
+2026-09-12 12:28:10 sending CAT
+
+2026-09-12 12:28:10 sending CAT
+
+2026-09-12 12:28:10 sending CAT
+
+2026-09-12 12:28:10 sending CAT
+
+2026-09-12 12:28:11 sending CAT
+
+2026-09-12 12:28:11 sending CAT
+
+2026-09-12 12:28:11 sending CAT
+
+2026-09-12 12:28:12 sending CAT
+
+2026-09-12 12:28:12 sending CAT
+
+2026-09-12 12:28:12 sending CAT
+
+2026-09-12 12:28:13 sending CAT
+
+2026-09-12 12:28:13 sending CAT
+
+2026-09-12 12:29:01 sending CAT
+
+2026-09-12 12:29:01 sending CAT
+
+2026-09-12 12:29:02 sending CAT
+
+2026-09-12 12:29:02 sending CAT
+
+2026-09-12 12:29:02 sending CAT
+
+2026-09-12 12:29:02 sending CAT
+
+2026-09-12 12:29:03 sending CAT
+
+2026-09-12 12:29:03 sending CAT
+
+2026-09-12 12:29:03 sending CAT
+
+2026-09-12 12:29:03 sending CAT
+
+2026-09-12 12:29:37 sending CAT
+
+2026-09-12 12:29:37 sending CAT
+
+2026-09-12 12:30:05 sending CAT2
+
+2026-09-12 12:30:18 CWPORT: via CAT MyKeyer: cat
+2026-09-12 12:30:18 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-12 12:30:29 sending CAT
+
+2026-09-12 12:30:29 sending CAT
+
+2026-09-12 13:21:00 sending CAT2
+
+2026-09-13 13:22:24 CWPORT: via CAT MyKeyer: cat
+2026-09-13 13:22:24 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-13 13:22:24 sending CAT2
+
+2026-09-13 14:48:04 sending CAT2
+
+2026-09-13 14:48:42 sending CAT2
+
+2026-09-13 14:50:20 sending CAT2
+
+2026-09-13 14:50:32 CWPORT: via CAT MyKeyer: cat
+2026-09-13 14:50:32 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-13 14:58:14 sending CAT2
+
+2026-09-13 14:59:48 sending CAT2
+
+2026-09-13 15:48:53 sending CAT2
+
+2026-09-13 20:02:07 sending CAT2
+
+2026-09-13 20:02:29 sending CAT2
+
+2026-09-13 21:32:39 sending CAT2
+
+2026-09-14 00:25:27 sending CAT2
+
+2026-09-14 12:24:37 sending CAT2
+
+2026-09-14 13:19:42 sending CAT2
+
+2026-09-14 14:06:33 sending CAT2
+
+2026-09-14 14:07:04 sending CAT2
+
+2026-09-14 14:07:24 CWPORT: via CAT MyKeyer: cat
+2026-09-14 14:07:24 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-14 14:24:17 sending CAT2
+
+2026-09-14 20:18:49 sending CAT2
+
+2026-09-14 21:25:52 sending CAT2
+
+2026-09-14 22:26:55 sending CAT2
+
+2026-09-14 22:30:06 CWPORT: via CAT MyKeyer: cat
+2026-09-14 22:30:06 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-14 22:30:06 sending CAT2
+
+2026-09-14 22:37:18 sending CAT2
+
+2026-09-14 22:50:01 sending CAT2
+
+2026-09-14 23:05:48 sending CAT2
+
+2026-09-15 01:00:49 sending CAT2
+
+2026-09-15 01:11:02 sending CAT2
+
+2026-09-15 01:34:03 sending CAT2
+
+2026-09-15 01:34:27 sending CAT2
+
+2026-09-15 01:36:06 sending CAT2
+
+2026-09-15 02:27:08 sending CAT2
+
+2026-09-15 12:11:49 sending CAT2
+
+2026-09-15 12:12:08 CWPORT: via CAT MyKeyer: cat
+2026-09-15 12:12:08 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-15 12:15:10 sending CAT2
+
+2026-09-15 13:25:18 sending CAT2
+
+2026-09-15 13:25:21 sending CAT2
+
+2026-09-15 14:15:29 sending CAT2
+
+2026-09-15 14:37:15 sending CAT2
+
+2026-09-15 14:37:23 sending CAT2
+
+2026-09-15 14:52:15 CWPORT: via CAT MyKeyer: cat
+2026-09-15 14:52:15 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-15 14:53:59 sending CAT2
+
+2026-09-15 15:04:22 sending CAT2
+
+2026-09-15 15:04:37 CWPORT: via CAT MyKeyer: cat
+2026-09-15 15:04:37 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-15 16:03:38 sending CAT2
+
+2026-09-15 16:06:03 sending CAT2
+
+2026-09-15 16:14:12 sending CAT2
+
+2026-09-15 16:22:02 sending CAT2
+
+2026-09-15 16:29:45 sending CAT2
+
+2026-09-15 16:29:49 sending CAT2
+
+2026-09-15 16:29:52 sending CAT2
+
+2026-09-15 16:29:55 sending CAT2
+
+2026-09-15 16:31:49 sending CAT2
+
+2026-09-15 20:09:31 sending CAT2
+
+2026-09-15 20:49:25 sending CAT2
+
+2026-09-15 21:56:58 sending CAT2
+
+2026-09-15 22:50:12 CWPORT: via CAT MyKeyer: cat
+2026-09-15 22:50:12 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-15 22:55:41 sending CAT2
+
+2026-09-16 12:50:46 sending CAT2
+
+2026-09-16 12:51:08 CWPORT: via CAT MyKeyer: cat
+2026-09-16 12:51:08 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-16 14:25:00 sending CAT2
+
+2026-09-16 14:25:33 sending CAT2
+
+2026-09-16 15:08:47 sending CAT2
+
+2026-09-16 20:51:46 sending CAT2
+
+2026-09-16 20:52:02 sending CAT2
+
+2026-09-16 20:52:26 CWPORT: via CAT MyKeyer: cat
+2026-09-16 20:52:26 setting up portserver: 4532 127.0.0.1 cat 1
+2026-09-17 13:26:00 sending CAT2
+
+2026-09-17 14:07:00 sending CAT2
+
+2026-09-17 14:35:39 sending CAT2
+
+2026-09-17 14:43:58 sending CAT2
+
+2026-09-20 13:55:33 CWPORT: None MyKeyer: None
+2026-09-20 13:55:33 setting up portserver: 30040 None None 1
+2026-09-20 13:56:59 CWPORT: None MyKeyer: None
+2026-09-20 13:56:59 setting up portserver: 30040 None None 1
+2026-09-20 15:09:54 CWPORT: None MyKeyer: None
+2026-09-20 15:09:54 setting up portserver: 30040 None None 1
+2026-09-20 19:43:10 CWPORT: None MyKeyer: None
+2026-09-20 19:43:10 setting up portserver: 30040 None None 1
+2026-09-20 21:44:33 CWPORT: None MyKeyer: None
+2026-09-20 21:44:33 setting up portserver: 30040 None None 1
+2026-09-21 13:51:21 CWPORT: None MyKeyer: None
+2026-09-21 13:51:21 setting up portserver: 30040 None None 1
+2026-09-22 12:31:08 CWPORT: None MyKeyer: None
+2026-09-22 12:31:08 setting up portserver: 30040 None None 1
+2026-09-22 12:32:07 CWPORT: None MyKeyer: None
+2026-09-22 12:32:07 setting up portserver: 30040 None None 1
+2026-09-22 20:42:52 CWPORT: None MyKeyer: None
+2026-09-22 20:42:52 setting up portserver: 30040 None None 1
+2026-09-22 20:56:55 CWPORT: None MyKeyer: None
+2026-09-22 20:56:55 setting up portserver: 30040 None None 1
+2026-09-23 14:10:17 CWPORT: None MyKeyer: None
+2026-09-23 14:10:17 setting up portserver: 30040 None None 1
+2026-09-23 14:10:46 CWPORT: None MyKeyer: non
+2026-09-23 14:10:46 setting up portserver: 30040 None non 1
+2026-09-23 14:10:46  line: 30040 None 1 admin
+
+2026-09-24 21:55:40 CWPORT: None MyKeyer: None
+2026-09-24 21:55:40 setting up portserver: 30040 None None 1
+2026-09-24 22:04:53 CWPORT: None MyKeyer: None
+2026-09-24 22:04:53 setting up portserver: 30040 None None 1
+2026-09-24 22:24:32 CWPORT: None MyKeyer: None
+2026-09-24 22:24:32 setting up portserver: 30040 None None 1
+2026-09-25 12:46:11 CWPORT: None MyKeyer: None
+2026-09-25 12:46:11 setting up portserver: 30040 None None 1
+2026-09-25 20:05:52 CWPORT: None MyKeyer: None
+2026-09-25 20:05:52 setting up portserver: 30040 None None 1
+2026-09-27 22:06:30 CWPORT: None MyKeyer: None
+2026-09-27 22:06:30 setting up portserver: 30040 None None 1
+2026-09-28 12:57:51 CWPORT: None MyKeyer: None
+2026-09-28 12:57:51 setting up portserver: 30040 None None 1
+2026-09-29 15:23:47 CWPORT: None MyKeyer: None
+2026-09-29 15:23:47 setting up portserver: 30040 None None 1
+2026-10-01 12:27:40 CWPORT: None MyKeyer: None
+2026-10-01 12:27:40 setting up portserver: 30040 None None 1
+2026-10-01 12:57:48 CWPORT: None MyKeyer: None
+2026-10-01 12:57:48 setting up portserver: 30040 None None 1
+2026-10-01 22:44:59 CWPORT: None MyKeyer: None
+2026-10-01 22:44:59 setting up portserver: 30040 None None 1
+2026-10-01 22:45:43 CWPORT: None MyKeyer: None
+2026-10-01 22:45:43 setting up portserver: 30040 None None 1
+2026-10-01 22:49:02 CWPORT: None MyKeyer: None
+2026-10-01 22:49:02 setting up portserver: 30040 None None 1
+2026-10-02 13:17:00 CWPORT: None MyKeyer: None
+2026-10-02 13:17:00 setting up portserver: 30040 None None 1
+2026-10-02 21:31:24 CWPORT: None MyKeyer: None
+2026-10-02 21:31:24 setting up portserver: 30040 None None 1

@@ -1,0 +1,404 @@
+{
+  "paths": {
+    "output_directory": "output",
+    "database_name": "knowledge.db",
+    "connector_cache_directory": "cache/connectors"
+  },
+  "connectors": [
+    {
+      "id": "official-help",
+      "name": "Official RigPi Help",
+      "type": "help_zip",
+      "path": "sources/Help.zip",
+      "enabled": true,
+      "authority": 100,
+      "category": "official",
+      "tags": [
+        "official",
+        "help",
+        "canonical"
+      ],
+      "refresh": "manual"
+    },
+    {
+      "id": "groups-messages",
+      "name": "RigPi Groups.io",
+      "type": "groups_io_mbox",
+      "path": "sources/messages.mbox",
+      "enabled": true,
+      "authority": 60,
+      "category": "community",
+      "tags": [
+        "community",
+        "support"
+      ],
+      "refresh": "manual",
+      "options": {
+        "group": "RigPi",
+        "base_url": "https://groups.io/g/RigPi",
+        "strip_quoted_replies": true,
+        "strip_signatures": true,
+        "strip_groups_footer": true,
+        "deduplicate_messages": true,
+        "minimum_message_words": 5
+      }
+    },
+    {
+      "id": "rigpibeta-messages",
+      "name": "RigPi Beta Groups.io",
+      "type": "groups_io_mbox",
+      "path": "sources/rigpibeta/messages.mbox",
+      "enabled": false,
+      "authority": 70,
+      "category": "community",
+      "tags": [
+        "beta",
+        "community",
+        "pre-release"
+      ],
+      "refresh": "manual",
+      "options": {
+        "strip_quoted_replies": true,
+        "strip_signatures": true,
+        "strip_groups_footer": true,
+        "deduplicate_messages": true,
+        "minimum_message_words": 5
+      }
+    },
+    {
+      "id": "hamlib-github",
+      "name": "Hamlib GitHub",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 90,
+      "category": "development",
+      "tags": [
+        "github",
+        "hamlib",
+        "issues",
+        "releases"
+      ],
+      "refresh": "manual",
+      "options": {
+        "owner": "Hamlib",
+        "repository": "Hamlib",
+        "include_source": true,
+        "include_readme": true,
+        "include_releases": true,
+        "include_issues": true,
+        "include_issue_comments": true,
+        "include_wiki": true,
+        "include_pull_requests": false,
+        "maximum_file_bytes": 524288,
+        "exclude_patterns": [
+          ".git/*",
+          "autom4te.cache/*",
+          "build/*",
+          ".github/workflows/*"
+        ],
+        "token_environment_variable": "GITHUB_TOKEN"
+      }
+    },
+    {
+      "id": "rigpi-github",
+      "name": "RigPi GitHub",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 95,
+      "category": "development",
+      "tags": [
+        "github",
+        "rigpi",
+        "issues",
+        "releases"
+      ],
+      "refresh": "manual",
+      "options": {
+        "owner": "hlnurse",
+        "repository": "rigpi",
+        "include_source": true,
+        "include_readme": true,
+        "include_releases": true,
+        "include_issues": true,
+        "include_issue_comments": true,
+        "include_wiki": true,
+        "include_pull_requests": false,
+        "maximum_file_bytes": 524288,
+        "source_extensions": [
+          ".c",
+          ".cc",
+          ".cpp",
+          ".h",
+          ".hpp",
+          ".py",
+          ".php",
+          ".js",
+          ".css",
+          ".sh",
+          ".md",
+          ".rst",
+          ".txt",
+          ".html",
+          ".htm",
+          ".xml",
+          ".json",
+          ".yaml",
+          ".yml",
+          ".ini",
+          ".conf",
+          ".service",
+          ".sql",
+          ".twig"
+        ],
+        "exclude_patterns": [
+          ".git/*",
+          "autom4te.cache/*",
+          "build/*",
+          ".github/workflows/*",
+          "html/Help/*",
+          "html/phpmyadmin/*",
+          "html/awe/*",
+          "html/Bootstrap/*",
+          "html/flags/*",
+          "html/Images/*",
+          "html/programs/vendor/*",
+          "html/programs/GPIO/vendor/*",
+          "html/includes/*.json",
+          "html/js/*.min.js",
+          "html/js/FileSaver.js",
+          "html/js/PerfectWidgets.js",
+          "html/js/bootstrap-slider.js",
+          "html/js/jquery-*.js",
+          "html/js/leaflet.js",
+          "html/js/modernizr.js",
+          "html/js/moment.js",
+          "html/js/mscorlib.js",
+          "html/js/summernote-case-converter.js",
+          "html/scheduler/ical.js",
+          "html/scheduler/moment*.js",
+          "html/classes/MysqliDb.php",
+          "html/includes/ChromePhp.php"
+        ],
+        "token_environment_variable": "GITHUB_TOKEN"
+      }
+    },
+    {
+      "id": "wsjtx-github",
+      "name": "WSJT-X GitHub and User Guide",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 90,
+      "category": "official-reference",
+      "tags": [
+        "github",
+        "wsjt-x",
+        "digital-modes",
+        "user-guide"
+      ],
+      "refresh": "manual",
+      "options": {
+        "owner": "WSJTX",
+        "repository": "wsjtx",
+        "include_source": true,
+        "include_readme": true,
+        "include_releases": true,
+        "include_issues": true,
+        "include_issue_comments": true,
+        "include_wiki": false,
+        "include_pull_requests": false,
+        "maximum_file_bytes": 524288,
+        "source_extensions": [
+          ".c",
+          ".cc",
+          ".cpp",
+          ".h",
+          ".hpp",
+          ".f",
+          ".f90",
+          ".py",
+          ".pl",
+          ".sh",
+          ".md",
+          ".adoc",
+          ".rst",
+          ".txt",
+          ".html",
+          ".htm",
+          ".xml",
+          ".json",
+          ".yaml",
+          ".yml",
+          ".ini",
+          ".conf",
+          ".cmake",
+          ".ui",
+          ".qrc",
+          ".in",
+          ".am",
+          ".ac",
+          ".asciidoc"
+        ],
+        "exclude_patterns": [
+          ".git/*",
+          "build/*",
+          "CMakeFiles/*",
+          ".github/workflows/*",
+          "doc/user_guide/*/images/*",
+          "icons/*"
+        ],
+        "token_environment_variable": "GITHUB_TOKEN",
+        "manual_patterns": [
+          "doc/user_guide/*.adoc",
+          "doc/user_guide/*/*.adoc",
+          "doc/common/*.adoc",
+          "doc/common/*/*.adoc"
+        ],
+        "manual_authority": 100
+      }
+    },
+    {
+      "id": "chatgpt-archive",
+      "name": "ChatGPT Engineering Archive",
+      "type": "ai_chat_archive",
+      "path": "sources/chats/chatgpt",
+      "enabled": false,
+      "authority": 85,
+      "category": "engineering-history",
+      "tags": [
+        "chatgpt",
+        "engineering",
+        "troubleshooting"
+      ],
+      "refresh": "manual",
+      "options": {
+        "platform": "chatgpt",
+        "accepted_formats": [
+          "json",
+          "html",
+          "markdown",
+          "text"
+        ],
+        "redact_email_addresses": true,
+        "redact_phone_numbers": true,
+        "redact_api_keys": true,
+        "redact_passwords": true
+      }
+    },
+    {
+      "id": "claude-archive",
+      "name": "Claude Engineering Archive",
+      "type": "ai_chat_archive",
+      "path": "sources/chats/claude",
+      "enabled": false,
+      "authority": 75,
+      "category": "engineering-history",
+      "tags": [
+        "claude",
+        "engineering",
+        "troubleshooting"
+      ],
+      "refresh": "manual",
+      "options": {
+        "platform": "claude",
+        "accepted_formats": [
+          "json",
+          "html",
+          "markdown",
+          "text"
+        ],
+        "redact_email_addresses": true,
+        "redact_phone_numbers": true,
+        "redact_api_keys": true,
+        "redact_passwords": true
+      }
+    },
+    {
+      "id": "groups-files",
+      "name": "Groups.io Contributed Files",
+      "type": "groups_io_files_export",
+      "path": "sources/RigPi-2",
+      "enabled": true,
+      "authority": 70,
+      "category": "community",
+      "tags": [
+        "community",
+        "files"
+      ],
+      "refresh": "manual",
+      "options": {
+        "base_url": "https://groups.io/g/RigPi",
+        "extensions": [
+          ".pdf",
+          ".docx",
+          ".rtf",
+          ".txt",
+          ".dat",
+          ".h",
+          ".md"
+        ],
+        "minimum_document_words": 3
+      }
+    },
+    {
+      "id": "wsjtx-manual",
+      "name": "Official WSJT-X 3.0.0 User Guide",
+      "type": "html_manual",
+      "enabled": true,
+      "authority": 100,
+      "category": "official-reference",
+      "tags": [
+        "wsjt-x",
+        "digital-modes",
+        "user-guide",
+        "official-manual"
+      ],
+      "refresh": "release",
+      "options": {
+        "url": "https://github.com/WSJTX/wsjtx/releases/download/v3.0.0/wsjtx-main_en.html",
+        "version": "3.0.0",
+        "maximum_bytes": 12582912
+      }
+    },
+    {
+      "id": "sigidwiki-amateur-radio",
+      "name": "SIGIDWiki Amateur Radio Signals",
+      "type": "mediawiki_category",
+      "enabled": true,
+      "authority": 72,
+      "category": "community-reference",
+      "tags": [
+        "signals",
+        "frequencies",
+        "digital-modes",
+        "community"
+      ],
+      "refresh": "weekly",
+      "options": {
+        "api_url": "https://www.sigidwiki.com/api.php",
+        "category": "Amateur Radio",
+        "maximum_pages": 500,
+        "terms_url": "https://www.sigidwiki.com/wiki/Signal_Identification_Wiki:General_disclaimer"
+      }
+    },
+    {
+      "id": "fcc-part-97",
+      "name": "47 CFR Part 97 — Amateur Radio Service",
+      "type": "ecfr_part",
+      "enabled": true,
+      "authority": 100,
+      "category": "official-regulation",
+      "tags": [
+        "fcc",
+        "ecfr",
+        "part-97",
+        "regulation",
+        "official"
+      ],
+      "refresh": "daily",
+      "options": {
+        "title": 47,
+        "part": 97
+      }
+    }
+  ]
+}

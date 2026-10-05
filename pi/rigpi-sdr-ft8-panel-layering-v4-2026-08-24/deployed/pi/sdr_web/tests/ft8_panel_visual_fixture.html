@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;background:#444;color:#ddd;font:22px monospace}
+  #panel{width:522px;height:520px;display:flex;flex-direction:column;background:#001000}
+  #status{flex:none;height:120px;padding:14px 18px;box-sizing:border-box;background:#0a1a0a;border-bottom:1px solid #1a3a1a;color:#6a6}
+  #viewport{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:#0d1f0d}
+  #headerScroll{flex:none;overflow:hidden;background:#0d1f0d;border-bottom:1px solid #1a3a1a}
+  #bodyScroll{flex:1;min-height:0;overflow:auto;background:#001000}
+  table{width:900px;table-layout:fixed;border-collapse:collapse}
+  col:nth-child(1){width:108px} col:nth-child(2){width:64px} col:nth-child(3){width:110px}
+  col:nth-child(4){width:140px} col:nth-child(5){width:100px} col:nth-child(6){width:80px} col:nth-child(7){width:298px}
+  th{padding:8px 6px;text-align:left;background:#0d1f0d;color:#6a6}
+  td{padding:5px 6px;border-bottom:1px solid #123;white-space:nowrap}
+  td:nth-child(3){color:#4af} td:nth-child(5){color:#6a6}
+</style>
+<div id="panel">
+  <div id="status">FT8 20m &nbsp;&nbsp; Decoder FT8 &nbsp;&nbsp; 100 spots</div>
+  <div id="viewport">
+    <div id="headerScroll"><table><colgroup><col><col><col><col><col><col><col></colgroup><thead><tr><th>Time</th><th>SNR</th><th>DX</th><th>DE</th><th>Grid</th><th>Band</th><th>Message</th></tr></thead></table></div>
+    <div id="bodyScroll"><table><colgroup><col><col><col><col><col><col><col></colgroup><tbody id="rows"></tbody></table></div>
+  </div>
+</div>
+<script>
+  for(let i=0;i<40;i++) rows.insertAdjacentHTML('beforeend',`<tr><td>20:${String(i).padStart(2,'0')}</td><td>-${10+i%12}</td><td>W0OVX</td><td>K9GI</td><td>FN42</td><td>20m</td><td>CQ TEST ${i}</td></tr>`);
+  bodyScroll.addEventListener('scroll',()=>headerScroll.scrollLeft=bodyScroll.scrollLeft);
+  bodyScroll.scrollTop=137;
+  bodyScroll.scrollLeft=86;
+</script>

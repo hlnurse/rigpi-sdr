@@ -1,0 +1,41 @@
+From sender1@example.com Sat Jan 01 12:00:00 2022
+Date: Sat, 1 Jan 2022 12:00:00 +0000
+From: Alice Operator <alice@example.com>
+To: RigPi@groups.io
+Subject: RX888 Audio Setup
+Message-ID: <m1@example.com>
+Content-Type: text/plain; charset=utf-8
+
+I connected the RX888 and enabled the audio path. The receiver now produces clear AM audio after selecting the proper sample rate.
+
+--
+Alice
+Groups.io Links:
+
+From sender2@example.com Sat Jan 01 13:00:00 2022
+Date: Sat, 1 Jan 2022 13:00:00 +0000
+From: Bob Builder <bob@example.com>
+To: RigPi@groups.io
+Subject: Re: RX888 Audio Setup
+Message-ID: <m2@example.com>
+In-Reply-To: <m1@example.com>
+References: <m1@example.com>
+Content-Type: text/plain; charset=utf-8
+
+The important step is restarting the stream after changing the device configuration. That resolved the noise-only symptom here.
+
+> I connected the RX888 and enabled the audio path.
+> Older quoted text should be removed.
+
+--
+Bob
+
+From sender3@example.com Sun Jan 02 10:00:00 2022
+Date: Sun, 2 Jan 2022 10:00:00 +0000
+From: Carol Tester <carol@example.com>
+To: RigPi@groups.io
+Subject: Cloudflare connection
+Message-ID: <m3@example.com>
+Content-Type: text/html; charset=utf-8
+
+<html><body><p>The tunnel returned a 502 error after reboot.</p><p>Starting the local SDR service restored the iframe.</p></body></html>

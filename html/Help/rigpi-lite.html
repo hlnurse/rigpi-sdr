@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Views &gt; RigPi Lite</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi Lite provides a low cpu-utilization connection for other programs that use Hamlib to control radios and rotors such as WSJT-X and Fldigi." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "rigpi-lite.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Lite</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?rigpi-lite.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="views.html">Views</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Lite</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="views.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="views.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="tuner.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">&nbsp;</p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi Lite provides a low cpu-utilization connection for other programs that use Hamlib to control radios and rotors such as WSJT-X and Fldigi.</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi normally uses 25-30% of a Raspberry Pi CPU resources. &nbsp;RigPi Lite typically uses less than 1%.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Starting RigPi Lite</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi Lite uses the same login credentials as RigPi and connects through port 80. &nbsp;Set up the account you want to use for RigPi Lite using the RigPi Account, Advanced Settings and Rotor Settings. &nbsp;Once you are done, check that RigPi controls the radio and rotor correctly. &nbsp;Disconnect the radio in RigPi, then start RigPi Lite. In your browser navigation bar, use the URL:</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">rigpi5.local/lite</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">or the LAN/WAN shown in the Lite window.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If you are operating through a router and have redirected port 80, you must take that into account when configuring RigPi. &nbsp;For example, if your router forwards port 8008 to port 80, start RigPi Lite by specifying the port.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">rigpi5.local:8008/lite</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><div style="margin:0 auto 0 auto;width:45%;max-width:1518px;height:auto;"><img alt="2026-06-27_17-06-59" title="2026-06-27_17-06-59" style="width:100%;height:auto;border:none" src="2026-06-27_17-06-59.png"/></div></div>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 26px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Enter the Username for the account you want to use, for example, 'admin.' The Username is not case-sensitive.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 26px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If you have assigned a Password, enter it in the Password box.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 26px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click Login (or press Enter).</span></p><p style="margin: 0 0 0 26px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Lite Window</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><div style="margin:0 auto 0 auto;width:45%;max-width:1518px;height:auto;"><img alt="2026-06-27_17-09-58" title="2026-06-27_17-09-58" style="width:100%;height:auto;border:none" src="2026-06-27_17-09-58.png"/></div></div>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">in the Lite window, click Connect or press Enter to connect.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><div style="margin:0 auto 0 auto;width:45%;max-width:1518px;height:auto;"><img alt="2026-06-27_17-12-28" title="2026-06-27_17-12-28" style="width:100%;height:auto;border:none" src="2026-06-27_17-12-28.png"/></div></div>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Lite window shows the current Main frequency, mode, bandwidth, UTC time, and Transmit status. &nbsp;The display is updated every 2 seconds.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Other helpful information is provided below the buttons.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 26px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The radio name and Username</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 26px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The LAN and WAN &lt;IP&gt;:&lt;port&gt; for the connection.</span></p><p style="margin: 0 0 0 26px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If you want WSJT-X to use the RigPi Lite connection, and you are using the same LAN, use the LAN data. &nbsp;If connecting from another location, use the WAN data. &nbsp;To use the WAN connection, be sure to forward the appropriate port in your router. &nbsp;In the image above, you would forward port 4532 in your router. &nbsp;To use your rotor, forward the port one higher, or 4533.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The RigPi Lite window does not use proprietary widgets, but uses the HTML5 canvas. </span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><div style="margin:0 auto 0 auto;width:70%;max-width:1803px;height:auto;"><img alt="Lite-sdr1" style="width:100%;height:auto;border:none" src="lite-sdr1.png"/></div></div>
+<p class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;">&nbsp;</p>
+<p class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Lite SDR</span></p>
+<p class="p_Normal" style="margin: 0 36px 0 36px;">&nbsp;</p>
+<p class="p_Normal" style="margin: 0 36px 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click Start SDR on the Lite screen to open a new window displaying a RigPi SDR panel connected to the account you are using. &nbsp;The SDR Control panels can be used to select and configure SDR Devices, change the display parameters, and use the other control panels for using the SDR. &nbsp;The Rig panel can be used to change the center frequency of the SDR, but not control a radio.</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><div style="margin:0 auto 0 auto;width:70%;max-width:1803px;height:auto;"><img alt="Lite-dash" style="width:100%;height:auto;border:none" src="lite-dash.png"/></div></div>
+<p class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;">&nbsp;</p>
+<p class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;"><span style="font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SDR Dashboard</span></p>
+<p class="p_Normal" style="text-align: center; margin: 0 36px 0 36px;">&nbsp;</p>
+<p class="p_Normal" style="margin: 0 36px 0 0;"><span style="font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the SDR Dashboard by clicking SDR Dashboard on the Lite window. &nbsp;SDR Dashboard shows the SDR panel for each account. &nbsp;Only Admin users can use this function. &nbsp;The 4 SDR display is useful for listening to up to four frequencies simultaneously. &nbsp;For example, you can monitor a repeater's input and output frequencies. &nbsp;Click a button in the Navigation bar to open a window in the full RigPi.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connecting to RigPi Lite</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Using a second RigPi:</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the &lt;IP&gt;:&lt;port&gt; shown on the RigPi Lite window. &nbsp;In Advanced Settings, use Hamlib Net Rigctl, and R Port 172.16.0.43:4534. &nbsp;This will connect to RigPi account 2. &nbsp;Replace the IP with your IP. &nbsp;Take into account router redirection if you are connecting from a remote location.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WSJT-X:</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If WSJT-X is running on the same RigPi as RigPi Lite, use 127.0.0.1:4534 in the WSJT-X Radio-&gt;Network Server box to connect to the radio for account 2. &nbsp;If WSJT-X is running at a remote location, use the WAN IP and port shown in the Lite window. &nbsp;WSJT-X connects through the specified port, so you must port forward that port in your router.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Rotor control:</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">In RigPi, set the Rotor to Hamlib Net rotctl.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the LAN or WAN on the RigPi Lite window to connect to the RigPi Lite rotor control. &nbsp;The port in RigPi Rotor Settings is one higher than the port shown in the Lite window. &nbsp;If you are using port 4534 (Account 2) for the radio, use port 4535 for the rotor.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Lite limitations</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 39px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No radio or rotor control, control comes from another program. &nbsp;RigPi Lite is display-only.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 39px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Only CAT CW is supported, your radio must support CW by CAT.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 39px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No logging to or from other programs.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 39px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Auto power on and auto power off are determined from your selections in RigPi Advanced Radio Settings.</span></p>
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+rigpi_cw_text AR
+rigpi_cw_text BK
+rigpi_cw_text BT
+rigpi_cw_text KN
+rigpi_cw_text SK

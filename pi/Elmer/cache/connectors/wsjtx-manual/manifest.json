@@ -1,0 +1,8 @@
+{
+  "connector_id": "wsjtx-manual",
+  "url": "https://github.com/WSJTX/wsjtx/releases/download/v3.0.0/wsjtx-main_en.html",
+  "version": "3.0.0",
+  "retrieved_at": "2026-08-24T19:24:26.298151+00:00",
+  "sha256": "50e8e9ea028742659b5b7f4356a01932816786f6a82ccf119d9677eafc72affc",
+  "sections": 96
+}

@@ -1,0 +1,1944 @@
+1.2
+lxde-pi-applications.menu+hidden
+18
+D/home/pi/.local/share/desktop-directories
+D~/.local/share/desktop-directories
+D/usr/local/share/desktop-directories
+D/usr/share/raspi-ui-overrides/desktop-directories
+D/usr/share/desktop-directories
+D/usr/share/gdm/desktop-directories
+D/var/lib/menu-xdg/desktop-directories
+D/home/pi/.local/share/applications
+D~/.local/share/applications
+D/usr/local/share/applications
+D/usr/share/raspi-ui-overrides/applications
+D/usr/share/applications
+D/usr/share/gdm/applications
+D/var/lib/menu-xdg/applications
+D/etc/xdg/menus/applications-merged
+D/home/pi/.config/menus/applications-merged
+F/home/pi/.config/menus/lxde-pi-applications.menu
+F/etc/xdg/menus/lxde-pi-applications.menu
+Phosh;LXQt;Unity;MATE;
++Applications
+Applications
+Applications
+applications-other
+lxde-menu-applications.directory
+4
+0
++Hamradio
+Hamradio
+
+CQ
+HamRadio.directory
+4
+0
+-flarq.desktop
+Flarq
+Amateur Radio Data Transfer with ARQ
+flarq
+
+7
+Fldigi ARQ Utility
+flarq
+0
+0
+
+
+Network;HamRadio
+
+-fldigi.desktop
+Fldigi
+Amateur Radio Sound Card Communications
+fldigi
+
+7
+Amateur Radio Digital Modem
+fldigi
+0
+0
+
+
+Network;HamRadio
+
+-flrig.desktop
+Flrig
+Amateur Radio Communications
+flrig
+
+7
+Amateur Radio Rig Control
+flrig
+0
+0
+
+
+Network;HamRadio
+
+-dk.gqrx.gqrx.desktop
+Gqrx
+Software defined radio receiver implemented using GNU Radio and the Qt GUI toolkit
+dk.gqrx.gqrx
+
+7
+Software Defined Radio
+gqrx
+4
+0
+
+
+AudioVideo;Audio;Qt;HamRadio
+SDR,Radio,HAM
+-gridtracker2.desktop
+GridTracker2
+GridTracker2
+gridtracker2
+
+11
+
+/opt/GridTracker2/gridtracker2 %U
+0
+0
+
+
+Utility;HamRadio
+
+-js8call.desktop
+js8call
+Amateur Radio Weak Signal Operating
+js8call_icon
+
+11
+
+js8call
+2
+0
+
+
+AudioVideo;Audio;HamRadio
+
+-message_aggregator.desktop
+Message Aggregator
+Amateur Radio Weak Signal Operating
+wsjtx_icon
+
+11
+
+message_aggregator
+2
+0
+
+
+AudioVideo;Audio;HamRadio
+
+-rigpi.desktop
+RigPi-SDR
+Launch RigPi
+/var/www/html/Images/RigPiW.png
+
+11
+
+chromium --app=http://localhost:80
+2
+0
+
+
+HamRadio
+
+-org.arrl.trustedqsl.desktop
+TQSL
+Sign Amateur Radio log files
+org.arrl.trustedqsl
+
+7
+
+tqsl %F
+0
+0
+tqsl
+
+HamRadio;Utility;FileTools
+
+-wsjtx.desktop
+wsjtx
+Amateur Radio Weak Signal Operating
+/usr/share/pixmaps/wsjtx_icon.png
+
+7
+
+wsjtx
+2
+0
+
+
+AudioVideo;Audio;HamRadio
+Radio
+
++Internet
+Internet
+Programs for Internet access such as web and email
+applications-internet
+lxde-network.directory
+4
+0
+-chromium.desktop
+Chromium Web Browser
+Access the Internet
+chromium
+
+11
+Web Browser
+/usr/bin/chromium %U
+2
+0
+
+
+Network;WebBrowser
+browser
+-deluge.desktop
+Deluge
+Download and share files over BitTorrent
+deluge
+
+11
+BitTorrent Client
+deluge-gtk %U
+2
+0
+deluge-gtk
+
+Network;FileTransfer;P2P;GTK
+bittorrent,torrent,magnet,download,p2p,torrents,downloading,uploading,share,sharing
+-firefox.desktop
+Firefox
+Browse the World Wide Web
+firefox
+
+11
+Web Browser
+/usr/bin/firefox %u
+2
+0
+
+
+Network;WebBrowser
+
+-realvnc-vncserver-service.desktop
+VNC Server
+Start VNC Server in Service Mode
+/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png
+
+10
+VNC Server
+/usr/bin/pkexec /etc/vnc/vncservice start vncserver-x11-serviced
+4
+0
+
+
+Application;Network;RemoteAccess
+
+-lxde-x-www-browser.desktop
+Web Browser
+
+web-browser
+
+11
+X Web Browser
+/usr/bin/x-www-browser %u
+4
+0
+
+
+GTK;WebBrowser;Network
+
+-org.wireshark.Wireshark.desktop
+Wireshark
+Network traffic analyzer
+org.wireshark.Wireshark
+
+11
+Network Analyzer
+wireshark %f
+0
+0
+wireshark
+
+Network;Monitor;Qt
+
+
++Development
+Programming
+Tools for software development
+applications-development
+lxde-development.directory
+4
+0
+-geany.desktop
+Geany Programmer's Editor
+A fast and lightweight IDE using GTK+
+geany
+
+10
+Integrated Development Environment
+geany %F
+2
+0
+geany
+
+GTK;Development;IDE;TextEditor
+Text,Editor
+-gnuradio-grc.desktop
+GNU Radio Companion
+Graphical tool for creating signal flow graphs and generating flow-graph source code with the GNU Radio framework
+gnuradio-grc
+
+7
+
+gnuradio-companion %F
+4
+0
+
+
+Development;HamRadio;Science
+SDR,Radio,HAM,RF
+-python3.13.desktop
+Python (v3.13)
+Python Interpreter (v3.13)
+/usr/share/pixmaps/python3.13.xpm
+
+11
+
+/usr/bin/python3.13
+7
+0
+
+
+Development
+
+-assistant-qt5.desktop
+Qt 5 Assistant
+
+assistant-qt5
+
+11
+Document Browser
+/usr/lib/qt5/bin/assistant
+0
+0
+
+
+Qt;Development;Documentation
+
+-designer-qt5.desktop
+Qt 5 Designer
+
+designer-qt5
+
+11
+Interface Designer
+/usr/lib/qt5/bin/designer %F
+0
+0
+
+
+Qt;Development;GUIDesigner
+
+-linguist-qt5.desktop
+Qt 5 Linguist
+
+linguist-qt5
+
+11
+Translation Tool
+/usr/lib/qt5/bin/linguist %F
+0
+0
+
+
+Qt;Development;Translation
+
+-scratch.desktop
+Scratch
+Programming system and content development tool
+scratch
+
+10
+
+scratch %f
+0
+0
+scratch
+
+Application;Development;ComputerScience
+
+-org.thonny.Thonny.desktop
+Thonny
+Python IDE for beginners
+thonny
+
+11
+Python IDE
+/usr/bin/thonny %F
+0
+0
+
+
+Development;IDE
+programming,education
+
++Education
+Education
+
+applications-science
+lxde-education.directory
+4
+4
+
++Office
+Office
+Office Applications
+applications-office
+lxde-office.directory
+4
+0
+-libreoffice-draw.desktop
+LibreOffice Draw
+Create and edit drawings, flow charts, and logos by using Draw.
+libreoffice-draw
+
+10
+Drawing Program
+libreoffice --draw %U
+2
+0
+libreoffice
+
+Office;FlowChart;2DGraphics;VectorGraphics
+Vector,Schema,Diagram,Layout,OpenDocument Graphics,Microsoft Publisher,Microsoft Visio,Corel Draw,cdr,odg,svg,pdf,vsd
+-org.gnome.Evince-previewer.desktop
+Print Preview
+Preview before printing
+document-print-preview
+
+11
+
+evince-previewer %U
+6
+0
+evince-previewer
+
+GNOME;GTK;Office;Viewer;Graphics;2DGraphics;VectorGraphics
+
+
++Multimedia
+Sound & Video
+Multimedia menu
+applications-multimedia
+lxde-audio-video.directory
+4
+0
+-dk.gqrx.gqrx.desktop
+Gqrx
+Software defined radio receiver implemented using GNU Radio and the Qt GUI toolkit
+dk.gqrx.gqrx
+
+7
+Software Defined Radio
+gqrx
+4
+0
+
+
+AudioVideo;Audio;Qt;HamRadio
+SDR,Radio,HAM
+-js8call.desktop
+js8call
+Amateur Radio Weak Signal Operating
+js8call_icon
+
+11
+
+js8call
+2
+0
+
+
+AudioVideo;Audio;HamRadio
+
+-lxmusic.desktop
+LXMusic
+Play your music files easily
+lxmusic
+
+11
+Music Player
+lxmusic
+2
+0
+
+
+AudioVideo;Audio;Player;GTK
+
+-message_aggregator.desktop
+Message Aggregator
+Amateur Radio Weak Signal Operating
+wsjtx_icon
+
+11
+
+message_aggregator
+2
+0
+
+
+AudioVideo;Audio;HamRadio
+
+-mplayer.desktop
+MPlayer
+Play movies and songs
+mplayer
+
+11
+Media Player
+gmplayer %F
+0
+0
+gmplayer
+
+GTK;AudioVideo;Audio;Video;Player;TV
+Player,Capture,Audio,Music,Song,Video,Movie,Film,Clip,DVD,VCD,CD,Disc,DVB,TV
+-vlc.desktop
+VLC Media Player
+Read, capture, broadcast your multimedia streams
+vlc
+
+10
+Media player
+/usr/bin/vlc --started-from-file %U
+0
+0
+/usr/bin/vlc
+
+AudioVideo;Player;Recorder
+Player,Capture,DVD,Audio,Video,Server,Broadcast
+-org.pulseaudio.pavucontrol.desktop
+Volume Control
+Adjust the volume level
+multimedia-volume-control
+
+11
+Volume Control
+pavucontrol
+2
+0
+
+
+AudioVideo;Audio;Mixer;GTK;Settings;X-XFCE-SettingsDialog;X-XFCE-HardwareSettings
+pavucontrol,PulseAudio,Microphone,Volume,Fade,Balance,Headset,Speakers,Headphones,Audio,Mixer,Output,Input,Devices,Playback,Recording,System Sounds,Sound Card,Settings,Preferences
+
++Graphics
+Graphics
+Graphics applications
+applications-graphics
+lxde-graphics.directory
+4
+0
+-gpicview.desktop
+GPicView
+View your images easily
+gpicview
+
+11
+Image Viewer
+gpicview %u
+2
+0
+
+
+GTK;Graphics;Viewer
+
+-eom.desktop
+Image Viewer
+Browse and rotate images
+eom
+
+10
+
+eom %U
+2
+0
+eom
+
+GTK;Graphics;2DGraphics;RasterGraphics;Viewer
+image,viewer,JPEG,PNG,TIFF,SVG,MATE,photos,browse,thumbnails,rotate
+-org.gnome.Evince-previewer.desktop
+Print Preview
+Preview before printing
+document-print-preview
+
+11
+
+evince-previewer %U
+6
+0
+evince-previewer
+
+GNOME;GTK;Office;Viewer;Graphics;2DGraphics;VectorGraphics
+
+
++Games
+Games
+Games and amusements
+applications-games
+lxde-game.directory
+4
+4
+
++Other
+Other
+Applications that did not fit in other categories
+applications-other
+lxde-other.directory
+4
+0
+-gcr-prompter.desktop
+Access Prompt
+Unlock access to passwords and other secrets
+security-medium
+
+11
+
+/usr/libexec/gcr-prompter
+4
+0
+
+
+
+
+-CubicSDR.desktop
+CubicSDR
+Software-Defined Radio Application
+/usr/share/cubicsdr/CubicSDR.png
+
+7
+CubicSDR
+CubicSDR %u
+4
+0
+
+
+Science;HamRadio;DataVisualization
+
+-zenoty-dialog-error.desktop
+Dialog Error Icon
+
+dialog-error
+
+11
+
+zenoty
+4
+0
+
+
+
+
+-zenoty-dialog-information.desktop
+Dialog Info Icon
+
+dialog-information
+
+11
+
+zenoty
+4
+0
+
+
+
+
+-zenoty-dialog-question.desktop
+Dialog Question Icon
+
+dialog-question
+
+11
+
+zenoty
+4
+0
+
+
+
+
+-zenoty-dialog-warning.desktop
+Dialog Warning Icon
+
+dialog-warning
+
+11
+
+zenoty
+4
+0
+
+
+
+
+-dillo.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-gnome-disk-image-mounter.desktop
+Disk Image Mounter
+Mount Disk Images
+drive-removable-media
+
+11
+
+gnome-disk-image-mounter %U
+4
+0
+
+
+
+
+-gnome-disk-image-writer.desktop
+Disk Image Writer
+Write Disk Images to Devices
+drive-removable-media
+
+11
+
+gnome-disks --restore-disk-image %U
+4
+0
+
+
+
+
+-htop.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-lp-connection-editor.desktop
+Icon for network dialogs
+
+network-transmit-receive
+
+11
+
+lp-connection-editor
+4
+0
+
+
+
+
+-wf-panel-pi.desktop
+Icon for panel dialogs
+
+preferences-desktop
+
+11
+
+wf-panel-pi
+4
+0
+
+
+
+
+-libreoffice-startcenter.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-lxde-logout.desktop
+Logout
+Logout, shutdown or reboot
+gnome-logout
+
+11
+
+lxde-logout
+4
+0
+lxsession-logout
+
+
+
+-lxappearance.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-lxhotkey-gtk.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-lxrandr.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-lxsession-edit.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-nm-applet.desktop
+NetworkManager Applet
+Manage your network connections
+nm-device-wireless
+
+11
+
+nm-applet
+4
+-7
+
+
+
+
+-notification-daemon.desktop
+Notification Daemon
+Display notifications
+
+
+11
+
+/usr/lib/notification-daemon/notification-daemon
+4
+0
+
+
+
+
+-obconf.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-openbox.desktop
+Openbox
+
+openbox
+
+11
+
+openbox
+4
+0
+
+
+
+wm,windowmanager,window,manager,gnome
+-org.rncbc.qjackctl.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-org.xfce.mousepad-settings.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-sudopwd.desktop
+Password Request
+
+preferences-desktop
+
+11
+
+
+4
+0
+
+
+
+
+-pcmanfm-desktop-pref.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-xdg-desktop-portal-gtk.desktop
+Portal
+
+applications-system-symbolic
+
+11
+
+/usr/libexec/xdg-desktop-portal-gtk
+4
+0
+
+
+
+
+-x-www-browser.desktop
+Preferred Browser
+
+
+
+10
+
+x-www-browser %U
+6
+0
+/usr/bin/x-www-browser
+
+
+
+-com.raspberrypi.rpi-imager-uri-handler.desktop
+Raspberry Pi Imager
+
+rpi-imager
+
+7
+
+/usr/bin/rpi-imager %u
+4
+0
+
+
+
+
+-rigcontrol.desktop
+RigControl
+SDRplay's RigControl
+/usr/share/icons/rigcontrol.ico
+
+11
+
+/opt/sdrconnect/RigControl
+2
+0
+
+
+Other;X-SDR
+
+-lxde-screenlock.desktop
+ScreenLock
+Lock your screen
+system-lock-screen
+
+11
+
+lxlock
+4
+0
+lxlock
+
+
+
+-sdrconnect.desktop
+SDRconnect
+SDRplay's SDRconnect
+/opt/sdrconnect/sdrconnect.ico
+
+7
+
+/opt/sdrconnect/SDRconnect
+2
+0
+
+
+Multimedia
+
+-squeak.desktop
+
+
+
+
+10
+
+
+4
+0
+
+
+
+
+-xtigervncviewer.desktop
+TigerVNC viewer
+Connect to VNC server and display remote desktop
+tigervnc
+
+7
+Remote desktop viewer
+/usr/bin/xtigervncviewer
+4
+0
+
+
+Network;RemoteAccess
+remote desktop,vnc
+-user-dirs-update-gtk.desktop
+User folders update
+Update common folders names to match current locale
+
+
+11
+
+xdg-user-dirs-gtk-update
+4
+-69
+
+
+
+
+-gcr-viewer.desktop
+View file
+
+
+
+11
+
+/usr/bin/gcr-viewer
+4
+0
+
+
+
+
+-realvnc-vncserverui-service.desktop
+VNC Server
+
+/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png
+
+11
+VNC Server
+
+4
+0
+
+
+
+
+-realvnc-vncserverui-virtual.desktop
+VNC Server
+
+/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png
+
+11
+VNC Server
+vncserver-x11 -virtual -showexistingstatus
+4
+0
+
+
+
+
+-realvnc-vncserverui-user.desktop
+VNC Server
+
+/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png
+
+11
+VNC Server
+vncserver-x11 -showstatus
+4
+0
+
+
+
+
+-realvnc-vnclicensewiz.desktop
+VNC Server - Licensing
+
+/usr/share/icons/hicolor/48x48/apps/vncserver48x48.png
+
+11
+VNC Server
+
+4
+0
+
+
+
+
+-realvnc-vncviewer-scheme.desktop
+VNC Viewer URL Handler
+
+
+
+11
+
+vncviewer -uri %u
+4
+0
+
+
+
+
+-org.gnome.Zenity.desktop
+Zenity
+Display dialog boxes from the command line
+
+
+11
+
+zenity
+6
+0
+
+
+
+
+
++System
+System Tools
+System configuration and monitoring
+applications-system
+lxde-system-tools.directory
+4
+0
+-org.bleachbit.BleachBit.desktop
+BleachBit
+Free space and maintain privacy
+bleachbit
+
+11
+Unnecessary file cleaner
+bleachbit
+2
+0
+bleachbit
+
+System;FileTools;GTK
+cache,clean,free,performance,privacy
+-bleachbit-root.desktop
+BleachBit (as root)
+Free space and maintain privacy
+bleachbit
+
+11
+Unnecessary file cleaner
+pkexec bleachbit
+2
+0
+pkexec
+
+System;FileTools;GTK
+cache,clean,free,performance,privacy
+-redhat-usermount.desktop
+Disk Management
+Mount and unmount filesystems
+disks
+
+11
+
+usermount
+0
+0
+
+
+X-Red-Hat-Base;System
+
+-pishutdown.desktop
+Logout
+Shutdown and logout options
+system-shutdown
+
+7
+
+pishutdown
+0
+0
+
+
+System
+
+-pi-gpk-install-local-file.desktop
+Package Install
+Install selected packages on the system
+system-software-install
+
+11
+
+pi-gpk-install-local-file %F
+6
+0
+
+
+System
+
+-pi-gpk-log.desktop
+Package Log
+View past package management tasks
+gpk-log
+
+11
+
+pi-gpk-log
+6
+0
+
+
+GNOME;GTK;System
+
+-pi-gpk-update-viewer.desktop
+Package Updater
+Update software installed on the system
+system-software-update
+
+11
+
+pi-gpk-update-viewer
+6
+-5
+
+
+GNOME;GTK;System
+
+-pi-gpk-dbus-service.desktop
+Software Install
+Install selected software on the system
+system-software-install
+
+11
+
+pi-gpk-dbus-service
+6
+0
+
+
+System
+
+-lxde-x-terminal-emulator.desktop
+Terminal emulator
+Terminal Emulator
+terminal
+
+11
+Terminal Emulator
+/usr/bin/x-terminal-emulator
+6
+0
+
+
+System;TerminalEmulator;Utility
+
+-org.freedesktop.Xwayland.desktop
+Xwayland
+A rootful instance of the Xwayland X11 server
+
+
+11
+
+/usr/bin/Xwayland -decorate -displayfd 1
+4
+0
+
+
+System
+
+
++Accessories
+Accessories
+Desktop accessories
+applications-accessories
+lxde-utility.directory
+4
+0
+-xarchiver.desktop
+Archiver
+A GTK+ only archive manager
+xarchiver
+
+10
+Archive manager
+xarchiver %f
+2
+0
+xarchiver
+
+GTK;Archiving;Compression;Utility
+GTK,android,archiver,archiving,comic book,compression,front end,frontend,library,7-zip,7z,7za,7zip,7zr,7zz,apk,ar,arj,bz2,bzip2,cab,cbz,compress,cpio,deb,epub,exe,gtar,gunzip,gz,gzip,iso,jar,jsonlz4,lbzip2,lha,lrz,lrzip,lsar,lunzip,lz,lz4,lzh,lzip,lzma,lzo,lzop,mksquashfs,mozlz4,oxt,pbzip2,pigz,plzip,rar,rar4,rar5,rpm,snap,squashfs,tar,unar,unarchiver,unarj,unrar,unsquashfs,unzip,xpi,xz,zip,zpaq,zst,Zstandard,zstd
+-galculator.desktop
+Calculator
+Perform simple and scientific calculations
+galculator
+
+10
+
+galculator
+2
+0
+galculator
+
+Utility
+
+-gucharmap.desktop
+Character Map
+Insert special characters into documents
+accessories-character-map
+
+11
+
+gucharmap
+2
+0
+
+
+GNOME;GTK;Utility
+font,unicode
+-org.gnome.DiskUtility.desktop
+Disks
+Manage Drives and Media
+org.gnome.DiskUtility
+
+11
+
+gnome-disks
+2
+0
+
+
+GNOME;GTK;Utility;X-GNOME-Utilities
+disk,drive,volume,harddisk,hdd,disc,cdrom,dvd,partition,iso,image,backup,restore,benchmark,raid,luks,encryption,S.M.A.R.T.,smart
+-org.gnome.Evince.desktop
+Document Viewer
+View multi-page documents
+org.gnome.Evince
+
+10
+
+evince %U
+2
+0
+evince
+
+GNOME;GTK;Utility;Viewer;2DGraphics;VectorGraphics
+pdf,ps,postscript,dvi,xps,djvu,tiff,document,presentation,viewer,evince
+-pcmanfm.desktop
+File Manager
+Browse the file system and manage the files
+system-file-manager
+
+10
+File Manager
+pcmanfm %U
+2
+0
+pcmanfm
+
+FileTools;FileManager;Utility;Core;GTK
+
+-gridtracker2.desktop
+GridTracker2
+GridTracker2
+gridtracker2
+
+11
+
+/opt/GridTracker2/gridtracker2 %U
+0
+0
+
+
+Utility;HamRadio
+
+-yelp.desktop
+Help
+Get help with GNOME
+org.gnome.Yelp
+
+11
+
+yelp %u
+2
+130
+
+
+GNOME;GTK;Core;Documentation;Utility
+documentation,information,manual,help
+-alacarte.desktop
+Main Menu Editor
+Add or remove applications from the main menu
+alacarte
+
+11
+
+alacarte
+2
+-5
+
+
+GNOME;Utility
+
+-agnostics.desktop
+Raspberry Pi Diagnostics
+Test the Raspberry Pi hardware
+agnostics
+
+11
+Raspberry Pi Diagnostics
+agnostics
+2
+0
+
+
+Utility
+
+-com.raspberrypi.rpi-imager.desktop
+Raspberry Pi Imager
+Tool for writing images to SD cards for Raspberry Pi
+rpi-imager
+
+11
+
+/usr/bin/rpi-imager %u
+0
+0
+
+
+Utility
+
+-org.gnome.Screenshot.desktop
+Screenshot
+Save images of your screen or individual windows
+org.gnome.Screenshot
+
+11
+
+gnome-screenshot --interactive
+2
+-5
+
+
+GTK;GNOME;Utility;X-GNOME-Utilities
+snapshot,capture,print,screenshot
+-piclone.desktop
+SD Card Copier
+Make a copy of the Raspbian SD card
+media-removable
+
+11
+SD Card Copier
+piclone
+2
+0
+
+
+Utility
+
+-sm.puri.OSK0.desktop
+Squeekboard
+An on screen virtual keyboard
+input-keyboard-symbolic
+
+11
+On Screen Keyboard
+/usr/bin/squeekboard
+4
+32
+
+
+GTK;Utility
+
+-sm.puri.Squeekboard.desktop
+Squeekboard
+An on screen virtual keyboard
+input-keyboard-symbolic
+
+11
+On Screen Keyboard
+/usr/bin/squeekboard
+4
+32
+
+
+GTK;Utility
+
+-lxtask.desktop
+Task Manager
+Manage running processes
+utilities-system-monitor
+
+10
+Process manager
+lxtask
+2
+0
+lxtask
+
+GTK;Utility;Monitor
+task,kill,suspend,processor,memory,monitoring,performance
+-lxterminal.desktop
+Terminal
+Use the command line
+lxterminal
+
+10
+Terminal
+lxterminal
+0
+0
+lxterminal
+
+GTK;Utility;TerminalEmulator
+console,command line,execute
+-org.xfce.mousepad.desktop
+Text Editor
+Simple Text Editor
+org.xfce.mousepad
+
+10
+Text Editor
+mousepad %U
+2
+0
+mousepad
+
+Utility;TextEditor;GTK
+
+-org.arrl.trustedqsl.desktop
+TQSL
+Sign Amateur Radio log files
+org.arrl.trustedqsl
+
+7
+
+tqsl %F
+0
+0
+tqsl
+
+HamRadio;Utility;FileTools
+
+-vim.desktop
+Vim
+Edit text files
+gvim
+
+11
+Text Editor
+vim %F
+1
+0
+vim
+
+Utility;TextEditor
+Text,editor
+
++Electronics
+Electronics
+
+applications-electronics
+Electronics.directory
+4
+4
+
++Universal Access
+Universal Access
+Universal Access Settings
+preferences-desktop-accessibility
+lxde-utility-accessibility.directory
+4
+4
+
+-
++Help
+Help
+Reference material
+gnome-help
+lxde-help.directory
+3
+0
+-rp-bookshelf.desktop
+Bookshelf
+Download and read Raspberry Pi Press publications
+bookshelf
+
+11
+Bookshelf
+rp-bookshelf %u
+2
+0
+
+
+Help
+
+-debian-reference-common.desktop
+Debian Reference
+Debian Reference Guide
+debian-reference
+
+10
+
+debian-reference
+0
+0
+debian-reference
+
+Help
+user,shell,command,documentation,manual,help,guide,debian
+-raspi_getstart.desktop
+Get Started
+
+rpi
+
+10
+
+x-www-browser https://rptl.io/get-started
+2
+0
+/usr/bin/x-www-browser
+
+Help
+
+-raspi_help.desktop
+Help
+
+rpi
+
+10
+
+x-www-browser https://rptl.io/help
+2
+0
+/usr/bin/x-www-browser
+
+Help
+
+-raspi_resources.desktop
+Projects
+
+rpi
+
+10
+
+x-www-browser https://rptl.io/tutorials
+2
+0
+/usr/bin/x-www-browser
+
+Help
+
+-raspi_safety.desktop
+Safety Information
+
+rpi
+
+10
+
+x-www-browser https://rptl.io/safety-info
+2
+0
+/usr/bin/x-www-browser
+
+Help
+
+-userguide.desktop
+User Guide
+Read the Raspberry Pi Beginner's Guide
+userguide
+
+11
+
+/usr/bin/userguide-open
+2
+0
+
+
+Help
+
+
+-
++DesktopSettings
+Preferences
+Personal preferences
+preferences-desktop
+lxde-settings.directory
+4
+0
+-redhat-userinfo.desktop
+About Myself
+Change personal information
+user_icon
+
+11
+
+userinfo
+0
+0
+
+
+Settings;X-GNOME-PersonalSettings
+
+-pi-packages.desktop
+Add / Remove Software
+Add or remove software installed on the system
+system-software-install
+
+11
+
+pi-packages
+2
+-5
+
+
+Settings;PackageManager
+Updates,Upgrade,Sources,Repositories,Preferences,Install,Store
+-nm-connection-editor.desktop
+Advanced Network Configuration
+Manage and change your network connection settings
+preferences-system-network
+
+11
+
+nm-connection-editor
+2
+0
+
+
+GNOME;GTK;Settings;X-GNOME-NetworkSettings;X-GNOME-Utilities
+
+-rpcc.desktop
+Control Centre
+Configure Raspberry Pi Desktop
+applications-system
+
+11
+
+rpcc
+2
+0
+rpcc
+
+GTK;Settings;HardwareSettings;X-LXDE-Settings
+
+-lightdm-gtk-greeter-settings.desktop
+LightDM GTK Greeter settings
+Configure LightDM GTK Greeter
+lightdm-gtk-greeter-settings
+
+11
+
+lightdm-gtk-greeter-settings-pkexec
+0
+0
+
+
+GNOME;GTK;Settings;System;Utility;X-XFCE-SettingsDialog;X-XFCE-SystemSettings
+Configuration,Utility
+-pi-gpk-prefs.desktop
+Package Sources
+Enable or disable package repositories
+gpk-prefs
+
+11
+
+pi-gpk-prefs
+6
+-5
+
+
+Settings;X-GNOME-SystemSettings
+
+-redhat-userpasswd.desktop
+Password
+Change your login password
+password
+
+11
+
+userpasswd
+0
+0
+
+
+X-Red-Hat-Base;X-GNOME-PersonalSettings;Settings
+
+-paprefs.desktop
+PulseAudio Preferences
+View and modify the configuration of the local sound server
+preferences-desktop
+
+11
+Sound Server Preferences
+paprefs
+2
+0
+
+
+Settings
+Microphone,Headset,Speakers,Headphones,Audio,Output,Input,Devices,Playback,Recording,System Sounds,Sound Card,Multicast/RTP,DLNA/UPnP
+-qt5ct.desktop
+Qt5 Settings
+Qt5 Configuration Tool
+preferences-desktop-theme
+
+10
+
+qt5ct
+4
+0
+
+
+Settings;DesktopSettings;Qt
+settings,desktop,qt,qtsettings,qt5
+-rp-prefapps.desktop
+Recommended Software
+Install additional programs recommended for use on the Pi
+rp-prefapps
+
+11
+Recommended Software
+rp-prefapps
+2
+0
+
+
+Settings;DesktopSettings;GTK;X-LXDE-Settings
+
+-shares.desktop
+Shared Folders
+Configure which folders are available for your network neighborhood
+folder-remote
+
+11
+
+shares-admin
+6
+0
+
+
+GNOME;GTK;System;Settings;X-GNOME-NetworkSettings
+
+-time.desktop
+Time and Date
+Change system time, date, and timezone
+time-admin
+
+11
+
+time-admin
+2
+0
+
+
+GNOME;GTK;System;Settings
+
+-users.desktop
+Users and Groups
+Add or remove users and groups
+config-users
+
+11
+
+users-admin
+2
+0
+
+
+GNOME;GTK;System;Settings
+
+
+

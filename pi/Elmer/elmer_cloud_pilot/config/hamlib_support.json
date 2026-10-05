@@ -1,0 +1,13 @@
+{
+  "models": [
+    {
+      "manufacturer": "Yaesu",
+      "model": "FTDX-10",
+      "aliases": ["FTDX-10", "FTDX10", "FT DX 10"],
+      "first_supported_version": "4.1",
+      "introduced_at": "2020-12-29",
+      "evidence": "Hamlib commit e95df17e2c0a added the missing FTDX-10 backend files on 2020-12-29, after the Hamlib 4.0 release and before the Hamlib 4.1 release. The backend is present in the Hamlib 4.1 source tag. Therefore Hamlib 4.1 is the first released version containing FTDX-10 support.",
+      "reference": "https://github.com/Hamlib/Hamlib/commit/e95df17e2c0a"
+    }
+  ]
+}

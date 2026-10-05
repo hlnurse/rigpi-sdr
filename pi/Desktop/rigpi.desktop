@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=RigPi-SDR
+Comment=Launch RigPi
+Exec=chromium --app=http://localhost:80
+Icon=/var/www/html/Images/RigPiW.png
+Categories=Hamradio;

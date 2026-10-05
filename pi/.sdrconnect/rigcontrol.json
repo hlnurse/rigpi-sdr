@@ -1,0 +1,8 @@
+{
+  "Port": "/dev/ttyAMA10",
+  "Baud": 115200,
+  "Manufacturer": "Icom",
+  "ModelName": "IC-7300",
+  "RigNumber": 1,
+  "SelectedRigInterface": "HamLib"
+}

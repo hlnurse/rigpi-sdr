@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Technical &gt; RigPi Elmer-SDR</title>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi Elmer-SDR — Technical Reference RigPi 5 Software Defined Radio Architecture &nbsp;System Architecture ELMER runs as a Python/Flask web server on the Raspberry Pi 5, integrated" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: 4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("RigPi.html", "rigpi-sdr2.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">RigPi Elmer-SDR</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="RigPi.html?rigpi-sdr2.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="technical.html">Technical</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">RigPi Elmer-SDR</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="system2.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="technical.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="troubleshooting.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick=";$('div#idcontent').css('margin-top', '1em');window.print();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<h1 class="p_Heading1" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 19px; color: #000000;">RigPi Elmer-SDR — Technical Reference</span></h1>
+<h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">RigPi 5 Software Defined Radio Architecture</span></h2>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">System Architecture</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">ELMER runs as a Python/Flask web server on the Raspberry Pi 5, integrated with the RigPi Station Server platform. The browser client communicates via WebSocket (spectrum data), WebRTC (audio), and REST API (control).</p>
+<p class="p_CodeExample" style="margin: 7px 0 0 0;"><span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Browser</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;├──&nbsp;WebSocket&nbsp;/ws/spectrum&nbsp;&nbsp;→&nbsp;Real-time&nbsp;FFT/waterfall&nbsp;data</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;├──&nbsp;WebRTC&nbsp;audio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;Demodulated&nbsp;audio&nbsp;stream</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;└──&nbsp;REST&nbsp;API&nbsp;/api/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;Control,&nbsp;state,&nbsp;spots,&nbsp;workability</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Flask/Gevent&nbsp;Server&nbsp;(sdr_web_server_minimal.py)</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;├──&nbsp;SoapySDR&nbsp;Engine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;Hardware&nbsp;abstraction</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;├──&nbsp;FFT/DSP&nbsp;Pipeline&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;NumPy&nbsp;demodulation</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;├──&nbsp;RigPi&nbsp;DB&nbsp;(MariaDB)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;User&nbsp;settings,&nbsp;spots,&nbsp;log</span><br />
+<span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;&nbsp;└──&nbsp;External&nbsp;APIs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;NOAA,&nbsp;PSKReporter,&nbsp;QRZ,&nbsp;etc.</span></p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Files</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">File</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Location</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Purpose</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>sdr_web_server_minimal.py</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Main server</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>index.html</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Browser client</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>elmer_workability.py</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Workability engine</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>lotw_users.csv</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>LoTW user cache</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Instance configs</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/config/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Per-port settings</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>User settings</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/home/pi/sdr_web/config/users/</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Per-user JSON</p>
+</td>
+</tr>
+</table>
+</div>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Services</span></h3>
+<p class="p_CodeExample" style="margin: 9px 0 0 0;">sudo&nbsp;systemctl&nbsp;start&nbsp;sdr_web@8001&nbsp;&nbsp;&nbsp;#&nbsp;AirSpy&nbsp;HF+<br />
+sudo&nbsp;systemctl&nbsp;start&nbsp;sdr_web@8002&nbsp;&nbsp;&nbsp;#&nbsp;RTL-SDR<br />
+sudo&nbsp;systemctl&nbsp;status&nbsp;sdr_web@8001&nbsp;&nbsp;#&nbsp;Check&nbsp;status</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Hardware Support</span></h2>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">AirSpy HF+ (Port 8001)</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Driver:</span> airspyhf via SoapySDR</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Coverage:</span> 9 kHz – 31 MHz, 60–260 MHz</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Sample rates:</span> 192 kHz – 912 kHz</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Measured MDS:</span> −136 dBm (spec −140 dBm)</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Serial:</span> Configured in config/instance_8001.json</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">RTL-SDR / Nooelec SMART (Port 8002)</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Driver:</span> rtlsdr via SoapySDR</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Coverage:</span> 500 kHz – 1.75 GHz (HF with direct sampling)</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">HF direct sampling:</span> Set device_args to direct_samp=2 (high HF) or direct_samp=1</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Sample rates:</span> 250 kHz – 2.4 MHz</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">SDRplay RSP-ST</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Integration:</span> SDRConnect 1.0.8 WebSocket API</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Connection:</span> Via Remote tab → SDRConnect section</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Port:</span> Configurable in SDRConnect settings</p><hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">REST API Reference</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">All endpoints are relative to http://rigpi5.local:800x/api/</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Core Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/state</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Full user state and SDR status</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/control</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Send control commands</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/tune</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Tune to frequency</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/spectrum</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Current FFT snapshot</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/device</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>SDR device info</p>
+</td>
+</tr>
+</table>
+</div>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Audio Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/audio/offer</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>WebRTC SDP offer for RX audio</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/audio/tx_offer</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>WebRTC SDP offer for TX audio</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/audio/state</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Audio pipeline status</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/audio/devices</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Available ALSA devices</p>
+</td>
+</tr>
+</table>
+</div>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">ELMER Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/workability</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Workability Index for a callsign</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/log_lookup</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Log history and award status</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/signal_check</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Signal detection at frequency</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/contests</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Upcoming contests (WA7BNM RSS)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/lotw_check</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>LoTW status for callsign</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/spots</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Current DX spots from RigPi</p>
+</td>
+</tr>
+</table>
+</div>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Remote SDR Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/kiwisdr_list</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>GET</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Combined KiwiSDR + OpenWebRX list</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/kiwisdr_connect</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Connect to remote receiver</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>/api/kiwisdr_disconnect</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>POST</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Disconnect remote receiver</p>
+</td>
+</tr>
+</table>
+</div>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Workability API Parameters</span></h3>
+<p class="p_CodeExample" style="margin: 9px 0 0 0;"><span class="f_CodeExample" style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET&nbsp;/api/workability?target_call=3B9G&amp;target_grid=MH10&amp;band=20m&amp;cluster_spots=3&amp;user=admin</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Parameter</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>target_call</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>DX callsign (required)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>target_grid</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Maidenhead grid (optional — QRZ lookup if omitted)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>band</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Band string: 160m, 80m, 40m, 30m, 20m, 17m, 15m, 12m, 10m, 6m</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>cluster_spots</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Recent spot count (optional)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>beam_heading</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Override antenna heading in degrees</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>user</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Username for station parameters</p>
+</td>
+</tr>
+</table>
+</div>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">External Data Sources</span></h2>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">NOAA Space Weather Prediction Center</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Solar flux (SFI):</span> https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">K-index:</span> https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Cache:</span> 15 minutes</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">No authentication required</span></p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">PSKReporter</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">URL:</span> https://retrieve.pskreporter.info/query</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Usage:</span> Query stations hearing the DX callsign in the last hour</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Parameters:</span> senderCallsign=, flowStartSeconds=-3600</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Returns:</span> XML with receiver callsigns, locators, frequencies, modes</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">No authentication required</span></p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Rate limit:</span> Use sparingly — 1 query per workability fetch</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">ARRL DX Bulletin</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Archive:</span> http://www.arrl.org/w1aw-bulletins-archive-dx</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Content:</span> http://www.arrl.org/w1awbulletinsdxissue?issue=YYYY-MM-DD&amp;code=ARLDxxx</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Format:</span> Text within ZCZC ... NNNN markers</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Cache:</span> 1 hour</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">No authentication required</span></p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">QRZ XML API</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">URL:</span> https://xmldata.qrz.com/xml/current/</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Authentication:</span> QRZ username and password (stored in RigPi Users table)</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Returns:</span> Grid square, name, address, LoTW status, photo URL, biography</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Credentials:</span> Stored in station.Users table fields qrzUser, qrzPWD</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Subscription:</span> QRZ XML access requires a QRZ account (free or paid)</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Logbook of the World (LoTW)</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">User list:</span> https://lotw.arrl.org/lotw-user-activity.csv</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Format:</span> CALLSIGN,DATE,TIME — 230,000+ entries</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Cache:</span> Downloaded to /home/pi/sdr_web/lotw_users.csv</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Update:</span> Download periodically with:</p><p class="p_CodeExample">curl&nbsp;-o&nbsp;/home/pi/sdr_web/lotw_users.csv&nbsp;https://lotw.arrl.org/lotw-user-activity.csvsudo&nbsp;systemctl&nbsp;restart&nbsp;sdr_web@8001</p>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Loaded into memory</span> at server startup for instant O(1) lookups</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">DXSummit</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">API:</span> http://www.dxsummit.fi/api/v1/spots?dx_calls=CALL&amp;limit=100</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Returns:</span> JSON array of spots with frequency, time, spotter, info</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Usage:</span> Activity window analysis — typical operating hours and bands</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">No authentication required</span></p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">WA7BNM Contest Calendar</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">RSS:</span> https://www.contestcalendar.com/calendar.rss</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Returns:</span> RSS 2.0 with contest name, date/time, description</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Updates:</span> Daily</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">No authentication required</span></p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Credit:</span> Bruce Horn WA7BNM — https://www.contestcalendar.com</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">DX Cluster / RigPi Spot Manager</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Source:</span> RigPi MariaDB station.Clusters table</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Update:</span> System → Update Cluster List button (fetches from dxcluster.info)</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">Count:</span> 900+ clusters worldwide</p><hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Workability Index Algorithm</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">The scoring engine (elmer_workability.py) computes a weighted composite score:</p>
+<p class="p_CodeExample" style="margin: 7px 0 0 0;">WEIGHTS&nbsp;=&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'pskreporter':&nbsp;0.20,&nbsp;&nbsp;#&nbsp;Real-time&nbsp;propagation&nbsp;evidence<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'band_muf':&nbsp;&nbsp;&nbsp;&nbsp;0.18,&nbsp;&nbsp;#&nbsp;Band&nbsp;usability&nbsp;for&nbsp;path<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'grayline':&nbsp;&nbsp;&nbsp;&nbsp;0.15,&nbsp;&nbsp;#&nbsp;Solar&nbsp;terminator&nbsp;alignment<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'solar':&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.15,&nbsp;&nbsp;#&nbsp;SFI&nbsp;and&nbsp;K-index<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'bulletin':&nbsp;&nbsp;&nbsp;&nbsp;0.12,&nbsp;&nbsp;#&nbsp;DXpedition&nbsp;confirmed&nbsp;active<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'antenna':&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.10,&nbsp;&nbsp;#&nbsp;Beam&nbsp;alignment<br />
+&nbsp;&nbsp;&nbsp;&nbsp;'cluster':&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.10,&nbsp;&nbsp;#&nbsp;Recent&nbsp;spot&nbsp;activity<br />
+}</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">MUF Estimation</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Band MUF is estimated using a simplified formula based on solar flux (SFI) and path distance:</p>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Short paths (&lt;500 km): Near-vertical incidence, lower MUF</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Medium paths (500-8000 km): Standard ionospheric reflection</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Long paths (&gt;8000 km): Multiple hops, reduced MUF</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Grayline Score</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Sun elevation is calculated at both path endpoints:</p>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Terminator zone (−6° to +6° elevation): Score 1.0</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Twilight zone (−12° to +12°): Score 0.7</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Night (&lt; −18°): Score 0.4</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>Full daylight: Score 0.2</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Activity Window Analysis</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">DXSummit spots are parsed for UTC hour distribution. The algorithm finds the longest contiguous window of activity (allowing 1-hour gaps) to determine typical operating hours.</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">RigPi Database Integration</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">ELMER reads from the RigPi MariaDB station database:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 7px 0 0 0;"><table style="border:none; border-spacing:1px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Table</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p><span style="font-weight: bold;">Fields Used</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Users</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>MyCall, My_Grid, qrzUser, qrzPWD</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>RadioInterface</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>RotorAzOut, powerOut</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>MySettings</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>RotorID (1=Dummy/no rotor)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Logbook</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>QSO history, confirmations</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Prefixes</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>DXCC entity data, CQ zone, continent</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p>Clusters</p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p>DX cluster list</p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Connection:</span> ham / 7388 / station (localhost)</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Award Tracking</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">The /api/log_lookup endpoint computes award status from the Logbook:</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">DXCC</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Counts unique DXCC entity numbers. Confirmed = LoTWReceived='Y' OR QSL_R='Y' OR eQSLReceived='Y'.</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">WAC (Worked All Continents)</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Checks His_Continent for all 6 continents: AF, AN, AS, EU, NA, OC, SA.</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">WAZ (Worked All Zones)</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Checks CQZone for all 40 CQ zones.</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">WAS (Worked All States)</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Checks His_State for US contacts (His_Country LIKE '%United States%').</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Multi-Instance Configuration</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">Each SDR instance has its own config file:</p>
+<p class="p_CodeExample" style="margin: 7px 0 0 0;">//&nbsp;/home/pi/sdr_web/config/instance_8001.json<br />
+{<br />
+&nbsp;&nbsp;&quot;port&quot;:&nbsp;8001,<br />
+&nbsp;&nbsp;&quot;device_driver&quot;:&nbsp;&quot;airspyhf&quot;,<br />
+&nbsp;&nbsp;&quot;device_serial&quot;:&nbsp;&quot;c8529780ea4946c7&quot;,<br />
+&nbsp;&nbsp;&quot;rigport&quot;:&nbsp;4532,<br />
+&nbsp;&nbsp;&quot;label&quot;:&nbsp;&quot;AirSpy&nbsp;HF+&nbsp;1&quot;,<br />
+&nbsp;&nbsp;&quot;rigpi_url&quot;:&nbsp;&quot;http://localhost&quot;,<br />
+&nbsp;&nbsp;&quot;device_args&quot;:&nbsp;&quot;&quot;<br />
+}</p>
+<p class="p_Normal" style="margin: 7px 0 0 0;">device_args supports SoapySDR key=value pairs, e.g. direct_samp=2 for RTL-SDR HF direct sampling.</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Cloudflare Tunnel</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;">ELMER is accessible remotely via Cloudflare Tunnel:</p>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>https://sdr.rigpi.org — Port 8001 (AirSpy HF+)</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>https://sdr8001.rigpi.org — Port 8001 alternate</p><p class="p_Normal" style="margin: 7px 0 0 0;">Configure in /etc/cloudflared/config.yml. Enable/disable in RigPi System settings.</p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Note:</span> HTTPS via Cloudflare enables browser clipboard API for formatted copy/paste from the Workability report.</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Maintenance</span></h2>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Update LoTW Cache</span></h3>
+<p class="p_CodeExample" style="margin: 9px 0 0 0;">cd&nbsp;/home/pi/sdr_web<br />
+curl&nbsp;-o&nbsp;lotw_users.csv&nbsp;https://lotw.arrl.org/lotw-user-activity.csv<br />
+sudo&nbsp;systemctl&nbsp;restart&nbsp;sdr_web@8001</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Update Cluster List</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">RigPi → System → Update Cluster List</p>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Factory Reset</span></h3>
+<p class="p_CodeExample" style="margin: 9px 0 0 0;">sudo&nbsp;/home/pi/sdr_web/factory_reset.sh</p>
+<p class="p_Normal" style="margin: 7px 0 0 0;">Resets all SDR settings, clears user configs, resets passwords:</p>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>admin: 7388</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>guest1: 7389</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>guest2: 7390</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>guest3: 7391</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Backup</span></h3>
+<p class="p_Normal" style="margin: 9px 0 0 0;">The factory reset script creates a timestamped backup ZIP before resetting. Manual backup:</p>
+<p class="p_CodeExample" style="margin: 7px 0 0 0;">cp&nbsp;/home/pi/sdr_web/index.html&nbsp;/home/pi/sdr_web/index.html.backup<br />
+cp&nbsp;/home/pi/sdr_web/sdr_web_server_minimal.py&nbsp;/home/pi/sdr_web/sdr_web_server_minimal.py.backup</p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Dependencies</span></h2>
+<h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">Python Packages (venv)</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>flask, gevent — Web server</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>numpy, scipy — DSP/FFT</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>SoapySDR — Hardware abstraction</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>aiortc, av — WebRTC audio</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>pymysql — MariaDB connection</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>pyee — Event emitter</p><h3 class="p_Heading3" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading3" style="font-size: 15px;">System</span></h3>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>SoapySDR with airspyhf and rtlsdr modules</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>nginx — Reverse proxy</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>MariaDB — RigPi database</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span>systemd — Service management</p><hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 class="p_Heading2" style="page-break-after: avoid; margin: 9px 0 0 0;"><span class="f_Heading2" style="font-size: 15px;">Credits</span></h2>
+<p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">ELMER SDR</span> — Howard Nurse W6HN</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">RigPi Station Server</span> — Howard Nurse W6HN</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">SoapySDR</span> — Pothosware</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">WA7BNM Contest Calendar</span> — Bruce Horn WA7BNM</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">PSKReporter</span> — Philip Gladstone N1DQ</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">DXSummit</span> — OH2BUA / Suomen Radioamatööriliitto</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">LoTW</span> — ARRL Logbook of the World</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">QRZ</span> — QRZ.com</p><p style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-weight: bold;">NOAA SWPC</span> — National Oceanic and Atmospheric Administration</p>
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

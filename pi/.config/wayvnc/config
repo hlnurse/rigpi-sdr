@@ -1,0 +1,5 @@
+address=0.0.0.0
+port=5900
+enable_auth=true
+username=pi
+password=7388

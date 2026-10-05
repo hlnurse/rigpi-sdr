@@ -1,0 +1,1 @@
+No syntax errors detected in /tmp/index.php.new

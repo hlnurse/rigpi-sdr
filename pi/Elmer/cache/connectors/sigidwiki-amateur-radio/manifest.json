@@ -1,0 +1,7 @@
+{
+  "connector_id": "sigidwiki-amateur-radio",
+  "api_url": "https://www.sigidwiki.com/api.php",
+  "category": "Category:Amateur Radio",
+  "synced_at": "2026-08-24T19:24:27.710157+00:00",
+  "pages": 86
+}

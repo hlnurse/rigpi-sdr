@@ -1,0 +1,1 @@
+www-data  736654       1  0 18:39 ?        00:00:01 php /var/www/html/CWDo.php admin radio1 cat /dev/ttyS0 0 0 12341

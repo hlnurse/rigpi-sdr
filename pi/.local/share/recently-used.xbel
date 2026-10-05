@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel version="1.0"
+      xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+      xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
+  <bookmark href="file:///home/pi" added="2026-02-16T17:00:15.228961Z" modified="2026-02-16T17:00:15.228967Z" visited="2026-02-16T17:00:15.228962Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="pcmanfm" exec="&apos;pcmanfm %u&apos;" modified="2026-02-16T17:00:15.228964Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/rpd-wallpaper/sand.jpg" added="2026-03-16T15:40:44.954718Z" modified="2026-03-16T15:40:44.954728Z" visited="2026-03-16T15:40:44.954720Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:applications>
+          <bookmark:application name="rpcc" exec="&apos;rpcc %u&apos;" modified="2026-03-16T15:40:44.954722Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/SDRplay_RSP_API-Linux-3.15.2.run" added="2026-03-31T22:41:29.642197Z" modified="2026-05-07T15:56:44.923385Z" visited="2026-03-31T22:41:29.642199Z">
+    <desc>Language: ; Encoding: ISO-8859-1; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-05-07T15:56:44.923382Z" count="6"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/SDRplay_RSP_API-ARM64-2.13.1.run" added="2026-03-31T22:51:38.535471Z" modified="2026-03-31T22:51:38.535512Z" visited="2026-03-31T22:51:38.535472Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2026-03-31T22:51:38.535509Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/TigerVNC%20-%20Browse%20_stable_1.16.2%20at%20SourceForge.net.html" added="2026-04-08T02:37:32.900660Z" modified="2026-04-08T02:37:33.150701Z" visited="2026-04-08T02:37:32.900661Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="xdg-desktop-portal-gtk" exec="&apos;xdg-desktop-portal-gtk %u&apos;" modified="2026-04-08T02:37:32.900663Z" count="1"/>
+          <bookmark:application name="org.chromium.Chromium" exec="&apos;gio open %u&apos;" modified="2026-04-08T02:37:33.150696Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/applications/wsjtx.desktop" added="2026-04-29T13:04:01.047511Z" modified="2026-04-29T13:06:49.360320Z" visited="2026-04-29T13:04:01.047512Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-04-29T13:06:49.360316Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/.local/share/applications/sdrconnect.desktop" added="2026-04-29T19:52:23.188840Z" modified="2026-04-29T19:53:24.121603Z" visited="2026-04-29T19:52:23.188859Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-04-29T19:53:24.121599Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Desktop/station.sql.zip" added="2026-05-05T15:24:42.835356Z" modified="2026-05-05T15:24:42.857655Z" visited="2026-05-05T15:24:42.835358Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="org.chromium.Chromium" exec="&apos;gio open %u&apos;" modified="2026-05-05T15:24:42.835361Z" count="1"/>
+          <bookmark:application name="xdg-desktop-portal-gtk" exec="&apos;xdg-desktop-portal-gtk %u&apos;" modified="2026-05-05T15:24:42.857650Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/stationC.sql" added="2026-05-05T15:29:50.161357Z" modified="2026-05-05T15:29:50.185600Z" visited="2026-05-05T15:29:50.161359Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/sql"/>
+        <bookmark:applications>
+          <bookmark:application name="org.chromium.Chromium" exec="&apos;gio open %u&apos;" modified="2026-05-05T15:29:50.161361Z" count="1"/>
+          <bookmark:application name="xdg-desktop-portal-gtk" exec="&apos;xdg-desktop-portal-gtk %u&apos;" modified="2026-05-05T15:29:50.185596Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/stationC.sql.zip" added="2026-05-05T15:32:13.291044Z" modified="2026-05-05T15:32:13.316437Z" visited="2026-05-05T15:32:13.291045Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="org.chromium.Chromium" exec="&apos;gio open %u&apos;" modified="2026-05-05T15:32:13.291048Z" count="1"/>
+          <bookmark:application name="xdg-desktop-portal-gtk" exec="&apos;xdg-desktop-portal-gtk %u&apos;" modified="2026-05-05T15:32:13.316431Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/applications/dk.gqrx.gqrx.desktop" added="2026-05-05T15:58:35.421950Z" modified="2026-05-05T20:26:35.622308Z" visited="2026-05-05T15:58:35.421951Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 19:12;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-05-05T20:26:35.622306Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/applications/dk.gqrx.gqrx1.desktop" added="2026-05-05T20:26:24.179760Z" modified="2026-05-05T20:26:24.179773Z" visited="2026-05-05T20:26:24.179763Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-desktop"/>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-05-05T20:26:24.179767Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/rpd-wallpaper/fisherman_4k.jpg" added="2026-05-15T12:38:28.491011Z" modified="2026-09-12T21:03:39.195224Z" visited="2026-05-15T12:38:28.491012Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:applications>
+          <bookmark:application name="rpcc" exec="&apos;rpcc %u&apos;" modified="2026-09-12T21:03:39.195221Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/rpd-wallpaper/fisherman.jpg" added="2026-05-15T13:25:54.247497Z" modified="2026-05-15T13:25:54.247506Z" visited="2026-05-15T13:25:54.247499Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/jpeg"/>
+        <bookmark:applications>
+          <bookmark:application name="rpcc" exec="&apos;rpcc %u&apos;" modified="2026-05-15T13:25:54.247502Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///opt/sdrconnect/NRSPAdministrator" added="2026-05-16T14:49:11.242152Z" modified="2026-05-16T14:57:47.703061Z" visited="2026-05-16T14:49:11.242153Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="alacarte" exec="&apos;alacarte %u&apos;" modified="2026-05-16T14:57:47.703059Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Desktop/nrspadministrator.desktop" added="2026-05-16T15:03:31.162033Z" modified="2026-05-16T15:17:33.512692Z" visited="2026-05-16T15:03:31.162035Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-05-16T15:17:33.512688Z" count="8"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Desktop/nrspadministrator.desktop.save" added="2026-05-16T15:07:28.347129Z" modified="2026-05-16T15:09:00.016970Z" visited="2026-05-16T15:07:28.347130Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 16:20;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-05-16T15:09:00.016967Z" count="4"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Desktop/rigpi.desktop" added="2026-07-03T21:39:18.003011Z" modified="2026-07-21T20:28:13.720948Z" visited="2026-07-03T21:39:18.003011Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 6:47;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-07-21T20:28:13.720946Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///tmp/rx888_spectrum_comparison.png" added="2026-07-14T01:14:42.322350Z" modified="2026-07-14T01:14:42.417192Z" visited="2026-07-14T01:14:42.322352Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/png"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Eye of MATE Image Viewer" exec="&apos;eom %u&apos;" modified="2026-07-14T01:14:42.417189Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/.local/share/WSJT-X/wsjtx.log" added="2026-07-21T20:27:35.484512Z" modified="2026-07-21T20:27:52.281735Z" visited="2026-07-21T20:27:35.484513Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-07-21T20:27:52.281732Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/sdrconnect_linux-arm64_d34bf923c.tar.gz.sha256" added="2026-08-02T12:46:42.496639Z" modified="2026-08-02T20:29:00.674319Z" visited="2026-08-02T12:46:42.496640Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:107;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-08-02T20:29:00.674315Z" count="6"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/Downloads/tqsl-2.8.6/INSTALL" added="2026-09-15T20:25:30.127740Z" modified="2026-09-15T20:43:10.255095Z" visited="2026-09-15T20:25:30.127741Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 34:56;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-09-15T20:43:10.255091Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/.local/share/WSJT-X/wsjtx_syslog.log" added="2026-09-16T13:12:44.073859Z" modified="2026-09-16T13:15:35.240262Z" visited="2026-09-16T13:12:44.073860Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-09-16T13:15:35.240259Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///usr/share/pixmaps/wsjtx_icon.png" added="2026-09-16T13:43:41.159707Z" modified="2026-09-16T13:43:41.159717Z" visited="2026-09-16T13:43:41.159708Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/png"/>
+        <bookmark:applications>
+          <bookmark:application name="rpcc" exec="&apos;rpcc %u&apos;" modified="2026-09-16T13:43:41.159711Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/pi/.local/share/JS8Call/js8call_log.adi" added="2026-09-17T22:33:52.975383Z" modified="2026-09-17T22:33:57.473711Z" visited="2026-09-17T22:33:52.975385Z">
+    <desc>Language: ; Encoding: UTF-8; Cursor: 0:0;</desc>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>Mousepad</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Mousepad" exec="&apos;mousepad %u&apos;" modified="2026-09-17T22:33:57.473706Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+</xbel>

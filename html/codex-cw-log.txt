@@ -1,0 +1,120 @@
+2026-09-03 22:46:14 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:14 Socket read: RPRT 0
+2026-09-03 22:46:14 Socket read: CW
+500
+2026-09-03 22:46:14 Socket read: 0
+2026-09-03 22:46:14 Socket read: 28074000
+2026-09-03 22:46:14 Read freq: 28074000 length: 8
+2026-09-03 22:46:14 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:14 Socket read: RPRT 0
+2026-09-03 22:46:14 Socket read: 0
+VFOA
+2026-09-03 22:46:14 Check split: 0
+VFOA
+2026-09-03 22:46:14 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:14 Socket read: RPRT 0
+2026-09-03 22:46:14 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:14 Socket read: RPRT 0
+2026-09-03 22:46:14 Socket read: CW
+500
+2026-09-03 22:46:15 Socket read: 0
+2026-09-03 22:46:15 Socket read: 28074000
+2026-09-03 22:46:15 Read freq: 28074000 length: 8
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 Socket read: 0
+VFOA
+2026-09-03 22:46:15 Check split: 0
+VFOA
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 Socket read: CW
+500
+2026-09-03 22:46:15 Socket read: 0.411765
+2026-09-03 22:46:15 Socket read: 0.521569
+2026-09-03 22:46:15 Socket read: 0
+2026-09-03 22:46:15 Socket read: 0.447059
+2026-09-03 22:46:15 Socket read: 0.498039
+2026-09-03 22:46:15 Socket read: 0
+2026-09-03 22:46:15 Socket read: 28074000
+2026-09-03 22:46:15 Read freq: 28074000 length: 8
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 Socket read: 0
+VFOA
+2026-09-03 22:46:15 Check split: 0
+VFOA
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 Socket read: -54
+2026-09-03 22:46:15 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:15 Socket read: RPRT 0
+2026-09-03 22:46:15 Socket read: CW
+500
+2026-09-03 22:46:16 Socket read: 0
+2026-09-03 22:46:16 Socket read: 28074000
+2026-09-03 22:46:16 Read freq: 28074000 length: 8
+2026-09-03 22:46:16 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:16 Socket read: RPRT 0
+2026-09-03 22:46:16 Socket read: 0
+VFOA
+2026-09-03 22:46:16 Check split: 0
+VFOA
+2026-09-03 22:46:16 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:16 Socket read: RPRT 0
+2026-09-03 22:46:16 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:16 Socket read: RPRT 0
+2026-09-03 22:46:16 Socket read: CW
+500
+2026-09-03 22:46:16 Socket read: 0
+2026-09-03 22:46:16 Socket read: 28074000
+2026-09-03 22:46:16 Read freq: 28074000 length: 8
+2026-09-03 22:46:16 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:16 Socket read: RPRT 0
+2026-09-03 22:46:16 Socket read: 0
+VFOA
+2026-09-03 22:46:16 Check split: 0
+VFOA
+2026-09-03 22:46:16 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:17 Socket read: RPRT 0
+2026-09-03 22:46:17 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:17 Socket read: RPRT 0
+2026-09-03 22:46:17 Socket read: CW
+500
+2026-09-03 22:46:17 Socket read: 0
+2026-09-03 22:46:17 Socket read: 28074000
+2026-09-03 22:46:17 Read freq: 28074000 length: 8
+2026-09-03 22:46:17 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:17 Socket read: RPRT 0
+2026-09-03 22:46:17 Socket read: 0
+VFOA
+2026-09-03 22:46:17 Check split: 0
+VFOA
+2026-09-03 22:46:17 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:17 Socket read: RPRT 0
+2026-09-03 22:46:17 Socket read: -54
+2026-09-03 22:46:17 
+XXXXXX *\rigpi_tune_off
+2026-09-03 22:46:17 Socket read: RPRT 0
+2026-09-03 22:46:17 Socket read: CW
+500

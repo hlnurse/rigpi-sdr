@@ -1,0 +1,12 @@
+{
+  "connector_id": "rigpi-github",
+  "owner": "hlnurse",
+  "repository": "rigpi",
+  "default_branch": "master",
+  "commit": "567168378fa98453fe268984775da4faf1a0b3ad",
+  "synced_at": "2026-08-13T16:09:09.334770+00:00",
+  "releases": 1,
+  "issues": 5,
+  "issue_comments": 37,
+  "wiki_synced": false
+}

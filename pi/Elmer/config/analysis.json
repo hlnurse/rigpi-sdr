@@ -1,0 +1,82 @@
+{
+  "help": {
+    "home_page": "RigPi.html",
+    "minimum_page_words": 100,
+    "exclude_files": [],
+    "exclude_directories": [
+      "jstopics"
+    ],
+    "html_extensions": [
+      ".html",
+      ".htm"
+    ]
+  },
+  "link_check": {
+    "check_external_links": false,
+    "timeout_seconds": 10,
+    "follow_redirects": true,
+    "ignored_patterns": [
+      "https://<*",
+      "http://<*",
+      "mailto:*",
+      "javascript:*",
+      "#*"
+    ],
+    "review_patterns": [
+      "*.local",
+      "localhost*",
+      "127.0.0.1*"
+    ],
+    "ignored_domains": []
+  },
+  "analysis": {
+    "legacy_terms": [
+      "Mumble",
+      "PulseAudio",
+      "Cloudflare Argo",
+      "Bookworm Beta",
+      "Hamlib 4.2"
+    ],
+    "oversized_image_bytes": 1000000,
+    "report_unused_images": true,
+    "report_orphan_pages": true,
+    "knowledge_analysis": {
+      "enabled": true,
+      "top_topics": 25,
+      "top_threads": 20,
+      "minimum_topic_length": 3,
+      "gap_minimum_messages": 5,
+      "stop_words": [
+        "the",
+        "and",
+        "for",
+        "that",
+        "this",
+        "with",
+        "from",
+        "have",
+        "your",
+        "you",
+        "are",
+        "was",
+        "were",
+        "but",
+        "not",
+        "can",
+        "how",
+        "what",
+        "when",
+        "where",
+        "who",
+        "why",
+        "re",
+        "fw",
+        "fwd",
+        "rigpi",
+        "help",
+        "question",
+        "problem"
+      ]
+    }
+  }
+}

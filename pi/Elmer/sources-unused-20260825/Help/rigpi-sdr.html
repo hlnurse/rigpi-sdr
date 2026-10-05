@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Views &gt; RigPi-SDR</title>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi-SDR Tuned to Local FM Station &nbsp;RigPi-SDR: Software Defined Radio for RigPi RigPi-SDR is an integrated software defined radio application built directly into the RigPi st" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: 4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("RigPi.html", "rigpi-sdr.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">RigPi-SDR</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="RigPi.html?rigpi-sdr.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="views.html">Views</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">RigPi-SDR</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="tuner.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="views.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="rigpi-lite.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick=";$('div#idcontent').css('margin-top', '1em');window.print();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<div style="text-align: center; margin: 9px 0 0 0;"><div style="margin:0 auto 0 auto;width:75%;max-width:1743px;height:auto;"><img alt="RigPi-SDR" style="width:100%;height:auto;border:none" src="rigpi-sdr.png"/></div></div>
+<h1 style="text-align: center; margin: 9px 0 0 0;"><span class="f_ImageCaption" style="font-size: 16px;">RigPi-SDR Tuned to Local FM Station</span></h1>
+<h1 style="margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; color: #000000;">&nbsp;</span></h1>
+<h1 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-weight: bold;">RigPi-SDR: Software Defined Radio for RigPi</span></h1>
+<p style="margin: 9px 0 0 0;">RigPi-SDR is an integrated software defined radio application built directly into the RigPi station management system. It transforms your RigPi into a full-featured SDR receiver, allowing you to visualize and listen to radio signals across a wide frequency range without leaving your browser.</p>
+<h2 style="margin: 9px 0 0 0;"><span style="font-weight: bold;">What is RigPi-SDR?</span></h2>
+<p style="margin: 9px 0 0 0;">RigPi-SDR connects to SDR hardware attached to your RigPi and streams real-time spectrum and audio directly to your web browser. Whether you're monitoring band conditions, listening to a CW pileup, or watching FT8 activity scroll across the waterfall, RigPi-SDR gives you a live window into the radio spectrum alongside your normal RigPi station controls.</p>
+<h2 style="margin: 9px 0 0 0;"><span style="font-weight: bold;">Hardware Support</span></h2>
+<p style="margin: 9px 0 0 0;">RigPi-SDR supports a growing range of SDR hardware including the AirSpy HF+ Discovery, RTL-SDR dongles, and remote SDR sources. Hardware is selected and configured by the station administrator, making it immediately available to all users without individual setup.</p>
+<h2 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-weight: bold;">Major Features</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-weight: bold;">Spectrum Display and Waterfall</span> The split display shows a real-time spectrum analyzer on top and a scrolling waterfall below. Signal strength is color-coded with selections for palette, giving you an instant picture of band activity. The waterfall floor and spectrum floor levels are independently adjustable to optimize the display for your noise environment.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">3D Waterfall</span> A stunning three-dimensional waterfall view is available at the touch of the 3D button. The ribbon surface scrolls away from you in real time, giving a dramatic visualization of band activity over time. You can rotate and zoom the view with your mouse or trackpad.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Integrated with RigPi</span> RigPi-SDR embeds directly into the RigPi tuner and keyer pages. The SDR panel can be positioned at the top, middle, or bottom of the page, or disabled entirely. Each user can configure whether the SDR appears on the tuner page, the keyer page, or both.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Multi-mode Demodulation</span> RigPi-SDR demodulates audio for USB, LSB, CW, CWR, AM, FM, PKTUSB, FT8 (with decoding), RTTY, and wideband FM. Audio is delivered through your browser via WebRTC for low-latency listening. The audio le0vel, bandwidth, and AGC are all adjustable in real time.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Memory Panel and Scanner</span> Twenty memory slots store frequency, mode, and bandwidth settings. A built-in scanner steps through selected memories with adjustable dwell time, and automatically holds on a frequency when the squelch opens.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Per-User Settings</span> Each RigPi user gets their own SDR settings profile — frequency, mode, bandwidth, waterfall palette, memories, and display preferences are saved individually and restored automatically at login.</p>
+<p style="margin: 7px 0 0 0;"><span style="font-weight: bold;">Visitor Notifications</span> The station administrator can receive an instant Pushover notification whenever a user logs into or out of RigPi, including the user's callsign, login time, and IP address.</p>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 6px 6px 6px 6px; margin: 0 0 0 0;"><span style="font-size: 13px; font-weight: bold;">Note:</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">ELMER requires a supported SDR device or remote OpenWebRx/KiwiSDR connected to the Raspberry Pi 5. See the RigPi 5 hardware guide for supported devices.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #2c5d88;">Getting Started</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-weight: bold; color: #444444;">Accessing ELMER</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">ELMER opens automatically within the RigPi interface. It can also be accessed directly in a browser:</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">http://rigpi5.local:8001</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— for example, AirSpy HF+ (primary SDR)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">http://rigpi5.local:8002</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— for example, RTL-SDR</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;"><a href="https://%3CCloudflare" target="_blank" class="weblink">https://&lt;Cloudflare</a>&nbsp;URL&gt;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Remote access via Cloudflare Tunnel</span></p><h3 style="margin: 8px 0 0 0;"><span style="font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #444444;">Supported SDR Hardware</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Device</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Coverage</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Port</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">AirSpy HF+</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">9 kHz – 31 MHz, 60–260 MHz</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">8001</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">RTL-SDR / Nooelec SMART</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">HF (direct sampling), VHF/UHF</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">8002</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">SDRplay RSP-ST</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">1 kHz – 2 GHz</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">via SDRConnect</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">KiwiSDR / OpenWebRX</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Worldwide remote receivers</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Remote tab</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">The ELMER Interface</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-weight: bold; color: #444444;">Frequency Display</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The large LED-style frequency display shows the current tuned frequency. The current mode (USB, CW, FT8, etc.) and bandwidth are shown alongside the digits.</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Click any digit</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">to edit it directly from the keyboard</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Scroll wheel</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">over the display to tune up or down</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Arrow keys</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">fine-tune when a digit is selected</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Enter</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">confirms the frequency;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Escape</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">cancels</span></p><h3 style="margin: 8px 0 0 0;"><span style="font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #444444;">Spectrum and Waterfall</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The main display shows a real-time spectrum (top) and scrolling waterfall (bottom). The waterfall provides a history of signals over time.</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Click</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">on the spectrum or waterfall to tune to that frequency</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Drag the bandwidth handles</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">to adjust the filter width</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Scroll</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">over the spectrum to zoom the displayed span</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">MAP button</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">overlays a world map with grayline and DX spot pins</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Side panel</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> provides tabs for SDR settings</span></p><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-weight: bold; color: #2c5d88;">Settings Panels</span></h2>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 16px; font-weight: bold; color: #2c5d88;">Rig</span></h2>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Band Pills</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Band pills across the top row tune quickly to band memories. Each pill has three colored dots indicating memory slot activity:</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Blue dot</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— digital mode slot (FT8, PSK, RTTY)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">White dot</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— CW slot</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Green dot</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— phone slot (SSB/AM)</span></p><p style="line-height: 1.61; margin: 7px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Click a band pill to cycle through its three memory slots. Each slot stores frequency, mode, and bandwidth.</span></p>
+<h3 class="p_Heading3" style="page-break-after: avoid;"><span class="f_Heading3" style="font-size: 15px;">Mode Pills</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Mode pills select the demodulation mode: USB, LSB, USB-D (digital), LSB-D, CW, CWR, AM, NFM, WFM. The active mode is highlighted.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-weight: bold; color: #2c5d88;">Audio</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Click</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">in the Audio tab to begin streaming demodulated audio to your browser via WebRTC.</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Control</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Function</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Level slider</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Output volume (0–200%)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">L / C / R buttons</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Stereo pan: hard left, center, hard right</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">VU meter</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Real-time audio level display with peak hold</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Scope</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Oscilloscope display of the audio waveform</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">FFT</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Audio frequency spectrum display</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">TX Output</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Select ALSA device for transmit audio</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 6px 6px 6px 6px; margin: 0 0 0 0;"><span style="font-size: 13px; font-weight: bold;">Note:</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">WebRTC audio requires a modern browser. The TX Output device selection persists across sessions.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-weight: bold; color: #2c5d88;">Control Panels</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #ffffff;">Tab</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #ffffff;">Function</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">SDR</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">Device selection, gain, AGC, bias tee, LO offset, device args, sample rate</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">Display</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">Waterfall palette, floor levels, smoothing, 3D waterfall</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">Audio</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">Start/stop audio streaming, volume, pan, VU/scope/FFT</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">Remote</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">Connect to worldwide KiwiSDR and OpenWebRX receivers</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">Rig</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">Transceiver frequency synchronization</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold;">ELMER</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-family: 'Times New Roman',Times,Georgia,serif;">AI assistant, Workability Index, signal check</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-family: 'Times New Roman',Times,Georgia,serif; font-weight: bold; color: #444444;">SDR Tab — Device Args</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Device Args</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">field passes additional parameters to the SoapySDR driver. For RTL-SDR HF reception enter</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=2</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">(high HF) or</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=1</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">. Settings take effect on the next device connect.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-weight: bold; color: #2c5d88;">DX Spots</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">When connected to the RigPi spot manager, active DX spots appear as colored tags on the spectrum display. Click any tag to tune to that frequency. The ELMER Workability Index opens automatically for the spotted station.</span></p>
+<p style="line-height: 1.61; margin: 3px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">In</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">MAP mode</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">, spots appear as pins on the world map. The map includes:</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Live grayline (solar terminator) shading</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Your QTH marker</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">DX spot pins with click-to-tune</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Remote SDR receiver pins (KiwiSDR / OpenWebRX)</span></p><h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">ELMER Workability Index</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The Workability Index assesses the probability of completing a QSO with a specific DX station on a selected band, based on multiple real-time data sources.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Using the Workability Index</span></h3>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:16px;display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 16px;">Click a DX spot on the spectrum or map — the callsign fills automatically</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:16px;display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 16px; font-weight: bold;">Or</span><span style="font-size: 16px;"> </span><span style="font-size: 16px;">type any callsign in the</span><span style="font-size: 16px;"> </span><span style="font-size: 16px; font-weight: bold;">Enter call</span><span style="font-size: 16px;"> </span><span style="font-size: 16px;">box and press Enter</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:16px;display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 16px;">Select the desired band from the band selector</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:16px;display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 16px;">ELMER fetches data from multiple sources and displays the score</span></p><p style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0faf0; padding: 6px 6px 6px 6px; margin: 1px 0 0 0;"><span style="font-size: 13px; font-weight: bold;">Tip:</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">Changing the band selector automatically retunes the SDR to that band and re-runs the Workability Index.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Score Factors</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Factor</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Weight</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Data Source</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">PSKReporter activity</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">20%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">PSKReporter.info — who is hearing the DX right now</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Band / MUF</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">18%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Solar flux + path distance formula</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Grayline alignment</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">15%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Calculated from UTC time and path coordinates</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Solar conditions</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">15%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">NOAA SWPC — SFI and K-index</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">ARRL DX Bulletin</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">12%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Weekly bulletin — confirms DXpedition active</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Antenna alignment</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">10%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Rotor azimuth vs. short/long path bearing</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Cluster activity</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">10%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Recent spot count for this entity</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Score Grades</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 9px 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Score</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Grade</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px; font-weight: bold; color: #ffffff;">Meaning</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">75–100%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Excellent</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Strong likelihood of completing QSO</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">55–74%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Good</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Worth trying — conditions favorable</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">35–54%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Fair</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Marginal — try at suggested times</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">20–34%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Poor</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Unlikely but band changes may help</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">&lt;20%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Unlikely</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 13px;">Conditions not currently favorable</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Workability Report Contents</span></h3>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Score gauge</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— circular gauge with color coding</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Narrative</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— plain-English assessment with specific recommendations</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Path info</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— short path and long path bearings, distance in Megameters and km</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Solar conditions</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— SFI (Solar Flux Index) and K-index</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Contributing factors</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— bar chart showing each factor's score and detail</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">QRZ lookup</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— operator name, location, photo, confirmation methods</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">LoTW status</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— whether station is in the Logbook of the World user list (230,000+ calls)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">DXSummit activity</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— typical operating hours and bands based on recent spots</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Signal check</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— real-time SDR detection at the spot frequency</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Log history</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— your previous QSOs with this station and confirmation status</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Award needs</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— DXCC, WAC, WAZ, WAS status for this entity</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Upcoming contests</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— relevant contests in the next 7 days (WA7BNM calendar)</span></p><h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Copy / View</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px;">Click</span><span style="font-size: 13px;"> </span><span style="font-size: 13px; font-weight: bold;">Copy / View</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">to open a formatted report in a new window with Courier New monospace font. Use Select All (Cmd+A or Ctrl+A) and Copy to paste into email, log notes, or a text document.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-weight: bold; color: #444444;">Rotor Guidance</span></h3>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px;">If a rotor is connected, ELMER reads its current azimuth from RigPi and includes rotation instructions in the narrative:</span><span style="font-size: 13px;"> </span><span style="font-size: 13px; font-style: italic;">&quot;Rotor is at 45° — rotate to 97° for short path to C5D.&quot;</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">Remote SDR</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Remote</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">tab connects ELMER to worldwide KiwiSDR and OpenWebRX receivers — over 1,300 receivers in the database.</span></p>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px;display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 13px;">Click</span><span style="font-size: 13px;"> </span><span style="font-size: 13px; font-weight: bold;">Find Remote Hosts</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">to load the receiver database</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px;display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 13px;">Enable</span><span style="font-size: 13px;"> </span><span style="font-size: 13px; font-weight: bold;">MAP mode</span><span style="font-size: 13px;"> </span><span style="font-size: 13px;">to see receiver pins on the world map</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px;display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 13px;">Click a map pin to connect to that receiver</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px;display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 13px;">Or type a hostname directly (e.g.</span><span style="font-size: 13px;"> </span><span style="font-size: 13px; background-color: #f4f4f4;">sdr.k9mq.com:8073</span><span style="font-size: 13px;">) and click Connect</span></p><p style="line-height: 1.61; margin: 7px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">When connected to a remote receiver, the local SDR pauses and the remote spectrum and waterfall are displayed.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">Rig Sync</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">When a transceiver is connected via RigPi, ELMER stays synchronized bidirectionally:</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Tuning on the SDR updates the transceiver frequency via CAT</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Transceiver VFO changes update the SDR display</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Mode changes are synchronized</span></p><h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">Multi-User Operation</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Up to 4 users can connect to ELMER simultaneously. Each user has:</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Independent display center frequency and span (virtual slice)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Independent mode, bandwidth, and filter settings</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Independent band memories and squelch</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">Settings saved automatically per user</span></p><h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">Messaging</span></h2>
+<p style="line-height: 1.61; margin: 9px 0 0 0;"><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">The envelope button ( ✉ ) in the top bar opens the messaging panel. Admin can broadcast messages to all users or a specific user. Non-admin users can send messages to admin.</span></p>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Red toast</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Alert (manual dismiss)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Cyan toast</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Info (auto-dismiss 10 seconds)</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Green toast</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Message (auto-dismiss 20 seconds)</span></p><h2 style="margin: 10px 0 0 0;"><span style="font-size: 17px; font-weight: bold; color: #2c5d88;">Tips and Best Practices</span></h2>
+<p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Best HF sensitivity</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Use an AirSpy HF+</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">RTL-SDR HF</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Set Device Args to</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=2</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">for HF frequencies</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Grayline</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Enable MAP mode to see the solar terminator; paths crossing the terminator have the best propagation</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Workability timing</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Check WI (Workability Index) before calling; the narrative suggests the best time window</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">LoTW before working</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— WI shows whether the DX station uses LoTW, saving wasted QSO time</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Band memories</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Each band has 3 slots (digital/CW/phone). Click the band pill to cycle through them</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Signal check</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— The automatic signal check tells you if there’s actually a signal at the spot frequency before you call</span></p><p style="text-indent: 0; line-height: 1.84; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:13px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif; font-weight: bold;">Remote access</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">— Use</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;"><a href="https://%3CCloudflare" target="_blank" class="weblink">https://&lt;Cloudflare</a>&nbsp;URL&gt;</span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;"> </span><span style="font-size: 13px; font-family: Arial,Helvetica,sans-serif;">for full clipboard support in the Workability report</span></p><p style="margin: 7px 0 0 0;"><span style="font-style: italic;">RigPi-SDR — Copyright © 2026 Howard Nurse, W6HN. Developed with AI assistance. Licensed under the MIT License.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

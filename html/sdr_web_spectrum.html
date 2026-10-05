@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SDR Web Spectrum + Waterfall + Audio</title>
+<style>
+  body {
+    margin: 0;
+    background: #111;
+    color: #ddd;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  #header {
+    padding: 8px 12px;
+    background: #1b1b1b;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  #status {
+    font-size: 12px;
+    color: #8f8;
+  }
+  #info {
+    font-size: 12px;
+    color: #aaa;
+    flex: 1;
+  }
+  #audio-status {
+    font-size: 12px;
+    color: #f88;
+  }
+  #start-audio {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #222;
+    color: #eee;
+    cursor: pointer;
+  }
+  #start-audio:hover {
+    background: #333;
+  }
+  #container {
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    background: #000;
+  }
+  #spectrum {
+    height: 200px;
+    margin-bottom: 4px;
+  }
+  #waterfall {
+    height: 300px;
+  }
+</style>
+</head>
+<body>
+<div id="header">
+  <div id="status">Connecting…</div>
+  <div id="info"></div>
+  <button id="start-audio">Start Audio</button>
+  <div id="audio-status">Audio stopped</div>
+</div>
+
+<div id="container">
+  <canvas id="spectrum"></canvas>
+  <canvas id="waterfall"></canvas>
+</div>
+
+<script>
+(function() {
+
+  const statusEl      = document.getElementById("status");
+  const infoEl        = document.getElementById("info");
+  const startBtn      = document.getElementById("start-audio");
+  const audioStatusEl = document.getElementById("audio-status");
+
+  const specCanvas = document.getElementById("spectrum");
+  const wfCanvas   = document.getElementById("waterfall");
+  const specCtx    = specCanvas.getContext("2d");
+  const wfCtx      = wfCanvas.getContext("2d");
+
+  // ------------ canvas sizing -------------
+  function resize() {
+    const rectSpec = specCanvas.getBoundingClientRect();
+    const rectWf   = wfCanvas.getBoundingClientRect();
+    specCanvas.width  = Math.max(400, rectSpec.width  | 0);
+    specCanvas.height = Math.max(150, rectSpec.height | 0);
+    wfCanvas.width    = Math.max(400, rectWf.width    | 0);
+    wfCanvas.height   = Math.max(200, rectWf.height   | 0);
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  // ------------ FFT / display state -------------
+  let centerHz    = 104.5e6;
+  let spanHz      = 240e3;
+  let sampleBins  = 0;
+  let freqAxisMHz = null;
+
+  let dbMin = -110;
+  let dbMax = 0;
+  let peakSmooth = null;
+
+  // for hover line
+  let hoverX      = null;
+  let lastDbNorm  = null;
+
+  // control WS
+  let wsControl   = null;
+
+  // rainbow LUT
+  const lut = new Array(256);
+  (function buildLUT() {
+    for (let i = 0; i < 256; i++) {
+      const x = i / 255.0;
+      const r = Math.max(0, Math.min(1, 1.5 - Math.abs(4*x - 3)));
+      const g = Math.max(0, Math.min(1, 1.5 - Math.abs(4*x - 2)));
+      const b = Math.max(0, Math.min(1, 1.5 - Math.abs(4*x - 1)));
+      lut[i] = [(r*255)|0, (g*255)|0, (b*255)|0];
+    }
+  })();
+
+  function updateInfo() {
+    const spanMHz = spanHz / 1e6;
+    infoEl.textContent =
+      `${(centerHz/1e6).toFixed(3)} MHz, span ${spanMHz.toFixed(3)} MHz`;
+  }
+  updateInfo();
+
+  function ensureFreqAxis(numBins) {
+    if (freqAxisMHz && freqAxisMHz.length === numBins) return;
+    freqAxisMHz = new Float32Array(numBins);
+    const f0 = centerHz - spanHz/2;
+    const f1 = centerHz + spanHz/2;
+    const step = (f1 - f0) / (numBins - 1);
+    for (let i = 0; i < numBins; i++) {
+      freqAxisMHz[i] = (f0 + i*step) / 1e6;
+    }
+  }
+
+  // ------------ hover helper -------------
+  function drawHoverLine() {
+    if (hoverX == null) return;
+    specCtx.save();
+    specCtx.strokeStyle = "rgba(255,255,255,0.8)";
+    specCtx.lineWidth = 1;
+    specCtx.beginPath();
+    specCtx.moveTo(hoverX + 0.5, 0);
+    specCtx.lineTo(hoverX + 0.5, specCanvas.height);
+    specCtx.stroke();
+    specCtx.restore();
+  }
+
+  // ------------ Spectrum drawing -------------
+  function drawSpectrum(dbValues) {
+    const w = specCanvas.width;
+    const h = specCanvas.height;
+
+    specCtx.fillStyle = "black";
+    specCtx.fillRect(0, 0, w, h);
+
+    if (!dbValues || dbValues.length < 2) return;
+
+    lastDbNorm = dbValues;
+
+    const n = dbValues.length;
+    const spanDb = dbMax - dbMin || 1;
+    const stepX = w / (n - 1);
+
+    // Spectrum trace
+    specCtx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const v = dbValues[i];
+      const x = i * stepX;
+      const yNorm = (v - dbMin) / spanDb;
+      const y = (1 - yNorm) * h;
+      if (i === 0) specCtx.moveTo(x, y);
+      else specCtx.lineTo(x, y);
+    }
+    specCtx.strokeStyle = "#e6e664";
+    specCtx.lineWidth = 1;
+    specCtx.stroke();
+
+    // fill under curve
+    specCtx.lineTo(w, h);
+    specCtx.lineTo(0, h);
+    specCtx.closePath();
+    specCtx.fillStyle = "rgba(230,230,100,0.25)";
+    specCtx.fill();
+
+    // dB grid
+    specCtx.strokeStyle = "rgba(100,100,100,0.4)";
+    specCtx.lineWidth = 0.5;
+    specCtx.beginPath();
+    for (let d = dbMin; d <= dbMax; d += 20) {
+      const y = (1 - (d - dbMin)/spanDb) * h;
+      specCtx.moveTo(0, y);
+      specCtx.lineTo(w, y);
+    }
+    specCtx.stroke();
+
+    // freq labels
+    specCtx.fillStyle = "#aaa";
+    specCtx.font = "10px sans-serif";
+    specCtx.textBaseline = "top";
+
+    if (freqAxisMHz && freqAxisMHz.length > 1) {
+      const f0 = freqAxisMHz[0];
+      const f1 = freqAxisMHz[freqAxisMHz.length - 1];
+      const df = f1 - f0;
+      const tickCount = 5;
+      for (let i = 0; i <= tickCount; i++) {
+        const frac = i / tickCount;
+        const f = f0 + frac*df;
+        const x = frac * w;
+        specCtx.fillText(f.toFixed(3), x + 2, 2);
+      }
+    }
+
+    // hover line on top
+    drawHoverLine();
+  }
+
+  // ------------ Waterfall drawing -------------
+  function drawWaterfallRow(dbValues) {
+    const w = wfCanvas.width;
+    const h = wfCanvas.height;
+
+    // Scroll existing image down by 1px
+    wfCtx.drawImage(wfCanvas, 0, 0, w, h, 0, 1, w, h - 1);
+
+    const imgData = wfCtx.createImageData(w, 1);
+    const data = imgData.data;
+    const spanDb = dbMax - dbMin || 1;
+    const n = dbValues.length;
+
+    for (let x = 0; x < w; x++) {
+      const bin = Math.floor((x / (w - 1)) * (n - 1));
+      let v = dbValues[bin];
+
+      let norm = (v - dbMin) / spanDb;
+      if (norm < 0) norm = 0;
+      if (norm > 1) norm = 1;
+
+      const idx = (norm * 255) | 0;
+      const [r, g, b] = lut[idx];
+      const i4 = x * 4;
+      data[i4+0] = r;
+      data[i4+1] = g;
+      data[i4+2] = b;
+      data[i4+3] = 255;
+    }
+
+    wfCtx.putImageData(imgData, 0, 0);
+  }
+
+  // ------------ FFT handling -------------
+  function handleFFT(buf) {
+    const fft = new Float32Array(buf);
+    if (!fft.length) return;
+
+    sampleBins = fft.length;
+    ensureFreqAxis(sampleBins);
+
+    const db = new Float32Array(sampleBins);
+    let localMax = -1e9;
+    for (let i = 0; i < sampleBins; i++) {
+      const p = fft[i] <= 1e-20 ? 1e-20 : fft[i];
+      const d = 10 * Math.log10(p);
+      db[i] = d;
+      if (d > localMax) localMax = d;
+    }
+
+    if (peakSmooth == null) peakSmooth = localMax;
+    else peakSmooth = 0.9 * peakSmooth + 0.1 * localMax;
+
+    const dbNorm = new Float32Array(sampleBins);
+    for (let i = 0; i < sampleBins; i++) {
+      let v = db[i] - peakSmooth;  // peak ≈ 0 dB
+      if (v < dbMin) v = dbMin;
+      if (v > dbMax) v = dbMax;
+      dbNorm[i] = v;
+    }
+
+    drawSpectrum(dbNorm);
+    drawWaterfallRow(dbNorm);
+  }
+
+  function handleNotify(text) {
+    const parts = text.trim().split(/\s+/);
+    if (!parts.length) return;
+    const cmd = parts[0].toUpperCase();
+
+    if (cmd === "TUNE" && parts.length >= 2) {
+      const hz = parseFloat(parts[1]);
+      if (!isNaN(hz)) {
+        centerHz = hz;
+        freqAxisMHz = null;
+        updateInfo();
+      }
+    } else if (cmd === "SPAN" && parts.length >= 2) {
+      const hz = parseFloat(parts[1]);
+      if (!isNaN(hz)) {
+        spanHz = hz;
+        freqAxisMHz = null;
+        updateInfo();
+      }
+    }
+  }
+
+  // ------------ Control: send tune to Pi -------------
+  function startControlWebSocket() {
+    const host = window.location.hostname || "rigpi5.local";
+    const url  = `ws://${host}:8765/control`;
+
+    wsControl = new WebSocket(url);
+
+    wsControl.onopen = () => {
+      console.log("[WS-CTRL] connected", url);
+    };
+
+    wsControl.onclose = () => {
+      console.log("[WS-CTRL] closed, retrying…");
+      wsControl = null;
+      setTimeout(startControlWebSocket, 3000);
+    };
+
+    wsControl.onerror = err => {
+      console.log("[WS-CTRL] error", err);
+    };
+  }
+
+  function sendTune(hz) {
+    if (!wsControl || wsControl.readyState !== WebSocket.OPEN) {
+      console.log("[CTRL] not connected, cannot tune");
+      return;
+    }
+    const msg = JSON.stringify({ type: "tune", freq_hz: hz });
+    wsControl.send(msg);
+  }
+
+  // ------------ Mouse interactions on spectrum -------------
+  specCanvas.addEventListener("mousemove", ev => {
+    const rect = specCanvas.getBoundingClientRect();
+    hoverX = ev.clientX - rect.left;
+    // redraw only spectrum with current db state
+    if (lastDbNorm) drawSpectrum(lastDbNorm);
+  });
+
+  specCanvas.addEventListener("mouseleave", () => {
+    hoverX = null;
+    if (lastDbNorm) drawSpectrum(lastDbNorm);
+  });
+
+  specCanvas.addEventListener("click", ev => {
+    if (!freqAxisMHz || !freqAxisMHz.length) return;
+    const rect = specCanvas.getBoundingClientRect();
+    const x = ev.clientX - rect.left;
+    const w = specCanvas.width;
+    const frac = Math.min(Math.max(x / (w - 1), 0), 1);
+
+    const f0 = freqAxisMHz[0];
+    const f1 = freqAxisMHz[freqAxisMHz.length - 1];
+    const fMHz = f0 + frac * (f1 - f0);
+    const hz = Math.round(fMHz * 1e6);
+
+    console.log("[CLICK] Tune to", fMHz.toFixed(3), "MHz →", hz);
+    sendTune(hz);
+  });
+
+  // ------------ FFT WebSocket -------------
+  function startFFTWebSocket() {
+    const host = window.location.hostname || "rigpi5.local";
+    const url  = `ws://${host}:8765/fft`;
+
+    const ws = new WebSocket(url);
+    ws.binaryType = "arraybuffer";
+
+    ws.onopen = () => {
+      statusEl.textContent = "Connected";
+      statusEl.style.color = "#8f8";
+      console.log("[WS-FFT] connected", url);
+    };
+
+    ws.onclose = () => {
+      statusEl.textContent = "Reconnecting…";
+      statusEl.style.color = "#f88";
+      console.log("[WS-FFT] closed");
+      setTimeout(startFFTWebSocket, 2000);
+    };
+
+    ws.onerror = err => {
+      console.log("[WS-FFT] error", err);
+    };
+
+    ws.onmessage = ev => {
+      if (typeof ev.data === "string") handleNotify(ev.data);
+      else handleFFT(ev.data);
+    };
+  }
+
+  // =========================================================
+  // AUDIO: Web Audio + /audio websocket
+  // =========================================================
+
+  let audioCtx   = null;
+  let scriptNode = null;
+  let audioQueue = [];
+  const AUDIO_BLOCK = 2048;
+
+  function initAudioGraph() {
+    if (audioCtx) return;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)({
+      sampleRate: 48000,
+    });
+
+    scriptNode = audioCtx.createScriptProcessor(AUDIO_BLOCK, 0, 1);
+
+    scriptNode.onaudioprocess = e => {
+      const out = e.outputBuffer.getChannelData(0);
+      if (audioQueue.length) {
+        const block = audioQueue.shift();
+        const n = Math.min(block.length, out.length);
+        for (let i = 0; i < n; i++) out[i] = block[i];
+        for (let i = n; i < out.length; i++) out[i] = 0;
+      } else {
+        out.fill(0);
+      }
+    };
+
+    scriptNode.connect(audioCtx.destination);
+
+    audioStatusEl.textContent = "Audio ready";
+    audioStatusEl.style.color = "#8f8";
+  }
+
+  function startAudioWebSocket() {
+    const host = window.location.hostname || "rigpi5.local";
+    const url  = `ws://${host}:8765/audio`;
+
+    const ws = new WebSocket(url);
+    ws.binaryType = "arraybuffer";
+
+    ws.onopen = () => {
+      audioStatusEl.textContent = "Audio streaming…";
+      audioStatusEl.style.color = "#8f8";
+      console.log("[WS-AUDIO] connected", url);
+    };
+
+    ws.onclose = () => {
+      audioStatusEl.textContent = "Audio disconnected";
+      audioStatusEl.style.color = "#f88";
+      console.log("[WS-AUDIO] closed");
+      setTimeout(startAudioWebSocket, 2000);
+    };
+
+    ws.onerror = err => {
+      console.log("[WS-AUDIO] error", err);
+    };
+
+    ws.onmessage = ev => {
+      if (!(ev.data instanceof ArrayBuffer)) return;
+      const samples = new Float32Array(ev.data);
+      const block =
+        samples.length === AUDIO_BLOCK
+          ? samples
+          : samples.slice(0, AUDIO_BLOCK);
+
+      audioQueue.push(block);
+      if (audioQueue.length > 100) {
+        audioQueue = audioQueue.slice(-100);
+      }
+    };
+  }
+
+  startBtn.addEventListener("click", () => {
+    try {
+      initAudioGraph();
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      startAudioWebSocket();
+      startBtn.disabled = true;
+      startBtn.textContent = "Audio running";
+    } catch (e) {
+      console.error("Audio init error", e);
+      audioStatusEl.textContent = "Audio error";
+      audioStatusEl.style.color = "#f88";
+    }
+  });
+
+  // Start sockets
+  startFFTWebSocket();
+  startControlWebSocket();
+
+})();
+</script>
+</body>
+</html>

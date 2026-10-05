@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; Log Designer</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="The Log Designer provides a drag-and-drop way to modify existing log styles, or to design new ones. A log style is assigned to each log, but you can change the assigned style by" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "log-designer.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Log Designer</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?log-designer.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Log Designer</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="radio.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="settings.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="macros.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">&nbsp;</p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Log Designer provides a drag-and-drop way to modify existing log styles, or to design new ones. A log style is assigned to each log, but you can change the assigned style by making a selection through a drop-down list in the RSS Log window.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> </span><div style="margin:0 auto 0 auto;width:65%;max-width:1847px;height:auto;"><img alt="log-des-new" style="width:100%;height:auto;border:none" src="log-des-new.png"/></div></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The top three boxes include one to select a style you wish to edit, a second to start a new style, and a third to save a style with a different name. &nbsp;If you add a new style, or save as an existing style, press Enter to save or click OK. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Boxes that are filled from drop down lists are gray since they cannot be filled manually.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The three lists include a master list of log fields (white, center), fields assigned to the current style for the log (yellow, left) and finally a list to show the fields assigned to the log editor (yellow, right). Items in the yellow lists can be dragged up or down to change their order, or removed from that list by deleting. Items in the master list can be dragged and inserted into either yellow list.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The fields at the bottom are for labeling and setting defaults for the selected field.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:top; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Function</span></p>
+</td>
+<td style="vertical-align:top; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Label</span></p>
+</td>
+<td style="vertical-align:top; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Notes</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field Label</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Label</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Appears in the column headers for the Log, and at the left end of the field for the Log Editor.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Optional default for the selected field</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Default</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Add a default for this field. The default is always added to the field where it can be edited.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field attribute</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Attr</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Field Attribute determines how the field is used. See below.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">List of options for drop-down lists</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">List</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Determines a default list for a list field, such as for Mode. See below.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field prompt</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Prompt</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Appears in each field as a place holder unless there is a default.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field notes</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Note</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Description of the field</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Field Attribute</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Each filed is assigned an attribute depending on how the list is used.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:top; width:109px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Attribute</span></p>
+</td>
+<td style="vertical-align:top; width:232px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">How it appears</span></p>
+</td>
+<td style="vertical-align:top; width:395px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Note</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">None</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field has label and text box</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No attributes assigned to this field.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Set Time</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field has clock icon on the right, click to set the current time</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click the clock icon to enter the current time into the field. The time may be edited.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Drop-Down List</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Drop-down list, click list icon on left</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Contents of drop-down list. Use the List field to enter a comma-delimited list. For example, CW,PHONE,DIGITAL for modes. If a Drop-down list is not defined for modes, all modes will be in the list.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No Edit</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field is disabled</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Do not allow editing of this field. Used for record numbers or for any field that should not be changed.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Caps</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Field converted to capital letters</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use for callsign fields or any field that should be in upper case.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:109px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Add periods</span></p>
+</td>
+<td style="vertical-align:top; width:232px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Adds two periods to frequencies</span></p>
+</td>
+<td style="vertical-align:top; width:395px; padding:1px; border:none"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">10 meter CW example: 28.027.123</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Menu
+  PUBLIC '-//freedesktop//DTD Menu 1.0//EN'
+  'http://standards.freedesktop.org/menu-spec/menu-1.0.dtd'>
+<Menu>
+	<Name>Applications</Name>
+	<MergeFile type="parent">/etc/xdg/menus/lxde-pi-applications.menu</MergeFile>
+	<Menu>
+		<Name>Other</Name>
+		<Exclude>
+			<Filename>rofi.desktop</Filename>
+		</Exclude>
+		<AppDir>/home/pi/.local/share/applications</AppDir>
+		<Exclude>
+			<Filename>rofi-theme-selector.desktop</Filename>
+		</Exclude>
+		<Exclude>
+			<Filename>testterminal.desktop</Filename>
+		</Exclude>
+	</Menu>
+	<Menu>
+		<Name>Hamradio</Name>
+		<Exclude>
+			<Filename>CubicSDR.desktop</Filename>
+		</Exclude>
+		<AppDir>/home/pi/.local/share/applications</AppDir>
+		<Exclude>
+			<Filename>gnuradio-grc.desktop</Filename>
+		</Exclude>
+		<Include>
+			<Filename>wsjtx.desktop</Filename>
+		</Include>
+		<Include>
+			<Filename>flrig.desktop</Filename>
+		</Include>
+		<Include>
+			<Filename>flarq.desktop</Filename>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Multimedia</Name>
+		<Exclude>
+			<Filename>wsjtx.desktop</Filename>
+		</Exclude>
+		<AppDir>/home/pi/.local/share/applications</AppDir>
+	</Menu>
+	<Menu>
+		<Name>Internet</Name>
+		<Exclude>
+			<Filename>xtigervncviewer.desktop</Filename>
+		</Exclude>
+		<AppDir>/home/pi/.local/share/applications</AppDir>
+		<Exclude>
+			<Filename>flrig.desktop</Filename>
+		</Exclude>
+		<Exclude>
+			<Filename>flarq.desktop</Filename>
+		</Exclude>
+		<Exclude>
+			<Filename>fldigi.desktop</Filename>
+		</Exclude>
+	</Menu>
+	<Layout>
+		<Merge type="menus"/>
+		<Menuname>Hamradio</Menuname>
+		<Menuname>Internet</Menuname>
+		<Menuname>Development</Menuname>
+		<Menuname>Education</Menuname>
+		<Menuname>Office</Menuname>
+		<Menuname>Multimedia</Menuname>
+		<Menuname>Graphics</Menuname>
+		<Menuname>Games</Menuname>
+		<Menuname>Other</Menuname>
+		<Menuname>System</Menuname>
+		<Menuname>Accessories</Menuname>
+		<Menuname>Electronics</Menuname>
+		<Menuname>Universal Access</Menuname>
+		<Separator/>
+		<Menuname>Help</Menuname>
+		<Separator/>
+		<Menuname>DesktopSettings</Menuname>
+		<Merge type="files"/>
+	</Layout>
+</Menu>

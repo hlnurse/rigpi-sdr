@@ -1,0 +1,204 @@
+<?php
+/** Authenticated Open-Meteo current conditions and short forecast for Ask Elmer. */
+session_start();
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store');
+header('X-Content-Type-Options: nosniff');
+
+$root = '/var/www/html';
+if (empty($_SESSION['myUsername'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Please sign in to RigPi.']);
+    exit;
+}
+require_once $root . '/programs/sqldata.php';
+require_once $root . '/programs/GetCallbookFunc.php';
+require_once $root . '/programs/GetUserFieldFunc.php';
+require_once $root . '/classes/MysqliDb.php';
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
+$fetchJson = static function ($url) {
+    $context = stream_context_create(['http' => [
+        'timeout' => 15,
+        'ignore_errors' => true,
+        'header' => "User-Agent: RigPi-Elmer-Weather/1.0\r\nAccept: application/json\r\n",
+    ]]);
+    $raw = @file_get_contents($url, false, $context);
+    if ($raw === false || strlen($raw) > 1000000) return null;
+    $data = json_decode($raw, true);
+    return is_array($data) && empty($data['error']) ? $data : null;
+};
+$gridCenter = static function ($grid) {
+    $grid = strtoupper(preg_replace('/[^A-R0-9X]/i', '', (string)$grid));
+    if (strlen($grid) < 4 || !preg_match('/^[A-R]{2}\d{2}(?:[A-X]{2})?(?:\d{2})?$/', $grid)) return null;
+    $lon = -180 + (ord($grid[0]) - 65) * 20 + ((int)$grid[2]) * 2;
+    $lat = -90 + (ord($grid[1]) - 65) * 10 + ((int)$grid[3]);
+    $lonSize = 2.0; $latSize = 1.0;
+    if (strlen($grid) >= 6) {
+        $lonSize /= 24; $latSize /= 24;
+        $lon += (ord($grid[4]) - 65) * $lonSize;
+        $lat += (ord($grid[5]) - 65) * $latSize;
+    }
+    if (strlen($grid) >= 8) {
+        $lonSize /= 10; $latSize /= 10;
+        $lon += ((int)$grid[6]) * $lonSize;
+        $lat += ((int)$grid[7]) * $latSize;
+    }
+    return [$lat + $latSize / 2, $lon + $lonSize / 2];
+};
+$condition = static function ($code) {
+    $map = [0=>'Clear sky',1=>'Mainly clear',2=>'Partly cloudy',3=>'Overcast',
+        45=>'Fog',48=>'Freezing fog',51=>'Light drizzle',53=>'Drizzle',55=>'Heavy drizzle',
+        56=>'Light freezing drizzle',57=>'Freezing drizzle',61=>'Light rain',63=>'Rain',65=>'Heavy rain',
+        66=>'Light freezing rain',67=>'Freezing rain',71=>'Light snow',73=>'Snow',75=>'Heavy snow',
+        77=>'Snow grains',80=>'Light rain showers',81=>'Rain showers',82=>'Heavy rain showers',
+        85=>'Light snow showers',86=>'Heavy snow showers',95=>'Thunderstorm',
+        96=>'Thunderstorm with hail',99=>'Severe thunderstorm with hail'];
+    return $map[(int)$code] ?? 'Unknown conditions';
+};
+
+try {
+    $request = json_decode(file_get_contents('php://input'), true, 8, JSON_THROW_ON_ERROR);
+    $target = strtolower(trim((string)($request['target'] ?? 'user')));
+    $call = strtoupper(trim((string)($request['call'] ?? '')));
+    $place = trim((string)($request['location'] ?? ''));
+    $days = max(1, min(7, (int)($request['forecast_days'] ?? 3)));
+    if (!in_array($target, ['user', 'call', 'place'], true) || strlen($place) > 160) {
+        throw new InvalidArgumentException('The weather location is invalid.');
+    }
+    if ($target === 'call' && (!preg_match('/^(?:[A-Z0-9]{1,3}\/)?[A-Z0-9]{1,3}\d[A-Z]{1,4}(?:\/[A-Z0-9]{1,4})?$/', $call) || strlen($call) > 24)) {
+        throw new InvalidArgumentException('The weather callsign is invalid.');
+    }
+    if ($target === 'place' && strlen($place) < 2) {
+        throw new InvalidArgumentException('Please provide a city or place for the weather lookup.');
+    }
+
+    $username = (string)$_SESSION['myUsername'];
+    $user = (int)getUserField($username, 'uID');
+    if ($user < 1) throw new RuntimeException('The signed-in RigPi account was not found.');
+    $db = new MysqliDb('localhost', $sql_radio_username, $sql_radio_password, $sql_radio_database);
+    $db->where('uID', $user);
+    $account = $db->getOne('Users');
+    if (!$account) throw new RuntimeException('The signed-in RigPi account was not found.');
+
+    $latitude = null; $longitude = null; $countryCode = '';
+    $label = ''; $basis = '';
+    if ($target === 'call') {
+        $hasQrz = trim((string)($account['qrzPWD'] ?? '')) !== '';
+        $hasHamqth = trim((string)($account['hamqthUser'] ?? '')) !== '' && trim((string)($account['hamqthPWD'] ?? '')) !== '';
+        getCallbookFunc($call, ($hasQrz || $hasHamqth) ? 'QRZData' : 'FCCData', $user);
+        $db->where('User', $user);
+        $row = $db->getOne('Callbook');
+        if (!$row || strtoupper(trim((string)($row['Callsign'] ?? ''))) !== $call) {
+            throw new RuntimeException($call . ' was not found by the RigPi callbook.');
+        }
+        $latitude = filter_var($row['His_Latitude'] ?? null, FILTER_VALIDATE_FLOAT);
+        $longitude = filter_var($row['His_Longitude'] ?? null, FILTER_VALIDATE_FLOAT);
+        if ($latitude === false || $longitude === false) {
+            $center = $gridCenter($row['His_Grid'] ?? '');
+            if ($center) [$latitude, $longitude] = $center;
+        }
+        $parts = array_filter([$row['His_City'] ?? '', $row['His_State'] ?? '', $row['His_Country'] ?? '']);
+        $label = $call . (count($parts) ? ' — ' . implode(', ', $parts) : '');
+        $basis = 'Callbook station coordinates or Maidenhead grid center';
+        $country = strtoupper(trim((string)($row['His_Country'] ?? '')));
+        if ($country === 'US' || str_contains($country, 'UNITED STATES')) $countryCode = 'US';
+    } elseif ($target === 'user') {
+        $latitude = filter_var($account['My_Latitude'] ?? null, FILTER_VALIDATE_FLOAT);
+        $longitude = filter_var($account['My_Longitude'] ?? null, FILTER_VALIDATE_FLOAT);
+        $parts = array_filter([$account['MyCity'] ?? '', $account['MyState'] ?? '', $account['MyCountry'] ?? '']);
+        $label = count($parts) ? implode(', ', $parts) : 'Your RigPi station';
+        $basis = 'Signed-in RigPi account location';
+        $country = strtoupper(trim((string)($account['MyCountry'] ?? '')));
+        if ($country === 'US' || str_contains($country, 'UNITED STATES')) $countryCode = 'US';
+        if ($latitude === false || $longitude === false) {
+            $place = trim(implode(', ', array_filter([$account['MyZIP'] ?? '', $account['MyCity'] ?? '', $account['MyState'] ?? '', $account['MyCountry'] ?? ''])));
+            $target = 'place';
+        }
+    }
+    if ($target === 'place') {
+        $geoUrl = 'https://geocoding-api.open-meteo.com/v1/search?' . http_build_query([
+            'name'=>$place, 'count'=>1, 'language'=>'en', 'format'=>'json']);
+        $geo = $fetchJson($geoUrl);
+        $found = $geo['results'][0] ?? null;
+        if (!is_array($found)) throw new RuntimeException('Open-Meteo could not resolve that weather location.');
+        $latitude = $found['latitude'] ?? null; $longitude = $found['longitude'] ?? null;
+        $countryCode = strtoupper(trim((string)($found['country_code'] ?? '')));
+        $label = implode(', ', array_values(array_unique(array_filter([
+            $found['name'] ?? '', $found['admin1'] ?? '', $found['country'] ?? '']))));
+        $basis = 'Open-Meteo geocoding search';
+    }
+    if (!is_numeric($latitude) || !is_numeric($longitude) || $latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
+        throw new RuntimeException('No usable coordinates were found for that weather location.');
+    }
+
+    $imperial = $countryCode === 'US';
+    $params = [
+        'latitude'=>round((float)$latitude, 5), 'longitude'=>round((float)$longitude, 5),
+        'current'=>'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day',
+        'daily'=>'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset,wind_speed_10m_max,wind_gusts_10m_max',
+        'timezone'=>'auto', 'forecast_days'=>$days,
+        'temperature_unit'=>$imperial ? 'fahrenheit' : 'celsius',
+        'wind_speed_unit'=>$imperial ? 'mph' : 'kmh',
+        'precipitation_unit'=>$imperial ? 'inch' : 'mm',
+    ];
+    $forecastUrl = 'https://api.open-meteo.com/v1/forecast?' . http_build_query($params);
+    $cacheKey = hash('sha256', $forecastUrl);
+    $cacheFile = sys_get_temp_dir() . '/elmer-weather-' . $cacheKey . '.json';
+    $forecast = null;
+    if (is_file($cacheFile) && filemtime($cacheFile) >= time() - 600) {
+        $forecast = json_decode((string)@file_get_contents($cacheFile), true);
+    }
+    if (!is_array($forecast)) {
+        $forecast = $fetchJson($forecastUrl);
+        if (!is_array($forecast)) throw new RuntimeException('Open-Meteo weather data is unavailable right now.');
+        @file_put_contents($cacheFile, json_encode($forecast), LOCK_EX);
+        @chmod($cacheFile, 0600);
+    }
+    $current = $forecast['current'] ?? [];
+    $daily = $forecast['daily'] ?? [];
+    $dailyRows = [];
+    for ($i = 0; $i < min($days, count($daily['time'] ?? [])); $i++) {
+        $code = (int)($daily['weather_code'][$i] ?? -1);
+        $dailyRows[] = [
+            'date'=>(string)($daily['time'][$i] ?? ''), 'weather_code'=>$code,
+            'condition'=>$condition($code),
+            'temperature_max'=>$daily['temperature_2m_max'][$i] ?? null,
+            'temperature_min'=>$daily['temperature_2m_min'][$i] ?? null,
+            'precipitation_probability'=>$daily['precipitation_probability_max'][$i] ?? null,
+            'precipitation'=>$daily['precipitation_sum'][$i] ?? null,
+            'wind_speed_max'=>$daily['wind_speed_10m_max'][$i] ?? null,
+            'wind_gusts_max'=>$daily['wind_gusts_10m_max'][$i] ?? null,
+            'sunrise'=>(string)($daily['sunrise'][$i] ?? ''), 'sunset'=>(string)($daily['sunset'][$i] ?? ''),
+        ];
+    }
+    $code = (int)($current['weather_code'] ?? -1);
+    echo json_encode([
+        'provider'=>'Open-Meteo', 'retrieved_at'=>gmdate('c'),
+        'reference'=>'https://open-meteo.com/', 'attribution'=>'Weather data by Open-Meteo.com',
+        'location'=>$label, 'location_basis'=>$basis, 'target'=>$target,
+        'call'=>$call, 'timezone'=>(string)($forecast['timezone'] ?? ''),
+        'temperature_unit'=>$imperial ? '°F' : '°C', 'wind_speed_unit'=>$imperial ? 'mph' : 'km/h',
+        'precipitation_unit'=>$imperial ? 'in' : 'mm',
+        'current'=>[
+            'time'=>(string)($current['time'] ?? ''), 'weather_code'=>$code,
+            'condition'=>$condition($code), 'temperature'=>$current['temperature_2m'] ?? null,
+            'apparent_temperature'=>$current['apparent_temperature'] ?? null,
+            'relative_humidity'=>$current['relative_humidity_2m'] ?? null,
+            'precipitation'=>$current['precipitation'] ?? null,
+            'wind_speed'=>$current['wind_speed_10m'] ?? null,
+            'wind_direction'=>$current['wind_direction_10m'] ?? null,
+            'wind_gusts'=>$current['wind_gusts_10m'] ?? null,
+            'is_day'=>(int)($current['is_day'] ?? 0),
+        ],
+        'daily'=>$dailyRows,
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+} catch (JsonException | InvalidArgumentException $error) {
+    http_response_code(400);
+    echo json_encode(['error'=>$error->getMessage()]);
+} catch (Throwable $error) {
+    error_log('Elmer weather: ' . $error->getMessage());
+    http_response_code(502);
+    echo json_encode(['error'=>$error->getMessage()]);
+}

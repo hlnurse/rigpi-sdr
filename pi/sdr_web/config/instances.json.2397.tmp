@@ -1,0 +1,47 @@
+[
+  {
+    "port": 8003,
+    "label": "SDR @ 8003",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1789767650.447754,
+    "in_use_by": ""
+  },
+  {
+    "port": 8005,
+    "label": "SDR @ 8005",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1789767655.660553,
+    "in_use_by": ""
+  },
+  {
+    "port": 8004,
+    "label": "SDR @ 8004",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1789767660.4004118,
+    "in_use_by": ""
+  },
+  {
+    "port": 8001,
+    "label": "SDR @ 8001",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1789767669.6129847,
+    "in_use_by": ""
+  },
+  {
+    "port": 8002,
+    "label": "SDR @ 8002",
+    "device": "fake",
+    "device_serial": "",
+    "active": true,
+    "last_seen": 1789767670.753844,
+    "in_use_by": ""
+  }
+]

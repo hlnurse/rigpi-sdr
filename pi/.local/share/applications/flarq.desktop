@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Flarq
+GenericName=Fldigi ARQ Utility
+Comment=Amateur Radio Data Transfer with ARQ
+Exec=flarq
+Icon=flarq
+Terminal=false
+Type=Application
+Categories=Network;HamRadio;
+NoDisplay=false

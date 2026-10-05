@@ -1,0 +1,8 @@
+total 0
+lr-x------ 1 www-data www-data 64 Sep  3 18:47 0 -> /dev/null
+l-wx------ 1 www-data www-data 64 Sep  3 18:47 1 -> /dev/null
+l-wx------ 1 www-data www-data 64 Sep  3 18:47 2 -> /dev/null
+lr-x------ 1 www-data www-data 64 Sep  3 18:47 3 -> /var/www/html/CWDo.php
+lrwx------ 1 www-data www-data 64 Sep  3 18:47 4 -> socket:[6073]
+lrwx------ 1 www-data www-data 64 Sep  3 18:47 5 -> socket:[9146898]
+lrwx------ 1 www-data www-data 64 Sep  3 18:47 7 -> socket:[9078351]

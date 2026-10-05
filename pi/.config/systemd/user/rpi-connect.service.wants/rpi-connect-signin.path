@@ -1,0 +1,8 @@
+[Unit]
+PartOf=rpi-connect.service
+
+[Path]
+PathExists=%E/com.raspberrypi.connect/auth.key
+
+[Install]
+WantedBy=rpi-connect.service

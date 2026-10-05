@@ -1,0 +1,96 @@
+[   122.512] 
+X.Org X Server 1.21.1.16
+X Protocol Version 11, Revision 0
+[   122.512] Current Operating System: Linux rigpi5 6.12.47+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.12.47-1+rpt1 (2025-09-16) aarch64
+[   122.512] Kernel command line: reboot=w coherent_pool=1M 8250.nr_uarts=1 pci=pcie_bus_safe cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=0  numa=fake=8 system_heap.max_order=0 smsc95xx.macaddr=D8:3A:DD:AD:2C:70 vc_mem.mem_base=0x3fc00000 vc_mem.mem_size=0x40000000  console=ttyAMA10,115200 console=tty1 root=PARTUUID=c54a2d57-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles
+[   122.512] xorg-server 2:21.1.16-1.3+rpt1 (https://www.debian.org/support) 
+[   122.512] Current version of pixman: 0.44.0
+[   122.512] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[   122.512] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[   122.512] (==) Log file: "/home/pi/.local/share/xorg/Xorg.0.log", Time: Thu Oct  9 20:33:43 2025
+[   122.516] (==) Using config directory: "/etc/X11/xorg.conf.d"
+[   122.516] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[   122.517] (==) No Layout section.  Using the first Screen section.
+[   122.517] (==) No screen section available. Using defaults.
+[   122.517] (**) |-->Screen "Default Screen Section" (0)
+[   122.517] (**) |   |-->Monitor "<default monitor>"
+[   122.517] (==) No monitor specified for screen "Default Screen Section".
+	Using a default monitor configuration.
+[   122.517] (**) Option "Debug" "dmabuf_capable"
+[   122.517] (**) Allowing byte-swapped clients
+[   122.517] (==) Automatically adding devices
+[   122.517] (==) Automatically enabling devices
+[   122.517] (==) Automatically adding GPU devices
+[   122.517] (==) Automatically binding GPU devices
+[   122.517] (==) Max clients allowed: 256, resource mask: 0x1fffff
+[   122.517] (WW) The directory "/usr/share/fonts/X11/cyrillic" does not exist.
+[   122.517] 	Entry deleted from font path.
+[   122.517] (WW) The directory "/usr/share/fonts/X11/100dpi/" does not exist.
+[   122.518] 	Entry deleted from font path.
+[   122.518] (WW) The directory "/usr/share/fonts/X11/75dpi/" does not exist.
+[   122.518] 	Entry deleted from font path.
+[   122.518] (WW) The directory "/usr/share/fonts/X11/100dpi" does not exist.
+[   122.518] 	Entry deleted from font path.
+[   122.518] (WW) The directory "/usr/share/fonts/X11/75dpi" does not exist.
+[   122.518] 	Entry deleted from font path.
+[   122.518] (==) FontPath set to:
+	/usr/share/fonts/X11/misc,
+	/usr/share/fonts/X11/Type1,
+	built-ins
+[   122.518] (==) ModulePath set to "/usr/lib/xorg/modules"
+[   122.518] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[   122.518] (II) Loader magic: 0x5555d0ed0ef0
+[   122.518] (II) Module ABI versions:
+[   122.518] 	X.Org ANSI C Emulation: 0.4
+[   122.518] 	X.Org Video Driver: 25.2
+[   122.518] 	X.Org XInput driver : 24.4
+[   122.518] 	X.Org Server Extension : 10.0
+[   122.520] (II) systemd-logind: took control of session /org/freedesktop/login1/session/_33
+[   122.521] (II) xfree86: Adding drm device (/dev/dri/card0)
+[   122.521] (II) Platform probe for /sys/devices/platform/axi/1002000000.v3d/drm/card0
+[   122.521] (EE) systemd-logind: failed to take device /dev/dri/card0: Operation not permitted
+[   122.522] (II) xfree86: Adding drm device (/dev/dri/card1)
+[   122.522] (II) Platform probe for /sys/devices/platform/axi/axi:gpu/drm/card1
+[   122.522] (EE) systemd-logind: failed to take device /dev/dri/card1: Operation not permitted
+[   122.538] (**) OutputClass "vc4" setting /dev/dri/card1 as PrimaryGPU
+[   122.538] (II) LoadModule: "glx"
+[   122.541] (II) Loading /usr/lib/xorg/modules/extensions/libglx.so
+[   122.566] (II) Module glx: vendor="X.Org Foundation"
+[   122.566] 	compiled for 1.21.1.16, module version = 1.0.0
+[   122.566] 	ABI class: X.Org Server Extension, version 10.0
+[   122.566] (II) Applying OutputClass "vc4" to /dev/dri/card1
+[   122.566] 	loading driver: modesetting
+[   122.566] (==) Matched modesetting as autoconfigured driver 0
+[   122.566] (==) Matched fbdev as autoconfigured driver 1
+[   122.566] (==) Assigned the driver to the xf86ConfigLayout
+[   122.566] (II) LoadModule: "modesetting"
+[   122.566] (II) Loading /usr/lib/xorg/modules/drivers/modesetting_drv.so
+[   122.568] (II) Module modesetting: vendor="X.Org Foundation"
+[   122.568] 	compiled for 1.21.1.16, module version = 1.21.1
+[   122.568] 	Module class: X.Org Video Driver
+[   122.568] 	ABI class: X.Org Video Driver, version 25.2
+[   122.569] (II) LoadModule: "fbdev"
+[   122.569] (II) Loading /usr/lib/xorg/modules/drivers/fbdev_drv.so
+[   122.570] (II) Module fbdev: vendor="X.Org Foundation"
+[   122.570] 	compiled for 1.21.1.16, module version = 0.5.0
+[   122.570] 	Module class: X.Org Video Driver
+[   122.570] 	ABI class: X.Org Video Driver, version 25.2
+[   122.570] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[   122.570] (II) FBDEV: driver for framebuffer: fbdev
+[   122.570] (EE) 
+Fatal server error:
+[   122.570] (EE) parse_vt_settings: Cannot open /dev/tty0 (Permission denied)
+[   122.570] (EE) 
+[   122.570] (EE) 
+Please consult the The X.Org Foundation support 
+	 at http://wiki.x.org
+ for help. 
+[   122.570] (EE) Please also check the log file at "/home/pi/.local/share/xorg/Xorg.0.log" for additional information.
+[   122.570] (EE) 
+[   122.570] (WW) xf86CloseConsole: KDSETMODE failed: Bad file descriptor
+[   122.570] (WW) xf86CloseConsole: VT_GETMODE failed: Bad file descriptor
+[   122.571] (EE) Server terminated with error (1). Closing log file.

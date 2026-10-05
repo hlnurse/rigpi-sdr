@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta
+      name="description"
+      content="Bootstrap nav tab scrollable optimized for mobile site navigation."
+    />
+    <meta name="author" content="Lucas Lazaro" />
+
+    <title>Demo: Bootstrap Nav Tav Scrollable</title>
+
+    <!-- Bootstrap Framework -->
+    <script src="/Bootstrap/jquery.min.js"></script>
+    <link rel="stylesheet" href="/Boostrap/bootstrap.min.css" />
+    <script src="/Bootstrap/bootstrap.min.js"></script>
+
+    <!-- As A jQuery Plugin -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap-nav-paginator.jquery.min.js"></script>
+
+    <!-- As A Vanilla JS Plugin -->
+    <script src="/js/bootstrap-nav-paginator.min.js"></script>
+
+    <ul id="nav-tabs" class="nav nav-tabs nav-fill">
+      <li class="nav-item">
+        <button
+          type="button"
+          class="nav-link active"
+          data-bs-toggle="tab"
+          data-bs-target="#tab-bnp-1"
+        >
+          Tab 1
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          class="nav-link"
+          data-bs-toggle="tab"
+          data-bs-target="#tab-bnp-2"
+        >
+          Tab 2
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          class="nav-link"
+          data-bs-toggle="tab"
+          data-bs-target="#tab-bnp-3"
+        >
+          Tab 3
+        </button>
+      </li>
+      ... more tabs ...
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-bnp-1" role="tabpanel">
+        Tabbed Content 1
+      </div>
+      <div class="tab-pane fade" id="tab-bnp-2" role="tabpanel">
+        Tabbed Content 2
+      </div>
+      <div class="tab-pane fade" id="tab-bnp-3" role="tabpanel">
+        Tabbed Content 3
+      </div>
+      ... more tabbed content ...
+    </div>
+  </head>
+</html>

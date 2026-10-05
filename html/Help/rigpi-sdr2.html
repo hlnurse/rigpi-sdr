@@ -1,0 +1,677 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Technical &gt; RigPi Elmer-SDR</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi 5 Software Defined Radio Architecture &nbsp;System Architecture ELMER runs as a Python/Flask web server on the Raspberry Pi 5, integrated with the RigPi Station Server platform" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "rigpi-sdr2.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Elmer-SDR</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?rigpi-sdr2.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="technical.html">Technical</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Elmer-SDR</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="rigpi-audio-update.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="technical.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="rigpi-keyer-ptt.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<h2 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi 5 Software Defined Radio Architecture</span></h2>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">System Architecture</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ELMER runs as a Python/Flask web server on the Raspberry Pi 5, integrated with the RigPi Station Server platform. The browser client communicates via WebSocket (spectrum data), WebRTC (audio), and REST API (control).</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Browser</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;├── WebSocket /ws/spectrum &nbsp;→ Real-time FFT/waterfall data</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;├── WebRTC audio &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;→ Demodulated audio stream</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;└── REST API /api/* &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; → Control, state, spots, workability</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Flask/Gevent Server (sdr_web_server_minimal.py)</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;├── SoapySDR Engine &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; → Hardware abstraction</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;├── FFT/DSP Pipeline &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;→ NumPy demodulation</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;├── RigPi DB (MariaDB) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;→ User settings, spots, log</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;└── External APIs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;→ NOAA, PSKReporter, QRZ, etc</span><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Files</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">File</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Location</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Purpose</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sdr_web_server_minimal.py</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Main server</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">index.html</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Browser client</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">elmer_workability.py</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Workability engine</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">lotw_users.csv</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">LoTW user cache</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Instance configs</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/config/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Per-port settings</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">User settings</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/home/pi/sdr_web/config/users/</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Per-user JSON</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Services (examples)</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sudo systemctl start sdr_web@8001 &nbsp; # AirSpy HF+</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sudo systemctl start sdr_web@8002 &nbsp; # RTL-SDR</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sudo systemctl status sdr_web@8001 &nbsp;# Check status</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Hardware Support</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">AirSpy HF+ (Port 8001)</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Driver:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> airspyhf via SoapySDR</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Coverage:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 9 kHz – 31 MHz, 60–260 MHz</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Sample rates:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 192 kHz – 912 kHz</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Measured MDS:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> −136 dBm (spec −140 dBm)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Serial:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Configured in config/instance_8001.json</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RTL-SDR / Nooelec SMART (Port 8002)</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Driver:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> rtlsdr via SoapySDR</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Coverage:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 500 kHz – 1.75 GHz (HF with direct sampling)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">HF direct sampling:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Set device_args to direct_samp=2 (high HF) or direct_samp=1</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Sample rates:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 250 kHz – 2.4 MHz</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SDRplay RSP-ST</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Integration:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> SDRConnect 1.0.8 WebSocket API</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connection:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Via Remote tab → SDRConnect section</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Port:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Configurable in SDRConnect settings</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">REST API Reference</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">All endpoints are relative to http://rigpi5.local:800x/api/</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Core Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/state</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Full user state and SDR status</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/control</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Send control commands</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/tune</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Tune to frequency</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/spectrum</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current FFT snapshot</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/device</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR device info</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/audio/offer</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">WebRTC SDP offer for RX audio</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/audio/tx_offer</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">WebRTC SDP offer for TX audio</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/audio/state</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Audio pipeline status</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/audio/devices</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Available ALSA devices</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/workability</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Workability Index for a callsign</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/log_lookup</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Log history and award status</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/signal_check</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Signal detection at frequency</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/contests</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Upcoming contests (WA7BNM RSS)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/lotw_check</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">LoTW status for callsign</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/spots</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current DX spots from RigPi</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Remote SDR Endpoints</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Endpoint</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Method</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/kiwisdr_list</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Combined KiwiSDR + OpenWebRX list</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/kiwisdr_connect</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connect to remote receiver</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">/api/kiwisdr_disconnect</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">POST</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Disconnect remote receiver</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Workability API Parameters</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">GET /api/workability?target_call=3B9G&amp;target_grid=MH10&amp;band=20m&amp;cluster_spots=3&amp;user=admin</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Parameter</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Description</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">target_call</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">DX callsign (required)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">target_grid</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Maidenhead grid (optional — QRZ lookup if omitted)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">band</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Band string: 160m, 80m, 40m, 30m, 20m, 17m, 15m, 12m, 10m, 6m</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">cluster_spots</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Recent spot count (optional)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">beam_heading</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Override antenna heading in degrees</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">user</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Username for station parameters</span></p>
+</td>
+</tr>
+</table>
+</div>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">External Data Sources</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">NOAA Space Weather Prediction Center</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Solar flux (SFI):</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">K-index:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cache:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 15 minutes</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No authentication required</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">PSKReporter</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">URL:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://retrieve.pskreporter.info/query</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Usage:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Query stations hearing the DX callsign in the last hour</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Parameters:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> senderCallsign=, flowStartSeconds=-3600</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Returns:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> XML with receiver callsigns, locators, frequencies, modes</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No authentication required</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Rate limit:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Use sparingly — 1 query per workability fetch</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ARRL DX Bulletin</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Archive:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> http://www.arrl.org/w1aw-bulletins-archive-dx</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Content:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> http://www.arrl.org/w1awbulletinsdxissue?issue=YYYY-MM-DD&amp;code=ARLDxxx</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Format:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Text within ZCZC ... NNNN markers</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cache:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 1 hour</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No authentication required</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">QRZ XML API</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">URL:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://xmldata.qrz.com/xml/current/</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Authentication:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> QRZ username and password (stored in RigPi Users table)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Returns:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Grid square, name, address, LoTW status, photo URL, biography</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Credentials:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Stored in station.Users table fields qrzUser, qrzPWD</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Subscription:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> QRZ XML access requires a QRZ account (free or paid)</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Logbook of the World (LoTW)</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">User list:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://lotw.arrl.org/lotw-user-activity.csv</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Format:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> CALLSIGN,DATE,TIME — 230,000+ entries</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cache:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Downloaded to /home/pi/sdr_web/lotw_users.csv</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Update:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Download periodically with:</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="margin: 0 0 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">curl -o /home/pi/sdr_web/lotw_users.csv https://lotw.arrl.org/lotw-user-activity.csvsudo systemctl restart sdr_web@8001</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Loaded into memory</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> at server startup for instant O(1) lookups</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DXSummit</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">API:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> http://www.dxsummit.fi/api/v1/spots?dx_calls=CALL&amp;limit=100</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Returns:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> JSON array of spots with frequency, time, spotter, info</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Usage:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Activity window analysis — typical operating hours and bands</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No authentication required</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WA7BNM Contest Calendar</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RSS:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> https://www.contestcalendar.com/calendar.rss</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Returns:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RSS 2.0 with contest name, date/time, description</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Updates:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Daily</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No authentication required</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Credit:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Bruce Horn WA7BNM — https://www.contestcalendar.com</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DX Cluster / RigPi Spot Manager</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Source:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi MariaDB station.Clusters table</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Update:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> System → Update Cluster List button (fetches from dxcluster.info)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Count:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> 900+ clusters worldwide</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Workability Index Algorithm</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The scoring engine (elmer_workability.py) computes a weighted composite score:</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">WEIGHTS = {</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'pskreporter': 0.20, &nbsp;# Real-time propagation evidence</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'band_muf': &nbsp; &nbsp;0.18, &nbsp;# Band usability for path</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'grayline': &nbsp; &nbsp;0.15, &nbsp;# Solar terminator alignment</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'solar': &nbsp; &nbsp; &nbsp; 0.15, &nbsp;# SFI and K-index</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'bulletin': &nbsp; &nbsp;0.12, &nbsp;# DXpedition confirmed active</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'antenna': &nbsp; &nbsp; 0.10, &nbsp;# Beam alignment</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp; &nbsp;'cluster': &nbsp; &nbsp; 0.10, &nbsp;# Recent spot activity</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">}</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">MUF Estimation</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Band MUF is estimated using a simplified formula based on solar flux (SFI) and path distance:</span></p>
+<p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Short paths (&lt;500 km): Near-vertical incidence, lower MUF</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Medium paths (500-8000 km): Standard ionospheric reflection</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Long paths (&gt;8000 km): Multiple hops, reduced MUF</span></p><h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Grayline Score</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Sun elevation is calculated at both path endpoints:</span></p>
+<p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Terminator zone (−6° to +6° elevation): Score 1.0</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Twilight zone (−12° to +12°): Score 0.7</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Night (&lt; −18°): Score 0.4</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Full daylight: Score 0.2</span></p><h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Activity Window Analysis</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">DXSummit spots are parsed for UTC hour distribution. The algorithm finds the longest contiguous window of activity (allowing 1-hour gaps) to determine typical operating hours.</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Database Integration</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ELMER reads from the RigPi MariaDB station database:</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Table</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Fields Used</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Users</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">MyCall, My_Grid, qrzUser, qrzPWD</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RadioInterface</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">MainOut, RotorAzOut, powerOut</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">MySettings</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">uID (1 = radio one), RotorID (1=Dummy/no rotor)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Logbook</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">QSO history, confirmations</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Prefixes</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">DXCC entity data, CQ zone, continent</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Clusters</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:none"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">DX cluster list</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connection:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> ham / 7388 / station (localhost)</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Award Tracking</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The /api/log_lookup endpoint computes award status from the Logbook:</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DXCC</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Counts unique DXCC entity numbers. Confirmed = LoTWReceived='Y' OR QSL_R='Y' OR eQSLReceived='Y'.</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WAC (Worked All Continents)</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Checks His_Continent for all 6 continents: AF, AN, AS, EU, NA, OC, SA.</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WAZ (Worked All Zones)</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Checks CQZone for all 40 CQ zones.</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WAS (Worked All States)</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Checks His_State for US contacts (His_Country LIKE '%United States%').</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Multi-Instance Configuration</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Each SDR instance has its own config file:</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">// /home/pi/sdr_web/config/instance_8001.json</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">{</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;port&quot;: 8001,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;device_driver&quot;: &quot;airspyhf&quot;,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;device_serial&quot;: &quot;c8529780ea4946c7&quot;,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;rigport&quot;: 4532,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;label&quot;: &quot;AirSpy HF+ 1&quot;,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;rigpi_url&quot;: &quot;http://localhost&quot;,</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> &nbsp;&quot;device_args&quot;: &quot;&quot;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">}</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">device_args supports SoapySDR key=value pairs, e.g. direct_samp=2 for RTL-SDR HF direct sampling.</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cloudflare Tunnel</span></h2>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ELMER is accessible remotely via Cloudflare Tunnel:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">https://sdr.rigpi.org — Port 8001 (AirSpy HF+)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">https://sdr8001.rigpi.org — Port 8001 alternate</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Configure in /etc/cloudflared/config.yml. Enable/disable in RigPi System settings.</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Note:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> HTTPS via Cloudflare or DuckDNS enables browser clipboard API for formatted copy/paste from the Workability report.</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Maintenance</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Update LoTW Cache</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">cd /home/pi/sdr_web</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">curl -o lotw_users.csv https://lotw.arrl.org/lotw-user-activity.csv</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sudo systemctl restart sdr_web@8001</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Update Cluster List</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi → System → Update Cluster List</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Factory Reset</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">sudo /home/pi/sdr_web/factory_reset.sh</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Resets all SDR settings, clears user configs, resets passwords:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">admin: 7388</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">guest1: 7389</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">guest2: 7390</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">guest3: 7391</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Backup</span></h3>
+<p style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The factory reset script creates a timestamped backup ZIP before resetting. Manual backup:</span></p>
+<p style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">cp /home/pi/sdr_web/index.html /home/pi/sdr_web/index.html.backup</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">cp /home/pi/sdr_web/sdr_web_server_minimal.py /home/pi/sdr_web/sdr_web_server_minimal.py.backup</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Dependencies</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Python Packages (venv)</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">flask, gevent — Web server</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">numpy, scipy — DSP/FFT</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SoapySDR — Hardware abstraction</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">aiortc, av — WebRTC audio</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">pymysql — MariaDB connection</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">pyee — Event emitter</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">System</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SoapySDR with airspyhf and rtlsdr modules</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">nginx — Reverse proxy</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">MariaDB — RigPi database</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">systemd — Service management</span></p>
+<hr style="height:1px; color:#000000; border-width:0; background-color:#000000;" /><h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Credits</span></h2>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Howard Nurse W6HN</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Station Server</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Howard Nurse W6HN</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SoapySDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Pothosware</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">WA7BNM Contest Calendar</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Bruce Horn WA7BNM</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">PSKReporter</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Philip Gladstone N1DQ</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DXSummit</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — OH2BUA / Suomen Radioamatööriliitto</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">LoTW</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — ARRL Logbook of the World</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">QRZ</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — QRZ.com</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">NOAA SWPC</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — National Oceanic and Atmospheric Administration</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

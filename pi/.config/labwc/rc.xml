@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+  <theme>
+    <font place="ActiveWindow"><name/><size>0</size><weight>Normal</weight><slant>Normal</slant></font>
+    <font place="InactiveWindow"><name/><size>0</size><weight>Normal</weight><slant>Normal</slant></font>
+    <name>PiXtrix</name>
+  </theme>
+  <mouse>
+    <context name="Root">
+      <mousebind button="Right" action="Press">
+        <action name="ShowMenu"><menu>root-menu</menu></action>
+      </mousebind>
+    </context>
+  </mouse>
+  <keyboard>
+    <keybind key="A-F2">
+      <action name="Execute">
+        <command>rofi -show run</command>
+      </action>
+    </keybind>
+  </keyboard>
+</openbox_config>

@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; Elmer Ask, Voice and Control</title>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="Set Up Ask Elmer, Elmer Voice and Elmer Control Elmer adds three related capabilities to RigPi: Feature Purpose Ask Elmer Answers RigPi and amateur-radio questions using Offic" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: 4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("RigPi.html", "set-up-elmer.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Elmer Ask, Voice and Control</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="RigPi.html?set-up-elmer.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Elmer Ask, Voice and Control</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="external-accounts.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="settings.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="radio.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick=";$('div#idcontent').css('margin-top', '1em');window.print();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal"><span class="f_Heading1" style="font-size: 32px; color: #2c5d88;">Set Up Ask Elmer, Elmer Voice and Elmer Control</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 19px 0 0 0;">Elmer adds three related capabilities to RigPi:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:820px; background-color:#ffffff; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="color: #234f75;">Feature</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="color: #234f75;">Purpose</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-weight: bold;">Ask Elmer</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Answers RigPi and amateur-radio questions using Official Help, RigPi and Hamlib source material, Groups.io discussions and files, WSJT-X material, and approved live station data.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-weight: bold;">Elmer Voice</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Accepts spoken questions and commands, reads answers aloud, and can provide live transcription and translation.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-weight: bold;">Elmer Control</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Provides a compact command drawer in the Tuner and Keyer windows for safe radio, CW, macro, scanning, and recording actions.</p>
+</td>
+</tr>
+</table>
+</div>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Requirements</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>An internet connection.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>A current RigPi release containing Elmer.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>A paired <span style="font-weight: bold;">RigPi Elmer Service</span> connection.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>For voice input, microphone permission and a secure HTTPS RigPi connection. A local secure browser context may also work.</p><p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 2px 0 0 0;"><span style="font-weight: bold;">No OpenAI setup is required.</span> RigPi users do not need a ChatGPT subscription, OpenAI account, or personal API key. RigPi.net supplies the hosted service through the station's Elmer plan or beta allowance.</p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Connect the RigPi Elmer Service</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">1.</span>Sign in to RigPi with an administrator account.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">2.</span>Open <span style="font-weight: bold;">Settings &gt; Accounts &gt; User Settings</span>.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">3.</span>Locate <span style="font-weight: bold;">RigPi Elmer Service</span> and select <span style="font-weight: bold;">Configure</span>.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">4.</span>If the station is not connected, enter a recognizable station name.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">5.</span>Provide the displayed six-character approval code to the RigPi Elmer administrator. The code expires after a short time.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">6.</span>Leave the page open. RigPi checks automatically and displays <span style="font-weight: bold;">Connected</span> after approval.</p><p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;">Select <span style="font-weight: bold;">View Usage</span> to see the station plan, allowance, questions, tokens, response timing, and voluntary feedback totals. Usage is shared by the accounts on that physical RigPi.</p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-weight: bold;">Disconnect</span> immediately revokes the protected station credential. Ask Elmer, hosted voice processing, and cloud command interpretation will stop until the station is paired again.</p>
+<h2 class="p_Heading2" style="text-align: center; page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="background-color: #ffffff;">&nbsp;</span></h2>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Use Ask Elmer</span></h2>
+<div class="p_Heading2" style="text-align: center; page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><div style="margin:0 auto 0 auto;width:60%;max-width:1510px;height:auto;"><img alt="askelmer" style="width:100%;height:auto;border:none" src="askelmer.png"/></div></div>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Normal">&nbsp;</p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">1.</span>Open <span style="font-weight: bold;">Help &gt; Ask Elmer</span>.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">2.</span>Enter a question in everyday language. Press Enter to ask; use Shift+Enter for a new line.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">3.</span>Elmer searches the RigPi knowledge collection and, when appropriate, station-local live services such as QRZ, the onboard FCC database, repeater data, or shortwave schedules.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">4.</span>Use <span style="font-weight: bold;">Copy</span> to copy the formatted answer. Links and approved images remain available in the displayed answer.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">5.</span>Rate the answer from 1 through 10 and optionally explain why. Submitted feedback helps improve RigPi.</p><p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;">Example questions include:</p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">How do I configure an IC-7300 for remote audio and CAT control?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">How do I set up remote CW keying?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show me a photograph and biography for W6HN</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show K8AJS on a map</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Find all ham clubs within 40 miles of ZIP 44691</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Show all Extra-class hams within 10 miles of Wooster, Ohio</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What shortwave stations are broadcasting in Spanish now?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">What are the W8WOO repeater frequencies?</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>Visa mig biografin för SM5VFE</p><p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;">References marked <span style="font-weight: bold;">Official Help</span> are the preferred source for current RigPi operation. Community posts and contributed files may describe older releases; Elmer identifies uncertainty and conflicting procedures when the evidence permits.</p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Use Elmer Voice</span></h2>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 7px 0 0 0;"><span style="font-weight: bold;">Browser recommendation:</span> Use current Google Chrome for Elmer Voice. Safari may produce less reliable speech recognition or may not support every voice feature consistently. Voice also requires an HTTPS RigPi address and microphone permission for that site. Typed Ask Elmer and Elmer Control commands remain available when voice is unavailable.</p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">1.</span>Open Ask Elmer or the Elmer Control drawer and select the microphone control.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">2.</span>Allow microphone access when the browser asks. The permission belongs to the RigPi site and browser being used.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">3.</span>Speak normally. For hands-free radio commands, say <span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Hey RigPi</span> followed by the command.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">4.</span>Review any frequency or other safety-sensitive value that RigPi asks you to confirm.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="display:inline-block;width:27px;margin-left:-27px">5.</span>Use the speaker control to enable or disable spoken playback.</p><p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;">Elmer can recognize supported languages, search using English source material, and answer in the speaker's language. Live captions can transcribe received audio and translate it to a selected language.<br />
+&nbsp;</p>
+<p class="p_Normal" style="text-align: center; background: #ffffff; margin: 14px 0 0 0;"><img alt="lang1" width="312" height="537" style="margin:0 auto 0 auto;width:312px;height:537px;border:none" src="lang1.png"/></p>
+<p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;"><span style="background-color: #ffffff;">Here is a list of supported languages:</span><br />
+<span style="background-color: #ffffff;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">English (US and UK)</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">French (France and Canada)</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Spanish</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">German</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Swedish</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Russian</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Ukrainian</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Italian</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Dutch</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Portuguese (Portugal and Brazil)</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Japanese</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Chinese (Simplified and Traditional)</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Korean</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Polish</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Czech</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Norwegian Bokmål</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Danish</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 116px;"><span class="f_Normal" style="font-size:16px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 16px; font-family: 'Times New Roman',Times,Georgia,serif;">Finnish</span></p><p class="p_Normal" style="text-align: center; background: #ffffff; margin: 14px 0 0 0;">Elmer Voice can be used in the Ask Elmer window, SETTINGS &gt; Help &gt; Ask Elmer. &nbsp;Elmer Voice also appears in the lower right corner of the Tuner and Keyer windows in the Elmer Control panel. &nbsp;use the &gt; tab to hide or display Elmer Control.</p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;">Voice audio is sent to the hosted Elmer service only while recognition or live captions are active. Turn off the microphone or captions when they are not needed. Spoken playback normally uses the browser's speech system.</p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Use Elmer Control</span></h2>
+<p class="p_Normal">&nbsp;</p>
+<div class="p_Normal" style="text-align: center;"><div style="margin:0 auto 0 auto;width:60%;max-width:2423px;height:auto;"><img alt="tuner-control" style="width:100%;height:auto;border:none" src="tuner-control.png"/></div></div>
+<p class="p_Normal" style="background: #ffffff; margin: 19px 0 0 0;">Open the Elmer Control drawer from the side tab in the main <span style="font-weight: bold;">Tuner</span> or <span style="font-weight: bold;">Keyer</span> window. Typed commands and spoken <span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Hey RigPi</span> commands use the same control path.</p>
+<p class="p_Normal" style="background: #ffffff;">Examples include:</p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Tune radio 1 to 14.025 MHz CW</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set mode to CW and bandwidth to 500 Hz</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Restore the previous frequency and mode</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set RF gain to 40 percent</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Set CW speed to 22 words per minute</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Put CQ CQ DE W6HN in the CW buffer</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Run macro CW BW 500 HZ from bank 2</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Scan shortwave broadcasts in Spanish and stop on a signal</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-family: 'Courier New',Courier,monospace; background-color: #f2f2f2;">Sintoniza en FT8 en 20 metros</span></p><p class="p_Normal" style="background: #ffffff; margin: 14px 0 0 0;">Use the up/down triangles or keyboard Up/Down arrows to recall previous commands. During a supported scan, Space stops on the current frequency; press Space again to resume.</p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-weight: bold;">Operator remains in control.</span> Elmer uses allowlisted station actions, confirms sensitive changes, verifies results when possible, and does not treat ordinary text as permission to transmit. Check the selected radio, frequency, mode, bandwidth, power, antenna, and operating privileges before transmitting.</p>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Radio and browser troubleshooting</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:820px; background-color:#ffffff; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="color: #234f75;">Symptom</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="color: #234f75;">What to check</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Elmer reports that radio control is unavailable.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Open the Tuner and connect the selected radio first. Confirm that normal RigPi tuning works, then repeat the command.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>The microphone is unavailable.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Use HTTPS, check the browser's microphone permission for the RigPi site, reload the page, and select the microphone again.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>The wrong language is recognized.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Check the voice-language selection. Automatic recognition usually works best when the command contains a complete phrase and a clearly spoken frequency.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>A spoken frequency is uncertain.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Elmer should request confirmation. Cancel the change if the displayed frequency is not exactly what you intended, then type the command.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>The allowance is exhausted.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Open <span style="font-weight: bold;">View Usage</span>. During the beta, contact the RigPi Elmer administrator; production plans and refills are managed through RigPi.net.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>References open the wrong page.</p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p>Reload Ask Elmer and try the reference again. Official Help references resolve locally on the RigPi.</p>
+</td>
+</tr>
+</table>
+</div>
+<h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">Privacy and account scope</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>The station credential is stored on the RigPi and is never displayed in the browser.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>QRZ and HamQTH passwords remain on the RigPi. Only facts requested for an answer are sent to the hosted Elmer service.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>Station statistics contain operational totals; the station statistics page does not display question, answer, or feedback-comment text.</p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span>Answer feedback is optional. The feedback notice explains what is submitted before it is sent.</p><h2 class="p_Heading2" style="page-break-after: avoid; background: #ffffff; margin: 19px 0 0 0;"><span class="f_Heading2" style="font-size: 24px;">After a Factory Reset</span></h2>
+<p class="p_Normal" style="background: #ffffff; margin: 19px 0 0 0;">The Elmer station credential is not restored from the RigPi user database backup. Sign in as administrator and pair <span style="font-weight: bold;">RigPi Elmer Service</span> again. Reconnect other external services whose protected credentials were not restored.</p>
+<p style="background: #ffffff;">RigPi Help — Set Up Ask Elmer, Elmer Voice and Elmer Controle.</p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

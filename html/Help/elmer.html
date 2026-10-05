@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Views &gt; Elmer</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="The ELMER tab opens a full-window RigPi-SDR workspace. Use it when you want more room for the spectrum, waterfall and SDR controls." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "elmer.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1"><span class="f_Heading1">Elmer</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?elmer.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="views.html">Views</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1"><span class="f_Heading1">Elmer</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="calendar.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="views.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="ask-elmer.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal" style="background: #ffffff;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> tab opens a full-window RigPi-SDR workspace. Use it when you want more room for the spectrum, waterfall and SDR controls.</span></p>
+<h2 style="background: #ffffff; margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Open and use Elmer</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">&nbsp;</span></h2>
+<p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> in the RigPi navigation bar.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connect the configured SDR, then choose the frequency, receive mode and bandwidth.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the SDR side panel for the Audio, Display and other available controls. Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to listen in your browser and adjust the volume to a comfortable level.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click a signal in the spectrum or waterfall to tune it. Use the span controls to change how much spectrum is visible.</span></p><p class="p_Normal" style="background: #ffffff; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">This window uses your RigPi account and selected radio. The available receivers and functions depend on your station configuration.</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 9px 0 0 0;"><span style="background-color: #ffffff;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Workability Index</span></p>
+<p class="p_Normal" style="background: #f8f9fa; margin: 10px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">The&nbsp;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #102f45; background-color: #ffffff;">Workability Index</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">&nbsp;is an ELMER/RigPi-SDR feature used when looking up a DX station to help assess how workable that station may be from your setup. The SDR interface includes ELMER functions for the&nbsp;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #102f45; background-color: #ffffff;">Workability Index</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">&nbsp;and signal checking.</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 10px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">It can use callsign-lookup information such as the operator’s name, location, grid square, country, DXCC entity, LoTW status, and photo. Grid-square data is particularly relevant to path calculations.</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 10px 0 10px 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">For fuller lookup results, configure a&nbsp;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #102f45; background-color: #ffffff;">QRZ XML Subscription</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830; background-color: #ffffff;">&nbsp;&nbsp;or hamQTH</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">&nbsp;in&nbsp;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #102f45; background-color: #ffffff;">Settings → External Accounts</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">. A free QRZ account does not provide the XML API needed for RigPi’s programmatic lookup; without a QRZ or hamQTH subscription, Workability Index lookups may return limited information and may lack grid-square data.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">The Workability Index includes the following:</span></p>
+<p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Snapshot of the current Spectrum</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">The Workability Index score</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Circle path plot from your location to the DX location</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Workability Index summary</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">DX Summit results for the DX station</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">List of upcoming contests</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">QRZ/hamQTH info</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Log history for the DX station</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Award summary showing needed for this DX</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">ARRL DX Bulletin lookup</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Is the DX station heard here?</span></p><p class="p_Normal" style="text-indent: 0; background: #ffffff; padding-left: 39px; margin-left: 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:13px;margin-left:-13px">&#9642;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">Audio clip recorded using the RigPi Recorder in the Audio tab</span></p><p class="p_Normal" style="background: #ffffff;"><span style="background-color: #ffffff;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830; background-color: #ffffff;">To send an email containing the Workability Index, configure your outgoing mail server in SETTINGS &gt; Accounts &gt; User Editor.</span></p>
+<div class="p_Normal" style="text-align: center; background: #ffffff; margin: 9px 0 0 0;"><div style="margin:0 auto 0 auto;width:60%;max-width:717px;height:auto;"><img alt="wi" style="width:100%;height:auto;border:none" src="wi.png"/></div></div>
+<p class="p_Normal" style="text-align: center; background: #ffffff; margin: 9px 0 0 0;"><span class="f_ImageCaption">Workability Index ready for emailing</span><br />
+<span class="f_ImageCaption">&nbsp;</span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Finder</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">&nbsp;</span><br />
+<span class="f_ImageCaption"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img alt="elmer finder" style="width:60%;max-width:1010px;height:auto;border:none" src="hmfile_hash_f0eb3dbc.png"/></span></p>
+<p class="p_Normal" style="background: #ffffff; margin: 9px 0 0 0;"><span style="background-color: #ffffff;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer Finder watches for signals that cross the red dashed line threshold in the Spectrum. &nbsp;Signals that cross the threshold are identified in the RigPi Spot List by frequency. &nbsp;Matches are listed. Click Tune to tune the Spectrum center frequency to the spot.</span></p>
+<h2 style="background: #ffffff; margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer assistance</span></h2>
+<p class="p_Normal" style="background: #ffffff; margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Elmer Control panel provides supported natural-language control actions. For questions about operating RigPi, signal identification or radio topics, click Ask Elmer in the Navigation bar to oppen the <a href="https://rigpi.duckdns.org/Help/ask-elmer.html" class="weblink">Ask Elmer</a> window.</span></p>
+<h2 style="background: #ffffff; margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">More information</span></h2>
+<p class="p_Normal" style="background: #ffffff; margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">See <a href="https://rigpi.duckdns.org/Help/rigpi-sdr.html" class="weblink">RigPi-SDR</a> for detailed spectrum, waterfall, audio, decoder and display instructions. See <a href="https://rigpi.duckdns.org/Help/set-up-elmer.html" class="weblink">Set Up Elmer</a> for Elmer service configuration and approval.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>RSS Connections &gt; RigPi Audio</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="Current RigPi receive and transmit audio runs directly between RigPi and a modern web browser. The same Audio panel is available in the full ELMER SDR window and when SDR is..." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "rigpi-audio.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Audio</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?rigpi-audio.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="rss-connections.html">RSS Connections</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi Audio</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="rotor-control.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="rss-connections.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="rigpi-keyer.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Current RigPi receive and transmit audio runs directly between RigPi and a modern web browser. The same Audio panel is available in the full ELMER SDR window and when SDR is embedded in the Tuner or Keyer window. No Mumble or Plumble client is required.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff8e6; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Begin with low volume.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Turn down headphones, speakers, and the RigPi </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Level</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> control before starting audio. Begin around 10–20% and increase it gradually. Use a headset when testing transmit audio to prevent feedback.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Understand the three audio paths</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Purpose</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Audio path</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Hardware or selection</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Listen to SDR</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR demodulator → RigPi → browser → headset or speakers</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. No radio sound device is required.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Listen to the radio</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Radio receiver audio → radio USB CODEC → RigPi → browser</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: Radio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> and the radio's receive-audio input.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit voice*</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Browser microphone → RigPi → radio USB CODEC → transmitter</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the browser microphone and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Output (Radio CODEC)</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Configure the radio to use USB/data transmit audio.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Run digital modes</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR audio → ALSA Loopback → WSJT-X, Fldigi, or another program on RigPi</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the digital-program audio configuration; browser listening is optional.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">*Transmit audio is only available through a secure (https) connection. &nbsp;This is a browser requirement. &nbsp;However you can test the microphone by opening the Chromium browser on the Raspberry Pi desktop and connecting with <a href="http://localhost" target="_blank" class="weblink">http://localhost</a>. &nbsp;Localhost (or 127.0.0.1) is a special case where browsers can access the mocrophone. &nbsp;Remote connections or external browsers still require a secure connection. &nbsp;Running a browser on the Raspberry Pi Desktop is not recommended because of the increased CPU load a browser demands. &nbsp;You can connect a microphone to RigPi through a USB connection.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; background-color: #ffffff;">CAT is not audio.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #ffffff;">&nbsp;CAT control can change frequency and mode without carrying receive or transmit sound. Many modern radios expose both a CAT serial port and an audio CODEC through one USB cable, but they remain separate functions and must both be configured</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #ffffff;">&nbsp;</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Choose the station audio hardware</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">For most current radios, the radio's built-in USB audio CODEC is the preferred bidirectional audio connection. If the radio does not provide USB audio, use a supported external USB sound interface connected to the radio's accessory, data, or audio jacks.</span></p>
+<p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radio USB CODEC:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> usually the simplest choice. One USB cable may provide both CAT and audio.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">External USB audio interface:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> use this when the radio has no built-in CODEC. Follow the radio's requirements for isolation, levels, PTT, and accessory-port wiring.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SDR hardware:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> provides receive spectrum and digitally demodulated receive audio; it normally does not provide the radio's transmit-audio input.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 5px 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Original MFJ RigPi Audio board:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> legacy hardware. It is not necessary for normal RigPi 5 SDR browser audio. See <a href="rigpi-audio-update.html" class="topiclink">RigPi Audio Update</a> only when maintaining an earlier RigPi Audio-board installation.</span></p><h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Receive audio: quick setup</span></h2>
+<p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open ELMER SDR, the Tuner, or the Keyer, then open the SDR side panel and select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Choose </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to hear the SDR demodulator. Confirm that the SDR is connected and tune a visible signal.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">To hear the transceiver instead, choose </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: Radio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, then select the correct radio input from the adjacent device list.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Turn down the listening device and set </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Level</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> low.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">C</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to send the audio equally to both ears.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Browsers require this user action before a page may play sound.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 5px 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">7.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Confirm that the audio indicator turns green and the receive VU meter responds. Increase Level gradually.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The RX Audio selection changes only what this user hears. It does not change the spectrum, waterfall, tuning, PTT, or transmit-audio device. The selection is retained for the signed-in RigPi account.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio panel controls</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Control</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Function</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start/Stop Audio</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Starts or stops the browser audio stream.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Selects audio demodulated by the SDR or receive audio supplied by the radio CODEC.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radio input</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Selects the ALSA capture device used when RX Audio is set to Radio.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Level</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Controls this browser's listening level. Start low, particularly with headphones.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">L / C / R</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Pans the stream left, center, or right. To monitor two devices—or one device at two frequencies—select L for one stream and R for the other. Select C for normal listening in both ears.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">VU / SCOPE / FFT</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Changes the audio display only; it does not change the sound.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Output (Radio CODEC)</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Selects the RigPi audio playback device that feeds transmit audio to the radio.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Level and TX VU</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Sets browser-microphone drive to the radio and displays its level. Avoid the red clipping indication.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit audio: setup and safe test</span></h2>
+<p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connect the radio's USB audio CODEC or a supported external USB audio interface to RigPi.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">In the Audio panel, select the radio device under </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Output (Radio CODEC)</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Do not select the Raspberry Pi speaker output or an SDR receive-only device.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the desired microphone in the browser audio controls. If prompted, allow microphone access for the RigPi site.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Configure the radio so that the selected operating mode uses its USB, data, or accessory audio input rather than the front-panel microphone. The exact menu name is radio-dependent.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Set </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Level</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> low. Connect a dummy load or select minimum safe power for the first test.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Test PTT independently. PTT and transmit audio are separate paths: a radio can key successfully while receiving no modulation.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">7.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">While speaking normally, increase TX Level until the TX VU responds without frequent red clipping. Then check the radio's ALC or input meter and adjust its USB/data input level as necessary.</span></p><p style="text-indent: 0; padding-left: 20px; margin: 5px 0 5px 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">8.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Release PTT and verify immediately that the radio returned to receive.</span></p><p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 2px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit safety:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Selecting an audio device does not authorize transmission. Confirm the frequency, mode, antenna or dummy load, power, and radio input selection before pressing PTT. Stop immediately if the radio remains keyed, the TX audio clips, or the radio shows excessive drive.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Browser and remote-access requirements</span></h2>
+<p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a current browser. Google Chrome is recommended when microphone behavior is inconsistent.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Remote microphone capture requires a secure </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">https://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi address. Native DuckDNS HTTPS and Cloudflare remote access both provide HTTPS. Browser handling of a local address can vary.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Microphone permission is stored separately for each browser, device, and RigPi address. Permission granted to </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">rigpi5.local</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> does not automatically apply to a DuckDNS or Cloudflare address.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Check the browser's site controls if the wrong microphone is selected or permission was denied.</span></p><p style="text-indent: 0; padding-left: 13px; margin: 5px 0 5px 0;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">On phones and tablets, silent mode, Bluetooth routing, and the physical volume controls can affect playback even when the RigPi VU meter is moving.</span></p><p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 2px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Chrome local-LAN microphone override:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> HTTPS is preferred. If Chrome blocks microphone access to a trusted local RigPi address, open </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">chrome://flags/#unsafely-treat-insecure-origin-as-secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Enable </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Insecure origins treated as secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, enter the complete RigPi origin—normally </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">http://rigpi5.local</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">—and relaunch Chrome. If an explicit port is used, include it, for example </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">http://rigpi5.local:8001</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Reopen RigPi and allow microphone access when prompted. Add only a RigPi you trust on your local network. This override does not encrypt the connection and must not replace HTTPS for remote access.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Troubleshooting</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 19px 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Symptom</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">What to check</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">No sound and no receive VU movement</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click Start Audio. For SDR audio, confirm the SDR is connected, tune a visible signal, and select the correct mode and bandwidth. For Radio audio, select the correct receive CODEC. Reload the page if the audio indicator does not turn green.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">VU moves but nothing is heard</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Raise Level gradually, select C, check the device volume, unmute the RigPi browser tab and site, and disconnect an unintended Bluetooth output.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Only FM audio works</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Confirm which path is being heard. An SDR can demodulate FM while the radio CODEC or sideband mode remains misconfigured. Check RX Audio selection, mode, bandwidth, radio CODEC, and the radio's USB/data audio menus.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio is choppy or delayed</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a wired network when practical, close duplicate RigPi tabs, reduce demanding SDR features, and check Raspberry Pi load and temperature. Raspberry Pi 5 is strongly recommended.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Microphone is unavailable</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use HTTPS, allow microphone permission for this RigPi address, select the correct browser input, and reload the page. For a trusted local HTTP address in Chrome, use the documented </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic;">Insecure origins treated as secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> override.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radio keys but has no modulation</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the correct TX Output CODEC, verify browser microphone permission, and configure the radio to use USB/data audio. Then raise TX Level gradually.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit audio is distorted</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Reduce TX Level and the radio's USB/data input gain. Avoid red TX VU clipping and excessive radio ALC.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Echo or feedback</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a headset, close duplicate audio sessions, move speakers away from the microphone, and stop receive audio temporarily while testing transmit.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Wrong account or radio audio</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Confirm the signed-in account, selected SDR instance, RX radio input, and TX CODEC. Shared radios do not require every user to share the same browser audio preferences.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Diagnose one stage at a time:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> visible signal → receive VU → browser sound → microphone permission → TX VU → radio CODEC → PTT → on-air modulation. This finds the failed stage without changing several unrelated settings.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Related topics</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="rigpi-sdr.html#audio" class="topiclink">RigPi-SDR Audio</a> — SDR panel details and controls</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="remote-connections.html" class="topiclink">Remote Connections</a> — remote browser access</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="rigpi-audio-update.html" class="topiclink">RigPi Audio Update</a> — legacy MFJ RigPi Audio-board maintenance</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="mumble.html" class="topiclink">Mumble</a> — legacy RigPi versions only</span></p><p style="margin: 14px 0 0 0;"><span style="font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #444444;">Current RigPi 5 installations use browser WebRTC audio. Legacy Mumble, Plumble, </span><span style="font-size: 11px; font-family: 'Courier New',Courier,monospace; color: #444444;">snd_rpi_proto</span><span style="font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #444444;">, and original MFJ RigPi Audio-board instructions should not be mixed into a current browser-audio setup.</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi Help — RigPi Audio</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

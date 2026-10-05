@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ask Elmer</title>
+  <style>
+    :root { color-scheme: light; --navy:#14283d; --blue:#176b99; --pale:#eef5f7; --gold:#f1b24a; --ink:#17212b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:linear-gradient(150deg,#e7f1f3,#f8faf8 55%,#edf3eb); color:var(--ink); font:18px/1.55 system-ui,-apple-system,sans-serif; min-height:100vh; }
+    header { background:var(--navy); color:white; padding:18px 24px; box-shadow:0 2px 8px #0003; }
+    header div { max-width:900px; margin:auto; display:flex; align-items:center; gap:14px; }
+    .badge { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; background:var(--gold); color:var(--navy); font-weight:800; font-size:25px; }
+    h1 { margin:0; font-size:28px; } header p { margin:0; opacity:.8; font-size:14px; }
+    main { max-width:900px; margin:34px auto; padding:0 20px 50px; }
+    .ask,.result { background:#fff; border-radius:16px; box-shadow:0 10px 35px #18334b18; padding:24px; }
+    label { display:block; font-size:22px; font-weight:700; margin-bottom:10px; }
+    textarea { width:100%; min-height:105px; resize:vertical; border:2px solid #b5c7cf; border-radius:10px; padding:14px; font:inherit; color:inherit; }
+    textarea:focus { outline:3px solid #77b6d044; border-color:var(--blue); }
+    .actions { display:flex; align-items:center; gap:14px; margin-top:14px; flex-wrap:wrap; }
+    button { border:0; border-radius:9px; background:var(--blue); color:white; padding:12px 22px; font:700 17px system-ui; cursor:pointer; }
+    button:hover { filter:brightness(.92); } button:disabled { opacity:.55; cursor:wait; }
+    .hint { color:#53636c; font-size:14px; }
+    .result { display:none; margin-top:22px; }
+    .result.visible { display:block; }
+    #status { color:var(--blue); font-weight:650; min-height:28px; }
+    #answer { white-space:pre-wrap; overflow-wrap:anywhere; font-family:inherit; margin:8px 0 0; }
+    #answer a { color:#075f91; text-decoration-thickness:2px; }
+    .metrics { margin-top:20px; border-top:1px solid #d9e3e6; padding-top:10px; color:#617079; font-size:13px; }
+    dialog { width:min(760px,92vw); max-height:82vh; border:0; border-radius:14px; padding:0; box-shadow:0 20px 70px #0005; }
+    dialog::backdrop { background:#10202dcc; }
+    .dialog-head { position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; background:var(--navy); color:white; padding:14px 20px; }
+    .dialog-head button { background:#ffffff22; padding:7px 12px; }
+    #referenceBody { padding:20px; white-space:pre-wrap; font:15px/1.5 ui-monospace,SFMono-Regular,monospace; }
+    @media (max-width:600px) { body { font-size:16px; } main { margin-top:20px; } .ask,.result { padding:18px; } }
+  </style>
+</head>
+<body>
+  <header><div><span class="badge">E</span><span><h1>Ask Elmer</h1><p>RigPi help grounded in manuals, project sources, and community experience</p></span></div></header>
+  <main>
+    <section class="ask">
+      <form id="askForm">
+        <label for="question">What would you like help with?</label>
+        <textarea id="question" maxlength="1000" required placeholder="For example: How do I configure an IC-7300 for remote audio and CAT control?"></textarea>
+        <div class="actions"><button id="askButton" type="submit">Ask Elmer</button><span class="hint">Enter asks · Shift+Enter starts a new line</span></div>
+      </form>
+    </section>
+    <section id="result" class="result" aria-live="polite">
+      <div id="status"></div>
+      <div id="answer"></div>
+      <div id="metrics" class="metrics"></div>
+    </section>
+  </main>
+  <dialog id="referenceDialog"><div class="dialog-head"><strong>Elmer reference</strong><button id="closeDialog">Close</button></div><div id="referenceBody"></div></dialog>
+  <script>
+    const form=document.querySelector('#askForm'), question=document.querySelector('#question');
+    const button=document.querySelector('#askButton'), result=document.querySelector('#result');
+    const status=document.querySelector('#status'), answer=document.querySelector('#answer'), metrics=document.querySelector('#metrics');
+    const dialog=document.querySelector('#referenceDialog'), referenceBody=document.querySelector('#referenceBody');
+    const escapeHtml=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function linked(text) {
+      return escapeHtml(text).replace(/(https:\/\/[^\s<]+|elmer:\/\/[^\s<]+)/g,raw=>{
+        let url=raw,tail=''; while(/[.,;)]$/.test(url)){tail=url.slice(-1)+tail;url=url.slice(0,-1)}
+        if(url.startsWith('elmer://')) return `<a href="#" data-ref="${url}">${url}</a>${tail}`;
+        return `<a href="${url}" target="_blank" rel="noopener">${url}</a>${tail}`;
+      });
+    }
+    function parseEvents(buffer,onEvent) {
+      const blocks=buffer.split('\n\n'),remainder=blocks.pop();
+      for(const block of blocks){
+        let kind='message',data='';
+        for(const line of block.split('\n')){if(line.startsWith('event:'))kind=line.slice(6).trim();if(line.startsWith('data:'))data+=line.slice(5).trim()}
+        if(data)onEvent(kind,JSON.parse(data));
+      }
+      return remainder;
+    }
+    form.addEventListener('submit',async event=>{
+      event.preventDefault(); const q=question.value.trim(); if(!q)return;
+      button.disabled=true; result.classList.add('visible'); status.textContent='Connecting to Elmer…'; answer.textContent=''; metrics.textContent='';
+      let complete='',buffer='';
+      try {
+        const response=await fetch('/api/answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})});
+        if(!response.ok){const problem=await response.json();throw new Error(problem.error||'Unable to ask Elmer')}
+        const reader=response.body.getReader(),decoder=new TextDecoder();
+        while(true){const {value,done}=await reader.read();buffer+=decoder.decode(value||new Uint8Array(),{stream:!done});
+          buffer=parseEvents(buffer,(kind,data)=>{
+            if(kind==='status')status.textContent=data.text;
+            if(kind==='delta'){status.textContent='Elmer is answering…';complete+=data.text;answer.textContent=complete;window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
+            if(kind==='done'){status.textContent='';answer.innerHTML=linked(complete);metrics.textContent=`First words: ${data.timing.first_text_seconds}s · Complete: ${data.timing.total_seconds}s · Tokens: ${data.usage.total_tokens||'—'}`;}
+            if(kind==='error')throw new Error(data.message);
+          }); if(done)break;
+        }
+      } catch(error){status.textContent='Elmer could not complete that answer.';answer.textContent=error.message;}
+      finally{button.disabled=false;question.focus()}
+    });
+    question.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit()}});
+    answer.addEventListener('click',async event=>{
+      const link=event.target.closest('[data-ref]');if(!link)return;event.preventDefault();referenceBody.textContent='Opening reference…';dialog.showModal();
+      try{const response=await fetch('/api/reference?ref='+encodeURIComponent(link.dataset.ref));const data=await response.json();if(!response.ok)throw new Error(data.error);
+        if(data.kind==='document'){const d=data.document;referenceBody.textContent=`${d.title}\n${d.path}\n${d.author||''} ${d.published_at||''}\n\n${d.body}`}
+        else{referenceBody.textContent=data.messages.map(m=>`${m.selected?'SELECTED':'CONTEXT'} — ${m.subject}\n${m.author||'(unknown)'} · ${m.published_at||''}\n\n${m.body}`).join('\n\n──────────\n\n')}
+      }catch(error){referenceBody.textContent=error.message}
+    });
+    document.querySelector('#closeDialog').addEventListener('click',()=>dialog.close());
+    question.focus();
+  </script>
+</body>
+</html>

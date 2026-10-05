@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>RigPi Introduction &gt; Security</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="Security RigPi controls station equipment and can transmit when an account has permission. Treat it like any other Internet-connected station controller: use strong account..." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "security.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Security</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?security.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="introduction.html">RigPi Introduction</a>&nbsp;&gt;</p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Security</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="rss-on-mobile-deviices_2.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="introduction.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="passwords.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<h1 class="p_Heading1" style="border-color: #000000; border-style: solid; border-width: thin; border-top: none; border-right: none; border-left: none; margin: 19px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #2c5d88;">Security</span></h1>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi controls station equipment and can transmit when an account has permission. Treat it like any other Internet-connected station controller: use strong account passwords, expose only the connection you need, install operating-system updates, and remove access that is no longer required.</span></p>
+<p style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4f1; padding: 12px 12px 12px 12px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Never expose an unencrypted RigPi address to the Internet.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Remote browsers should connect through a configured </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">https://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> DuckDNS or Cloudflare address (described below). Do not forward the RigPi web, SDR, SSH, database, VNC, or other service ports directly unless you understand and accept the risk.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Local and remote connections</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">A local address such as </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">http://rigpi5.local</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> can be used on a trusted home or station network. Secure remote operation requires HTTPS. In addition to encrypting browser traffic, HTTPS provides the secure browser context required for remote microphone access and other browser features.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi provides two HTTPS choices. Configure them under </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SETTINGS &gt; Accounts &gt; User Settings</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Complete setup instructions are in <a href="external-accounts.html" class="topiclink">External Accounts</a>.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Method</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Advantages</span></p>
+</td>
+<td style="vertical-align:top; background-color:#E9F0F5; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #234f75;">Important limitations</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Native HTTPS with DuckDNS (free)</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Free permanent hostname; automatically renewed Let’s Encrypt certificate; direct connection to the station.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Requires a reachable public IP address and router forwarding of TCP port 443. DuckDNS publishes the station’s public IP address. It generally does not work through carrier-grade NAT (CGNAT), double NAT, or blocked inbound ports without additional network changes.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cloudflare Tunnel (free plus your own domain)</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No router port forwarding; works through CGNAT and most restricted Internet connections; does not publish the station’s origin IP address.</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Uses a third-party tunnel service. A permanent named station address requires a domain owned by the station operator.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="border-color: #000000; border-style: solid; border-width: 2px; background: #bfefff; padding: 4px 4px 4px 4px; margin: 6px 44px 0 9px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Use the complete secure address.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> A remote address begins with </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">https://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, not </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">http://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Test it from outside the station network, such as a phone with Wi-Fi disabled. Some routers cannot use the public address from inside the same LAN.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Native HTTPS with DuckDNS</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi obtains and renews the certificate and keeps the DuckDNS address synchronized with the station’s public IP address. Forward only external TCP port </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">443</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to port </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">443</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> at the RigPi’s reserved local IP address. Do not forward port 80 or the individual SDR ports.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Secure same-origin paths such as </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">https://your-name.duckdns.org</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> provide remote SDR access through the main RigPi HTTPS connection. There is no need to expose ports except for port 443.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Before enabling the forwarding rule, replace all factory or weak RigPi passwords.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Disable or move the router’s Internet administration page if it uses external port 443.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If the DuckDNS name resolves but the connection times out, compare the router’s WAN address with the public address shown by DuckDNS. A mismatch can indicate stale DNS, double NAT, or CGNAT.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The DuckDNS token is stored locally in a root-only file and is not returned to the browser.</span></p><p style="border-color: #000000; border-style: solid; border-width: 2px; background: #fff4f1; padding: 4px 4px 4px 4px; margin: 10px 44px 0 9px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DuckDNS is naming and certificate support, not a privacy proxy.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Anyone resolving the hostname can see the station’s public IP address. Choose Cloudflare Tunnel to conceal the origin address or to avoid inbound port forwarding.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cloudflare Tunnel</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Cloudflare Tunnel makes an outbound connection from RigPi to Cloudflare, so the router does not accept a new inbound connection and no port-forwarding rule is required. This is normally the better choice for CGNAT, double NAT, ISP-blocked inbound ports, or origin-IP concealment.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Protect the Cloudflare account with a strong unique password and multi-factor authentication. Treat the tunnel token as a password: do not paste it into messages, screenshots, or support requests. Remove unused tunnels and DNS records from the Cloudflare dashboard.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Accounts and station permissions</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Give every guest user a separate RigPi account and a strong, unique password.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Reserve administrator access for people who must change system-wide settings.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Grant radio control and transmit permission only when required. Use a receive-only or restricted access level for observers.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Delete unused accounts promptly and review account requests before approval.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Do not share browser sessions. Sign out when using a shared or public computer.</span></p><h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Browser audio, SDR, and site permissions</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Microphone permission is stored separately for each browser, device, and RigPi address. Permission granted to a local address does not automatically apply to its DuckDNS or Cloudflare address. Grant camera, microphone, clipboard, and notification permission only to the expected RigPi hostname.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Temporary Remote Support</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="remote-support.html" class="topiclink">Temporary Remote Support</a> provides time-limited, key-only diagnostic access for a trusted technician. It can use a temporary encrypted address that requires no domain or router change, or an existing secure station address.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Verify the technician’s complete Ed25519 public key and fingerprint through a trusted channel.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Choose the shortest practical access period and remain available during the session.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Send only the displayed Support URL. Never send a private key, password, DuckDNS token, Cloudflare token, or API credential.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Revoke Now</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> when the session is complete. Access also expires automatically and is cleared by a restart.</span></p><p style="border-color: #000000; border-style: solid; border-width: 2px; background: #fff4f1; padding: 4px 4px 4px 4px; margin: 10px 44px 0 15px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Support access is powerful.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> An authorized technician can inspect and change the operating system. Enable it only for someone you trust.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Firewall, intrusion protection, and updates</span></h2>
+<p class="p_Normal" style="margin: 19px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi includes the UFW firewall and Fail2ban as defense-in-depth measures. A firewall reduces unnecessary network exposure, and Fail2ban can temporarily block repeated failed login attempts. Neither replaces HTTPS, strong passwords, safe router configuration, or timely updates. See the <a href="ufw-firewall.html" class="topiclink">UFW topic</a> before changing firewall rules.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Install Raspberry Pi OS and RigPi security updates promptly. Review unexpected login notifications and access logs. Avoid installing unneeded Internet-facing software, and remove services that are no longer used.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Passwords, tokens, and backups</span><br />
+<span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">&nbsp;</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a password manager and never reuse the administrator password on another service.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Treat DuckDNS, Cloudflare, Elmer, SMTP, callbook, notification, VPN, and API credentials as sensitive.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Keep downloaded RigPi backups private. They can contain station records and account settings.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Do not include passwords, tokens, private keys, or personal information in screenshots or support messages.</span></p><p class="p_Normal" style="margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"><a href="resetting-rigpi-access.html" class="topiclink">Factory Reset</a> rebuilds the station database and removes managed DuckDNS, Cloudflare, Elmer, Remote Support, WireGuard, ZeroTier, browser, and other private station data. It also removes release-development backups managed by RigPi. </span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Factory Reset does not delete the external DuckDNS hostname, Cloudflare tunnel, or DNS records from those providers’ accounts, and it intentionally preserves unrelated personal SSH keys. Remove those external records and keys separately before transferring a system.</span></p>
+<h2 style="margin: 19px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Remote-access checklist</span><br />
+<span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">&nbsp;</span></h2>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Set strong, unique passwords and confirm each user’s permissions.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 7px 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Choose one HTTPS method: DuckDNS for a direct connection with reachable port 443, or Cloudflare Tunnel when port forwarding or public-IP exposure is undesirable.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 7px 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the secure same-origin SDR path, normally </span><span style="font-size: 12px; font-family: 'Courier New',Courier,monospace;">/sdr1</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for the first account. The sdr1 option is entered in SETTINGS &gt; Accounts &gt; Account Editor.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 7px 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Test from outside the station LAN and confirm the browser shows the expected HTTPS hostname.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 7px 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Verify receive audio, microphone permission, radio control, and PTT into a dummy load.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 7px 0 7px 13px;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:27px;margin-left:-27px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Review accounts, tunnel settings, router rules, updates, and logs periodically.</span></p><p style="margin: 14px 0 0 0;"><span style="color: #000000;">&nbsp;</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

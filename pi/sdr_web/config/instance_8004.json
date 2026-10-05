@@ -1,0 +1,9 @@
+{
+  "port": 8004,
+  "device_driver": "fake",
+  "device_serial": "",
+  "rigport": 4538,
+  "label": "SDR 4",
+  "rigpi_url": "http://localhost",
+  "device_args": ""
+}

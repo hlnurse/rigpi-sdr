@@ -1,0 +1,128 @@
+.elmer-voice {
+  align-items: center;
+  background: #e9f2f6;
+  border-left: 4px solid #176b99;
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 12px;
+  margin-top: 16px;
+  padding: 12px 14px;
+}
+
+.elmer-voice button.listening {
+  background: #8b1538;
+  border-color: #8b1538;
+  color: #fff;
+}
+
+.elmer-voice button.wake-on {
+  background: #176b99;
+  border-color: #176b99;
+  color: #fff;
+}
+
+.elmer-voice-speak {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  margin: 0;
+}
+
+.elmer-voice-language {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.elmer-voice-language select {
+  display: inline-block;
+  min-width: 150px;
+  width: auto;
+}
+
+.elmer-voice-status {
+  color: #28566f;
+  flex: 1 1 100%;
+  font-size: .9rem;
+  font-weight: 700;
+  min-height: 1.35em;
+}
+
+.elmer-voice-note {
+  color: #64717a;
+  flex: 1 1 100%;
+  font-size: .78rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.elmer-voice-report {
+  background: #fff;
+  border: 1px solid #b9c8d0;
+  border-radius: 8px;
+  color: #243746;
+  margin-top: 12px;
+  padding: 14px 16px;
+}
+
+.elmer-voice-report[hidden] {
+  display: none;
+}
+
+.elmer-voice-report-head {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.elmer-voice-report-head strong {
+  color: #183b54;
+  font-size: 1.05rem;
+}
+
+.elmer-voice-report dl {
+  display: grid;
+  gap: 6px 12px;
+  grid-template-columns: minmax(130px, .7fr) minmax(190px, 1.3fr);
+  margin: 0;
+}
+
+.elmer-voice-report dt,
+.elmer-voice-report dd {
+  margin: 0;
+}
+
+.elmer-voice-report dt {
+  color: #526873;
+  font-weight: 700;
+}
+
+.elmer-voice-state-ready { color: #176b45; }
+.elmer-voice-state-limited { color: #8a5b00; }
+.elmer-voice-state-unavailable { color: #8b1538; }
+
+.elmer-voice-conclusion {
+  border-top: 1px solid #d5dfe4;
+  font-weight: 700;
+  margin: 11px 0 0;
+  padding-top: 9px;
+}
+
+@media (max-width: 620px) {
+  .elmer-voice > button {
+    flex: 1 1 auto;
+  }
+
+  .elmer-voice-report dl {
+    grid-template-columns: 1fr;
+  }
+
+  .elmer-voice-report dd {
+    margin-bottom: 6px;
+  }
+}

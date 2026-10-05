@@ -1,0 +1,2 @@
+set enable-bracketed-paste on
+"\e[200~": paste-insert

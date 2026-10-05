@@ -1,0 +1,12 @@
+{
+  "port": 8001,
+  "device_driver": "airspyhf",
+  "device_serial": "c8529780be444686",
+  "rigport": 4532,
+  "label": "SDR 1",
+  "rigpi_url": "http://localhost",
+  "device_args": "",
+  "hackrf_tx_enabled": true,
+  "hackrf_tx_gain": 10,
+  "hackrf_tx_amplitude": 0.1
+}

@@ -1,0 +1,66 @@
+{
+  "GridTracker2": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": true,
+    "zoom": 0
+  },
+  "gt_popup": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_stats": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_lookup": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_bandactivity": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_alert": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_conditions": {
+    "x": 560,
+    "y": 266,
+    "width": 800,
+    "height": 600,
+    "show": false,
+    "zoom": 0
+  },
+  "gt_roster": {
+    "x": 186,
+    "y": 133,
+    "width": 800,
+    "height": 600,
+    "show": true,
+    "zoom": 0
+  }
+}

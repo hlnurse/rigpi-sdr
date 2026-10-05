@@ -1,0 +1,8 @@
+{
+  "include": [
+    "config/project.json",
+    "config/connectors.json",
+    "config/analysis.json",
+    "config/report.json"
+  ]
+}

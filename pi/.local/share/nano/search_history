@@ -1,0 +1,103 @@
+handle_fft
+handlefft
+dbrow
+const rng
+35
+audioctx
+span
+handle_fft_cli
+drawsp
+window.addeventl
+db_c
+_gain
+rf_gain
+rf gain
+25 db
+= 25
+db_ceil
+drawspe
+wfctx.dr
+wfctx.draw
+const h
+y 
+const parts
+onclick="send
+onclick="sendCtrl('r
+buttons
+onclick
+@app.route
+base_
+from flask
+@app.route("/")
+import os
+base_dir
+.catch((err
+100vh
+400
+height
+32
+0.0
+0.0.0
+192
+HamlibClient
+4532
+rigctld
+localhost
+spectrumcanvas
+maria
+rig_name
+app.r
+app.route("/api/spe
+512
+1024
+fft_size
+run
+def run
+sdr_en
+class sdr
+.panel
+appendchild
+Child
+document.createElement("div")
+innerHTML = panelHTML
+"fftShell"
+shell
+class="p
+rightpanel
+.right
+compute
+spectrum =
+self._tukey_narrow =
+apply window
+power =
+power = power * window
+exponential
+sel.alpha
+self.al
+alpha
+set_av
+103
+fftout
+fftfout
+class rigpi b
+class rigpib
+class
+"F"
+F
+fftFOut
+#
+test
+while
+flic
+input=
+'
+send
+cw
+wsjt
+w6hn
+grid
+6HN
+W6HN
+
+
+

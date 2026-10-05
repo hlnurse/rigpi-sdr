@@ -1,0 +1,6 @@
+[General]
+crashed=true
+
+[input]
+device="rtl=0"
+sample_rate=1800000

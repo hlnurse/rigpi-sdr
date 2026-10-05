@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=SDRconnect
+Comment=SDRplay's SDRconnect
+#Exec=sdrconnect
+#Exec=env > /tmp/env.desktop
+Exec=/opt/sdrconnect/SDRconnect
+Icon=/opt/sdrconnect/sdrconnect.ico
+Terminal=false
+Type=Application
+Categories=Multimedia
+StartupNotify=true

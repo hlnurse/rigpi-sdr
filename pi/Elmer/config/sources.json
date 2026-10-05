@@ -1,0 +1,76 @@
+{
+  "paths": {
+    "output_directory": "output",
+    "database_name": "knowledge.db"
+  },
+  "sources": [
+    {
+      "id": "official-help",
+      "type": "help_zip",
+      "path": "sources/Help.zip",
+      "enabled": true,
+      "authority": 100
+    },
+    {
+      "id": "groups-export",
+      "type": "groups_io_export_zip",
+      "path": "sources/GroupsExport.zip",
+      "enabled": false,
+      "authority": 60,
+      "options": {
+        "import_messages": true,
+        "import_files": true,
+        "import_member_notices": false
+      }
+    },
+    {
+      "id": "groups-messages",
+      "type": "groups_io_mbox",
+      "path": "sources/messages.mbox",
+      "enabled": false,
+      "authority": 60,
+      "options": {
+        "strip_quoted_replies": true,
+        "strip_signatures": true,
+        "strip_groups_footer": true,
+        "deduplicate_messages": true,
+        "minimum_message_words": 5
+      }
+    },
+    {
+      "id": "rigpibeta-messages",
+      "name": "RigPi Beta Groups.io",
+      "type": "groups_io_mbox",
+      "path": "sources/rigpibeta/messages.mbox",
+      "enabled": false,
+      "authority": 70,
+      "tags": [
+        "beta",
+        "community",
+        "pre-release"
+      ],
+      "options": {
+        "strip_quoted_replies": true,
+        "strip_signatures": true,
+        "strip_groups_footer": true,
+        "deduplicate_messages": true,
+        "minimum_message_words": 5
+      }
+    },
+    {
+      "id": "groups-files",
+      "type": "groups_io_files_zip",
+      "path": "sources/Files.zip",
+      "enabled": false,
+      "authority": 70
+    },
+    {
+      "id": "groups-member-notices",
+      "type": "groups_io_member_notices",
+      "path": "sources/membernotices.json",
+      "enabled": false,
+      "authority": 20
+    }
+  ],
+  "_note": "Legacy v0.17 configuration example. v0.18 uses config/connectors.json; sources remains supported."
+}

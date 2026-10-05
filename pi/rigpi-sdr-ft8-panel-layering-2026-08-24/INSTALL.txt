@@ -1,0 +1,12 @@
+RigPi-SDR FT8 panel layering fix
+
+This package closes the thin paint seam between the decoder status bar and
+the sticky spot-table header. It includes the preceding manual FT8/FT4
+decoder-control update.
+
+On RigPi:
+
+  cd /path/to/deployed/pi/sdr_web
+  sudo bash install_ft8_panel_layering.sh
+
+Then force-reload the RigPi-SDR browser page.

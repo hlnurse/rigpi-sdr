@@ -1,0 +1,7235 @@
+[
+  {
+    "name": "Located in Bedford UK OpenWebRX+ SDRPlay RSP1A LF/MF/HF/VHF/UHF  + RTL-SDR Blog ",
+    "url": "http://remoteradio.changeip.org:8077/",
+    "type": "owrx",
+    "lat": 52.11736723849368,
+    "lon": -0.45002051405630406,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Berlin - Lichterfelde \ud83d\ude01\ud83c\udde9\ud83c\uddea\ud83c\udde9\ud83c\uddea\ud83c\udde9\ud83c\uddea\ud83d\ude01 [DL0073SWL] OpenWebRxPlus 0-32 MHz/ 2m/ 70cm/ PMR",
+    "url": "http://thomas0177.ddns.net:8077/",
+    "type": "owrx",
+    "lat": 52.41876,
+    "lon": 13.30633,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "DB0SP - 145,6 MHz - Berlin - Lichterfelde \ud83d\ude01\ud83c\udde9\ud83c\uddea\ud83c\udde9\ud83c\uddea\ud83c\udde9\ud83c\uddea\ud83d\ude01 [DL0073SWL] OpenWebRxPlus \ud83d\ude01\ud83c\udde9\ud83c\uddea",
+    "url": "http://thomas0177.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 52.41876,
+    "lon": 13.30633,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDR VHF & UHF ESPARREGUERA NORTE  Asociaci\u00f3n Radio Club EA3SPAIN",
+    "url": "http://ea3rkeuhf.sytes.net/",
+    "type": "owrx",
+    "lat": 41.550306588481085,
+    "lon": 1.8563661040087576,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDR CB/HF/VHF COLLBATO Asociaci\u00f3n Radio Club EA3SPAIN",
+    "url": "http://ed3ybk.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 41.550306588481085,
+    "lon": 1.8563661040087576,
+    "bands": [
+      "40m",
+      "10m",
+      "2m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "SDR VHF & UHF CORBERA DE LLOBREGAT Asociaci\u00f3n Radio Club EA3SPAIN",
+    "url": "http://ed3ybk.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 41.550306588481085,
+    "lon": 1.8563661040087576,
+    "band": "VHF"
+  },
+  {
+    "name": "SDR VHF & UHF HOSTALETS DE PIEROLA Asociaci\u00f3n Radio Club EA3SPAIN",
+    "url": "http://ea3rkevhf.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 41.550306588481085,
+    "lon": 1.8563661040087576,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Funkclub Schl\u00f6ssli - HB9RE - DMR2282157",
+    "url": "http://hb9re.ddns.net:8080/",
+    "type": "owrx",
+    "lat": 47.154132,
+    "lon": 7.923172,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "VK4DL/SDR1",
+    "url": "https://sdr.vk4dl.com/",
+    "type": "owrx",
+    "lat": -20.378674717558038,
+    "lon": 148.60907337265698,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "10m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "VK4DL/SDR2",
+    "url": "https://sdr2.vk4dl.com/",
+    "type": "owrx",
+    "lat": -20.378674717558038,
+    "lon": 148.60907337265698,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "OWRX+ 1 | EDDC2 - 1",
+    "url": "http://jimjackii.no-ip.org/owrx/",
+    "type": "owrx",
+    "lat": 51.01,
+    "lon": 13.76,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "13cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "HASENBERG AG 700M SWITZERLAND (HB9HEH)",
+    "url": "https://hasenberg01.openwebrx.ch/",
+    "type": "owrx",
+    "lat": 47.37836,
+    "lon": 8.36445,
+    "bands": [
+      "10m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "2m/70cm | Berlin - JO62QJ | DC7JZB",
+    "url": "http://90.187.72.177:8073/",
+    "type": "owrx",
+    "lat": 52.40779629238412,
+    "lon": 13.40388133168175,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "DK0OD - WebSDR",
+    "url": "http://websdr.dk0od.de:8073/",
+    "type": "owrx",
+    "lat": 48.424016,
+    "lon": 11.268346,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "WebSDR Halle an der Saale (Germany) DM2NT",
+    "url": "http://db0hal.dyndns.org:8074/",
+    "type": "owrx",
+    "lat": 51.49560840907927,
+    "lon": 11.973765541711563,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "F1FHL",
+    "url": "http://aubjpla.myddns.me:8073/",
+    "type": "owrx",
+    "lat": 47.4679492358632,
+    "lon": 2.45481895985258
+  },
+  {
+    "name": "144-146 430-434 435-438 MHz SDR RTL-SDR.COM V4 | IW2KPL Franco | VHF | 2m | UHF ",
+    "url": "http://www.dxcluster.world:8074/",
+    "type": "owrx",
+    "lat": 45.692702,
+    "lon": 9.65655,
+    "band": "2m"
+  },
+  {
+    "name": "[100kHz - 30MHz] Sainte-Marie, Quebec, Canada",
+    "url": "https://yhsecurity.com/openwebrx/",
+    "type": "owrx",
+    "lat": 46.45,
+    "lon": -71.03333
+  },
+  {
+    "name": "SQ9NKX - Pierwszy Jurajski WebSDR (od 2015)",
+    "url": "http://websdr.mateusz.pro/",
+    "type": "owrx",
+    "lat": 50.477450397341514,
+    "lon": 19.39835697464894
+  },
+  {
+    "name": "CB0BED WebSDR - LK Mittelsachsen / Brand-Erbisdorf",
+    "url": "http://cb0bed.selfhost.co:8073/",
+    "type": "owrx",
+    "lat": 50.85174,
+    "lon": 13.301789
+  },
+  {
+    "name": "SDR-Alar\u00f3 (Mallorca)",
+    "url": "https://sdr.alaro.ovh/",
+    "type": "owrx",
+    "lat": 39.7059572222933,
+    "lon": 2.789757317791
+  },
+  {
+    "name": "2m/70cm, Dannenberg (Elbe)",
+    "url": "http://hgdyn.spdns.org:8099/",
+    "type": "owrx",
+    "lat": 53.1071610554582,
+    "lon": 11.1072749758964,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "DL4MDW",
+    "url": "http://websdr.tkrahn.net:8073/",
+    "type": "owrx",
+    "lat": 52.412161312693755,
+    "lon": 13.394594913154195,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "YB3RDW MF|HF|AirBand|VHF|UHF",
+    "url": "http://yd3rdw.cloudns.asia:8073/",
+    "type": "owrx",
+    "lat": -7.292820627280391,
+    "lon": 112.7232983697795,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "EA4FVQ MultiBand SDR (sdr4fun.es & sdr4fun.com) as part of SDR4FUN network",
+    "url": "http://tecnorama.homeip.net:8095/",
+    "type": "owrx",
+    "lat": 40.6131984296148,
+    "lon": -3.71103033159163,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "EA4FVQ Multiband MultiSDR Rx as part of SDR4FUN network",
+    "url": "http://tecnorama.homeip.net:8093/",
+    "type": "owrx",
+    "lat": 40.6135359581051,
+    "lon": -3.71192297891063
+  },
+  {
+    "name": "OH6KK",
+    "url": "http://oh6kk.dy.fi:8073/",
+    "type": "owrx",
+    "lat": 63.864949,
+    "lon": 23.158584
+  },
+  {
+    "name": "R1CCS",
+    "url": "https://sdr.arikado.ru/",
+    "type": "owrx",
+    "lat": 60.0321762183415,
+    "lon": 30.635937207491
+  },
+  {
+    "name": "PI4UTR WebSDR",
+    "url": "http://sdr.pi4utr.nl:8073/",
+    "type": "owrx",
+    "lat": 52.12262,
+    "lon": 5.07129,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "F4HUX  VHF UHF  ANGERS FRANCE",
+    "url": "http://f4hux.freeboxos.fr:18073/",
+    "type": "owrx",
+    "lat": 47.5783,
+    "lon": -0.5647,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "KC5HHQ",
+    "url": "https://sdr.merle.io/",
+    "type": "owrx",
+    "lat": 33.17703439045563,
+    "lon": -97.1181243221278,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "Sdr Online Espa\u00f1a Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO",
+    "url": "http://5.154.110.148:8073/",
+    "type": "owrx",
+    "lat": 41.515,
+    "lon": 1.602,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "HomPit Radio",
+    "url": "http://sdr.flaretechnologies.com.au/",
+    "type": "owrx",
+    "lat": -37.823018,
+    "lon": 145.03715
+  },
+  {
+    "name": "RundFunk Richard's OpenWebRX - HF/UHF/VHF/QO-100",
+    "url": "http://radarmaarssen.nl:8073/",
+    "type": "owrx",
+    "lat": 52.128993167,
+    "lon": 5.019550167,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "DB0OHA",
+    "url": "http://90.187.0.205:8073/",
+    "type": "owrx",
+    "lat": 51.666167,
+    "lon": 10.343333,
+    "bands": [
+      "15m",
+      "2m",
+      "70cm"
+    ],
+    "band": "15m"
+  },
+  {
+    "name": "Sdr Online Espa\u00f1a Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO",
+    "url": "http://5.154.110.148:8073/#freq=145550000,mod=nfm,sql=-748073",
+    "type": "owrx",
+    "lat": 41.515,
+    "lon": 1.602,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "dc5dm (2m/70cm)",
+    "url": "http://www.dc5dm.de/webrx/",
+    "type": "owrx",
+    "lat": 50.885863781,
+    "lon": 8.139430337,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "N7RIX",
+    "url": "https://sdr.n7rix.com/",
+    "type": "owrx",
+    "lat": 40.17169881641947,
+    "lon": -111.62630783081055,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SV6DBG Ioannina NW Greece",
+    "url": "http://sv6dbg.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 39.670356756247976,
+    "lon": 20.85605144988941,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "RepublicaOA6.com| CB + 10m",
+    "url": "https://sdr.republicaoa6.com/",
+    "type": "owrx",
+    "lat": -16.480299579431826,
+    "lon": -71.47233583568745,
+    "bands": [
+      "40m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "ON0LLV",
+    "url": "http://on0llv.on6ll.be:8073/",
+    "type": "owrx",
+    "lat": 50.474971,
+    "lon": 4.23638,
+    "bands": [
+      "2m",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDR Valencia - EA5TB",
+    "url": "http://sdrvalencia.com/",
+    "type": "owrx",
+    "lat": 39.4316934287378,
+    "lon": -0.822307715370314,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "OpenWebRX de Poitiers 86 (Smarves) HF (160,80,45,40,30,31,20,16,15,12,11,10 & 6m",
+    "url": "http://noradio86.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 46.50957532134839,
+    "lon": 0.35070800781251243,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "W5NYV 10GHz LNB-on-a-Stick",
+    "url": "http://ptw.dyndns.org:8073/",
+    "type": "owrx",
+    "lat": 32.9551333,
+    "lon": -117.205936111,
+    "bands": [
+      "3cm"
+    ],
+    "band": "3cm"
+  },
+  {
+    "name": "G0XBU",
+    "url": "http://g0xbuwebsdr.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 53.23,
+    "lon": -2.313,
+    "bands": [
+      "2m",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "LF MF HF VHF UHF - SDR an der Burg Haag, Deutschland - DL2RN",
+    "url": "https://openwebrx.rahsmann.de/",
+    "type": "owrx",
+    "lat": 48.1605422261592,
+    "lon": 12.1792822691657,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "11m, VHF, UHF e 1.2GHz - SDR na Serra da Cantareira - S\u00e3o Paulo, SP",
+    "url": "http://saopaulo.websdr.com.br:8901/",
+    "type": "owrx",
+    "lat": -23.4165545,
+    "lon": -46.7072826,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "KJ7ABK - Las Vegas Radio \ud83d\udcfb",
+    "url": "https://websdr.kj7abk.com/",
+    "type": "owrx",
+    "lat": 36.035169543538125,
+    "lon": -115.1451676116747,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
+    "url": "https://websdr2.scotlandchat.co.uk/",
+    "type": "owrx",
+    "lat": 56.038,
+    "lon": -3.358,
+    "bands": [
+      "12m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "12m"
+  },
+  {
+    "name": "SE Netherlands 2M 70cm 23cm and more",
+    "url": "http://openwebrx.hksolutions.nl:8073/",
+    "type": "owrx",
+    "lat": 51.72879,
+    "lon": 5.497447,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "CS8ACT",
+    "url": "https://sdr.facha.dev/",
+    "type": "owrx",
+    "lat": 37.74637607603466,
+    "lon": -25.573291800131866,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "sdr.packetradio.at",
+    "url": "http://sdr.packetradio.at:8901/",
+    "type": "owrx",
+    "lat": 48.41858056758566,
+    "lon": 15.563992883190263,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OE3XSA",
+    "url": "http://sdr.oe3xsa.at:8073/",
+    "type": "owrx",
+    "lat": 48.43355032397393,
+    "lon": 15.471407675930848,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "9A6NDZ - HF, VHF, UHF, CB, PMR",
+    "url": "http://9a6ndz.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 45.890911,
+    "lon": 16.83692,
+    "band": "HF"
+  },
+  {
+    "name": "HB9FBS",
+    "url": "http://hb9fbs.dyndns.org:8073/",
+    "type": "owrx",
+    "lat": 46.0330112846861,
+    "lon": 8.93442162507914,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDR RECIEVER @ TALLINN TV TOWER | Powered by LEVIRA",
+    "url": "https://websdr.levira.com/",
+    "type": "owrx",
+    "lat": 59.471337853663556,
+    "lon": 24.88750940655163,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "KN6EBE",
+    "url": "http://kn6ebe.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 33.775111738393164,
+    "lon": -117.87493025491415,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "9A4AM",
+    "url": "http://9a4am.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 45.474788,
+    "lon": 16.763732
+  },
+  {
+    "name": "VE4CA | Listening Post",
+    "url": "http://prairiesky.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 49.6012,
+    "lon": -96.6971,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "ML1PB",
+    "url": "http://sdr.l0c4l.net:8073/",
+    "type": "owrx",
+    "lat": 51.7522795590562,
+    "lon": 8.7250012634149,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "M0VOB Bradford Web SDR",
+    "url": "http://sdr.ukvpn.cloud:91/",
+    "type": "owrx",
+    "lat": 53.816701,
+    "lon": -1.723016,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "F1RIV_____________FR70PM",
+    "url": "http://f1riv.freeboxos.fr:8073/",
+    "type": "owrx",
+    "lat": 47.721715,
+    "lon": 4.73414,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "OpenWebRX B VHF/UHF  de Poitiers 86 (Smarves)",
+    "url": "http://noradio86.ddns.net:8074/",
+    "type": "owrx",
+    "lat": 46.50957532134839,
+    "lon": 0.35070800781251243,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "DK0TE",
+    "url": "http://dk0te.dhbw-ravensburg.de:8073/",
+    "type": "owrx",
+    "lat": 47.664995,
+    "lon": 9.448133,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[EA8EE-34RC088]",
+    "url": "http://ea8ee.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 27.76307141772238,
+    "lon": -15.60191184930471,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "Potsdam Babelsberg in Brandenburg\ud83c\udf39 0-30MHz",
+    "url": "http://14482babelsberg.dnshome.de/",
+    "type": "owrx",
+    "lat": 52.3891166184068,
+    "lon": 13.093711234217
+  },
+  {
+    "name": "22dx.ru",
+    "url": "http://sdr.22dx.ru:8073/",
+    "type": "owrx",
+    "lat": 53.305591097949566,
+    "lon": 83.62543249158075
+  },
+  {
+    "name": "IT9IOE - SDR-RTL.com V3 with Long Wire (16 m)",
+    "url": "http://rtl1.it9ioe.radio:50060/",
+    "type": "owrx",
+    "lat": 38.132628,
+    "lon": 14.72577,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "2m/70cm/23cm - Hochantenne - Dannenberg/Zernien - JO53kb",
+    "url": "http://hgdyn.servebeer.com:51789/",
+    "type": "owrx",
+    "lat": 53.0660292838151,
+    "lon": 10.8951926756091,
+    "band": "2m"
+  },
+  {
+    "name": "SDR.Gudynas.lt",
+    "url": "https://sdr.gudynas.lt/",
+    "type": "owrx",
+    "lat": 55.370461,
+    "lon": 26.288438,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "EA7CL - M\u00c1LAGA  \ud83d\udea9SDR EXPERIMENTAL\ud83d\udea9 (2023-24/7) -  \ud83d\udfe3\ud83d\udfe2\ud83c\udfaf\ud83d\udfe1\ud83d\udd34\u26aa\ud83d\udfe0\ud83d\udd35 MULTIUSUARIO  SIMULT\u00c1",
+    "url": "http://ea7cl.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 36.72807952690317,
+    "lon": -4.444014911909684,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "KX4TH",
+    "url": "https://sdr.fomitchev.net/",
+    "type": "owrx",
+    "lat": 38.943781769843426,
+    "lon": -104.74556,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "LX0XP",
+    "url": "http://skylink.ath.cx:8073/",
+    "type": "owrx",
+    "lat": 49.73281,
+    "lon": 6.31936,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "LX0XP",
+    "url": "http://lx0bce.rl.lu:8073/",
+    "type": "owrx",
+    "lat": 49.73281,
+    "lon": 6.31936,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "LZ4ZD",
+    "url": "http://109.120.246.103:8073/",
+    "type": "owrx",
+    "lat": 43.252603263033954,
+    "lon": 26.927539605669253
+  },
+  {
+    "name": "NantesWebRx HF-VHF-UHF SDR Rx",
+    "url": "http://nanteswebrx.mooo.com:8585/",
+    "type": "owrx",
+    "lat": 47.274949,
+    "lon": -1.475396,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "GOLEM WebSDR",
+    "url": "http://websdr.golem.linux.it/",
+    "type": "owrx",
+    "lat": 43.7263552728975,
+    "lon": 10.9251072796283,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "YO8KGU",
+    "url": "http://80.96.123.202:8073/",
+    "type": "owrx",
+    "lat": 47.64185432521237,
+    "lon": 26.245486363784877,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "DL0TUD/RX",
+    "url": "http://dh5ym.hopto.org:8074/",
+    "type": "owrx",
+    "lat": 50.9986266588463,
+    "lon": 13.8050260816456,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "WebSDR Den Haag",
+    "url": "https://websdr.pi1dft.ampr.org/",
+    "type": "owrx",
+    "lat": 52.0684047425548,
+    "lon": 4.35322752973248,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "DK1TEO",
+    "url": "https://websdr1.pautsch-edv.com/",
+    "type": "owrx",
+    "lat": 47.837101855410474,
+    "lon": 9.340180856156813
+  },
+  {
+    "name": "LZ2BB",
+    "url": "http://dobrich-ham.eu:8073/",
+    "type": "owrx",
+    "lat": 43.5735397,
+    "lon": 27.8133503,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "KK6QZG",
+    "url": "http://sdr.federico.io/",
+    "type": "owrx",
+    "lat": 34,
+    "lon": -118,
+    "bands": [
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "Radio Club REM - EA4RCR",
+    "url": "http://rem-esp.spdns.org:8073/",
+    "type": "owrx",
+    "lat": 40.325181,
+    "lon": -3.868314,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "EA3HRU - CB / 11m SDR experimental receiver - Barcelona, Spain",
+    "url": "http://sdrbcn.duckdns.org:8080/",
+    "type": "owrx",
+    "lat": 41.41136,
+    "lon": 1.9995,
+    "bands": [
+      "10m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "LOMNICE",
+    "url": "https://websdr.ok1pkr.radio/",
+    "type": "owrx",
+    "lat": 50.529087458840955,
+    "lon": 15.36743230648684,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
+    "url": "http://watou.on4ipr.be:8073/",
+    "type": "owrx",
+    "lat": 50.867920116557,
+    "lon": 2.62003386020662,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
+    "url": "http://nieuwkerke.on4ipr.be:8073/",
+    "type": "owrx",
+    "lat": 50.867920116557,
+    "lon": 2.62003386020662,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[NL12894]",
+    "url": "http://cb1jwd.dynu.net:8073/",
+    "type": "owrx",
+    "lat": 53.31840990270731,
+    "lon": 6.896214858622547,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "VK2NET",
+    "url": "https://sdr.vk2.net/",
+    "type": "owrx",
+    "lat": -33.87568426113783,
+    "lon": 151.19770400162605,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "WebSDR Den Haag",
+    "url": "https://websdr.repeatersdelft.nl/",
+    "type": "owrx",
+    "lat": 52.0684047425548,
+    "lon": 4.35322752973248,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Tango Sierra Charlie - Milan Italy",
+    "url": "http://tsc-radio.ddns.net/",
+    "type": "owrx",
+    "lat": 45.4994238,
+    "lon": 9.2209586,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "IZ1MLT",
+    "url": "http://iz1mlt.ddns.net:8074/",
+    "type": "owrx",
+    "lat": 44.554357173021536,
+    "lon": 8.938644946335298,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "DB0SMU",
+    "url": "http://dh9fg.dynv6.net:5000/",
+    "type": "owrx",
+    "lat": 48.102355,
+    "lon": 10.770587,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SAT QO-100, VHF, HF de PARDINHO-SP BRAZIL",
+    "url": "http://177.20.168.179:8902/",
+    "type": "owrx",
+    "lat": -23.105875,
+    "lon": -48.379167,
+    "bands": [
+      "2m",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
+    "url": "http://nieuwkerke.on4ipr.be:8074/",
+    "type": "owrx",
+    "lat": 50.867920116557,
+    "lon": 2.62003386020662,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "DB0SLF SDRPlay Saalfeld (www.x26.de)",
+    "url": "https://owrx.x26.de/",
+    "type": "owrx",
+    "lat": 50.628055,
+    "lon": 11.337733
+  },
+  {
+    "name": "SK3GK Kungsberget",
+    "url": "http://webrx.sk3gk.se:8074/",
+    "type": "owrx",
+    "lat": 60.75091784750988,
+    "lon": 16.490742078387893,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "SR4DON JASTRZ\u0118BIA G\u00d3RA / POLAND LW-MW-SW-VHF-UHF",
+    "url": "https://3.websdr.jestok.com/",
+    "type": "owrx",
+    "lat": 54.8350916408096,
+    "lon": 18.3107377988517,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "HASENBERG AG 700M SWITZERLAND (HB9HEH)",
+    "url": "https://openwebrx.kiwihasenberg.ch/",
+    "type": "owrx",
+    "lat": 47.37836,
+    "lon": 8.36445,
+    "bands": [
+      "10m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "PI4DEC",
+    "url": "https://openwebrx.pi4dec.nl/",
+    "type": "owrx",
+    "lat": 51.81186164231128,
+    "lon": 4.703770381153185,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Schagen. (Location PA5KK / antenna 18m)",
+    "url": "http://pe1byw.ddns.net:58073/",
+    "type": "owrx",
+    "lat": 52.7897697768411,
+    "lon": 4.79013158107564,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[Hahnenkamm 70cm]",
+    "url": "http://sdr-hahnenkamm.de:8071/",
+    "type": "owrx",
+    "lat": 49.016763,
+    "lon": 10.748903,
+    "bands": [
+      "70cm"
+    ],
+    "band": "70cm"
+  },
+  {
+    "name": "LW6DSM",
+    "url": "http://lw6dsm.sytes.net:8073/",
+    "type": "owrx",
+    "lat": -34.590357,
+    "lon": -58.393447,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "40m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "M8YRT OWRX No.1",
+    "url": "http://wr15.duckdns.org:8072/",
+    "type": "owrx",
+    "lat": 52.30364085012328,
+    "lon": -2.5920612545963295,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "DB1ID",
+    "url": "http://openwebrx-k21.ddns.net:8072/",
+    "type": "owrx",
+    "lat": 49.7384079,
+    "lon": 8.1064759,
+    "bands": [
+      "70cm"
+    ],
+    "band": "70cm"
+  },
+  {
+    "name": "DL1RMT",
+    "url": "http://home.gettoweb.de:8073/",
+    "type": "owrx",
+    "lat": 52.154338,
+    "lon": 11.570362,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "F1JWV",
+    "url": "http://francedmr.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 44.037336928522826,
+    "lon": -0.33319091796873757,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SP4DJ",
+    "url": "https://sdr.sp4dj.pl/",
+    "type": "owrx",
+    "lat": 53.1266645251309,
+    "lon": 23.2208840678208,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "5B4CY",
+    "url": "https://sdrvu.remotemsi.com/",
+    "type": "owrx",
+    "lat": 35.09,
+    "lon": 32.88,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "IU2 QDA",
+    "url": "http://2.235.247.14:4480/",
+    "type": "owrx",
+    "lat": 45.5489014956811,
+    "lon": 9.28270854876084
+  },
+  {
+    "name": "AL7BX",
+    "url": "http://han.kg7oow.com:8074/",
+    "type": "owrx",
+    "lat": 37.64073204987842,
+    "lon": -113.37490514336243,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Folkestone Repeater Group Marine SDR",
+    "url": "http://capelcliffs.ddns.net:8074/",
+    "type": "owrx",
+    "lat": 51.1005689461432,
+    "lon": 1.1977856514054208
+  },
+  {
+    "name": "ON1PT",
+    "url": "https://sdr.patske.be/",
+    "type": "owrx",
+    "lat": 51.0165,
+    "lon": 4.88363,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "11m WebSDR aus dem M\u00fchlviertel",
+    "url": "https://freistadt.my-sdr.net/",
+    "type": "owrx",
+    "lat": 48.55189172574195,
+    "lon": 14.545467847344709
+  },
+  {
+    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
+    "url": "http://watou.on4ipr.be:8076/",
+    "type": "owrx",
+    "lat": 50.867920116557,
+    "lon": 2.62003386020662,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "RedBaron",
+    "url": "http://redbaron92.goip.de/",
+    "type": "owrx",
+    "lat": 53.382210742690305,
+    "lon": 10.10309958664493,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "SDR ECB81VBS / EA4IHP /  Villanueva de Perales",
+    "url": "http://hym.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 40.3471627406447,
+    "lon": -4.097792144136084,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "Raveheart",
+    "url": "http://raveheart.goip.de:8073/",
+    "type": "owrx",
+    "lat": 51.8321456273679,
+    "lon": 8.14521542309524,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "13RF029",
+    "url": "http://hnswerkstatt.dyndns.org:8074/",
+    "type": "owrx",
+    "lat": 51.8915678,
+    "lon": 12.7627085,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Chester UK - 0-1750MHz (HF, Airband, Amateur, CB)",
+    "url": "http://openwebrx.soundsofatc.com/",
+    "type": "owrx",
+    "lat": 53.19146,
+    "lon": -2.89501,
+    "band": "HF"
+  },
+  {
+    "name": "DO3DO",
+    "url": "http://or6rdgnhaty0yo55.myfritz.net:88/",
+    "type": "owrx",
+    "lat": 51.59189926986444,
+    "lon": 7.57053339481355,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "KB5AVY NEW ORLEANS /WebSDR/PocketRxTx/SDR Console/Remote Hams",
+    "url": "http://kb5avy.hopto.me:8073/",
+    "type": "owrx",
+    "lat": 30.0125,
+    "lon": 90.1388,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "M.N.M De Graaf BV. WebSDR",
+    "url": "http://94.213.36.146/",
+    "type": "owrx",
+    "lat": 52.88698678704213,
+    "lon": 4.8549257552575575,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "| Gutmanovaty | RTL+RSP1 | ADSB ISM DAB AM FM | 120m 80m 40m 30m 20m 16m 10m 2m ",
+    "url": "https://websdr.bartosik.run/",
+    "type": "owrx",
+    "lat": 50.0385924297378,
+    "lon": 19.9317623227539,
+    "band": "80m"
+  },
+  {
+    "name": "WessexWX [M7WWX]",
+    "url": "http://weathergeek.synology.me:8073/",
+    "type": "owrx",
+    "lat": 50.793594,
+    "lon": -2.076698,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Funknetz.nrw",
+    "url": "http://freedmr.ddnss.de:8073/",
+    "type": "owrx",
+    "lat": 52.00273858370281,
+    "lon": 5.60741361735245,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDRPaderborn",
+    "url": "http://sdr.lifoy.it:8073/",
+    "type": "owrx",
+    "lat": 51.719104,
+    "lon": 8.730788,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "WebSDR Halle an der Saale 11m,2m,70cm,Freenet,Airband",
+    "url": "http://dm2nt.goip.de:8073/",
+    "type": "owrx",
+    "lat": 51.476758971870574,
+    "lon": 12.016223679116091,
+    "bands": [
+      "10m",
+      "2m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "EA8DJF",
+    "url": "http://ea8djfsdr.ddns.net:8090/",
+    "type": "owrx",
+    "lat": 28.335854,
+    "lon": -16.396304,
+    "bands": [
+      "40m",
+      "30m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "EA3KZ  sdr.astroradio.com",
+    "url": "http://sdr.astroradio.com/",
+    "type": "owrx",
+    "lat": 41.5768851244714,
+    "lon": 2.01652286801746,
+    "bands": [
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "GRUPPO RADIOAMATORI ARGENTA",
+    "url": "http://vpn14585.unicoip.org:22528/",
+    "type": "owrx",
+    "lat": 44.60927,
+    "lon": 11.842558,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OK1HZ",
+    "url": "http://5588.ok1hz.cz:8873/",
+    "type": "owrx",
+    "lat": 49.242372,
+    "lon": 17.670835,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "F1VAM2",
+    "url": "http://franzmann.dyndns.org:8074/",
+    "type": "owrx",
+    "lat": 47.625352,
+    "lon": 7.458572
+  },
+  {
+    "name": "LA8GKA",
+    "url": "http://la8gka.hopto.org:8077/",
+    "type": "owrx",
+    "lat": 59.75935,
+    "lon": 10.4039,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "LY5AT",
+    "url": "http://ly5at.qsl.lt:8073/",
+    "type": "owrx",
+    "lat": 55.24538741105222,
+    "lon": 22.276891491323774,
+    "bands": [
+      "40m",
+      "20m",
+      "10m",
+      "6m",
+      "4m",
+      "2m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "[C3D2]",
+    "url": "https://sdr.hq.c3d2.de/",
+    "type": "owrx",
+    "lat": 51.081034128991845,
+    "lon": 13.7280695920353
+  },
+  {
+    "name": "OK1KKY",
+    "url": "http://site.ok1kky.cz:8082/",
+    "type": "owrx",
+    "lat": 50.1409081,
+    "lon": 15.4077622,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "W2NDG",
+    "url": "http://w2ndg.mynetgear.com:8073/",
+    "type": "owrx",
+    "lat": 41.74308783474001,
+    "lon": -74.02872667382042,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "2m/70cm Web SDR | Clubstation DL0HT | Bremen, Germany",
+    "url": "https://websdr.dl0ht.de/sdr/",
+    "type": "owrx",
+    "lat": 53.07151,
+    "lon": 8.79351,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Web SDR | Bremen Tenever, Germany | DL9BQ",
+    "url": "https://websdr.dl0ht.de/otesdr/",
+    "type": "owrx",
+    "lat": 53.0632,
+    "lon": 8.96239,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "ZL3BCJ",
+    "url": "https://openwebrx.zl3bcj.duckdns.org/",
+    "type": "owrx",
+    "lat": -43.8118,
+    "lon": 172.252,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "GB0SNB VHF-SHF SDR (6m-23cm)",
+    "url": "http://vhfsdr.gb0snb.com:8074/",
+    "type": "owrx",
+    "lat": 51.67167205395181,
+    "lon": 0.25657398078398064,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "OK2CMW",
+    "url": "http://185.175.11.145:8073/",
+    "type": "owrx",
+    "lat": 49.730161,
+    "lon": 18.297627,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "EB2EAS-SDR",
+    "url": "http://in91np.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 41.639559,
+    "lon": -0.903432,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "YO2002SWL RTL-SDR 11m 10m band",
+    "url": "http://cbitvtest.go.ro:8073/",
+    "type": "owrx",
+    "lat": 46.1079785,
+    "lon": 21.7177927,
+    "bands": [
+      "10m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "OK2OZL",
+    "url": "http://kudlov.ok1hz.cz:8073/",
+    "type": "owrx",
+    "lat": 49.200625461782955,
+    "lon": 17.69081285657127,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "PA3BBL",
+    "url": "http://sdrpa3bbl.duckdns.org:1500/",
+    "type": "owrx",
+    "lat": 51.050748275391825,
+    "lon": 4.3159605660671785,
+    "bands": [
+      "2190m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "W5SAT's 2 Meter, 70cm, GMRS and More SDR",
+    "url": "http://www.w5sat.com/",
+    "type": "owrx",
+    "lat": 41.8009,
+    "lon": -111.8252,
+    "bands": [
+      "10m",
+      "2m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "EA3KZ  sdr.astroradio.com",
+    "url": "https://sdr.astroradio.com/",
+    "type": "owrx",
+    "lat": 41.5768851244714,
+    "lon": 2.01652286801746,
+    "bands": [
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "OpenWEBRx Burgas",
+    "url": "https://openwebrx.vhelectronics.com/",
+    "type": "owrx",
+    "lat": 42.4519336,
+    "lon": 27.4168578,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "ES2ICE",
+    "url": "http://websdr.dmr.ee/",
+    "type": "owrx",
+    "lat": 59.1743,
+    "lon": 25.1602
+  },
+  {
+    "name": "ES1MAK",
+    "url": "http://marko.synoserver.com/websdr/",
+    "type": "owrx",
+    "lat": 59.42,
+    "lon": 24.647,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "M.N.M De Graaf BV. WebSDR",
+    "url": "http://owrxbreezand.duckdns.org/",
+    "type": "owrx",
+    "lat": 52.88698678704213,
+    "lon": 4.8549257552575575,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "RUNA - SDR Receiver - AAS & ARI La Spezia",
+    "url": "http://185.9.148.140:19999/",
+    "type": "owrx",
+    "lat": 44.1324508622064,
+    "lon": 9.79044502767694,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "Running Linux Bookworm RPi4 Model B Rev 1.5 -",
+    "url": "http://86.107.187.54:8073/",
+    "type": "owrx",
+    "lat": 51.41802,
+    "lon": 5.48314,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
+    "url": "http://gwinnovation.dynv6.net:8073/",
+    "type": "owrx",
+    "lat": 53.187559397007334,
+    "lon": 8.56719509335492,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Manila SDR",
+    "url": "http://owrx.manilasdr.net/",
+    "type": "owrx",
+    "lat": 14.42388,
+    "lon": 120.940819,
+    "bands": [
+      "630m",
+      "2m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "vk4018swl",
+    "url": "http://loganswl.hopto.org:8070/",
+    "type": "owrx",
+    "lat": -27.668326714462072,
+    "lon": 153.1307738258515,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
+    "url": "https://gwinnovation.dynv6.net/websdr/",
+    "type": "owrx",
+    "lat": 53.187559397007334,
+    "lon": 8.56719509335492,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "*KRAK\u00d3W* - PMR | 70cm | 2m \ud83c\uddf5\ud83c\uddf1",
+    "url": "http://webrx.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 50.0720513417472,
+    "lon": 20.0373274759241,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "4X1FK_Nir",
+    "url": "http://94.159.134.215:8073/",
+    "type": "owrx",
+    "lat": 31.97,
+    "lon": 34.791,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SP6PWT SDR",
+    "url": "https://sp6pwt.club/",
+    "type": "owrx",
+    "lat": 51.103383,
+    "lon": 17.086449,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "SV6SYQ's HF-VHF-UHF SDR",
+    "url": "http://sv6syq.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 38.98163802191296,
+    "lon": 20.74513687079615,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SDR001-France-Dept31-CB-Ham-PMR&DMR",
+    "url": "http://sdr001.zapto.org:8073/",
+    "type": "owrx",
+    "lat": 43.1057703628723,
+    "lon": 0.719141014741638,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "YU7OR   YT7ZT",
+    "url": "http://webrx.ddns.net/",
+    "type": "owrx",
+    "lat": 45.621818243796696,
+    "lon": 19.54714916298752,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "LLN201 @ debian11i5",
+    "url": "http://runcer.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 53.91409461189161,
+    "lon": -114.28335024847395,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Vos RX   **Antenne richting:  220\u00b0, voor feedback of richting veranderen: Rxrepo",
+    "url": "https://vosrx.nl/",
+    "type": "owrx",
+    "lat": 53.3627691479221,
+    "lon": 6.1790743615517,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "10m",
+      "4m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OH6AH - Club Station - Sein\u00e4joki - Finland",
+    "url": "https://rx.oh6ah.fi/",
+    "type": "owrx",
+    "lat": 62.748933830565946,
+    "lon": 22.845037960341692,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "F1UBL OpenWebRX public (est)",
+    "url": "http://f1ubl.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 48.7723697803614,
+    "lon": 1.94055179866496,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "TA2OM MW, LW, HF, VHF, UHF FM Broadcasting",
+    "url": "http://ta2om.ddnsfree.com:8073/",
+    "type": "owrx",
+    "lat": 39.8587638043265,
+    "lon": 32.8120625270011,
+    "band": "HF"
+  },
+  {
+    "name": "EA3HUB SDR HOSPITALET DE L\u00b4INFANT TARRAGONA SPAIN",
+    "url": "http://ea3hub.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 40.990205197800115,
+    "lon": 0.9285971295404183,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "OH6AC - Club Station - Lapua - Finland",
+    "url": "https://rx.oh6ac.net/",
+    "type": "owrx",
+    "lat": 62.957564465233666,
+    "lon": 22.951817253652788,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "[OM1AEG] 10m / 6m / 2m / 70cm",
+    "url": "http://srnka.ddns.net:8077/",
+    "type": "owrx",
+    "lat": 48.17832979619666,
+    "lon": 17.046229249048906,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "YO3SHS",
+    "url": "http://newton.zando.ro:8073/",
+    "type": "owrx",
+    "lat": 44.494008,
+    "lon": 26.08125,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "HB9EUE",
+    "url": "http://websdr.hb9eue.radio:8901/",
+    "type": "owrx",
+    "lat": 47.44275518003912,
+    "lon": 8.32907152225073,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OpenWebRX+ | RTL-SDR V3 | Moscow | ZAO | https://t.me/sdrzao",
+    "url": "http://95.165.144.131:8073/",
+    "type": "owrx",
+    "lat": 55.6771079991844,
+    "lon": 37.5059451555107
+  },
+  {
+    "name": "LIP-SDR",
+    "url": "http://lip-sdr.nerdytools.org:8073/",
+    "type": "owrx",
+    "lat": 51.8056779154617,
+    "lon": 8.83389288236148
+  },
+  {
+    "name": "IT9EWL SDR MILAZZO",
+    "url": "http://it9ewl.ddns.net/",
+    "type": "owrx",
+    "lat": 38.2,
+    "lon": 15.24,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "LU5DA",
+    "url": "http://186.13.27.90:8073/",
+    "type": "owrx",
+    "lat": -34.51519611650076,
+    "lon": -58.48991115846346,
+    "bands": [
+      "40m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "NG5P",
+    "url": "https://owrxp.ng5p.com/",
+    "type": "owrx",
+    "lat": 34.81,
+    "lon": -92.21,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OWRX-4 - SDR-4 at  DG1KPC/DAA704",
+    "url": "http://nc-home.tgws.de:8473/",
+    "type": "owrx",
+    "lat": 50.815,
+    "lon": 7.6122,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "DM6CM",
+    "url": "http://s4wmv4hovyls5ebz.myfritz.net:8076/",
+    "type": "owrx",
+    "lat": 53.4908648097928,
+    "lon": 10.2537521748898,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "ES4N",
+    "url": "http://vhf.es4rvn.ee:8073/",
+    "type": "owrx",
+    "lat": 59.3740811914467,
+    "lon": 28.1903479469811,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "YO4CIL Mangalia SDR",
+    "url": "http://yo4cil.home.ro:8073/",
+    "type": "owrx",
+    "lat": 43.80956857886285,
+    "lon": 28.576691780501797,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "E25WOP - Phra Samut Chedi (\u0e01\u0e14\u0e15\u0e23\u0e07\u0e19\u0e35\u0e49 \u0e2b\u0e32\u0e01\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e14\u0e39\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e02\u0e2d\u0e07 \u0e40\u0e23\u0e37\u0e2d \u0e2b\u0e23\u0e37\u0e2d \u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e1a\u0e34\u0e19 \u0e17",
+    "url": "http://e25wop.thddns.net:2253/",
+    "type": "owrx",
+    "lat": 13.5955566,
+    "lon": 100.5617591,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Montanaro SDR",
+    "url": "http://cbfenis.ddns.net:43510/",
+    "type": "owrx",
+    "lat": 45.2344330897678,
+    "lon": 7.85707644083785,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "freddydu17",
+    "url": "http://f4erg.hd.free.fr:8073/",
+    "type": "owrx",
+    "lat": 45.7433,
+    "lon": -0.5724,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "PA3FUA",
+    "url": "https://gids.nl:8073/",
+    "type": "owrx",
+    "lat": 51.799126667,
+    "lon": 5.714478333,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "K7OLI 2m 70cm SDR Willamette Valley",
+    "url": "http://k7oli.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 44.9967,
+    "lon": -122.9743,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "*POLAND* 70cm, 2m, 10m, 11m, 17m, 20m, 40m, 80m, PMR, AIR.",
+    "url": "http://sdr.noip.pl:8073/",
+    "type": "owrx",
+    "lat": 50.01784830798169,
+    "lon": 19.979464291512027,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "G1WOR",
+    "url": "http://81.143.239.74:8073/",
+    "type": "owrx",
+    "lat": 50.82,
+    "lon": -0.373,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "DF4IAJ - Nuremberg SDR - Shortwave, VHF, UHF, PMR, analog & digital Radio",
+    "url": "http://jukebox.spdns.eu:6166/",
+    "type": "owrx",
+    "lat": 49.426344581019,
+    "lon": 11.1822242663052,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "IK1JNS",
+    "url": "http://94.247.189.130:8076/",
+    "type": "owrx",
+    "lat": 45.03,
+    "lon": 7.27,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "VE3GIF-7",
+    "url": "http://99.237.71.151/",
+    "type": "owrx",
+    "lat": 43.7617516,
+    "lon": -79.1875532,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "10m",
+      "2m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "PI1UTR WebSDR",
+    "url": "http://websdr.pi1utr.hamnet.nl:8073/",
+    "type": "owrx",
+    "lat": 52.01013427597713,
+    "lon": 5.053865780281797,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm",
+      "13cm",
+      "6cm",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "[IW9GTR]",
+    "url": "http://arascatania.ns0.it:8073/",
+    "type": "owrx",
+    "lat": 37.5727,
+    "lon": 15.0391,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "S55UU",
+    "url": "https://sdr.iw2nkv.it/",
+    "type": "owrx",
+    "lat": 46.11075,
+    "lon": 13.61449
+  },
+  {
+    "name": "WE6K San Francisco",
+    "url": "https://sdr.we6k.com/",
+    "type": "owrx",
+    "lat": 37.75596313629044,
+    "lon": -122.43365147910762,
+    "bands": [
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "NIJMEGEN SDR RON",
+    "url": "http://77.164.71.178/",
+    "type": "owrx",
+    "lat": 51.84802562337778,
+    "lon": 5.8494923253361675
+  },
+  {
+    "name": "SDRplay (Antenna: Long Wire and 1:9 Balun)",
+    "url": "http://sdrtoyb.ddns.net:8074/",
+    "type": "owrx",
+    "lat": 60.5680861,
+    "lon": 9.1027427,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SP2SDK-RTLSDR",
+    "url": "https://sp2sdk.pl/",
+    "type": "owrx",
+    "lat": 54.55209801704237,
+    "lon": 18.498108872490583,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "S57KZ",
+    "url": "https://sdr1.pmr.si/",
+    "type": "owrx",
+    "lat": 45.8926565018097,
+    "lon": 14.6977928682973,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Cangu\u00e7u Cerro Grande",
+    "url": "http://177.10.119.17:8073/",
+    "type": "owrx",
+    "lat": -31.356764287762132,
+    "lon": -52.64397154398713,
+    "bands": [
+      "4m"
+    ],
+    "band": "4m"
+  },
+  {
+    "name": "SDR Wireless Telecom | Operado por CE4CVX y CE5RPY",
+    "url": "http://sdr.wirelesseirl.cl/",
+    "type": "owrx",
+    "lat": -34.1644967531552,
+    "lon": -70.9623617747133,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "\ud83d\udd34 \ud83d\udce1 SDR Madrid, Espa\u00f1a \u2728 LaRadioCB \ud83c\udf20",
+    "url": "http://laradiocb.mypsx.net:8073/",
+    "type": "owrx",
+    "lat": 40.3475646023863,
+    "lon": -3.70078215349397,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "FARAON - Bielsko-Bia\u0142a - PMR, 70cm, 2m, DAB+",
+    "url": "http://faraon.ath.cx:8073/",
+    "type": "owrx",
+    "lat": 49.8212924652215,
+    "lon": 19.0573578149032,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "**New Discone Antenna VERY SOON!!!** Imperial Valley OWRX+",
+    "url": "http://ivopenwebrx.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 32.785506506453984,
+    "lon": -115.58145906329254,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "Uruguay Link - Montevideo Uruguay Sysop: CX4AE",
+    "url": "http://201.217.131.123:8073/",
+    "type": "owrx",
+    "lat": -34.858043555860185,
+    "lon": -56.17873738004503,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "SV1CMG",
+    "url": "http://sv1cmg.no-ip.org:8073/",
+    "type": "owrx",
+    "lat": 38.89609,
+    "lon": 22.47462,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "SK3GA",
+    "url": "http://44.5.5.125:8073/",
+    "type": "owrx",
+    "lat": 61.7238,
+    "lon": 17.1003,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "4m",
+      "2m",
+      "70cm",
+      "3cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "Uruguay Link (Sysop:cx4ae)",
+    "url": "http://201.217.131.106:7900/",
+    "type": "owrx",
+    "lat": -34.85820193192676,
+    "lon": -56.178887831941054
+  },
+  {
+    "name": "PB4C",
+    "url": "https://sdr.pb4c.nl/",
+    "type": "owrx",
+    "lat": 50.9400889580435,
+    "lon": 5.9662793348347,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm",
+      "13cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "\ud83d\udce1 EAHXE - Torrej\u00f3n de Ardoz - IN80gk \ud83d\udcfb",
+    "url": "http://ea4hxe.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 40.45535,
+    "lon": -3.46973
+  },
+  {
+    "name": "[UB3AWW-SDR] (sdr.souyz.netcraze.pro)",
+    "url": "https://ub3aww.ru:8073/",
+    "type": "owrx",
+    "lat": 55.9462022066859,
+    "lon": 36.50373666149901
+  },
+  {
+    "name": "Ambientscape WebSDR \u0f5f\u0fb3\u0f0b\u0f56\u0f0b\u0f66\u0fa1\u0f7c\u0f44\u0f0b",
+    "url": "http://89.43.209.120/",
+    "type": "owrx",
+    "lat": 51.5857859140007,
+    "lon": -0.3543312811086663,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IK6IOQ - RADIO FM e DAB Zona Pescara - ik6ioq@gmail.com",
+    "url": "http://109.115.114.179/",
+    "type": "owrx",
+    "lat": 42.43309374631848,
+    "lon": 14.242763090599926
+  },
+  {
+    "name": "websdr64",
+    "url": "http://websdr64.ru:8073/",
+    "type": "owrx",
+    "lat": 51.61128628148611,
+    "lon": 45.99059302695231
+  },
+  {
+    "name": "Uruguay Link Ciudad de Melo (Sysop CX4AE)",
+    "url": "http://179.27.116.122:8073/",
+    "type": "owrx",
+    "lat": -32.369939467099485,
+    "lon": -54.1666262330619,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "CX3JU  SDR RED URUGUAY LINK VHF UHF /HF",
+    "url": "http://sdrsalto.ddns.net:8073/",
+    "type": "owrx",
+    "lat": -31.383530847351018,
+    "lon": -57.93784359000231,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "DK7JL",
+    "url": "http://dk7jl.root64.de:54321/",
+    "type": "owrx",
+    "lat": 52.50588228881507,
+    "lon": 13.751151379333265,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "troyBORG",
+    "url": "https://openwebrx.taild7742.ts.net/",
+    "type": "owrx",
+    "lat": 41.81791988716215,
+    "lon": -90.53626338563126,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "SDR 80-40-20",
+    "url": "http://www.sdr.electrohomeservices.com/",
+    "type": "owrx",
+    "lat": 42.01555002331893,
+    "lon": -8.430184375720701
+  },
+  {
+    "name": "SDROliva EA5JMY",
+    "url": "https://sdroliva.ddns.net/",
+    "type": "owrx",
+    "lat": 38.92050763694133,
+    "lon": -0.11535263061522194,
+    "bands": [
+      "2190m",
+      "630m",
+      "20m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Ambientscape WebSDR \u0f5f\u0fb3\u0f0b\u0f56\u0f0b\u0f66\u0fa1\u0f7c\u0f44\u0f0b",
+    "url": "https://ambientscapewebsdr.uk/",
+    "type": "owrx",
+    "lat": 51.5857859140007,
+    "lon": -0.3543312811086663,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "MPDX.at - OpenWebRX powered by OE8MPR",
+    "url": "https://openwebrx.mpdx.at/",
+    "type": "owrx",
+    "lat": 46.5748314336068,
+    "lon": 14.6302652315243,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "-30 Delta India Golf SDR -",
+    "url": "https://sdr.planetadelta.com/",
+    "type": "owrx",
+    "lat": 41.656794293258,
+    "lon": -0.878459675132175,
+    "bands": [
+      "40m",
+      "20m",
+      "10m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "W4NNX",
+    "url": "http://sdr.w4nnx.com:8073/",
+    "type": "owrx",
+    "lat": 34.77201,
+    "lon": -86.429288,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IU0REG",
+    "url": "http://romasdr.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 41.9548415007328,
+    "lon": 12.5339343547821,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "F1SYH",
+    "url": "https://sdr.pulsraider.com/",
+    "type": "owrx",
+    "lat": 45.82840086060491,
+    "lon": 4.946219693369285
+  },
+  {
+    "name": "S55UU",
+    "url": "https://sdr.s55uu.si/",
+    "type": "owrx",
+    "lat": 46.11075,
+    "lon": 13.61449
+  },
+  {
+    "name": "F1UQR",
+    "url": "http://f1uqr.freeboxos.fr:8073/",
+    "type": "owrx",
+    "lat": 48.2927321685029,
+    "lon": 6.60166234219265,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "Willkommen bei DB0NMB in Naumburg/Saale !!! Bitte bei Nichtbenutzung wieder disc",
+    "url": "https://openwebrx.db0nmb.de/",
+    "type": "owrx",
+    "lat": 51.131656,
+    "lon": 11.837259,
+    "bands": [
+      "2190m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "kr0dak",
+    "url": "http://kr0dak.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 32.375756651998934,
+    "lon": -111.12147896164026,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "HB3YLK - CB,SW,Freenet,VHF,PMR,UHF and a few Testsettings",
+    "url": "http://109.202.205.254:8080/",
+    "type": "owrx",
+    "lat": 47.3612918469974,
+    "lon": 9.45042583424259,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IU2MCH HF-VHF-UHF-Air Band",
+    "url": "http://www.iu2mch.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 45.464805,
+    "lon": 9.094794,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IU2MCH HF-VHF-UHF-Air Band",
+    "url": "http://iu2mch.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 45.464805,
+    "lon": 9.094794,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IU2PLZ, Masate, Milan ITA",
+    "url": "http://openwebrx-iu2plz.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 45.57018643562036,
+    "lon": 9.463901055363086,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "Loka Monitor SFR Ambon",
+    "url": "http://118.97.29.213:8073/",
+    "type": "owrx",
+    "lat": -3.697317184865492,
+    "lon": 128.20347716971008,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "W7ZRN",
+    "url": "https://websdr.wonderwharf.org/",
+    "type": "owrx",
+    "lat": 35.98734942643313,
+    "lon": -115.24705491529174
+  },
+  {
+    "name": "JN98KO",
+    "url": "https://sdr.sputnikweb.org/",
+    "type": "owrx",
+    "lat": 48.601523886182,
+    "lon": 18.8863317324644,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "\u041a\u043e\u0440\u0435\u043d\u043e\u0432\u0441\u043a, \u041a\u0440\u0430\u0441\u043d\u043e\u0434\u0430\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439",
+    "url": "http://185.46.17.33:8073/",
+    "type": "owrx",
+    "lat": 45.4622991301624,
+    "lon": 39.4480893824303,
+    "bands": [
+      "80m",
+      "40m",
+      "10m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "\u041a\u043e\u0440\u0435\u043d\u043e\u0432\u0441\u043a, \u041a\u0440\u0430\u0441\u043d\u043e\u0434\u0430\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439",
+    "url": "http://rusdr.ddns.net/",
+    "type": "owrx",
+    "lat": 45.4622991301624,
+    "lon": 39.4480893824303,
+    "bands": [
+      "80m",
+      "40m",
+      "10m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "W7ZRN",
+    "url": "https://sdr.w7zrn.com/",
+    "type": "owrx",
+    "lat": 35.98734942643313,
+    "lon": -115.24705491529174
+  },
+  {
+    "name": "Gruppo Radio Liguria - IQ1ZW",
+    "url": "http://iq1zw.ddns.net:42154/",
+    "type": "owrx",
+    "lat": 44.412808329583,
+    "lon": 8.97715299683594
+  },
+  {
+    "name": "KC1VTJ RPI 5 Miles H",
+    "url": "https://websdr.mileshilliard.com/",
+    "type": "owrx",
+    "lat": 42.41697093296952,
+    "lon": -71.10493041164837,
+    "bands": [
+      "40m",
+      "30m",
+      "20m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "XE3N",
+    "url": "http://sdrmexico.ddns.net:60003/",
+    "type": "owrx",
+    "lat": 20.66742251623925,
+    "lon": -87.09084709236866
+  },
+  {
+    "name": "SP7PBC",
+    "url": "https://sdr.sp7pbc.pl/",
+    "type": "owrx",
+    "lat": 51.9750731289491,
+    "lon": 20.1445026691129,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "- Kissinger H\u00fctte -",
+    "url": "http://websdr.cbfunk-live.de/",
+    "type": "owrx",
+    "lat": 50.3431143205954,
+    "lon": 9.94211071013061,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "RX9UK",
+    "url": "http://146.158.106.247:8073/",
+    "type": "owrx",
+    "lat": 55.4460093291071,
+    "lon": 86.0721115393834,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "VU2TUM",
+    "url": "https://websdr.vu2tum.com/",
+    "type": "owrx",
+    "lat": 28.389687,
+    "lon": 76.952126
+  },
+  {
+    "name": "Skylab Ulft ** Antenne (6 el PGE) richting: 0\u00b0 Noord ** Contact: Email: skylab.u",
+    "url": "https://ulft.vosrx.nl/",
+    "type": "owrx",
+    "lat": 51.893464,
+    "lon": 6.382
+  },
+  {
+    "name": "M0LHI",
+    "url": "http://radio.nkpa.co.uk/",
+    "type": "owrx",
+    "lat": 52.22609520584887,
+    "lon": -0.9268577317469995,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "WM9H - AM/FM, Air, WX, Ham, GMRS",
+    "url": "http://wm9h.asuscomm.com/",
+    "type": "owrx",
+    "lat": 43.000504,
+    "lon": -88.02687,
+    "bands": [
+      "40m",
+      "20m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "Working on it.",
+    "url": "http://304.hopto.org:8073/",
+    "type": "owrx",
+    "lat": 38.868278558891454,
+    "lon": -82.12183627908131,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "TEST SDR MILANO",
+    "url": "http://itauno.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 45.51927068564208,
+    "lon": 9.33800815907464,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "YO2MRS",
+    "url": "http://yo2mrs.dyndns.org:8073/",
+    "type": "owrx",
+    "lat": 45.76417120711562,
+    "lon": 21.258847505785486,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "Thunder SDR, Pi4, Loop attivo K-180WLA, SDRPlay RSP1A",
+    "url": "http://thunder76.keenetic.pro:8073/",
+    "type": "owrx",
+    "lat": 46.161838798997294,
+    "lon": 8.777176100633461,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "K7KIB SDR West Valley, OR",
+    "url": "http://k7kib.asuscomm.com:8073/",
+    "type": "owrx",
+    "lat": 45.03410910438994,
+    "lon": -123.39963310640591,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "2m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "\u041a\u043e\u0440\u0435\u043d\u043e\u0432\u0441\u043a, \u041a\u0440\u0430\u0441\u043d\u043e\u0434\u0430\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439",
+    "url": "https://rusdr.ddns.net/",
+    "type": "owrx",
+    "lat": 45.4622991301624,
+    "lon": 39.4480893824303,
+    "bands": [
+      "80m",
+      "40m",
+      "10m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "\ud83c\udde9\ud83c\uddea Jacks S D R \ud83c\udde9\ud83c\uddea NRW Gelsenkirchen/Essen  | \u26a1\ufe0f CB, Freenet, PMR, 160m-70cm AFU ",
+    "url": "http://jacksdr.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 51.484251496254416,
+    "lon": 7.081885499209634,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "openwebrxnl",
+    "url": "https://openwebrx.nl/",
+    "type": "owrx",
+    "lat": 52.645858,
+    "lon": 4.759133,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "13cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "[ECHO10][SH - Ostsee] \ud83c\udf08  [ Freenet \ud83d\udea6 PMR  \ud83d\ude99 Amateurfunk ]",
+    "url": "http://nt9fm6798kb3osya.myfritz.net:8099/",
+    "type": "owrx",
+    "lat": 54.0138091774439,
+    "lon": 10.5515544162874,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "6K0FM",
+    "url": "http://6k2fsu.tplinkdns.com:7373/",
+    "type": "owrx",
+    "lat": 36.42954266060891,
+    "lon": 127.32278950737621,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "VK2SKY",
+    "url": "http://vk2sky-openwebrx.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": -33.6805104914631,
+    "lon": 151.10016295797675,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "RTL-SDR Experimental (IK4PKL)",
+    "url": "http://ik4pkl.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 44.04765692817522,
+    "lon": 12.553842125686007,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "CD4EWV | Vichoste's SDR | Curic\u00f3, Chile",
+    "url": "https://sdr.vichoste.cl/",
+    "type": "owrx",
+    "lat": -34.96744434142986,
+    "lon": -71.22345821675691,
+    "bands": [
+      "40m",
+      "20m",
+      "15m",
+      "10m",
+      "2m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "LU8LCT - Goya - Corrientes - Argentina",
+    "url": "https://sdr.lu8lct.com.ar:8073/",
+    "type": "owrx",
+    "lat": -29.1553850613247,
+    "lon": -59.2660312038656,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "DO1TOB WebSDR 2m/70cm",
+    "url": "https://websdr.do1tob.de/",
+    "type": "owrx",
+    "lat": 51.5951893950741,
+    "lon": 8.6301670614654,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Sdr Online Espa\u00f1a Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO",
+    "url": "http://ea3er.sytes.net:8073/",
+    "type": "owrx",
+    "lat": 41.515,
+    "lon": 1.602,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "VU3ZNG",
+    "url": "http://rf.siritech.net/",
+    "type": "owrx",
+    "lat": 12.926208,
+    "lon": 77.610457,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Uruguay Link (Sysop:cx4ae)",
+    "url": "http://179.27.116.246:8073/",
+    "type": "owrx",
+    "lat": -33.47281485913906,
+    "lon": -55.14481280865135
+  },
+  {
+    "name": "TA2ETL",
+    "url": "https://websdr.bahadirhamza.keenetic.pro/",
+    "type": "owrx",
+    "lat": 40.68688972971164,
+    "lon": 30.264170564477485
+  },
+  {
+    "name": "EA1FAQ",
+    "url": "http://sdr.ea1faq.com:8073/",
+    "type": "owrx",
+    "lat": 41.54549565401177,
+    "lon": -4.703365470064586
+  },
+  {
+    "name": "VU3ZNG",
+    "url": "https://rf.siritech.net/",
+    "type": "owrx",
+    "lat": 12.926208,
+    "lon": 77.610457,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "PU3EHJ - PX3Q5361 Brasil",
+    "url": "http://sdr.hcstecnologia.net.br/",
+    "type": "owrx",
+    "lat": -29.670421,
+    "lon": -51.26532,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "14MD30 - CB + PMR + HAM + AIR",
+    "url": "http://86.227.213.137:8073/",
+    "type": "owrx",
+    "lat": 43.8014,
+    "lon": 4.4612,
+    "bands": [
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "OM1ACK",
+    "url": "https://openwebrx.om1ack.sk/",
+    "type": "owrx",
+    "lat": 48.1513109028114,
+    "lon": 17.0499561280141
+  },
+  {
+    "name": "SP9IPZ Jaworzno",
+    "url": "https://sdr.sp9ipz.pl/",
+    "type": "owrx",
+    "lat": 50.2092291409071,
+    "lon": 19.356786259223,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "YT2DT",
+    "url": "http://yu1ado.duckdns.org:443/",
+    "type": "owrx",
+    "lat": 43.57657600667678,
+    "lon": 21.337048407505538,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDR at Tarnowo Podgorne near Poznan JO82HL, SQ3RS",
+    "url": "https://sdr-tarnowo-podgorne.tt2.pl/",
+    "type": "owrx",
+    "lat": 52.471301101325295,
+    "lon": 16.650853605343972
+  },
+  {
+    "name": "BRFM",
+    "url": "https://radio2.nkpa.co.uk/",
+    "type": "owrx",
+    "lat": 51.423584079553876,
+    "lon": 0.8307115249043973,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "PI6EHV 2320 - 2321 MHz",
+    "url": "http://websdr.pi6ehv.ampr.org:8073/",
+    "type": "owrx",
+    "lat": 51.4657595133042,
+    "lon": 5.47165437380621,
+    "bands": [
+      "13cm"
+    ],
+    "band": "13cm"
+  },
+  {
+    "name": "LU1XA Radio Club Rio Gallegos",
+    "url": "http://138.118.215.154:8073/",
+    "type": "owrx",
+    "lat": -51.68000987480535,
+    "lon": -69.21657773703642,
+    "bands": [
+      "40m",
+      "10m",
+      "6m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "K2AAM < N2YQT",
+    "url": "http://sdr.k2aam.us/",
+    "type": "owrx",
+    "lat": 43.6366728,
+    "lon": -73.7967464,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDR Bah\u00eda Blanca LU3EHB (SWL LU7DBL-139)",
+    "url": "https://sdrbahia.com.ar/",
+    "type": "owrx",
+    "lat": -38.757281,
+    "lon": -62.26511,
+    "bands": [
+      "40m",
+      "2m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "M0GUC",
+    "url": "http://185.138.197.168:8073/",
+    "type": "owrx",
+    "lat": 52.491270819399354,
+    "lon": -2.1579121088519493,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "9V1KG",
+    "url": "http://9v1kg.bpmsg.com:8074/",
+    "type": "owrx",
+    "lat": 1.3380940152160417,
+    "lon": 103.93432292412575,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "PU5CPA - PU5JST  SDR VHF-UHF http://jorgecasa.mycrestron.com:8073",
+    "url": "http://sdrpomer.ddns.net:9191/",
+    "type": "owrx",
+    "lat": -26.743562225466167,
+    "lon": -49.18306927126089,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "12m",
+      "10m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "PU5JST - PU5CLA Blumenau PU5CPA Pomerode SC Brazil",
+    "url": "http://jorgecasa.mycrestron.com:8073/",
+    "type": "owrx",
+    "lat": -26.921125653361592,
+    "lon": -49.10214877789212,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "KB5AVY NEW ORLEANS /WebSDR/PocketRxTx/SDR Console/Remote Hams",
+    "url": "http://kb5avy.hopto.org:8073/",
+    "type": "owrx",
+    "lat": 30.0125,
+    "lon": 90.1388,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "\ud83d\udfe2 Cercedilla SDR \u2013 LaRadioCB.es",
+    "url": "http://laradiocb.ddns.me:8073/",
+    "type": "owrx",
+    "lat": 40.71576315376277,
+    "lon": -4.1557705822241315,
+    "bands": [
+      "40m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "DA1VID",
+    "url": "http://da1vid.ipv64.net:8074/",
+    "type": "owrx",
+    "lat": 51.5559575154477,
+    "lon": 7.38305955581249,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "VU2CPL",
+    "url": "http://vu2cpl.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 13.187450954914356,
+    "lon": 77.62242600504916
+  },
+  {
+    "name": "SDR-Samara",
+    "url": "http://samarasdr.ru/",
+    "type": "owrx",
+    "lat": 53.22,
+    "lon": 50.2
+  },
+  {
+    "name": "SDR-Samara",
+    "url": "http://samarasdr.ru:8073/",
+    "type": "owrx",
+    "lat": 53.22,
+    "lon": 50.2
+  },
+  {
+    "name": "The Sleeping Cat Reciever",
+    "url": "http://sv3smg.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 37.02603304273152,
+    "lon": 22.117131734678534,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Pro FM Broadcast SDR",
+    "url": "http://profmopenwebrx.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 52.03705257984005,
+    "lon": 4.641775367668539,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDRv4, Radiora Multiscan, (MARKI) All Band",
+    "url": "http://gtrproject.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 52.3265506809089,
+    "lon": 21.1078517988069,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDR Ko\u0161utnjak",
+    "url": "http://sdrkosutnjak.321.rs:8073/",
+    "type": "owrx",
+    "lat": 44.75895962999745,
+    "lon": 20.422933656554804,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "- PGH PA - \ud83c\uddfa\ud83c\uddf8 {VHF|UHF}",
+    "url": "https://vhfuhf.kevinheaven.net/",
+    "type": "owrx",
+    "lat": 40.444365,
+    "lon": -80.219593,
+    "band": "VHF"
+  },
+  {
+    "name": "sdr.sp9arl.pl",
+    "url": "https://sdr.pajadam.me/",
+    "type": "owrx",
+    "lat": 50.430249446103076,
+    "lon": 18.837746464376014,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "CE3WAQ desde Santiago de Chile",
+    "url": "http://44.31.61.216:8073/",
+    "type": "owrx",
+    "lat": -33.459316478086,
+    "lon": -70.6524158781223,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Aiken, South Carolina",
+    "url": "https://owrx.zt64.dev/",
+    "type": "owrx",
+    "lat": 33.5,
+    "lon": -81.8,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "10m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "DN9SGE",
+    "url": "http://feargewinnt.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 52.049044705452225,
+    "lon": 8.357273992393925,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDRPT3 - WebSDR Airband",
+    "url": "http://sdrpt.dynip.sapo.pt:8074/",
+    "type": "owrx",
+    "lat": 39.29396087004079,
+    "lon": -8.745791633826308
+  },
+  {
+    "name": "M0YRK 50-1090 MHz",
+    "url": "http://62.3.72.78:9001/",
+    "type": "owrx",
+    "lat": 53.91627540826038,
+    "lon": -1.2782649154663028,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "F1UVN-RSPDX",
+    "url": "http://82.67.147.130:8080/",
+    "type": "owrx",
+    "lat": 50.20411309776767,
+    "lon": 2.584360575239688,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "EHFW 1:49 20 M. Feed IU3UXK",
+    "url": "http://www.pietromezza.com:8073/",
+    "type": "owrx",
+    "lat": 45.5118174740562,
+    "lon": 12.3036804522063,
+    "bands": [
+      "2190m",
+      "630m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "10m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "LU3ARN",
+    "url": "https://sdr.nico.ninja:8443/",
+    "type": "owrx",
+    "lat": -34.58007346531769,
+    "lon": -58.489485771164205,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "VU2OY",
+    "url": "http://vu2oy.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 8.33,
+    "lon": 76.5,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "Oskar's RTL-SDR",
+    "url": "https://sdr.666777123.xyz/",
+    "type": "owrx",
+    "lat": 50.005,
+    "lon": 14.409,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDRPT2 - WebSDR VHF/UHF/CB/10m",
+    "url": "http://sdrpt.dynip.sapo.pt:8073/",
+    "type": "owrx",
+    "lat": 39.2940086572407,
+    "lon": -8.74601459503173,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "LZ1ADJ https://t.me/+6misG6HnDi9kODcy",
+    "url": "http://46.10.59.133:8073/",
+    "type": "owrx",
+    "lat": 42.67251887694101,
+    "lon": 23.296626844928742,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SP2KDS",
+    "url": "http://websdr.sp2kds.pl/websdr/",
+    "type": "owrx",
+    "lat": 54.3491784239476,
+    "lon": 18.705335384432143,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SP2EGA",
+    "url": "http://usprawnienia.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 54.4397886524047,
+    "lon": 18.5466649707314,
+    "bands": [
+      "4m"
+    ],
+    "band": "4m"
+  },
+  {
+    "name": "KG9PN",
+    "url": "http://kg9pn.3utilities.com:8073/",
+    "type": "owrx",
+    "lat": 38.65507,
+    "lon": -87.1674,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "F4MZI",
+    "url": "http://sdr.f4mzi.fr/",
+    "type": "owrx",
+    "lat": 50.449047,
+    "lon": 3.428421,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "SQ6NCC",
+    "url": "http://openwebrx.sq6ncc.eu/",
+    "type": "owrx",
+    "lat": 51.1370897321692,
+    "lon": 16.7917336492992,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SR4DON OLSZTYN/POLAND 70cm/2m/4m/6m/8m/10-15m",
+    "url": "https://1.websdr.jestok.com/",
+    "type": "owrx",
+    "lat": 53.7395098759501,
+    "lon": 20.5079901026012,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "RT-15 WebSDR",
+    "url": "http://89.109.40.148:8073/",
+    "type": "owrx",
+    "lat": 56.154507,
+    "lon": 44.284659,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "10m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "\u0421\u0435\u0440\u043f\u0443\u0445\u043e\u0432\u0441\u043a\u0438\u0439 WEB SDR",
+    "url": "https://sdr-serpuhov.ru/",
+    "type": "owrx",
+    "lat": 54.867046,
+    "lon": 37.827286,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "VK5HW",
+    "url": "http://vk5hw.duckdns.org:8080/",
+    "type": "owrx",
+    "lat": -35.555882,
+    "lon": 138.624007,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "F4MZI",
+    "url": "https://sdr.f4mzi.fr/",
+    "type": "owrx",
+    "lat": 50.449047,
+    "lon": 3.428421,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "XE1TTS",
+    "url": "http://tts.myqnapcloud.com:8760/",
+    "type": "owrx",
+    "lat": 19.452169040834534,
+    "lon": -99.14167602242419
+  },
+  {
+    "name": "S57GD",
+    "url": "https://sdr.gzt.si/",
+    "type": "owrx",
+    "lat": 46.17540222400521,
+    "lon": 14.339358852982222,
+    "bands": [
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "ONL13454  UBA",
+    "url": "http://81.242.146.94:8073/",
+    "type": "owrx",
+    "lat": 50.280753504071484,
+    "lon": 5.921694842140206
+  },
+  {
+    "name": "ELEKTRONIKA[SV6NML]",
+    "url": "https://sdr.garidis.gr/",
+    "type": "owrx",
+    "lat": 39.4210881284093,
+    "lon": 20.5101704779219
+  },
+  {
+    "name": "BH4DTS@rsp1 | sdr.bh4dts.site:8073 for HF | 8074 for UV",
+    "url": "http://sdr.7z8d.com:8074/",
+    "type": "owrx",
+    "lat": 31.208,
+    "lon": 121.526,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "EastMO Receiver",
+    "url": "https://sdr.vanish125.netcraze.pro/",
+    "type": "owrx",
+    "lat": 55.70267067829901,
+    "lon": 38.9587778063207
+  },
+  {
+    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
+    "url": "https://rtlsdr.yo3bn.ro/",
+    "type": "owrx",
+    "lat": 44.52279019175457,
+    "lon": 26.257646144666005
+  },
+  {
+    "name": "XplorePilots",
+    "url": "http://xplorepilots.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 41.585439204302304,
+    "lon": -4.722918726927474,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "VU3TBU",
+    "url": "https://openwebrx.rajaol.in/",
+    "type": "owrx",
+    "lat": 11.181915116501282,
+    "lon": 76.02793708925853,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "10m",
+      "6m",
+      "2m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "SA7SVR",
+    "url": "http://sdr.cqnet.org:8073/",
+    "type": "owrx",
+    "lat": 57.779869,
+    "lon": 14.161133,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "sv9cjo",
+    "url": "http://sv9efl.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 35.353333,
+    "lon": 24.456667,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "https://fm-tuner.nl/sdr-zze3 - 3.5meter, 2meter & 6meter",
+    "url": "https://fm-tuner.nl/sdr-zze3/",
+    "type": "owrx",
+    "lat": 51.6550936232579,
+    "lon": 3.91007064944761,
+    "bands": [
+      "6m",
+      "2m"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "[F1RIQ Tony - HF-VHF-UHF TOURS FRANCE]",
+    "url": "https://f1riq.freeboxos.fr/",
+    "type": "owrx",
+    "lat": 47.34852067723554,
+    "lon": 0.6718675060378443,
+    "bands": [
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "BH4DTS@rsp1 | sdr.bh4dts.site:8073 for HF | 8074 for UV",
+    "url": "http://sdr.bh4dts.site:8074/",
+    "type": "owrx",
+    "lat": 31.208,
+    "lon": 121.526,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "Westy RX KM7CHT",
+    "url": "https://sdr.dwestgate.us/",
+    "type": "owrx",
+    "lat": 45.483178856090866,
+    "lon": -122.60469157415571,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Treasure Valley SDR (Moving Soon!!!!) | HF + VHF | LNA + Digital Modes",
+    "url": "https://sdr.autumnishere.dev/",
+    "type": "owrx",
+    "lat": 43.57705,
+    "lon": -116.58368,
+    "band": "HF"
+  },
+  {
+    "name": "SV9TNF",
+    "url": "http://sv9tnf.ham.gd:8073/",
+    "type": "owrx",
+    "lat": 35.50242,
+    "lon": 24.04263,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SmolSdr",
+    "url": "http://smolsdr.mercusysddns.com/",
+    "type": "owrx",
+    "lat": 54.7946370475172,
+    "lon": 32.05306145217006,
+    "bands": [
+      "160m",
+      "80m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "qvb-qrl *shared antenna",
+    "url": "http://49.12.212.22:32736/",
+    "type": "owrx",
+    "lat": 45.07013327278384,
+    "lon": 11.78876802944329,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "WM9D",
+    "url": "http://174.182.115.194:8073/",
+    "type": "owrx",
+    "lat": 40.47,
+    "lon": -86.142,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "EDDB Receiver",
+    "url": "https://owr.mine.nu/",
+    "type": "owrx",
+    "lat": 52.262741,
+    "lon": 13.619885,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDR TANER LPD|PMR",
+    "url": "https://taner.nl/",
+    "type": "owrx",
+    "lat": 52.4958691694175,
+    "lon": 4.938308538412115,
+    "bands": [
+      "10m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "W6MFB/FULLERTON",
+    "url": "https://fullerton.w6mfb.com/",
+    "type": "owrx",
+    "lat": 33.861090595913474,
+    "lon": -117.88901509985612,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "\u00a9 SV3AQO",
+    "url": "http://sv3aqo.zapto.org/",
+    "type": "owrx",
+    "lat": 38.22941639662544,
+    "lon": 21.74211604483649,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "- PGH PA - \ud83c\uddfa\ud83c\uddf8 {MF|HF}",
+    "url": "https://hf.kevinheaven.net/",
+    "type": "owrx",
+    "lat": 40.444365,
+    "lon": -80.219593,
+    "band": "HF"
+  },
+  {
+    "name": "WEB-SDR Bad Iburg",
+    "url": "http://websdr-te.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 52.149586853229465,
+    "lon": 8.034660147832513
+  },
+  {
+    "name": "2E0DGP WEBSDR",
+    "url": "http://sdr.ladar.club:8073/",
+    "type": "owrx",
+    "lat": 53.65548338507698,
+    "lon": -2.631403032915911,
+    "bands": [
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "M0LHI",
+    "url": "https://radio.nkpa.co.uk/",
+    "type": "owrx",
+    "lat": 52.22609520584887,
+    "lon": -0.9268577317469995,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "GoUrbex [SP5RAF]",
+    "url": "http://sdr1.gourbex.pl:8080/",
+    "type": "owrx",
+    "lat": 52.266672,
+    "lon": 20.5762515,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "HA9SDR => ADSB & FM RADIO & ISM 70cm & 20m",
+    "url": "http://sp.myddns.me:8073/",
+    "type": "owrx",
+    "lat": 48.0421,
+    "lon": 20.8389,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "RadioHill ObereHueb",
+    "url": "https://kwrx.oberehueb.duckdns.org/",
+    "type": "owrx",
+    "lat": 47.530124,
+    "lon": 8.636786,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "KD0BQS",
+    "url": "https://rx.kd0bqs.com/",
+    "type": "owrx",
+    "lat": 38.424657102434004,
+    "lon": -90.42908669772822,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "KK6QZG",
+    "url": "https://sdr.federico.io/",
+    "type": "owrx",
+    "lat": 34,
+    "lon": -118,
+    "bands": [
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "RundFunk Richard's OpenWebRX - HF/UHF/VHF/QO-100",
+    "url": "http://sdrmaarssen.nl:8073/",
+    "type": "owrx",
+    "lat": 52.128993167,
+    "lon": 5.019550167,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "[SA2KNG]",
+    "url": "http://sa2kng.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 63.8,
+    "lon": 20.2,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SAT QO-100, VHF, HF de PARDINHO-SP BRAZIL",
+    "url": "http://pardinho.websdr.com.br:8902/",
+    "type": "owrx",
+    "lat": -23.105875,
+    "lon": -48.379167,
+    "bands": [
+      "2m",
+      "23cm",
+      "3cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SDR Multibandas CE3MRO",
+    "url": "https://ce3mro.radioaficion.pro/",
+    "type": "owrx",
+    "lat": -33.717848,
+    "lon": -70.745233,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "SDR.Gudynas.lt",
+    "url": "http://sdr.gudynas.lt:2052/",
+    "type": "owrx",
+    "lat": 55.370461,
+    "lon": 26.288438,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SDRPT2 - WebSDR VHF/UHF/CB/10m",
+    "url": "http://sdrpt.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 39.2940086572407,
+    "lon": -8.74601459503173,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "SDRPT3 - WebSDR Airband",
+    "url": "http://sdrpt.ddns.net:8074/",
+    "type": "owrx",
+    "lat": 39.29396087004079,
+    "lon": -8.745791633826308
+  },
+  {
+    "name": "IK2GWH",
+    "url": "http://rrc1258-2621952.freeddns.it:8073/",
+    "type": "owrx",
+    "lat": 45.5042494439261,
+    "lon": 9.17233922619899
+  },
+  {
+    "name": "SP2SDK-RTLSDR",
+    "url": "https://rtlsdr.sp2sdk.pl/",
+    "type": "owrx",
+    "lat": 54.55209801704237,
+    "lon": 18.498108872490583,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "TA2OM MW, LW, HF, VHF, UHF FM Broadcasting",
+    "url": "http://ta2om.mywire.org:8073/",
+    "type": "owrx",
+    "lat": 39.8587638043265,
+    "lon": 32.8120625270011,
+    "band": "HF"
+  },
+  {
+    "name": "YT1GS",
+    "url": "https://sdr.voxgalactica.com/",
+    "type": "owrx",
+    "lat": 43.3209,
+    "lon": 21.8954
+  },
+  {
+    "name": "Waldbeere | HF/VHF/UHF WebSDR",
+    "url": "https://waldbeere.crabdance.com/",
+    "type": "owrx",
+    "lat": 52.2670602411619,
+    "lon": 13.6547171410772,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "SDR Wireless Telecom | Operado por CE4CVX y CE5RPY",
+    "url": "http://44.31.61.202/",
+    "type": "owrx",
+    "lat": -34.1644967531552,
+    "lon": -70.9623617747133,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "CHOCO 69 / OPENWEBRX+",
+    "url": "http://choco69.synology.me:8076/",
+    "type": "owrx",
+    "lat": 46.213353338738465,
+    "lon": 6.979224370377692,
+    "bands": [
+      "10m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "DB0BBB",
+    "url": "http://db0bbb.dnshome.de:8088/",
+    "type": "owrx",
+    "lat": 52.6765616546373,
+    "lon": 13.5825560390949,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "DB0BLG",
+    "url": "http://db0blg.de:8073/",
+    "type": "owrx",
+    "lat": 47.8493,
+    "lon": 8.5316,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "DG2SAX",
+    "url": "http://dg2sax.ddns.net:8075/",
+    "type": "owrx",
+    "lat": 48.27418953728998,
+    "lon": 9.012116093047542,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "FR4KM Radio Club de l'association ARRA (portail.arra.re)",
+    "url": "http://fr5fc.ddns.net:8074/",
+    "type": "owrx",
+    "lat": -21.20264724100345,
+    "lon": 55.294138623978505,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "VK4AID",
+    "url": "https://sdr.dyne.family/",
+    "type": "owrx",
+    "lat": -27.539476991027083,
+    "lon": 152.96831696001794
+  },
+  {
+    "name": "R.D.",
+    "url": "https://sdr-frank.ipoac.nl/",
+    "type": "owrx",
+    "lat": 51.9244201,
+    "lon": 4.4777325,
+    "bands": [
+      "4m"
+    ],
+    "band": "4m"
+  },
+  {
+    "name": "PE2BZ",
+    "url": "https://sdrhaaglanden.nl/pe2bz/",
+    "type": "owrx",
+    "lat": 51.99157594067505,
+    "lon": 4.198971468628265
+  },
+  {
+    "name": "RADARC websdr 1",
+    "url": "https://sdr.radarc.org/",
+    "type": "owrx",
+    "lat": 51.46915,
+    "lon": -0.90887,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "Loft is for you... \u7535\u9e23",
+    "url": "https://unevenly-settled-lungfish.cloudpub.ru/",
+    "type": "owrx",
+    "lat": 61.56400763062912,
+    "lon": 31.482650551226776,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "DL1SJN W\u00fcstenk\u00e4fer Glockenhof Nutzungsbedingung!",
+    "url": "http://websdr.ddnss.org:8073/",
+    "type": "owrx",
+    "lat": 49.4448274042822,
+    "lon": 11.0893944494054
+  },
+  {
+    "name": "DL1SJN W\u00fcstenk\u00e4fer Glockenhof Nutzungsbedingung!",
+    "url": "http://websdr-jn59nk.ddnss.org:8073/",
+    "type": "owrx",
+    "lat": 49.4448274042822,
+    "lon": 11.0893944494054
+  },
+  {
+    "name": "Raspberry Pi 4 | 3.5mtr: MOXON antenne (2 el) op 10 meter! (meestal richting oos",
+    "url": "http://websdrkatwijk.testerdetest.nl/",
+    "type": "owrx",
+    "lat": 51.66984765607451,
+    "lon": 4.354470279827867,
+    "bands": [
+      "70cm"
+    ],
+    "band": "70cm"
+  },
+  {
+    "name": "LZ1SBO",
+    "url": "http://lz1.helpit.bg:88/",
+    "type": "owrx",
+    "lat": 42.657082990962785,
+    "lon": 26.325150233955352
+  },
+  {
+    "name": "GOLEM WebSDR",
+    "url": "https://websdr.golem.linux.it/",
+    "type": "owrx",
+    "lat": 43.7263552728975,
+    "lon": 10.9251072796283,
+    "bands": [
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "De Peel MW-HF-VHF-UHF",
+    "url": "http://pa1o.mywire.org:8070/",
+    "type": "owrx",
+    "lat": 51.45612541833696,
+    "lon": 5.6134509027256385,
+    "band": "HF"
+  },
+  {
+    "name": "Strato",
+    "url": "http://strato88.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 38.906940373731594,
+    "lon": 1.4366563573399738
+  },
+  {
+    "name": "EC5M- Manuel Rico en Ibi",
+    "url": "https://ec5m.ddns.net/",
+    "type": "owrx",
+    "lat": 38.62394,
+    "lon": -0.57982,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "Toca do Sapo \ud83c\udde7\ud83c\uddf7",
+    "url": "https://websdr.frogden.org:8443/",
+    "type": "owrx",
+    "lat": -22.90332931413584,
+    "lon": -47.103712381925774,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "EA4FRI - Receptor WebSDR Tierra de Barros - Loc. IM68TQ - e-mail: ea4fri@ikmail.",
+    "url": "https://ea4fri.ddns.net/",
+    "type": "owrx",
+    "lat": 38.7048442762645,
+    "lon": -6.45680209554045,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "HB9AK Hoernli JN47LI",
+    "url": "http://sdr.swiss-artg.ch:8088/",
+    "type": "owrx",
+    "lat": 47.37094,
+    "lon": 8.94146,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "6m"
+  },
+  {
+    "name": "ON4LFE",
+    "url": "http://on4lfesdr.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 50.6405658944187,
+    "lon": 6.034874518218922
+  },
+  {
+    "name": "HB9HBQ",
+    "url": "https://openwebrx.hb9hbq.ch/",
+    "type": "owrx",
+    "lat": 47.37172,
+    "lon": 8.07967,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "9A3ZI",
+    "url": "http://9a3zi.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 46.389854429313154,
+    "lon": 16.474081801898464,
+    "bands": [
+      "70cm"
+    ],
+    "band": "70cm"
+  },
+  {
+    "name": "Janez Ar, 327FRS072",
+    "url": "https://sdr2.pmr.si/",
+    "type": "owrx",
+    "lat": 46.4045683445357,
+    "lon": 14.1352609151616,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "14ALT266",
+    "url": "https://14alt266.freeboxos.fr/openwebrx/",
+    "type": "owrx",
+    "lat": 43.6228932497094,
+    "lon": 7.04648735875531,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "ON1MS Michel SOFIA",
+    "url": "https://sdr.on1ms.online/",
+    "type": "owrx",
+    "lat": 50.406223730733274,
+    "lon": 5.81356271883628,
+    "bands": [
+      "2m"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "PU2XZL -HF-BC-10m-VHF-2m -S\u00e3o Jos\u00e9 do Rio Preto-SP-Brasil",
+    "url": "http://sdrsjriopreto.ddns.net:8073/",
+    "type": "owrx",
+    "lat": -20.7556290232081,
+    "lon": -49.3301625125833,
+    "bands": [
+      "60m",
+      "40m",
+      "10m",
+      "2m"
+    ],
+    "band": "60m"
+  },
+  {
+    "name": "Experimental WebSDR by Z31ALN",
+    "url": "https://openwebrx-server.tortoise-mine.ts.net/",
+    "type": "owrx",
+    "lat": 41.980110310395695,
+    "lon": 21.464825551242214,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "SQ7IQO",
+    "url": "http://bmbm-home.com:8073/",
+    "type": "owrx",
+    "lat": 51.81476220659083,
+    "lon": 19.619557151378544,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "PI1FLD",
+    "url": "https://websdr.pi1fld.hamnet.nl/",
+    "type": "owrx",
+    "lat": 52.3764,
+    "lon": 5.2218,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "IN3EFR",
+    "url": "http://netend.servebeer.com:8073/",
+    "type": "owrx",
+    "lat": 46.4911730122604,
+    "lon": 11.3296969215292
+  },
+  {
+    "name": "SDR Pirineo - acuanticopower.com",
+    "url": "https://sdr.acuanticopower.com/",
+    "type": "owrx",
+    "lat": 42.354,
+    "lon": 1.45,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "RVGS SDR Server",
+    "url": "https://owrx.jalbert.app/",
+    "type": "owrx",
+    "lat": 37.255022869659506,
+    "lon": -79.98493350879995
+  },
+  {
+    "name": "Rannu SDR",
+    "url": "https://rannu.sdr.ee/",
+    "type": "owrx",
+    "lat": 58.228333,
+    "lon": 26.123333,
+    "bands": [
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "20m"
+  },
+  {
+    "name": "[HB9ITR]",
+    "url": "http://185.230.119.204:8073/",
+    "type": "owrx",
+    "lat": 46.9,
+    "lon": 7.24,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "VK3XIM",
+    "url": "https://owrx.whitedome.com.au/",
+    "type": "owrx",
+    "lat": -37.929422776459866,
+    "lon": 145.04306331968928
+  },
+  {
+    "name": "RCC01 HF/VHF/UHF Danville, CA",
+    "url": "https://sdr01.ionic1k.net/",
+    "type": "owrx",
+    "lat": 37.8260434864678,
+    "lon": -122.00551673038895,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "IK2ZSH",
+    "url": "https://owrx1.web-sdr.it/",
+    "type": "owrx",
+    "lat": 45.7007212405664,
+    "lon": 9.65270348173823,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "VE2SUS General Receiver Powered by Chromatel",
+    "url": "https://spectrum-chromatel.msappproxy.net/",
+    "type": "owrx",
+    "lat": 45.4660461025418,
+    "lon": -73.7786882875571
+  },
+  {
+    "name": "IK2ZSH-1",
+    "url": "https://owrx2.web-sdr.it/",
+    "type": "owrx",
+    "lat": 45.7861259773482,
+    "lon": 9.64636561822898,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Web_Sdr_Manlay",
+    "url": "http://sdrmanlay.ddns.net:8073/",
+    "type": "owrx",
+    "lat": 47.1287,
+    "lon": 4.3416,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "VU3KNB",
+    "url": "https://vu3knb.co.in/",
+    "type": "owrx",
+    "lat": 10.136390563962946,
+    "lon": 76.45737203746093,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "15m",
+      "12m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "DG7LAN",
+    "url": "https://dg7lan.mooo.com:8443/",
+    "type": "owrx",
+    "lat": 53.680682383273094,
+    "lon": 9.620018651657691,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SLAVA UKRAINI !       \u0440\u0443\u0441\u0441\u043a\u0438\u0439 \u0432\u043e\u0435\u043d\u043d\u044b\u0439 \u043a\u043e\u0440\u0430\u0431\u043b\u044c, \u0438\u0434\u0438 \u043d\u0430 \u0445\u0443\u0439",
+    "url": "https://sdr.kumpisradio.com/",
+    "type": "owrx",
+    "lat": 52.60158141313856,
+    "lon": 1.7281365394592287,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "SDR Chapec\u00f3",
+    "url": "http://sdrchapeco.ddns.net:8181/",
+    "type": "owrx",
+    "lat": -27.128846453978,
+    "lon": -52.9668291916279,
+    "bands": [
+      "10m",
+      "2m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "AJ7FV Oregon Receiver",
+    "url": "http://kosken.tplinkdns.com:8073/",
+    "type": "owrx",
+    "lat": 45.52082872987438,
+    "lon": -123.05714188997442
+  },
+  {
+    "name": "SDR1 | 2m/70cm | Berlin - JO62QM | DB0BLX ( owrx+ / Rpi4 )",
+    "url": "http://hamradio.ddnss.de:4038/",
+    "type": "owrx",
+    "lat": 52.510322059585626,
+    "lon": 13.394180333095473,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Toca do Sapo \ud83c\udde7\ud83c\uddf7",
+    "url": "https://websdr.frogden.org/",
+    "type": "owrx",
+    "lat": -22.90332931413584,
+    "lon": -47.103712381925774,
+    "bands": [
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "aricooperdavis",
+    "url": "https://owrx.cooper-davis.net/",
+    "type": "owrx",
+    "lat": 50.31526,
+    "lon": -5.20853
+  },
+  {
+    "name": "*KRAK\u00d3W* - PMR | 70cm | 2m \ud83c\uddf5\ud83c\uddf1",
+    "url": "https://webrx.sytes.net/",
+    "type": "owrx",
+    "lat": 50.0720513417472,
+    "lon": 20.0373274759241,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "VO1AAK-1 0-30mhz Gander,Newfoundland",
+    "url": "http://142.163.167.240:8073/",
+    "type": "owrx",
+    "lat": 48.960997865862936,
+    "lon": -54.60381997070661,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "17m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "DL8LDN, RX RTL-SDR V4, Antenna YouLoop + LNA, HF/VHF/UHF",
+    "url": "https://websdr.dl8ldn.de/",
+    "type": "owrx",
+    "lat": 53.82714,
+    "lon": 9.94113,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "EA5HKX - t.me/ea5hkxSDR",
+    "url": "https://ea5hkx.myqnapcloud.com:8073/",
+    "type": "owrx",
+    "lat": 38.58406548825027,
+    "lon": -0.13017410806499763,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "RX 0-30 MHZ - IZ6KCQ - ACTIVE LOOP ANTENNA - MULTI USER -",
+    "url": "http://iz6kcq.duckdns.org:8074/",
+    "type": "owrx",
+    "lat": 42.44498623811424,
+    "lon": 14.169014854021711,
+    "bands": [
+      "40m"
+    ],
+    "band": "40m"
+  },
+  {
+    "name": "CB0ARO",
+    "url": "http://aro99.homeip.net:5573/",
+    "type": "owrx",
+    "lat": 50.8419509804473,
+    "lon": 12.773415194596408,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "DB0NGR VHF/UHF",
+    "url": "http://136.243.0.21:8073/",
+    "type": "owrx",
+    "lat": 52.592450919837106,
+    "lon": 6.923820430631622,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "\ud83c\uddf5\ud83c\uddf1 Anteniarski OpenWebRX+ - Co\u015b za\u015b narobi\u0142...",
+    "url": "https://owrx.anteniarski.pl/",
+    "type": "owrx",
+    "lat": 50.303,
+    "lon": 18.735,
+    "bands": [
+      "80m",
+      "40m",
+      "20m",
+      "15m",
+      "2m",
+      "70cm"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "i6iqx",
+    "url": "https://sdr-plus.i6iqx.it/",
+    "type": "owrx",
+    "lat": 42.30316424833685,
+    "lon": 14.183019990933499,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "N3ZQT-SDR",
+    "url": "https://sdr.jefferso.net/",
+    "type": "owrx",
+    "lat": 40.14,
+    "lon": -79.88,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "TA2OM Belmont small RX",
+    "url": "http://ta2om-boston.ddnsfree.com:8073/",
+    "type": "owrx",
+    "lat": 42.37685854982606,
+    "lon": -71.15690813778892
+  },
+  {
+    "name": "For the CB / 11m folks // OWRXCM4",
+    "url": "http://gz62.synology.me/",
+    "type": "owrx",
+    "lat": 47.544279255973954,
+    "lon": 7.9519401465365585,
+    "bands": [
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "IU4KVZ",
+    "url": "http://93.47.89.55:8073/",
+    "type": "owrx",
+    "lat": 44.03699,
+    "lon": 12.60447
+  },
+  {
+    "name": "Receiver",
+    "url": "https://sdr.surrealservers.net/",
+    "type": "owrx",
+    "lat": 37.433863332994605,
+    "lon": -79.24450242663413
+  },
+  {
+    "name": "YM3KC",
+    "url": "http://188.119.3.242:8073/",
+    "type": "owrx",
+    "lat": 38.4762908,
+    "lon": 27.15746
+  },
+  {
+    "name": "S59EKL",
+    "url": "https://sdr.s59ekl.si/",
+    "type": "owrx",
+    "lat": 46.356830335200236,
+    "lon": 15.120766413765745,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "A2 SDR - 2m 1.25m 70cm Airband Railroad Marine MURS APRS",
+    "url": "https://websdr.120v.ac/",
+    "type": "owrx",
+    "lat": 42.2658,
+    "lon": -83.7487,
+    "bands": [
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "Strato",
+    "url": "https://strato88.duckdns.org/",
+    "type": "owrx",
+    "lat": 38.906940373731594,
+    "lon": 1.4366563573399738
+  },
+  {
+    "name": "YO9HZN_2",
+    "url": "http://yo9hzn.go.ro:8073/",
+    "type": "owrx",
+    "lat": 44.913560679050704,
+    "lon": 25.57413843253631,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "12m",
+      "10m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "\u5929\u7afa\u9f20\u7684SDR",
+    "url": "https://sdr.69696969.uk/",
+    "type": "owrx",
+    "lat": 25.061388043763756,
+    "lon": 121.36796596317015
+  },
+  {
+    "name": "OWRXP-DNX Public Build",
+    "url": "http://dnx833.ramoip.de:8011/",
+    "type": "owrx",
+    "lat": 0,
+    "lon": 0,
+    "bands": [
+      "10m"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "DL0PF - CSA-Wire Low Bands",
+    "url": "https://sdr.wireless-access.de:9078/",
+    "type": "owrx",
+    "lat": 48.57915,
+    "lon": 13.46749,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "IU6VHS",
+    "url": "http://rnestoe.myddns.me:8073/",
+    "type": "owrx",
+    "lat": 42.4772944310985,
+    "lon": 14.1834588086439,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "20m",
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "OK1KUR",
+    "url": "https://sdr.radioklub.fel.cvut.cz/",
+    "type": "owrx",
+    "lat": 50.10292,
+    "lon": 14.39332,
+    "bands": [
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "4m",
+      "2m",
+      "70cm",
+      "23cm"
+    ],
+    "band": "160m"
+  },
+  {
+    "name": "WebSDR Merkelbeek",
+    "url": "https://hydra-cloud.synology.me:8073/",
+    "type": "owrx",
+    "lat": 50.95614,
+    "lon": 5.93151,
+    "bands": [
+      "10m",
+      "2m",
+      "70cm"
+    ],
+    "band": "10m"
+  },
+  {
+    "name": "[EA6Y - FTDX101 SDR ]",
+    "url": "http://ea6dx.duckdns.org:8073/",
+    "type": "owrx",
+    "lat": 39.7655751921344,
+    "lon": 2.93363205773802
+  },
+  {
+    "name": "VE3CIJ",
+    "url": "http://185.213.70.17:8073/",
+    "type": "owrx",
+    "lat": 47.82078517516911,
+    "lon": -79.8527397979459,
+    "bands": [
+      "80m",
+      "40m",
+      "30m",
+      "20m"
+    ],
+    "band": "80m"
+  },
+  {
+    "name": "\ud83d\udfe2Server 1\ud83d\udfe2 6m 4m 2m 70cm 23cm Germany NRW inklusive SDRangel3d and SDRuno",
+    "url": "http://dnx833.ramoip.de:8015/",
+    "type": "owrx",
+    "lat": 51.6508837803019,
+    "lon": 6.96945406834765,
+    "band": "6m"
+  },
+  {
+    "name": "RCC01 HF/VHF/UHF Danville, CA",
+    "url": "http://sdr01.ionic1k.net/",
+    "type": "owrx",
+    "lat": 37.8260434864678,
+    "lon": -122.00551673038895,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "2m"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Sdr Online Espa\u00f1a Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO",
+    "url": "https://ea3er-sdr.duckdns.org:8444/",
+    "type": "owrx",
+    "lat": 41.515,
+    "lon": 1.602,
+    "bands": [
+      "2m",
+      "70cm"
+    ],
+    "band": "2m"
+  },
+  {
+    "name": "Sunny's HP 202 G2 MT - LF,HF,VHF,UHF SDR",
+    "url": "http://sunnyai.asuscomm.com:8059/",
+    "type": "owrx",
+    "lat": 22.19088901790134,
+    "lon": 113.53596742757495,
+    "bands": [
+      "2190m",
+      "630m",
+      "160m",
+      "80m",
+      "60m",
+      "40m",
+      "30m",
+      "20m",
+      "17m",
+      "15m",
+      "12m",
+      "10m",
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "2190m"
+  },
+  {
+    "name": "Zikerfy",
+    "url": "https://sdr.zikerfy.site/",
+    "type": "owrx",
+    "lat": 16.807706325018568,
+    "lon": -96.75933129539138
+  },
+  {
+    "name": "# RTL-SDR v4 receiver station (w/ adjustable gain) - Beskid Niski, Polska",
+    "url": "https://radio.defective4.dev/",
+    "type": "owrx",
+    "lat": 49.7677849445886,
+    "lon": 21.4872678955399
+  },
+  {
+    "name": "Bernadia",
+    "url": "https://openwebrx.iv3hqc.it/",
+    "type": "owrx",
+    "lat": 46.2368,
+    "lon": 13.2434,
+    "bands": [
+      "630m",
+      "160m",
+      "80m",
+      "40m",
+      "30m",
+      "20m",
+      "2m",
+      "70cm"
+    ],
+    "band": "630m"
+  },
+  {
+    "name": "M9WWA",
+    "url": "http://m9wwa.hopto.org:8073/",
+    "type": "owrx",
+    "lat": 50.60332553568706,
+    "lon": -2.459272792246654
+  },
+  {
+    "name": "OpenWebRX+ | RTL-SDR Fake V4 | Moscow | ZAO | https://t.me/sdrzao",
+    "url": "http://95.165.144.131:8074/",
+    "type": "owrx",
+    "lat": 55.6933386035514,
+    "lon": 37.5344679110221,
+    "bands": [
+      "6m",
+      "2m",
+      "70cm"
+    ],
+    "band": "6m"
+  }
+]

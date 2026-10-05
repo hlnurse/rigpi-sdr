@@ -1,0 +1,1917 @@
+{
+  "schemaVersion": 2,
+  "id": "com.rigpi.fib.builtin-bands",
+  "name": "RigPi Built-in Frequency Bands",
+  "region": "General / IARU Region 2",
+  "author": "Howard Nurse, W6HN",
+  "revision": "milestone-3.2",
+  "objects": [
+    {
+      "id": "builtin-am-broadcast-535000-1705000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 535000,
+      "hi": 1705000,
+      "shortLabel": "AM Broadcast",
+      "longLabel": "AM Broadcast",
+      "color": "rgba(0,255,0,0.30)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 0,
+      "action": {
+        "frequency": 1120000
+      }
+    },
+    {
+      "id": "builtin-sw-120-m-2300000-2495000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 2300000,
+      "hi": 2495000,
+      "shortLabel": "SW 120 m",
+      "longLabel": "SW 120 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 1,
+      "action": {
+        "frequency": 2397500
+      }
+    },
+    {
+      "id": "builtin-sw-90-m-3200000-3400000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 3200000,
+      "hi": 3400000,
+      "shortLabel": "SW 90 m",
+      "longLabel": "SW 90 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 2,
+      "action": {
+        "frequency": 3300000
+      }
+    },
+    {
+      "id": "builtin-sw-75-m-3900000-4000000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 3900000,
+      "hi": 4000000,
+      "shortLabel": "SW 75 m",
+      "longLabel": "SW 75 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 3,
+      "action": {
+        "frequency": 3950000
+      }
+    },
+    {
+      "id": "builtin-sw-60-m-4750000-5060000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 4750000,
+      "hi": 5060000,
+      "shortLabel": "SW 60 m",
+      "longLabel": "SW 60 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 4,
+      "action": {
+        "frequency": 4905000
+      }
+    },
+    {
+      "id": "builtin-sw-49-m-5900000-6200000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 5900000,
+      "hi": 6200000,
+      "shortLabel": "SW 49 m",
+      "longLabel": "SW 49 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 5,
+      "action": {
+        "frequency": 6050000
+      }
+    },
+    {
+      "id": "builtin-sw-41-m-7200000-7450000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 7200000,
+      "hi": 7450000,
+      "shortLabel": "SW 41 m",
+      "longLabel": "SW 41 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 6,
+      "action": {
+        "frequency": 7325000
+      }
+    },
+    {
+      "id": "builtin-sw-31-m-9400000-9900000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 9400000,
+      "hi": 9900000,
+      "shortLabel": "SW 31 m",
+      "longLabel": "SW 31 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 7,
+      "action": {
+        "frequency": 9650000
+      }
+    },
+    {
+      "id": "builtin-sw-25-m-11600000-12100000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 11600000,
+      "hi": 12100000,
+      "shortLabel": "SW 25 m",
+      "longLabel": "SW 25 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 8,
+      "action": {
+        "frequency": 11850000
+      }
+    },
+    {
+      "id": "builtin-sw-22-m-13570000-13870000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 13570000,
+      "hi": 13870000,
+      "shortLabel": "SW 22 m",
+      "longLabel": "SW 22 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 9,
+      "action": {
+        "frequency": 13720000
+      }
+    },
+    {
+      "id": "builtin-sw-19-m-15100000-15830000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 15100000,
+      "hi": 15830000,
+      "shortLabel": "SW 19 m",
+      "longLabel": "SW 19 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 10,
+      "action": {
+        "frequency": 15465000
+      }
+    },
+    {
+      "id": "builtin-sw-16-m-17480000-17900000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 17480000,
+      "hi": 17900000,
+      "shortLabel": "SW 16 m",
+      "longLabel": "SW 16 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 11,
+      "action": {
+        "frequency": 17690000
+      }
+    },
+    {
+      "id": "builtin-sw-15-m-18900000-19020000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 18900000,
+      "hi": 19020000,
+      "shortLabel": "SW 15 m",
+      "longLabel": "SW 15 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 12,
+      "action": {
+        "frequency": 18960000
+      }
+    },
+    {
+      "id": "builtin-sw-13-m-21450000-21850000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 21450000,
+      "hi": 21850000,
+      "shortLabel": "SW 13 m",
+      "longLabel": "SW 13 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 13,
+      "action": {
+        "frequency": 21650000
+      }
+    },
+    {
+      "id": "builtin-sw-11-m-25670000-26100000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 25670000,
+      "hi": 26100000,
+      "shortLabel": "SW 11 m",
+      "longLabel": "SW 11 m",
+      "color": "rgba(56,189,248,0.40)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 14,
+      "action": {
+        "frequency": 25885000
+      }
+    },
+    {
+      "id": "builtin-wwv-2-5-2497500-2502500",
+      "enabled": true,
+      "type": "time",
+      "lo": 2497500,
+      "hi": 2502500,
+      "shortLabel": "WWV 2.5",
+      "longLabel": "WWV 2.5",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 15,
+      "tooltip": "WWV 2.5 time standard",
+      "defaultTune": 2500000,
+      "action": {
+        "frequency": 2500000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-wwv-5-4997500-5002500",
+      "enabled": true,
+      "type": "time",
+      "lo": 4997500,
+      "hi": 5002500,
+      "shortLabel": "WWV 5",
+      "longLabel": "WWV 5",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 16,
+      "tooltip": "WWV 5 time standard",
+      "defaultTune": 5000000,
+      "action": {
+        "frequency": 5000000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-wwv-10-9997500-10002500",
+      "enabled": true,
+      "type": "time",
+      "lo": 9997500,
+      "hi": 10002500,
+      "shortLabel": "WWV 10",
+      "longLabel": "WWV 10",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 17,
+      "tooltip": "WWV 10 time standard",
+      "defaultTune": 10000000,
+      "action": {
+        "frequency": 10000000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-wwv-15-14997500-15002500",
+      "enabled": true,
+      "type": "time",
+      "lo": 14997500,
+      "hi": 15002500,
+      "shortLabel": "WWV 15",
+      "longLabel": "WWV 15",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 18,
+      "tooltip": "WWV 15 time standard",
+      "defaultTune": 15000000,
+      "action": {
+        "frequency": 15000000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-wwv-20-19997500-20002500",
+      "enabled": true,
+      "type": "time",
+      "lo": 19997500,
+      "hi": 20002500,
+      "shortLabel": "WWV 20",
+      "longLabel": "WWV 20",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 19,
+      "tooltip": "WWV 20 time standard",
+      "defaultTune": 20000000,
+      "action": {
+        "frequency": 20000000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-wwv-25-24997500-25002500",
+      "enabled": true,
+      "type": "time",
+      "lo": 24997500,
+      "hi": 25002500,
+      "shortLabel": "WWV 25",
+      "longLabel": "WWV 25",
+      "color": "rgba(251,191,36,0.65)",
+      "priority": 90,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 20,
+      "tooltip": "WWV 25 time standard",
+      "defaultTune": 25000000,
+      "action": {
+        "frequency": 25000000,
+        "mode": "AM",
+        "bandwidth": 8000
+      },
+      "actions": [
+        {
+          "label": "2.5 MHz",
+          "frequency": 2500000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "5 MHz",
+          "frequency": 5000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "10 MHz",
+          "frequency": 10000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "15 MHz",
+          "frequency": 15000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "20 MHz",
+          "frequency": 20000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": false
+        },
+        {
+          "label": "25 MHz",
+          "frequency": 25000000,
+          "mode": "AM",
+          "bandwidth": 8000,
+          "default": true
+        }
+      ],
+      "note": "WWV standard-frequency broadcasts. Availability varies with propagation and transmitter schedule."
+    },
+    {
+      "id": "builtin-160-m-1800000-2000000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 1800000,
+      "hi": 2000000,
+      "shortLabel": "160 m",
+      "longLabel": "160 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 21,
+      "tooltip": "160 m Amateur Band",
+      "segments": [
+        {
+          "label": "Digital modes",
+          "start": 1800000,
+          "end": 1810000
+        },
+        {
+          "label": "CW / digital",
+          "start": 1800000,
+          "end": 1840000
+        },
+        {
+          "label": "FT8",
+          "start": 1840000,
+          "end": 1843000
+        },
+        {
+          "label": "Common SSB activity",
+          "start": 1840000,
+          "end": 2000000
+        },
+        {
+          "label": "SSB / SSTV / wideband",
+          "start": 1843000,
+          "end": 2000000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 1840000,
+      "action": {
+        "frequency": 1840000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 1840000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "CW",
+          "frequency": 1825000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 1900000,
+          "mode": "LSB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-80-m-3500000-4000000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 3500000,
+      "hi": 4000000,
+      "shortLabel": "80 m",
+      "longLabel": "80 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 22,
+      "tooltip": "80 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 3500000,
+          "end": 3600000
+        },
+        {
+          "label": "RTTY / Data",
+          "start": 3570000,
+          "end": 3600000
+        },
+        {
+          "label": "FT8",
+          "start": 3573000,
+          "end": 3576000
+        },
+        {
+          "label": "FT4",
+          "start": 3575000,
+          "end": 3578000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 3600000,
+          "end": 4000000
+        },
+        {
+          "label": "SSTV",
+          "start": 3845000,
+          "end": 3845000
+        },
+        {
+          "label": "AM calling",
+          "start": 3885000,
+          "end": 3885000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 3573000,
+      "action": {
+        "frequency": 3573000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 3573000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "CW",
+          "frequency": 3525000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 3800000,
+          "mode": "LSB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-60-m-5330500-5406500",
+      "enabled": true,
+      "type": "ham",
+      "lo": 5330500,
+      "hi": 5406500,
+      "shortLabel": "60 m",
+      "longLabel": "60 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 23,
+      "tooltip": "60 m Amateur Band",
+      "segments": [
+        {
+          "label": "Channelized operation",
+          "start": 5330500,
+          "end": 5406500
+        },
+        {
+          "label": "FT8",
+          "start": 5357000,
+          "end": 5360000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 5357000,
+      "action": {
+        "frequency": 5357000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 5357000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "Voice",
+          "frequency": 5332500,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-40-m-7000000-7300000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 7000000,
+      "hi": 7300000,
+      "shortLabel": "40 m",
+      "longLabel": "40 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 24,
+      "tooltip": "40 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 7000000,
+          "end": 7125000
+        },
+        {
+          "label": "RTTY/Data DX",
+          "start": 7040000,
+          "end": 7040000
+        },
+        {
+          "label": "FT4",
+          "start": 7047500,
+          "end": 7050500
+        },
+        {
+          "label": "FT8",
+          "start": 7074000,
+          "end": 7077000
+        },
+        {
+          "label": "RTTY / Data",
+          "start": 7080000,
+          "end": 7125000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 7125000,
+          "end": 7300000
+        },
+        {
+          "label": "SSTV",
+          "start": 7171000,
+          "end": 7171000
+        },
+        {
+          "label": "AM calling",
+          "start": 7290000,
+          "end": 7290000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 7074000,
+      "action": {
+        "frequency": 7074000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 7074000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 7047500,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW DX",
+          "frequency": 7025000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 7200000,
+          "mode": "LSB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-30-m-10100000-10150000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 10100000,
+      "hi": 10150000,
+      "shortLabel": "30 m",
+      "longLabel": "30 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 25,
+      "tooltip": "30 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital only",
+          "start": 10100000,
+          "end": 10150000
+        },
+        {
+          "label": "RTTY",
+          "start": 10130000,
+          "end": 10140000
+        },
+        {
+          "label": "FT8",
+          "start": 10136000,
+          "end": 10139000
+        },
+        {
+          "label": "Packet",
+          "start": 10140000,
+          "end": 10150000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 10136000,
+      "action": {
+        "frequency": 10136000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 10136000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 10140000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW",
+          "frequency": 10110000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-20-m-14000000-14350000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 14000000,
+      "hi": 14350000,
+      "shortLabel": "20 m",
+      "longLabel": "20 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 26,
+      "tooltip": "20 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 14000000,
+          "end": 14150000
+        },
+        {
+          "label": "RTTY",
+          "start": 14070000,
+          "end": 14095000
+        },
+        {
+          "label": "FT8",
+          "start": 14074000,
+          "end": 14077000
+        },
+        {
+          "label": "FT4",
+          "start": 14080000,
+          "end": 14083000
+        },
+        {
+          "label": "Packet",
+          "start": 14095000,
+          "end": 14099500
+        },
+        {
+          "label": "NCDXF Beacons",
+          "start": 14100000,
+          "end": 14100000
+        },
+        {
+          "label": "Packet",
+          "start": 14100500,
+          "end": 14112000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 14150000,
+          "end": 14350000
+        },
+        {
+          "label": "SSTV",
+          "start": 14230000,
+          "end": 14230000
+        },
+        {
+          "label": "AM calling",
+          "start": 14286000,
+          "end": 14286000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 14074000,
+      "action": {
+        "frequency": 14074000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 14074000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 14080000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW DX",
+          "frequency": 14025000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB DX",
+          "frequency": 14195000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        },
+        {
+          "label": "SSB Gen",
+          "frequency": 14250000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-17-m-18068000-18168000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 18068000,
+      "hi": 18168000,
+      "shortLabel": "17 m",
+      "longLabel": "17 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 27,
+      "tooltip": "17 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 18068000,
+          "end": 18110000
+        },
+        {
+          "label": "FT8",
+          "start": 18100000,
+          "end": 18103000
+        },
+        {
+          "label": "RTTY",
+          "start": 18100000,
+          "end": 18105000
+        },
+        {
+          "label": "FT4",
+          "start": 18104000,
+          "end": 18107000
+        },
+        {
+          "label": "Packet",
+          "start": 18105000,
+          "end": 18110000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 18110000,
+          "end": 18168000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 18100000,
+      "action": {
+        "frequency": 18100000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 18100000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 18104000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW",
+          "frequency": 18080000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 18130000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-15-m-21000000-21450000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 21000000,
+      "hi": 21450000,
+      "shortLabel": "15 m",
+      "longLabel": "15 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 28,
+      "tooltip": "15 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 21000000,
+          "end": 21200000
+        },
+        {
+          "label": "RTTY / Data",
+          "start": 21070000,
+          "end": 21110000
+        },
+        {
+          "label": "FT8",
+          "start": 21074000,
+          "end": 21077000
+        },
+        {
+          "label": "FT4",
+          "start": 21140000,
+          "end": 21143000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 21200000,
+          "end": 21450000
+        },
+        {
+          "label": "SSTV",
+          "start": 21340000,
+          "end": 21340000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 21074000,
+      "action": {
+        "frequency": 21074000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 21074000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 21140000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW DX",
+          "frequency": 21025000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 21300000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-12-m-24890000-24990000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 24890000,
+      "hi": 24990000,
+      "shortLabel": "12 m",
+      "longLabel": "12 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 29,
+      "tooltip": "12 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / digital",
+          "start": 24890000,
+          "end": 24930000
+        },
+        {
+          "label": "FT8",
+          "start": 24915000,
+          "end": 24918000
+        },
+        {
+          "label": "FT4",
+          "start": 24919000,
+          "end": 24922000
+        },
+        {
+          "label": "RTTY",
+          "start": 24920000,
+          "end": 24925000
+        },
+        {
+          "label": "Packet",
+          "start": 24925000,
+          "end": 24930000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 24930000,
+          "end": 24990000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 24915000,
+      "action": {
+        "frequency": 24915000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 24915000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 24919000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW",
+          "frequency": 24900000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 24950000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-10-m-28000000-29700000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 28000000,
+      "hi": 29700000,
+      "shortLabel": "10 m",
+      "longLabel": "10 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 30,
+      "tooltip": "10 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW",
+          "start": 28000000,
+          "end": 28070000
+        },
+        {
+          "label": "CW / digital",
+          "start": 28000000,
+          "end": 28300000
+        },
+        {
+          "label": "RTTY",
+          "start": 28070000,
+          "end": 28150000
+        },
+        {
+          "label": "FT8",
+          "start": 28074000,
+          "end": 28077000
+        },
+        {
+          "label": "FT4",
+          "start": 28180000,
+          "end": 28183000
+        },
+        {
+          "label": "Beacons",
+          "start": 28200000,
+          "end": 28300000
+        },
+        {
+          "label": "Phone",
+          "start": 28300000,
+          "end": 29300000
+        },
+        {
+          "label": "Voice / mixed activity",
+          "start": 28300000,
+          "end": 29700000
+        },
+        {
+          "label": "SSTV",
+          "start": 28680000,
+          "end": 28680000
+        },
+        {
+          "label": "AM",
+          "start": 29000000,
+          "end": 29200000
+        },
+        {
+          "label": "Satellite",
+          "start": 29300000,
+          "end": 29510000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 28074000,
+      "action": {
+        "frequency": 28074000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 28074000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 28180000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW DX",
+          "frequency": 28025000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 28400000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-cb-26965000-27405000",
+      "enabled": true,
+      "type": "service",
+      "lo": 26965000,
+      "hi": 27405000,
+      "shortLabel": "CB",
+      "longLabel": "CB",
+      "color": "rgba(251,191,36,0.40)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 31,
+      "action": {
+        "frequency": 27185000
+      }
+    },
+    {
+      "id": "builtin-6-m-50000000-54000000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 50000000,
+      "hi": 54000000,
+      "shortLabel": "6 m",
+      "longLabel": "6 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 32,
+      "tooltip": "6 m Amateur Band",
+      "segments": [
+        {
+          "label": "CW / weak signal",
+          "start": 50000000,
+          "end": 50100000
+        },
+        {
+          "label": "CW / weak signal / digital",
+          "start": 50000000,
+          "end": 50100000
+        },
+        {
+          "label": "Mixed activity",
+          "start": 50100000,
+          "end": 54000000
+        },
+        {
+          "label": "SSB calling",
+          "start": 50125000,
+          "end": 50125000
+        },
+        {
+          "label": "FT8",
+          "start": 50313000,
+          "end": 50316000
+        },
+        {
+          "label": "FT4",
+          "start": 50318000,
+          "end": 50321000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 50313000,
+      "action": {
+        "frequency": 50313000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 50313000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "FT4",
+          "frequency": 50318000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": false
+        },
+        {
+          "label": "CW",
+          "frequency": 50090000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 50125000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-fm-broadcast-88000000-108000000",
+      "enabled": true,
+      "type": "broadcast",
+      "lo": 88000000,
+      "hi": 108000000,
+      "shortLabel": "FM Broadcast",
+      "longLabel": "FM Broadcast",
+      "color": "rgba(0,255,0,0.30)",
+      "priority": 70,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 33,
+      "action": {
+        "frequency": 98000000
+      }
+    },
+    {
+      "id": "builtin-aircraft-nav-108000000-137000000",
+      "enabled": true,
+      "type": "service",
+      "lo": 108000000,
+      "hi": 137000000,
+      "shortLabel": "Aircraft/Nav",
+      "longLabel": "Aircraft/Nav",
+      "color": "rgba(0,255,0,0.30)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 34,
+      "action": {
+        "frequency": 122500000
+      }
+    },
+    {
+      "id": "builtin-2-m-144000000-148000000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 144000000,
+      "hi": 148000000,
+      "shortLabel": "2 m",
+      "longLabel": "2 m Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 35,
+      "tooltip": "2 m Amateur Band",
+      "segments": [
+        {
+          "label": "EME CW",
+          "start": 144000000,
+          "end": 144050000
+        },
+        {
+          "label": "Weak signal / digital",
+          "start": 144000000,
+          "end": 144500000
+        },
+        {
+          "label": "CW / weak signal",
+          "start": 144050000,
+          "end": 144100000
+        },
+        {
+          "label": "EME / weak-signal SSB",
+          "start": 144100000,
+          "end": 144200000
+        },
+        {
+          "label": "FT8",
+          "start": 144174000,
+          "end": 144177000
+        },
+        {
+          "label": "SSB calling",
+          "start": 144200000,
+          "end": 144200000
+        },
+        {
+          "label": "SSB",
+          "start": 144200000,
+          "end": 144275000
+        },
+        {
+          "label": "Propagation beacons",
+          "start": 144275000,
+          "end": 144300000
+        },
+        {
+          "label": "Mixed / repeater activity",
+          "start": 144500000,
+          "end": 148000000
+        },
+        {
+          "label": "FM simplex calling",
+          "start": 146520000,
+          "end": 146520000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 144200000,
+      "action": {
+        "frequency": 144174000,
+        "mode": "USB",
+        "bandwidth": 3000
+      },
+      "actions": [
+        {
+          "label": "FT8",
+          "frequency": 144174000,
+          "mode": "USB",
+          "bandwidth": 3000,
+          "default": true
+        },
+        {
+          "label": "CW",
+          "frequency": 144100000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        },
+        {
+          "label": "SSB",
+          "frequency": 144200000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-noaa-weather-162400000-162550000",
+      "enabled": true,
+      "type": "service",
+      "lo": 162400000,
+      "hi": 162550000,
+      "shortLabel": "NOAA Weather",
+      "longLabel": "NOAA Weather",
+      "color": "rgba(56,189,248,0.50)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 36,
+      "action": {
+        "frequency": 162475000
+      },
+      "actions": [
+        {
+          "label": "WX1",
+          "frequency": 162400000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        },
+        {
+          "label": "WX2",
+          "frequency": 162425000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        },
+        {
+          "label": "WX3",
+          "frequency": 162450000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        },
+        {
+          "label": "WX4",
+          "frequency": 162475000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": true
+        },
+        {
+          "label": "WX5",
+          "frequency": 162500000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        },
+        {
+          "label": "WX6",
+          "frequency": 162525000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        },
+        {
+          "label": "WX7",
+          "frequency": 162550000,
+          "mode": "FM",
+          "bandwidth": 15000,
+          "default": false
+        }
+      ],
+      "note": "Select any of the seven NOAA Weather Radio channels."
+    },
+    {
+      "id": "builtin-tv-vhf-high-174000000-216000000",
+      "enabled": true,
+      "type": "service",
+      "lo": 174000000,
+      "hi": 216000000,
+      "shortLabel": "TV VHF High",
+      "longLabel": "TV VHF High",
+      "color": "rgba(168,85,247,0.30)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 37,
+      "action": {
+        "frequency": 195000000
+      }
+    },
+    {
+      "id": "builtin-military-air-225000000-400000000",
+      "enabled": true,
+      "type": "service",
+      "lo": 225000000,
+      "hi": 400000000,
+      "shortLabel": "Military Air",
+      "longLabel": "Military Air",
+      "color": "rgba(251,113,133,0.30)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 38,
+      "action": {
+        "frequency": 312500000
+      }
+    },
+    {
+      "id": "builtin-70-cm-420000000-450000000",
+      "enabled": true,
+      "type": "ham",
+      "lo": 420000000,
+      "hi": 450000000,
+      "shortLabel": "70 cm",
+      "longLabel": "70 cm Amateur Band",
+      "color": "rgba(0,120,45,0.78)",
+      "priority": 100,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 39,
+      "tooltip": "70 cm Amateur Band",
+      "segments": [
+        {
+          "label": "General amateur activity",
+          "start": 420000000,
+          "end": 450000000
+        },
+        {
+          "label": "Weak signal / mixed activity",
+          "start": 420000000,
+          "end": 450000000
+        }
+      ],
+      "note": "Common activity guide; consult the applicable band plan and license privileges.",
+      "defaultTune": 432100000,
+      "action": {
+        "frequency": 432100000,
+        "mode": "USB",
+        "bandwidth": 2700
+      },
+      "actions": [
+        {
+          "label": "Weak signal",
+          "frequency": 432100000,
+          "mode": "USB",
+          "bandwidth": 2700,
+          "default": true
+        },
+        {
+          "label": "CW",
+          "frequency": 432050000,
+          "mode": "CW",
+          "bandwidth": 500,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "builtin-gmrs-frs-462000000-467000000",
+      "enabled": true,
+      "type": "service",
+      "lo": 462000000,
+      "hi": 467000000,
+      "shortLabel": "GMRS/FRS",
+      "longLabel": "GMRS/FRS",
+      "color": "rgba(0,255,0,0.30)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 40,
+      "action": {
+        "frequency": 464500000
+      }
+    },
+    {
+      "id": "builtin-tv-uhf-470000000-608000000",
+      "enabled": true,
+      "type": "service",
+      "lo": 470000000,
+      "hi": 608000000,
+      "shortLabel": "TV UHF",
+      "longLabel": "TV UHF",
+      "color": "rgba(168,85,247,0.30)",
+      "priority": 60,
+      "zoomLevel": 0,
+      "source": "builtin",
+      "order": 41,
+      "action": {
+        "frequency": 539000000
+      }
+    }
+  ]
+}

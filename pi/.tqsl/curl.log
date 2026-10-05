@@ -1,0 +1,90 @@
+Config File Download Log:
+* Host lotw.arrl.org:443 was resolved.
+* IPv6: (none)
+* IPv4: 54.85.111.162
+*   Trying 54.85.111.162:443...
+* ALPN: curl offers h2,http/1.1
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+*  CApath: /etc/ssl/certs
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / x25519 / RSASSA-PSS
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: jurisdictionC=US; jurisdictionST=Connecticut; businessCategory=Private Organization; serialNumber=0094728; C=US; ST=Connecticut; L=Newington; O=The American Radio Relay League, Incorporated; CN=lotw.arrl.org
+*  start date: Mar 18 19:21:39 2026 GMT
+*  expire date: Sep 25 19:41:48 2026 GMT
+*  subjectAltName: host "lotw.arrl.org" matched cert's "lotw.arrl.org"
+*  issuer: C=US; ST=Arizona; L=Scottsdale; O=GoDaddy.com, Inc.; OU=http://certs.godaddy.com/repository/; CN=Go Daddy Secure Certificate Authority - G2
+*  SSL certificate verify ok.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+* Connected to lotw.arrl.org (54.85.111.162) port 443
+* using HTTP/1.x
+> GET /lotw/config.tq6 HTTP/1.1
+Host: lotw.arrl.org
+User-Agent: tqsl/2.8.1
+Accept: */*
+
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Tue, 15 Sep 2026 20:43:26 GMT
+< Server: Apache/2.4.62 (Red Hat Enterprise Linux) OpenSSL/3.2.2
+< Cache-Control: max-age=0
+< Expires: Tue, 15 Sep 2026 20:43:26 GMT
+< Transfer-Encoding: chunked
+< Content-Type: application/x-lotw-cert
+< 
+* Connection #0 to host lotw.arrl.org left intact
+Version Check Log:
+* Host lotw.arrl.org:443 was resolved.
+* IPv6: (none)
+* IPv4: 54.85.111.162
+*   Trying 54.85.111.162:443...
+* ALPN: curl offers h2,http/1.1
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+*  CApath: /etc/ssl/certs
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / x25519 / RSASSA-PSS
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: jurisdictionC=US; jurisdictionST=Connecticut; businessCategory=Private Organization; serialNumber=0094728; C=US; ST=Connecticut; L=Newington; O=The American Radio Relay League, Incorporated; CN=lotw.arrl.org
+*  start date: Mar 18 19:21:39 2026 GMT
+*  expire date: Sep 25 19:41:48 2026 GMT
+*  subjectAltName: host "lotw.arrl.org" matched cert's "lotw.arrl.org"
+*  issuer: C=US; ST=Arizona; L=Scottsdale; O=GoDaddy.com, Inc.; OU=http://certs.godaddy.com/repository/; CN=Go Daddy Secure Certificate Authority - G2
+*  SSL certificate verify ok.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+* Connected to lotw.arrl.org (54.85.111.162) port 443
+* using HTTP/1.x
+> GET /lotw/tqslupdate HTTP/1.1
+Host: lotw.arrl.org
+User-Agent: tqsl/2.8.1
+Accept: */*
+
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Tue, 15 Sep 2026 20:24:28 GMT
+< Server: Apache/2.4.62 (Red Hat Enterprise Linux) OpenSSL/3.2.2
+< Cache-Control: max-age=1209600
+< Expires: Tue, 29 Sep 2026 20:24:28 GMT
+< Transfer-Encoding: chunked
+< Content-Type: text/plain; charset=UTF-8
+< 
+* Connection #0 to host lotw.arrl.org left intact
+* Re-using existing https: connection with host lotw.arrl.org
+> GET /lotw/config_xml_version HTTP/1.1
+Host: lotw.arrl.org
+User-Agent: tqsl/2.8.1
+Accept: */*
+
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Tue, 15 Sep 2026 20:24:28 GMT
+< Server: Apache/2.4.62 (Red Hat Enterprise Linux) OpenSSL/3.2.2
+< Cache-Control: max-age=1209600
+< Expires: Tue, 29 Sep 2026 20:24:28 GMT
+< Transfer-Encoding: chunked
+< Content-Type: text/plain; charset=UTF-8
+< 
+* Connection #0 to host lotw.arrl.org left intact

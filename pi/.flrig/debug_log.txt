@@ -1,0 +1,177 @@
+[12:46:19.761] Q: init_port_combos: Search for serial ports
+[12:46:19.761] Q: init_port_combos: Found virtual serial port /dev/pts/ptmx
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_IC-7300_02020433-if00-port0
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty0
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty1
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty10
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty11
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty12
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty13
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty14
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty15
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty16
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty17
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty18
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty19
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty2
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty20
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty21
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty22
+[12:46:19.761] Q: init_port_combos: Found serial port /dev/tty23
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty24
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty25
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty26
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty27
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty28
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty29
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty3
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty30
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty31
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty32
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty33
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty34
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty35
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty36
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty37
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty38
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty39
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty4
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty40
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty41
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty42
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty43
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty44
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty45
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty46
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty47
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty48
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty49
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty5
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty50
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty51
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty52
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty53
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty54
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty55
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty56
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty57
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty58
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty59
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty6
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty60
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty61
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty62
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty63
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty7
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty8
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/tty9
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/ttyAMA10
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/ttyUSB0
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/ttyprintk
+[12:46:19.762] Q: init_port_combos: Searching /sys/class/tty/
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/ttyAMA10
+[12:46:19.762] Q: init_port_combos: Found serial port /dev/ttyUSB0
+[12:46:19.762] Q: init_port_combos: Searching /home/pi/vdev
+[12:46:43.331] Q: init_port_combos: Search for serial ports
+[12:46:43.331] Q: init_port_combos: Found virtual serial port /dev/pts/ptmx
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_IC-7300_02020433-if00-port0
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty0
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty1
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty10
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty11
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty12
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty13
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty14
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty15
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty16
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty17
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty18
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty19
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty2
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty20
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty21
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty22
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty23
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty24
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty25
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty26
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty27
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty28
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty29
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty3
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty30
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty31
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty32
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty33
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty34
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty35
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty36
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty37
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty38
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty39
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty4
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty40
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty41
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty42
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty43
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty44
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty45
+[12:46:43.331] Q: init_port_combos: Found serial port /dev/tty46
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty47
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty48
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty49
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty5
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty50
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty51
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty52
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty53
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty54
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty55
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty56
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty57
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty58
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty59
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty6
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty60
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty61
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty62
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty63
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty7
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty8
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/tty9
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/ttyAMA10
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/ttyUSB0
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/ttyprintk
+[12:46:43.332] Q: init_port_combos: Searching /sys/class/tty/
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/ttyAMA10
+[12:46:43.332] Q: init_port_combos: Found serial port /dev/ttyUSB0
+[12:46:43.332] Q: init_port_combos: Searching /home/pi/vdev
+[12:46:49.579] D: startXcvrSerial: 
+Serial port:
+    Port     : /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_IC-7300_02020433-if00-port0
+    Baud     : 9
+    Stopbits : 1
+    Retries  : 2
+    Timeout  : 50
+    Loop     : 500
+    RTSCTS   : 0
+    CATptt   : 1
+    RTSptt   : 0
+    DTRptt   : 0
+    RTS+     : 0
+    DTR+     : 0
+
+[12:46:59.073] E: waitFOR: get voltmeter: FAILED in 500 msec; FE FE 94 E0 15 15 FD FE FE E0 94 15
+[12:47:08.421] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[12:51:28.340] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[12:53:27.329] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[12:53:29.411] E: waitFOR: get voltmeter: FAILED in 501 msec; FE FE 94 E0 15 15 FD FE FE E0 94 15
+[12:57:34.179] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[13:01:38.428] E: waitFOR: get vfo A: FAILED in 500 msec; FE FE 94 E0 25 00 FD FE FE E0 94 25 00 30 65
+[13:03:04.520] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[13:08:43.360] E: waitFOR: get vfo A: FAILED in 500 msec; FE FE 94 E0 25 00 FD FE FE E0 94 25 00 30 65
+[13:10:12.060] E: waitFOR: get voltmeter: FAILED in 500 msec; FE FE 94 E0 15 15 FD FE FE E0 94 15
+[13:19:40.872] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94
+[13:20:59.632] E: waitFOR: get PTT: FAILED in 500 msec; FE FE 94 E0 1C 00 FD FE FE E0 94

@@ -1,0 +1,12 @@
+{
+  "connector_id": "wsjtx-github",
+  "owner": "WSJTX",
+  "repository": "wsjtx",
+  "default_branch": "master",
+  "commit": "ccdfaf3c1c109010d15399674ce278167cfde848",
+  "synced_at": "2026-08-24T19:24:25.234374+00:00",
+  "releases": 3,
+  "issues": 30,
+  "issue_comments": 39,
+  "wiki_synced": false
+}

@@ -1,0 +1,11 @@
+RigPi Elmer Builder v0.20
+Help topics: 97  Quality: 89.3%  Broken internal links: 0  Missing images: 0
+Approved Help images: 119
+Groups.io: 11421 messages, 2089 threads, 1114 contributors
+GitHub Hamlib GitHub: 6514 documents at 7bbde194b4c8
+GitHub RigPi GitHub: 427 documents at 567168378fa9
+GitHub WSJT-X GitHub and User Guide: 1579 documents at ccdfaf3c1c10
+Manual Official WSJT-X 3.0.0 User Guide: 96 sections for version 3.0.0
+MediaWiki SIGIDWiki Amateur Radio Signals: 86 pages
+Groups.io files: 49 documents, 1 duplicates, 1 failed or short
+73 from Elmer!

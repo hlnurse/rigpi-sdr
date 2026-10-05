@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ELMER — AI SDR Assistant</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #0a0f0a;
+        color: #c8d8c8;
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+      }
+      #app {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 12px;
+      }
+
+      .hdr {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        border-bottom: 0.5px solid #1a2e1a;
+        padding-bottom: 10px;
+      }
+      .logo {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: #e0f0e0;
+      }
+      .logo span {
+        color: #1d9e75;
+      }
+      .badge {
+        font-size: 9px;
+        background: #0a2a1a;
+        color: #5dcaa5;
+        padding: 2px 7px;
+        border: 0.5px solid #0f6e56;
+        border-radius: 2px;
+        letter-spacing: 2px;
+      }
+      .callsign {
+        margin-left: auto;
+        font-size: 11px;
+        color: #5dcaa5;
+        letter-spacing: 2px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .dot.live {
+        background: #1d9e75;
+        box-shadow: 0 0 5px #1d9e75;
+        animation: pulse 1.2s infinite;
+      }
+      .dot.dead {
+        background: #334433;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      .status-row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+        align-items: center;
+      }
+      .stat {
+        font-size: 11px;
+        color: #607060;
+      }
+      .stat b {
+        color: #9fe1cb;
+        font-weight: 500;
+      }
+      .err {
+        color: #d85a30;
+        font-size: 11px;
+      }
+
+      .spectrum-wrap {
+        position: relative;
+        margin-bottom: 4px;
+      }
+      canvas#fftCanvas {
+        width: 100%;
+        height: 160px;
+        display: block;
+        border: 0.5px solid #1a2e1a;
+        border-radius: 3px;
+        background: #050d05;
+        cursor: crosshair;
+      }
+      canvas#wfCanvas {
+        width: 100%;
+        height: 80px;
+        display: block;
+        border: 0.5px solid #1a2e1a;
+        border-radius: 3px;
+        background: #050d05;
+        margin-top: 3px;
+        cursor: crosshair;
+      }
+      .freq-axis {
+        display: flex;
+        justify-content: space-between;
+        font-size: 9px;
+        color: #2a4a2a;
+        margin: 2px 0 6px;
+        padding: 0 2px;
+      }
+      .tooltip-freq {
+        position: absolute;
+        background: #0d1a0d;
+        color: #1d9e75;
+        font-size: 10px;
+        padding: 2px 6px;
+        border: 0.5px solid #1d9e75;
+        border-radius: 2px;
+        pointer-events: none;
+        display: none;
+        top: 4px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+        align-items: center;
+      }
+      button {
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        padding: 4px 10px;
+        border: 0.5px solid #2a4a2a;
+        background: #0d1a0d;
+        color: #9fe1cb;
+        border-radius: 2px;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+        transition: all 0.1s;
+      }
+      button:hover {
+        background: #142a14;
+        border-color: #1d9e75;
+      }
+      button.active {
+        background: #0f6e56;
+        color: #e1f5ee;
+        border-color: #1d9e75;
+      }
+      button.danger.active {
+        background: #6e2a0f;
+        color: #faece7;
+        border-color: #d85a30;
+      }
+      button.sm {
+        font-size: 10px;
+        padding: 2px 7px;
+      }
+      button.spot-tune {
+        font-size: 10px;
+        padding: 2px 6px;
+        color: #5dcaa5;
+        border-color: #0f6e56;
+      }
+      button.spot-tune:hover {
+        background: #0f6e56;
+        color: #e1f5ee;
+      }
+
+      select {
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        padding: 4px 7px;
+        border: 0.5px solid #2a4a2a;
+        background: #0d1a0d;
+        color: #9fe1cb;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      .thresh-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: auto;
+        font-size: 11px;
+        color: #607060;
+      }
+      input[type="range"] {
+        width: 80px;
+        -webkit-appearance: none;
+        height: 3px;
+        background: #1a2e1a;
+        border-radius: 2px;
+        outline: none;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #1d9e75;
+        cursor: pointer;
+      }
+
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .panel {
+        border: 0.5px solid #1a2e1a;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .panel-body {
+        max-height: 220px;
+        overflow-y: auto;
+      }
+      .panel-hdr {
+        font-size: 9px;
+        color: #3a5a3a;
+        padding: 4px 8px;
+        border-bottom: 0.5px solid #1a2e1a;
+        display: flex;
+        justify-content: space-between;
+        letter-spacing: 1px;
+        background: #080e08;
+      }
+      .panel-hdr span {
+        color: #5dcaa5;
+      }
+
+      .sig-row,
+      .spot-row {
+        display: flex;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-bottom: 0.5px solid #0d1a0d;
+        align-items: center;
+        gap: 4px;
+      }
+      .sig-row:last-child,
+      .spot-row:last-child {
+        border-bottom: none;
+      }
+      .sig-row:hover,
+      .spot-row:hover {
+        background: #0d1a0d;
+      }
+
+      .sig-freq {
+        color: #1d9e75;
+        min-width: 90px;
+        font-weight: 500;
+      }
+      .sig-lvl {
+        color: #5dcaa5;
+        min-width: 55px;
+      }
+      .sig-bw {
+        color: #3a5a3a;
+        min-width: 48px;
+        font-size: 10px;
+      }
+      .sig-age {
+        color: #2a4a2a;
+        min-width: 34px;
+        font-size: 10px;
+      }
+      .sig-match {
+        color: #5dcaa5;
+        font-size: 10px;
+        min-width: 55px;
+      }
+
+      .spot-freq {
+        color: #1d9e75;
+        min-width: 88px;
+        font-weight: 500;
+      }
+      .spot-dx {
+        color: #9fe1cb;
+        min-width: 70px;
+        font-weight: 500;
+      }
+      .spot-mode {
+        color: #5dcaa5;
+        min-width: 38px;
+        font-size: 10px;
+      }
+      .spot-ctry {
+        color: #3a5a3a;
+        font-size: 10px;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .spot-new {
+        background: rgba(29, 158, 117, 0.07);
+      }
+
+      .scan-prog {
+        font-size: 10px;
+        color: #1d9e75;
+      }
+      .empty {
+        font-size: 10px;
+        color: #2a4a2a;
+        padding: 6px 8px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="hdr">
+        <span class="logo">EL<span>M</span>ER</span>
+        <span class="badge">AI SDR ASSISTANT</span>
+        <span class="dot dead" id="liveDot"></span>
+        <span id="errDisp" class="err"></span>
+        <span class="callsign">W6HN / C1AUD</span>
+      </div>
+
+      <div class="status-row">
+        <span class="stat">CF: <b id="cfDisp">--</b></span>
+        <span class="stat">SR: <b id="srDisp">--</b></span>
+        <span class="stat">MODE: <b id="modeDisp">--</b></span>
+        <span class="stat">NOISE: <b id="floorDisp">--</b></span>
+        <span class="stat">SIGS: <b id="peakDisp">0</b></span>
+        <span class="stat">SPOTS: <b id="spotCountDisp">0</b></span>
+      </div>
+
+      <div class="spectrum-wrap">
+        <canvas
+          id="fftCanvas"
+          height="160"
+          aria-label="FFT spectrum display"
+        ></canvas>
+        <div class="tooltip-freq" id="freqTip"></div>
+        <canvas
+          id="wfCanvas"
+          height="80"
+          aria-label="Waterfall display"
+        ></canvas>
+        <div class="freq-axis" id="freqAxis"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btnLive" class="active" onclick="toggleLive()">LIVE</button>
+        <button onclick="doSnapshot()">SNAP</button>
+        <button id="btnSpots" class="active" onclick="toggleSpots()">
+          SPOTS
+        </button>
+        <select id="bandSel" onchange="jumpBand(this.value)">
+          <option value="">-- BAND --</option>
+          <option value="1850000">160m</option>
+          <option value="3750000">80m</option>
+          <option value="7150000">40m</option>
+          <option value="10125000">30m</option>
+          <option value="14175000">20m</option>
+          <option value="18100000">17m</option>
+          <option value="21225000">15m</option>
+          <option value="24940000">12m</option>
+          <option value="28500000">10m</option>
+        </select>
+        <button id="btnScan" onclick="toggleScan()">SCAN</button>
+        <span id="scanProg" class="scan-prog"></span>
+        <div class="thresh-row">
+          THRESH
+          <input
+            type="range"
+            id="threshSlider"
+            min="-130"
+            max="-40"
+            value="-90"
+            step="1"
+            oninput="updateThresh(this.value)"
+          />
+          <b id="threshVal" style="color: #9fe1cb; min-width: 30px">-90</b>dB
+        </div>
+      </div>
+
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-hdr">
+            DETECTED SIGNALS <span id="sigCount">0</span>
+          </div>
+          <div class="panel-body" id="sigList">
+            <div class="empty">no signals above threshold</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-hdr">
+            DX SPOTS <span id="spotPanelCount">0</span>
+          </div>
+          <div class="panel-body" id="spotList">
+            <div class="empty">loading spots...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const SNAP_URL = "/api/fft/snapshot";
+      const TUNE_URL = "/api/tune";
+      const SPOTS_URL = "/api/spots";
+
+      let live = true,
+        timer = null,
+        spotsTimer = null;
+      let thresh = -90,
+        showSpots = true;
+      let signals = {},
+        spots = [],
+        lastSpotId = 0;
+      let scanning = false,
+        scanFreqs = [],
+        scanIdx = 0;
+      let lastSnap = null,
+        wfRows = [];
+      let currentCF = 0,
+        currentSR = 0;
+      const WF_ROWS = 50;
+
+      const fftCanvas = document.getElementById("fftCanvas");
+      const fftCtx = fftCanvas.getContext("2d");
+      const wfCanvas = document.getElementById("wfCanvas");
+      const wfCtx = wfCanvas.getContext("2d");
+
+      function fmtFreq(hz) {
+        if (hz >= 1e6) return (hz / 1e6).toFixed(3) + " MHz";
+        if (hz >= 1e3) return (hz / 1e3).toFixed(1) + " kHz";
+        return Math.round(hz) + " Hz";
+      }
+      function fmtBw(hz) {
+        return hz >= 1000
+          ? (hz / 1000).toFixed(1) + "k"
+          : Math.round(hz) + "Hz";
+      }
+      function setLive(v) {
+        document.getElementById("liveDot").className =
+          "dot " + (v ? "live" : "dead");
+      }
+      function setErr(m) {
+        document.getElementById("errDisp").textContent = m;
+      }
+      function updateThresh(v) {
+        thresh = parseInt(v);
+        document.getElementById("threshVal").textContent = v;
+        if (lastSnap) analyzeSnap(lastSnap);
+      }
+      function toggleSpots() {
+        showSpots = !showSpots;
+        document.getElementById("btnSpots").className = showSpots
+          ? "active"
+          : "";
+        if (lastSnap) drawSpectrum(lastSnap);
+      }
+
+      async function doSnapshot() {
+        try {
+          const r = await fetch(SNAP_URL, { cache: "no-store" });
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          const d = await r.json();
+          lastSnap = d;
+          currentCF = d.center_freq;
+          currentSR = d.sample_rate;
+          setLive(true);
+          setErr("");
+          document.getElementById("cfDisp").textContent = fmtFreq(
+            d.center_freq,
+          );
+          document.getElementById("srDisp").textContent =
+            (d.sample_rate / 1e6).toFixed(3) + " MHz";
+          document.getElementById("modeDisp").textContent = d.mode || "--";
+          drawSpectrum(d);
+          drawWaterfall(d);
+          updateFreqAxis(d);
+          analyzeSnap(d);
+        } catch (e) {
+          setLive(false);
+          setErr("ERR: " + e.message);
+        }
+      }
+
+      function dbToY(db, h, minDb = -130, maxDb = -20) {
+        return h - ((db - minDb) / (maxDb - minDb)) * h;
+      }
+      function dbToColor(db, minDb = -130, maxDb = -60) {
+        const t = Math.max(0, Math.min(1, (db - minDb) / (maxDb - minDb)));
+        if (t < 0.25) {
+          const s = t / 0.25;
+          return `rgb(0,${Math.round(s * 40)},${Math.round(20 + s * 40)})`;
+        }
+        if (t < 0.5) {
+          const s = (t - 0.25) / 0.25;
+          return `rgb(0,${Math.round(40 + s * 120)},${Math.round(60 - s * 40)})`;
+        }
+        if (t < 0.75) {
+          const s = (t - 0.5) / 0.25;
+          return `rgb(${Math.round(s * 200)},${Math.round(160 - s * 60)},0)`;
+        }
+        const s = (t - 0.75) / 0.25;
+        return `rgb(${Math.round(200 + s * 55)},${Math.round(100 - s * 80)},0)`;
+      }
+      function freqToX(hz, W) {
+        return currentSR
+          ? ((hz - (currentCF - currentSR / 2)) / currentSR) * W
+          : 0;
+      }
+
+      function drawSpectrum(d) {
+        const W = fftCanvas.offsetWidth || 900;
+        fftCanvas.width = W;
+        fftCanvas.height = 160;
+        const mags = d.mags,
+          N = mags.length,
+          H = 160,
+          minDb = -130,
+          maxDb = -20;
+        fftCtx.fillStyle = "#050d05";
+        fftCtx.fillRect(0, 0, W, H);
+        // grid
+        fftCtx.strokeStyle = "#0d1a0d";
+        fftCtx.lineWidth = 0.5;
+        [-120, -100, -80, -60, -40].forEach((db) => {
+          const y = dbToY(db, H, minDb, maxDb);
+          fftCtx.beginPath();
+          fftCtx.moveTo(0, y);
+          fftCtx.lineTo(W, y);
+          fftCtx.stroke();
+          fftCtx.fillStyle = "#2a4a2a";
+          fftCtx.font = "9px Courier New";
+          fftCtx.fillText(db + "dB", 3, y - 2);
+        });
+        // threshold line
+        const thY = dbToY(thresh, H, minDb, maxDb);
+        fftCtx.strokeStyle = "rgba(216,90,48,0.5)";
+        fftCtx.setLineDash([4, 4]);
+        fftCtx.lineWidth = 1;
+        fftCtx.beginPath();
+        fftCtx.moveTo(0, thY);
+        fftCtx.lineTo(W, thY);
+        fftCtx.stroke();
+        fftCtx.setLineDash([]);
+        // fill
+        fftCtx.beginPath();
+        for (let i = 0; i < N; i++) {
+          const x = (i / N) * W,
+            y = dbToY(mags[i], H, minDb, maxDb);
+          if (i === 0) fftCtx.moveTo(x, y);
+          else fftCtx.lineTo(x, y);
+        }
+        fftCtx.lineTo(W, H);
+        fftCtx.lineTo(0, H);
+        fftCtx.closePath();
+        const g = fftCtx.createLinearGradient(0, 0, 0, H);
+        g.addColorStop(0, "rgba(29,158,117,0.45)");
+        g.addColorStop(1, "rgba(29,158,117,0.02)");
+        fftCtx.fillStyle = g;
+        fftCtx.fill();
+        // line
+        fftCtx.beginPath();
+        fftCtx.strokeStyle = "#1D9E75";
+        fftCtx.lineWidth = 1.2;
+        for (let i = 0; i < N; i++) {
+          const x = (i / N) * W,
+            y = dbToY(mags[i], H, minDb, maxDb);
+          if (i === 0) fftCtx.moveTo(x, y);
+          else fftCtx.lineTo(x, y);
+        }
+        fftCtx.stroke();
+        // spot markers
+        if (showSpots)
+          spots.forEach((s) => {
+            const x = freqToX(s.Frequency, W);
+            if (x < 4 || x > W - 4) return;
+            fftCtx.strokeStyle = "rgba(93,202,165,0.7)";
+            fftCtx.lineWidth = 1;
+            fftCtx.setLineDash([2, 3]);
+            fftCtx.beginPath();
+            fftCtx.moveTo(x, 0);
+            fftCtx.lineTo(x, H);
+            fftCtx.stroke();
+            fftCtx.setLineDash([]);
+            fftCtx.fillStyle = "rgba(15,110,86,0.95)";
+            fftCtx.fillRect(x - 1, 0, 2, 6);
+            fftCtx.fillStyle = "#5DCAA5";
+            fftCtx.font = "9px Courier New";
+            const label = s.DX + (s.Mode ? " " + s.Mode : "");
+            fftCtx.fillText(label, Math.min(x + 3, W - 50), 15);
+          });
+        const noiseFloor = [...mags].sort((a, b) => a - b)[Math.floor(N * 0.2)];
+        document.getElementById("floorDisp").textContent =
+          noiseFloor.toFixed(1) + " dB";
+      }
+
+      function drawWaterfall(d) {
+        const W = wfCanvas.offsetWidth || 900;
+        wfCanvas.width = W;
+        wfCanvas.height = 80;
+        wfRows.unshift(d.mags.slice());
+        if (wfRows.length > WF_ROWS) wfRows.length = WF_ROWS;
+        const rowH = 80 / WF_ROWS;
+        wfRows.forEach((row, ri) => {
+          const N = row.length;
+          row.forEach((v, i) => {
+            wfCtx.fillStyle = dbToColor(v);
+            wfCtx.fillRect((i / N) * W, ri * rowH, W / N + 1, rowH + 1);
+          });
+        });
+        if (showSpots)
+          spots.forEach((s) => {
+            const x = freqToX(s.Frequency, W);
+            if (x < 2 || x > W - 2) return;
+            wfCtx.strokeStyle = "rgba(93,202,165,0.4)";
+            wfCtx.lineWidth = 1;
+            wfCtx.beginPath();
+            wfCtx.moveTo(x, 0);
+            wfCtx.lineTo(x, 80);
+            wfCtx.stroke();
+          });
+      }
+
+      function updateFreqAxis(d) {
+        const cf = d.center_freq,
+          sr = d.sample_rate,
+          start = cf - sr / 2,
+          end = cf + sr / 2;
+        const ax = document.getElementById("freqAxis");
+        ax.innerHTML = "";
+        for (let i = 0; i <= 6; i++) {
+          const f = start + (end - start) * (i / 6);
+          const el = document.createElement("span");
+          el.textContent = fmtFreq(f);
+          ax.appendChild(el);
+        }
+      }
+
+      function analyzeSnap(d) {
+        const mags = d.mags,
+          N = mags.length,
+          sr = d.sample_rate,
+          cf = d.center_freq;
+        const hpb = sr / N,
+          now = Date.now();
+        const noiseFloor = [...mags].sort((a, b) => a - b)[Math.floor(N * 0.2)];
+        const effThresh = Math.max(thresh, noiseFloor + 5);
+        let peaks = [],
+          inPeak = false,
+          peakStart = 0,
+          peakMax = -999,
+          peakBin = 0;
+        for (let i = 1; i < N - 1; i++) {
+          const v = mags[i];
+          if (!inPeak && v > effThresh) {
+            inPeak = true;
+            peakStart = i;
+            peakMax = v;
+            peakBin = i;
+          } else if (inPeak) {
+            if (v > peakMax) {
+              peakMax = v;
+              peakBin = i;
+            }
+            if (v < effThresh || i === N - 2) {
+              const bw = (i - peakStart) * hpb;
+              if (bw > 30)
+                peaks.push({
+                  freq: cf - sr / 2 + peakBin * hpb,
+                  level: peakMax,
+                  bw,
+                  time: now,
+                });
+              inPeak = false;
+            }
+          }
+        }
+        peaks.sort((a, b) => b.level - a.level);
+        peaks = peaks.slice(0, 15);
+        document.getElementById("peakDisp").textContent = peaks.length;
+        const key = (f) => Math.round(f / 300) * 300;
+        peaks.forEach((p) => {
+          signals[key(p.freq)] = p;
+        });
+        Object.keys(signals).forEach((k) => {
+          if (now - signals[k].time > 60000) delete signals[k];
+        });
+        renderSignals();
+      }
+
+      function renderSignals() {
+        const list = document.getElementById("sigList");
+        const keys = Object.keys(signals).sort(
+          (a, b) => signals[b].level - signals[a].level,
+        );
+        document.getElementById("sigCount").textContent = keys.length;
+        if (!keys.length) {
+          list.innerHTML =
+            '<div class="empty">no signals above threshold</div>';
+          return;
+        }
+        const now = Date.now();
+        list.innerHTML = keys
+          .slice(0, 12)
+          .map((k) => {
+            const s = signals[k];
+            const age = Math.round((now - s.time) / 1000);
+            const ageStr = age < 3 ? "NOW" : age + "s";
+            const near = spots.find(
+              (sp) => Math.abs(sp.Frequency - s.freq) < 5000,
+            );
+            const match = near
+              ? `<span class="sig-match">${near.DX}</span>`
+              : '<span class="sig-match"></span>';
+            return `<div class="sig-row">
+	  <span class="sig-freq">${fmtFreq(s.freq)}</span>
+	  <span class="sig-lvl">${s.level.toFixed(1)}dB</span>
+	  <span class="sig-bw">${fmtBw(s.bw)}</span>
+	  <span class="sig-age">${ageStr}</span>
+	  ${match}
+	  <button class="sm" style="margin-left:auto;" onclick="tuneTo(${s.freq})">TUNE</button>
+	</div>`;
+          })
+          .join("");
+      }
+
+      async function fetchSpots() {
+        try {
+          const r = await fetch(SPOTS_URL, { cache: "no-store" });
+          if (!r.ok) return;
+          const d = await r.json();
+          if (!d.ok) return;
+          const maxId = d.spots.length
+            ? Math.max(...d.spots.map((s) => s.id))
+            : 0;
+          if (maxId > lastSpotId && lastSpotId > 0) {
+            document.getElementById("spotPanelCount").style.color = "#1D9E75";
+            setTimeout(
+              () =>
+                (document.getElementById("spotPanelCount").style.color = ""),
+              3000,
+            );
+          }
+          lastSpotId = maxId;
+          spots = d.spots;
+          document.getElementById("spotCountDisp").textContent = spots.length;
+          renderSpots();
+          if (lastSnap) drawSpectrum(lastSnap);
+        } catch (e) {
+          /* silent */
+        }
+      }
+
+      function renderSpots() {
+        const list = document.getElementById("spotList");
+        document.getElementById("spotPanelCount").textContent = spots.length;
+        if (!spots.length) {
+          list.innerHTML = '<div class="empty">no spots</div>';
+          return;
+        }
+        list.innerHTML = [...spots]
+          .sort((a, b) => b.id - a.id)
+          .slice(0, 60)
+          .map((s, i) => {
+            return `<div class="spot-row${i < 5 ? " spot-new" : ""}">
+	  <span class="spot-freq">${fmtFreq(s.Frequency)}</span>
+	  <span class="spot-dx">${s.DX || ""}</span>
+	  <span class="spot-mode">${s.Mode || ""}</span>
+	  <span class="spot-ctry">${s.Country || ""}</span>
+	  <button class="spot-tune sm" style="margin-left:auto;" onclick="tuneTo(${s.Frequency})">TUNE</button>
+	</div>`;
+          })
+          .join("");
+      }
+
+      async function tuneTo(hz) {
+        try {
+          await fetch(TUNE_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              freq: hz,
+              user: "claude",
+              callsign: "W6HN",
+            }),
+          });
+          setTimeout(doSnapshot, 350);
+        } catch (e) {
+          setErr("TUNE ERR:" + e.message);
+        }
+      }
+
+      function jumpBand(hz) {
+        if (hz) tuneTo(parseFloat(hz));
+      }
+
+      function toggleLive() {
+        live = !live;
+        const btn = document.getElementById("btnLive");
+        btn.className = live ? "active" : "";
+        btn.textContent = live ? "LIVE" : "PAUSED";
+        if (live) startLoop();
+        else stopLoop();
+      }
+      function startLoop() {
+        stopLoop();
+        doSnapshot();
+        timer = setInterval(doSnapshot, 500);
+        spotsTimer = setInterval(fetchSpots, 10000);
+        fetchSpots();
+      }
+      function stopLoop() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+        if (spotsTimer) {
+          clearInterval(spotsTimer);
+          spotsTimer = null;
+        }
+      }
+
+      const SCAN_STEPS = {
+        1850000: { start: 1800000, end: 2000000, step: 500000 },
+        3750000: { start: 3500000, end: 4000000, step: 500000 },
+        7150000: { start: 7000000, end: 7300000, step: 400000 },
+        10125000: { start: 10100000, end: 10150000, step: 100000 },
+        14175000: { start: 14000000, end: 14350000, step: 400000 },
+        18100000: { start: 18068000, end: 18168000, step: 200000 },
+        21225000: { start: 21000000, end: 21450000, step: 400000 },
+        24940000: { start: 24890000, end: 24990000, step: 200000 },
+        28500000: { start: 28000000, end: 29700000, step: 700000 },
+      };
+      function buildScanFreqs(bv) {
+        const s = SCAN_STEPS[bv];
+        if (!s) return [];
+        const f = [];
+        for (let v = s.start + s.step / 2; v < s.end; v += s.step)
+          f.push(Math.round(v));
+        return f;
+      }
+
+      async function toggleScan() {
+        if (scanning) {
+          scanning = false;
+          document.getElementById("btnScan").className = "";
+          document.getElementById("btnScan").textContent = "SCAN";
+          document.getElementById("scanProg").textContent = "";
+          startLoop();
+          return;
+        }
+        const bv = document.getElementById("bandSel").value;
+        if (!bv) {
+          setErr("select band first");
+          return;
+        }
+        scanFreqs = buildScanFreqs(bv);
+        if (!scanFreqs.length) return;
+        scanning = true;
+        scanIdx = 0;
+        stopLoop();
+        document.getElementById("btnScan").className = "danger active";
+        document.getElementById("btnScan").textContent = "STOP";
+        runScan();
+      }
+      async function runScan() {
+        if (!scanning) return;
+        if (scanIdx >= scanFreqs.length) scanIdx = 0;
+        const f = scanFreqs[scanIdx];
+        document.getElementById("scanProg").textContent =
+          `${scanIdx + 1}/${scanFreqs.length} ${fmtFreq(f)}`;
+        try {
+          await fetch(TUNE_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ freq: f, user: "claude", callsign: "W6HN" }),
+          });
+          await new Promise((r) => setTimeout(r, 280));
+          await doSnapshot();
+        } catch (e) {
+          setErr("SCAN:" + e.message);
+        }
+        scanIdx++;
+        if (scanning) setTimeout(runScan, 50);
+      }
+
+      // click to tune on canvas
+      function canvasClick(e, canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        if (!currentSR) return;
+        tuneTo(currentCF - currentSR / 2 + x * currentSR);
+      }
+      fftCanvas.addEventListener("click", (e) => canvasClick(e, fftCanvas));
+      wfCanvas.addEventListener("click", (e) => canvasClick(e, wfCanvas));
+
+      // freq tooltip on hover
+      fftCanvas.addEventListener("mousemove", (e) => {
+        const rect = fftCanvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        if (!currentSR) return;
+        const hz = currentCF - currentSR / 2 + x * currentSR;
+        const tip = document.getElementById("freqTip");
+        tip.style.display = "block";
+        tip.style.left =
+          Math.min(e.clientX - rect.left + 8, rect.width - 90) + "px";
+        tip.textContent = fmtFreq(hz);
+      });
+      fftCanvas.addEventListener(
+        "mouseleave",
+        () => (document.getElementById("freqTip").style.display = "none"),
+      );
+
+      startLoop();
+    </script>
+  </body>
+</html>

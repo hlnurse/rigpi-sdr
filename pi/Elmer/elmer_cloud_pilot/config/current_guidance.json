@@ -1,0 +1,64 @@
+{
+  "description": "Curated lifecycle and retrieval rules for current RigPi behavior.",
+  "rules": [
+    {
+      "id": "browser-audio-replaces-mumble",
+      "question_terms": ["mumble", "voip", "remote audio", "audio streaming", "usb audio", "audio codec"],
+      "evidence_terms": ["mumble", "murmur"],
+      "statement": "Current RigPi streams full-duplex audio directly to the browser. Mumble instructions apply to earlier RigPi versions and must not be recommended for a current installation.",
+      "supersedes": ["Mumble client configuration", "Mumble port forwarding", "Murmur server configuration"],
+      "source_id": "official-help",
+      "path": "introduction.html",
+      "focus_terms": ["replacing Mumble"],
+      "excerpt_chars": 1000
+    },
+    {
+      "id": "cloudflare-tunnel-no-port-forwarding",
+      "question_terms": ["cloudflare", "tunnel", "port forwarding", "without opening ports", "without port forwarding", "no port forwarding", "w/o port"],
+      "evidence_terms": ["cloudflare tunnel"],
+      "statement": "For current RigPi remote access without opening router ports, use the documented Cloudflare Tunnel workflow. Prefer this specific procedure over vague historical references to a remote server.",
+      "supersedes": ["unspecified remote-server advice", "dynamic DNS plus inbound port forwarding"],
+      "source_id": "official-help",
+      "path": "cloudflare.html",
+      "focus_terms": ["Step-by-Step Setup"],
+      "excerpt_chars": 4000
+    },
+    {
+      "id": "raspberry-pi-5-strongly-recommended",
+      "question_terms": [
+        "which raspberry pi",
+        "what raspberry pi",
+        "raspberry pi model",
+        "which pi model",
+        "recommended pi",
+        "recommended raspberry pi",
+        "pi 3b+",
+        "pi 4",
+        "pi 5",
+        "hardware requirements",
+        "minimum hardware"
+      ],
+      "evidence_terms": ["raspberry pi 5 strongly recommended"],
+      "statement": "RigPi 5 is designed and optimized for a 64-bit Raspberry Pi 5, which is strongly recommended. Raspberry Pi 3B+ and Pi 4 models can run RigPi, but they provide substantially less processing headroom. For the best performance—especially with ELMER SDR, FT8 decoding, browser audio, Elmer Voice, scanning, recording, or multiple simultaneous users—use a Raspberry Pi 5. A Pi 5 with 8 GB of memory is an excellent starting point; additional memory provides more margin for demanding or multi-user stations.",
+      "supersedes": [
+        "advice that presents Raspberry Pi 3B+, Pi 4, and Pi 5 as equivalent choices",
+        "recommendations that omit the processing requirements of current RigPi features"
+      ],
+      "source_id": "official-help",
+      "path": "introduction.html",
+      "focus_terms": ["Raspberry Pi 5 strongly recommended"],
+      "excerpt_chars": 2400
+    },
+    {
+      "id": "elmer-supported-languages",
+      "question_terms": ["languages elmer supports", "elmer languages", "supported languages", "language support"],
+      "evidence_terms": ["list of supported languages"],
+      "statement": "Use the complete current Help list when answering which languages and regional variants Elmer supports.",
+      "supersedes": [],
+      "source_id": "official-help",
+      "path": "set-up-elmer.html",
+      "focus_terms": ["Here is a list of supported languages"],
+      "excerpt_chars": 3600
+    }
+  ]
+}

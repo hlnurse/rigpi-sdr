@@ -1,0 +1,31 @@
+{
+  "cached": 10211,
+  "confirmed": 10023,
+  "database_date": "2026-08-17",
+  "edition": "ILGADATA",
+  "excluded_fields": [
+    "NA",
+    "CA",
+    "SA",
+    "EU",
+    "AF",
+    "ME",
+    "AS",
+    "AU",
+    "PA",
+    "GRAPHIC",
+    "G00-G23"
+  ],
+  "imported_at": "2026-08-18T13:25:57.664312+00:00",
+  "inactive": 2631,
+  "invalid": 0,
+  "license_notice": "Licensed ILGRadio data; local RigPi use only. Not for redistribution.",
+  "outside_hf": 3608,
+  "separators": 0,
+  "sha256": "af7adc8130f321fcdae3b2c8227fed783297c368905351f47fc888ae90a4ba43",
+  "source": "ILGRadio",
+  "source_file": "ILGADATA.DBF",
+  "source_records": 88210,
+  "unconfirmed": 188,
+  "utility": 71760
+}

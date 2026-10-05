@@ -1,0 +1,14 @@
+{
+  "cached": 8320,
+  "downloaded": 9442,
+  "downloaded_at": "2026-10-03T21:31:15.709137+00:00",
+  "inactive": 80,
+  "invalid": 0,
+  "outside_hf": 1042,
+  "season": "A26",
+  "sha256": "60830fc5db384d160c17d3144bd15966d4c3f5cb9b29f4600a6d7c11eacd4dd4",
+  "source": "EiBi",
+  "source_url": "https://www.eibispace.de/dx/sked-a26.csv",
+  "transport_warning": "Official HTTPS certificate unavailable; downloaded over HTTP",
+  "utility": 0
+}

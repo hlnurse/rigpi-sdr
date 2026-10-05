@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>RigPi Introduction</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi™ Station Server v 5.0 &nbsp; &nbsp; RigPi Station Server &nbsp; RigPi (RSS: RigPi Station Server) is a remote control system for amateur radio stations, developed by Howard Nurse, W" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "introduction.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Introduction</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?introduction.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      &raquo;No topics above this level&laquo;
+      </p>
+   
+      <p><a id="idnav" class="hmanchor"></a></p>
+<p><a id="printbuttonlink" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi Introduction</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <span class="hmbtnprev"></span>
+      <a href="introduction.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="welcome-topic.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RigPi</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">™</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;"> Station Server v 5.0</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> </span><div style="margin:0 auto 0 auto;width:55%;max-width:1536px;height:auto;"><img alt="Untitled - September 10, 2026 at 01.55.57 (1)" style="width:100%;height:auto;border:none" src="hmfile_hash_192a9d21.png"/></div></p>
+<p class="p_Normal" style="text-align: center; margin: 0 88px 0 88px;"><span style="font-weight: bold;">RigPi Station Server</span></p>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi (RSS: RigPi Station Server) is a remote control system for amateur radio stations, developed by Howard Nurse, W6HN, starting in 2018. It enables full remote operation of your station using a browser in any computer, tablet, or smartphone — over your local network or the internet.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">At the heart of RigPi is a Raspberry Pi computer running a web-based control interface. No additional software is required on the client device — just a modern browser. RigPi connects to your radio equipment and provides comprehensive station control including frequency and mode management, CW keying, browser audio, logging, digital modes, integrated SDR, and more.</span></p>
+<p class="p_Normal" style="margin: 0 73px 0 13px;">&nbsp;</p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 2px; background: #bde8ff; padding: 4px 4px 4px 4px; margin: 0 69px 0 9px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Raspberry Pi 5 strongly recommended.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi 5 is designed and optimized for a 64-bit Raspberry Pi 5. The earlier Raspberry Pi 4 models can run RigPi, but they provide substantially less processing headroom. For the best performance—especially with ELMER SDR, FT8 decoding, browser audio, Elmer Voice, scanning, recording, and multiple simultaneous users—use a Raspberry Pi 5. A Pi 5 with 8 GB of memory is an excellent starting point; additional memory provides more margin for demanding or multi-user stations.</span></p>
+<p class="p_Normal" style="margin: 12px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Key features include:</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Ask Elmer</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — a RigPi and amateur-radio assistant grounded in Official Help, project source code, community discussions, and approved live station data. It answers in any of 22 supported languages, cites its sources, displays approved images and maps, and can help with RigPi setup, operating questions, callbooks, FCC searches, weather, repeaters, shortwave schedules, and logbook history.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Voice</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — spoken questions and commands, spoken answers, and live transcription and translation. Voice features require HTTPS and work best in a current Google Chrome browser.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Control</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — typed or spoken natural-language commands for tuning, mode and bandwidth changes, receiver controls, CW text and speed, macros, scanning, recording, and other supported station actions. Potentially disruptive actions use operator confirmation and RigPi access controls.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radio control</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> via Hamlib/rigctld, with support for hundreds of transceivers and up to four radios.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — an integrated software-defined-radio panadapter with real-time spectrum and waterfall displays, demodulation, memories, scanning, squelch-controlled recording, FT8 decoding, spots, and signal information.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Browser audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with full-duplex WebRTC support, replacing Mumble used by earlier RigPi versions.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Selectable receive audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — listen through the SDR demodulator or switch to the connected radio's USB audio CODEC without changing the spectrum, tuning, or transmit-audio path.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Split operation</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with separate receive and transmit frequencies, two frequency readouts, contrasting spectrum markers, direct spectrum control, and natural-language Elmer Control commands.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CW keying</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with CAT, Winkeyer, and K1EL RigPi Keyer support.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Digital modes</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with WSJT-X, Fldigi, and JS8Call integration.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Logging and callbooks</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with ADIF import/export, worked-before history, QRZ and HamQTH lookup, and the onboard FCC database.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Secure remote access</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> through free native DuckDNS HTTPS, or through Cloudflare Tunnel when router port forwarding is unavailable.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Temporary Remote Support</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — an administrator can grant time-limited, key-only diagnostic access through a temporary address or the station’s existing secure address, then revoke it immediately or let it expire automatically.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Local and remote SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> support for up to four local devices, plus compatible OpenWebRX and KiwiSDR receivers selected from a built-in world map.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Multi-user operation</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with independent accounts, access levels, scheduling, and optional login, logout, and spot notifications. Practical capacity depends on Raspberry Pi resources and the station workload.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi is open source under the MIT License and is available on GitHub to encourage further development by the amateur-radio community. Ask Elmer and other hosted services require an internet connection and separate service configuration.</span></p>
+<p style="margin: 8px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RSS &nbsp;Block Diagram</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: center;"><div style="margin:0 auto 0 auto;width:66%;max-width:1536px;height:auto;"><img alt="RigPi Station Server system block diagram" title="RigPi Station Server system block diagram" style="width:100%;height:auto;border:none" src="hmfile_hash_f6ba6f4f.png"/></div></div>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<div style="text-align: center; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:2px;">
+<tr>
+<td style="vertical-align:top; width:107px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Account</span></p>
+</td>
+<td style="vertical-align:top; width:185px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Controlled Radio</span></p>
+</td>
+<td style="vertical-align:top; width:222px; background-color:#CCFFCC; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Controlled By</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:107px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Account 1</span></p>
+</td>
+<td style="vertical-align:top; width:185px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Radio 1</span></p>
+</td>
+<td style="vertical-align:top; width:222px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">iPad/iPhone</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:107px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Account 2</span></p>
+</td>
+<td style="vertical-align:top; width:185px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Radio 1 through Account 1</span></p>
+</td>
+<td style="vertical-align:top; width:222px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Google Nexus</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:107px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Account 3</span></p>
+</td>
+<td style="vertical-align:top; width:185px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Radio 3</span></p>
+</td>
+<td style="vertical-align:top; width:222px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">iPhone using CommCat Mobile (now discontinued)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:107px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Account 4</span></p>
+</td>
+<td style="vertical-align:top; width:185px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Not connected above</span></p>
+</td>
+<td style="vertical-align:top; width:222px; padding:1px; border:none"><p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">None</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi is a Trademark of Howard Nurse, W6HN</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

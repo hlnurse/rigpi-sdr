@@ -1,0 +1,772 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Views &gt; RigPi-SDR</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="RigPi-SDR Tuned to Local FM Station &nbsp; RigPi-SDR: Software Defined Radio for RigPi RigPi-SDR is an integrated software defined radio application built directly into the RigPi" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "rigpi-sdr.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><p><span style="color: #000000;">&nbsp;</span></p>
+<p><a id="audio" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi-SDR</span></p>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?rigpi-sdr.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="views.html">Views</a>&nbsp;&gt;</p>
+   
+      <p><span style="color: #000000;">&nbsp;</span></p>
+<p><a id="audio" class="hmanchor"></a><span style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">RigPi-SDR</span></p>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="tuner.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="views.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="keyer.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">&nbsp;</p>
+<div class="p_Normal" style="text-align: center; margin: 0 114px 0 114px;"><div style="margin:0 auto 0 auto;width:100%;height:auto;"><img alt="tuner-fm" style="width:100%;height:auto;border:none" src="tuner-fm.png"/></div></div>
+<h1 class="p_Heading1" style="text-align: center; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic; font-weight: bold;">RigPi-SDR Tuned to Local FM Station</span></h1>
+<h1 class="p_Heading1" style="margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 24px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span></h1>
+<h1 class="p_Heading1" style="margin: 9px 0 0 0;"><span class="f_Heading1" style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi-SDR: Software Defined Radio for RigPi</span></h1>
+<p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi-SDR is an integrated software defined radio application built directly into the RigPi station management system. It transforms your RigPi into a full-featured SDR receiver/panadaptor, allowing you to visualize and listen to radio signals across a wide frequency range without leaving your browser.</span></p>
+<h2 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">What is RigPi-SDR?</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi-SDR connects to SDR hardware attached to your RigPi and streams real-time spectrum and audio directly to your web browser. Whether you're monitoring band conditions, listening to a CW pileup, or watching FT8 activity scroll down the waterfall, RigPi-SDR gives you a live window into the radio spectrum alongside your normal RigPi station controls.</span></p>
+<h2 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Hardware Support</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi-SDR supports a growing range of SDR hardware including the AirSpy HF+ Discovery, HackRF Pro (receive-only), RTL-SDR and Nooelec receivers, RX-888 MKII, all SDRplay devices except the original RSP, and remote SDR WikiSDR and OpenWebRX sources. Hardware is selected and configured by the station administrator, making it immediately available to all users without individual setup.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX-888 firmware loading is automatic.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The RX-888 MKII uses volatile firmware that disappears whenever receiver power is removed. RigPi detects the RX-888 bootloader and reloads the supplied firmware automatically during RigPi startup, before an SDR service starts, and whenever the receiver is connected by USB. An already-running RX-888 is left unchanged. No separate firmware command or desktop application is required.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX-888 connection:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Use a direct, high-quality USB 3 connection for wideband operation. If the USB cable is removed or receiver power is interrupted, RigPi waits for reconnection, reloads the firmware, and resumes the RX-888 stream automatically; restarting the SDR server is not required. Allow approximately 5–15 seconds after reconnecting. A persistent failure is recorded by the </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">rigpi-rx888-firmware</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> service for technical support. &nbsp;A Raspberry Pi 5 is required to handle the high sampling rate of the RX-888.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">HackRF Pro (receive-only):</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Connect the receiver by USB, open the SDR device selector, and choose the entry labeled </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">HackRF Pro</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. RigPi uses a stable 2 MS/s default, moderate receive gain, no AGC, and antenna bias off. Increase RX Gain only as needed. HackRF Pro is </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">receive-only in RigPi-SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Transmit code may remain for future development, but it is intentionally not exposed or supported at this time.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Major Features</span></h2>
+<p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Spectrum Display and Waterfall</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The split display shows a real-time spectrum analyzer on top and a scrolling waterfall below. Signal strength is color-coded with selections for palette, giving you an instant picture of band activity. The waterfall floor and spectrum floor levels are independently adjustable to optimize the display for your noise environment.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">3D Waterfall</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Click the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">3D</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> button to replace the normal waterfall with a three-dimensional ribbon. Frequency runs left to right, signal strength controls peak height, and time recedes into the background. Drag with a mouse or trackpad to rotate and tilt; Shift+drag vertically to move the viewing target; and scroll to zoom. On a touchscreen, drag with one finger to rotate, drag with two fingers to move vertically, and pinch to zoom. Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">3D</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> again to return to the normal waterfall.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Integrated with RigPi</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi-SDR embeds directly into the RigPi tuner and keyer pages. The SDR panel can be positioned at the top, middle, or bottom of the page, or disabled entirely. Each user can configure whether the SDR appears on the tuner page, the keyer page, or both.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Multi-mode Demodulation</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi-SDR demodulates audio for USB, LSB, CW, CWR, AM, FM, PKTUSB, FT8 and FT4 (both with decoding), RTTY, and wideband FM. Audio is delivered directly through your browser for low-latency listening. The audio level, bandwidth, and AGC are all adjustable in real time.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Memory Panel and Scanner</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Twenty memory slots store frequency, mode, and bandwidth settings. A built-in scanner steps through selected memories with adjustable dwell time, and automatically holds on a frequency when the squelch opens.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Per-User Settings</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Each RigPi user gets their own SDR settings profile — frequency, mode, bandwidth, waterfall palette, memories, and display preferences are saved individually and restored automatically at login.</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Visitor Notifications</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The station administrator can receive an instant Pushover notification whenever a user logs into or out of RigPi, including the user's callsign, login time, and IP address.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 6px 6px 6px 6px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Note:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> ELMER requires a supported SDR device or remote OpenWebRx/KiwiSDR connected to the Raspberry Pi 5. See the RigPi 5 hardware guide for supported devices.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Getting Started</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Accessing ELMER</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ELMER opens automatically within the RigPi interface. It can also be accessed directly in a browser:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #f4f4f4;">http://rigpi5.local:8001</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — for example, AirSpy HF+ (primary SDR)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #f4f4f4;">http://rigpi5.local:8002</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — for example, RTL-SDR</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #f4f4f4; text-decoration: underline;"><a href="https://%3CCloudflare" target="_blank" class="weblink">https://&lt;Cloudflare</a></span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #f4f4f4;">&nbsp;URL&gt;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Remote access via Cloudflare Tunnel</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Supported SDR Hardware</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Device</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Coverage</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Host connection</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">AirSpy HF+</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">9 kHz – 31 MHz, 60–260 MHz</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 2</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RTL-SDR</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">HF (direct sampling), VHF/UHF</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 2</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Nooelec NESDR SMArt v5</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">HF by direct sampling; VHF/UHF</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 2</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDRplay RSP family (except original RSP)</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">1 kHz – 2 GHz</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 2 through SDRconnect; nRSP-ST uses Ethernet or Wi-Fi</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RX-888 MKII</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">10 kHz–64 MHz direct HF; tuner to about 1.8 GHz</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 3 (Raspberry Pi 5 required)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">HackRF Pro (receive-only)</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">100 kHz–6 GHz operating range</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB 2; receive-only in RigPi-SDR</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">KiwiSDR / OpenWebRX</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Worldwide remote receivers</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Remote tab</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 12px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">SDR Device Comparison</span></h3>
+<p class="p_Normal" style="margin: 4px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The figures below are useful for choosing an SDR. Maximum sample rate and spectrum width are hardware capabilities; the practical setting may be lower depending on the receiver, driver, USB connection, and Raspberry Pi workload. A </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Raspberry Pi 5</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> is strongly recommended for wideband devices, especially the RX-888 MKII.</span></p>
+<p class="p_Normal" style="margin: 8px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Airspy HF+ on Raspberry Pi 4:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Use a sample rate of </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">456 kHz</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> as the recommended starting point for reliable audio. Higher rates, including 768 and 912 kHz, can cause intermittent audio dropouts on Pi 4. They remain selectable; reduce the sample rate if audio cuts out. Raspberry Pi 5 handled 912 kHz without dropouts in our testing. Keep the Pi adequately cooled.</span></p>
+<p class="p_Normal" style="margin: 8px 0 0 0;">&nbsp;</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:17%; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #ffffff;">Device</span></p>
+</td>
+<td style="vertical-align:middle; width:18%; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #ffffff;">Frequency coverage</span></p>
+</td>
+<td style="vertical-align:middle; width:27%; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #ffffff;">Best suited for</span></p>
+</td>
+<td style="vertical-align:middle; width:15%; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #ffffff;">Approx. price</span></p>
+</td>
+<td style="vertical-align:top; padding:1px; border:solid thin #a0a0a0;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #ffffff; text-decoration: underline;"><a href="https://airspy.com/airspy-hf-discovery/" target="_blank" class="weblink">Airspy HF+ Discovery</a></span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">0.5 kHz–31 MHz; 64–260 MHz</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">18-bit internal DDC; 768 kS/s IQ; about 660 kHz usable spectrum; USB 2</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">High-dynamic-range HF and weak-signal reception</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About $169</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; text-decoration: underline;"><a href="https://www.rtl-sdr.com/v4/" target="_blank" class="weblink">RTL-SDR Blog V4</a></span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> and compatible RTL-SDR devices</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">V4: about 0.5 MHz–1.766 GHz; other models vary. Many RTL-SDR models/installations require an HF upconverter such as Ham It Up.</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">8-bit; 2.56 MS/s stable (up to about 3.2 MS/s with possible dropped samples); USB 2</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Lowest-cost FM and VHF/UHF reception. Supported direct-sampling models can receive HF; an upconverter usually gives better HF performance.</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About $30–$50</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; text-decoration: underline;"><a href="https://www.nooelec.com/store/sdr/sdr-receivers/nesdr-smart-sdr.html" target="_blank" class="weblink">Nooelec NESDR SMArt v5</a></span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About 0.1 MHz–1.75 GHz</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">8-bit RTL2832U; up to about 3.2 MS/s; native HF direct sampling; USB 2</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Compact HF/VHF/UHF receiver. No upconverter is required for HF, although one can improve HF performance.</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About $52</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; text-decoration: underline;"><a href="https://www.rx-888.com/rx/" target="_blank" class="weblink">RX-888 MKII</a></span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">10 kHz–64 MHz direct-sampling HF; tuner coverage to about 1.8 GHz</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">16-bit, 130 MS/s ADC; up to 64 MHz streamed; USB 3 required for wideband operation</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Very-wideband HF monitoring and viewing most of the HF spectrum at once</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About $170–$220</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; text-decoration: underline;"><a href="https://greatscottgadgets.com/hackrf/pro/" target="_blank" class="weblink">HackRF Pro (receive-only)</a></span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">100 kHz–6 GHz operating range; tuning extends beyond that range with reduced performance</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">8-bit I/Q; up to 20 MS/s hardware capability; RigPi defaults to a stable 2 MS/s spectrum; USB 2 Type-C</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Very-wide tuning coverage, experimentation, and HF-through-microwave spectrum reception. RigPi exposes HackRF reception only in this release; transmit is intentionally not exposed or supported.</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">About $500</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; text-decoration: underline;"><a href="https://www.sdrplay.com/" target="_blank" class="weblink">SDRplay RSP family</a></span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> through SDRconnect; all SDRplay receivers except the original RSP are supported</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Model-dependent; current models generally cover 1 kHz–2 GHz continuously</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Model-dependent; current models provide 14-bit conversion and up to 10 MHz spectrum view. USB RSP models use USB 2; nRSP-ST uses Ethernet or Wi-Fi.</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Choose RSP1B for general use, RSPdxR2 for enhanced LF/MW/HF, or RSPduo for dual-tuner/diversity operation. Separate rows are unnecessary because RigPi uses the same SDRconnect interface.</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">USB models about $130–$292; nRSP-ST about $500–$520; plus tax/shipping</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Remote KiwiSDR / OpenWebRX</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Depends on the remote receiver</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Depends on the remote server and network stream; Ethernet/Wi-Fi</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Worldwide reception without local SDR hardware</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Directory-listed public receivers are normally free; private, club, or hosted access may require membership or payment</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal" style="margin: 8px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic;">Prices are approximate U.S. manufacturer or street prices checked in August 2026. Availability, taxes, shipping, and prices vary. RX-888 buyers should use a reputable source; the manufacturer warns that counterfeit units exist.</span></p>
+<p class="p_Normal" style="margin: 8px 0 0 0;">&nbsp;</p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 2px; background: #fff4cf; padding: 4px 4px 4px 4px; margin: 6px 44px 0 22px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio hardware note:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The original MFJ RigPi Audio board is </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">not required by RigPi-SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. SDR receive audio is generated digitally and delivered directly to the browser. For transmit audio, use the radio's USB audio CODEC or a supported external USB audio interface. Legacy Mumble instructions do not apply to current RigPi 5 browser audio.</span></p>
+<h2 style="margin: 12px 0 0 0;"><span style="color: #000000;">&nbsp;</span></h2>
+<h2 style="margin: 12px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">The ELMER Interface</span></h2>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Frequency Display</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The large LED-style frequency display shows the current tuned frequency. The current mode (USB, CW, FT8, etc.) and bandwidth are shown alongside the digits.</span></p>
+<p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Click a digit</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to select the tuning resolution. The selected digit determines the size of each tuning step.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Shift+scroll</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> tunes up or down by the selected digit's step size.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Mouse scroll without Shift</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> changes the spectrum zoom.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Normal SDR tuning takes effect immediately. Operator confirmation is requested only when a radio change is initiated through </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Elmer Control</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Split operation</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Split operation uses one frequency for receiving and a second frequency for transmitting. When split is on, the frequency panel shows smaller </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> readouts so both frequencies remain visible without enlarging the panel substantially.</span></p>
+<p class="p_Normal" style="line-height: 1.38; margin: 7px 0 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Left-click</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> the spectrum or waterfall to set the main receive frequency.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Right-click</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> the spectrum or waterfall to set the split transmit frequency.</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The normal orange marker shows the receive frequency. A contrasting split marker shows the transmit frequency</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Mode and bandwidth changes apply to both VFOs</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the normal RigPi split control to turn split on or off. </span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Elmer Control also accepts commands such as </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">Split up 5 kHz</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">Split down 2 kHz</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, and </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">Split off</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #fff4ce; padding: 10px 10px 10px 10px; margin: 4px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Before transmitting:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Verify the TX readout, split marker, mode, bandwidth, antenna, and operating privileges. A shared-radio guest may be asked to obtain the controlling operator's approval before changing split.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Spectrum and Waterfall</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The main display shows a real-time spectrum (top) and scrolling waterfall (bottom). The waterfall provides a history of signals over time.</span></p>
+<p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Click</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> on the spectrum or waterfall to tune to that frequency</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Drag the bandwidth handles</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to adjust the filter width</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Scroll</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> over the spectrum to zoom the displayed span</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">MAP button</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> overlays a world map with grayline and DX spot pins</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Side panel</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> provides tabs for SDR settings</span></p><h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">3D Waterfall</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">3D</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> button above the display to replace the normal two-dimensional waterfall with a three-dimensional ribbon. Frequency runs from left to right, signal strength forms the height of each peak, and time recedes into the background. The newest spectrum row is at the front. Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">3D</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> again to return to the normal waterfall.</span></p>
+<p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Drag</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> with the mouse or trackpad to rotate and tilt the view.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Shift+drag vertically</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to move the camera's viewing target up or down.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Scroll</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> over the 3D waterfall to zoom the camera in or out.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">On a touchscreen, </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">drag with one finger</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to rotate and tilt.</span></p><p style="text-indent: 0; padding-left: 27px; margin: 0 0 0 13px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:27px;margin-left:-27px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">On a touchscreen, </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">drag with two fingers</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to move the view vertically and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">pinch</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to zoom.</span></p><p class="p_Normal" style="line-height: 1.94; margin: 14px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The 3D view uses the selected waterfall palette and floor setting. RigPi remembers the 3D selection separately for each user and SDR panel. The 3D waterfall and MAP view cannot be displayed at the same time.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 4px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Performance:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The 3D waterfall uses additional browser graphics and RigPi resources. If audio becomes choppy or the display is sluggish, return to the normal waterfall, close duplicate SDR tabs, or reduce other processing. A Raspberry Pi 5 is strongly recommended.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Settings Panels</span></h2>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">FT8 and FT4 Decoder</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">RigPi-SDR includes built-in receive decoding for both </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT8</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT4</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. External WSJT-X software is not required simply to confirm or monitor either mode in RigPi-SDR.</span></p>
+<p class="p_Normal" style="line-height: 1.94; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT8</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> side-panel tab and use the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Decoder</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> selector:</span></p>
+<p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Auto</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> selects FT8 or FT4 near configured activity frequencies.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT8</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> forces FT8 decoding at the current dial frequency.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT4</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> forces FT4 decoding at the current dial frequency.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 13px; margin: 0 0 0 7px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Off</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> stops the decoder.</span></p><p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Decoded messages appear in the panel with time, SNR, DX call, transmitting station, grid, band, and message. To test a signal that looks like FT4, tune it, select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">FT4</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, and watch for decodes over several FT4 transmit intervals.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Rig</span></h2>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Band Pills</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Band pills across the top row tune quickly to band memories. Each pill has three colored dots indicating memory slot activity:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Blue dot</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — digital mode slot (FT8, PSK, RTTY)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">White dot</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — CW slot</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Green dot</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — phone slot (SSB/AM)</span></p>
+<p class="p_Normal" style="line-height: 1.94; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click a band pill to cycle through its three memory slots. Each slot stores frequency, mode, and bandwidth.</span></p>
+<h3><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Mode Pills</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Mode pills select the demodulation mode: USB, LSB, USB-D (digital), CW, CWR, AM, NFM, WFM. The active mode is highlighted.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Audio</span></h2>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start here:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Current RigPi audio plays directly in your browser. You do not need Mumble or Plumble. Open the SDR side panel, select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, and click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Use headphones while testing transmit audio to prevent feedback.</span></p>
+<h3 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">How RigPi audio is routed</span><br />
+<span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">&nbsp;</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 49px 0 13px;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:20%; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Path</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Signal flow</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Receive</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR or radio audio → RigPi → browser → computer, phone, or tablet speaker/headset</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Browser microphone → RigPi → selected radio USB audio CODEC → radio transmit-audio input</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Digital programs</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="margin: 0 49px 0 13px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR audio → ALSA Loopback → WSJT-X, Fldigi, or another program running on RigPi</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Receive audio: quick setup</span></h3>
+<p style="text-indent: 0; padding-left: 20px; margin: 9px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connect the SDR and confirm that signals appear in the spectrum or waterfall.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 20px; margin: 6px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the correct frequency, mode, and bandwidth. A strong signal heard with the wrong mode may sound distorted or may seem silent.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 20px; margin: 6px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open the SDR side panel and select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 20px; margin: 6px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Choose </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to hear the SDR demodulator. Choose </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RX Audio: Radio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to hear the connected receiver's audio through its USB audio CODEC, then select the correct Pi ALSA radio input.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 20px; margin: 6px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">5.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Before starting audio, turn down the computer, phone, tablet, headphones, or powered speakers. Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Browsers require this click before they permit a page to play sound..Begin with the RigPi </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Level</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> low—about 10–20%—and select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">C</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for centered audio. Increase the RigPi and device volumes gradually to a comfortable level. Do not begin near 100%, especially when using headphones.</span></p><p class="p_Normal" style="text-indent: 0; padding-left: 20px; margin: 6px 0 0 0;"><span class="f_Normal" style="font-size:15px; font-family: 'Segoe UI';display:inline-block;width:20px;margin-left:-20px">6.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Confirm that the green audio indicator and VU meter respond. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SCOPE/FFT</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> changes only the audio display; it does not change the sound.</span></p><p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 3px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">What the RX Audio switch changes:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> It changes only the sound sent to this user's browser. It does not change SDR spectrum or waterfall operation, radio tuning, PTT, or the selected transmit-audio output. The selection is saved for the signed-in account.</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 3px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Applies everywhere:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> The same Audio panel is used in the full SDR window and when SDR is embedded in the Tuner or Keyer window. Audio preferences are stored for the signed-in RigPi user and browser.</span></p>
+<h3 style="margin: 9px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Transmit audio: radio setup</span></h3>
+<p class="p_Normal" style="margin: 6px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Transmit audio requires a radio audio interface in addition to CAT control. A single USB cable can provide both CAT and audio on many radios, but the radio must be configured to use its USB or data input when transmitting.</span></p>
+<p class="p_Normal" style="margin: 6px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">1.Connect the radio USB audio interface and verify that its device appears under </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Output (Radio CODEC)</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Device names commonly contain </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">CODEC</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> or the radio model.</span></p>
+<p class="p_Normal" style="margin: 6px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">2.Select the radio CODEC—not the Raspberry Pi speaker output and not an SDR receive-only device.</span></p>
+<p class="p_Normal" style="margin: 6px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">3.Allow microphone access if the browser asks. Microphone permission is stored separately for each browser and RigPi address. Remote microphone access requires the secure </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">https://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RigPi address.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Chrome local-LAN microphone override:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> HTTPS is preferred. If Chrome blocks the microphone on a trusted local RigPi address, open </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">chrome://flags/#unsafely-treat-insecure-origin-as-secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Enable </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Insecure origins treated as secure</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, enter the complete origin—normally </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">http://rigpi5.local</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">—and relaunch Chrome. Include an explicit port when one is used. Reopen RigPi and grant microphone permission. This exception does not encrypt HTTP and must not replace HTTPS for remote access.</span></p>
+<p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">4.Begin with a low </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">TX Level</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. While speaking normally, increase it until the TX VU meter responds without frequently reaching the red clip indicator.</span></p>
+<p class="p_Normal" style="margin: 6px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">5.Use a dummy load or minimum safe power for the first test. Confirm PTT separately, then confirm modulation. Set the radio's USB/data input level as needed.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Transmit safety:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Selecting an audio device does not authorize transmission. Check the frequency, antenna or dummy load, power, and radio input selection before pressing PTT. Stop immediately if the radio remains keyed or the TX meter shows excessive drive.</span></p>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Start Audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> in the Audio tab to begin streaming demodulated audio directly to your browser.</span></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Control</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Function</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Level slider</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Output volume (0–200%)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">L / C / R buttons</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Stereo pan: hard left, center, or hard right. This lets you monitor two SDR devices—or one device tuned to two frequencies—with one signal in each ear. Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">L</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for the first audio stream and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">R</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for the second. Select </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">C</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> when listening to one stream in both ears.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">VU meter</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Real-time audio level display with peak hold</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Scope</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Oscilloscope display of the audio waveform</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">FFT</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Audio frequency spectrum display</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">TX Output</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select ALSA device for transmit audio</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 6px 6px 6px 6px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Note:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Browser audio requires a current browser. The TX Output device selection persists across sessions.</span></p>
+<h3 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Audio troubleshooting</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:100%; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:34%; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Symptom</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">What to check</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">No sound and no VU movement</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click Start Audio; confirm the SDR is connected; tune a visible signal; select the correct mode and bandwidth; reload the page if the audio indicator does not turn green.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">VU meter moves but nothing is heard</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Raise Level; select C; check the computer or mobile-device volume; make sure the RigPi browser tab and site are not muted; disconnect an unintended Bluetooth audio device.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Audio is choppy or delayed</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a wired network when practical; close duplicate RigPi/SDR tabs; reduce other SDR processing such as 3D waterfall or decoding; confirm adequate Raspberry Pi resources. Raspberry Pi 5 is strongly recommended.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Works locally but not remotely</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use the configured secure DuckDNS or Cloudflare </span><span style="font-size: 15px; font-family: 'Courier New',Courier,monospace;">https://</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> address; reload after granting site permissions; verify that remote access and the SDR instance are connected.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Radio keys but has no modulation</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the correct TX Output CODEC; confirm browser microphone permission; configure the radio to use USB/data audio rather than its front-panel microphone; then raise TX Level gradually.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Transmit audio is distorted</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Reduce TX Level and the radio USB input gain. Avoid red clipping on the TX VU meter and avoid excessive ALC indication on the radio.</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Echo or feedback</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Use a headset; close duplicate audio sessions; move speakers away from the microphone; stop receive audio temporarily while diagnosing the transmit path.</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 3px; border-top: none; border-right: none; border-bottom: none; background: #f0f5fa; padding: 10px 10px 10px 10px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Still no audio?</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Test one path at a time: visible SDR signal, receive VU, browser sound, microphone permission, TX VU, radio CODEC, PTT, and finally on-air modulation. This isolates the failing step and avoids changing several unrelated settings at once.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Control Panels</span></h2>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Tab</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Function</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">SDR</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Device selection, gain, AGC, bias tee, LO offset, device args, sample rate</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Display</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Waterfall palette, floor levels, smoothing, 3D waterfall</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Audio</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Start/stop audio streaming, volume, pan, VU/scope/FFT</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Remote</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connect to worldwide KiwiSDR and OpenWebRX receivers</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Rig</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Transceiver frequency synchronization</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">ELMER</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">AI assistant, Workability Index, signal check</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">SDR Tab — Device Args</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Device Args</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> field passes additional parameters to the SoapySDR driver. For RTL-SDR HF reception enter </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=2</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> (high HF) or </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=1</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. Settings take effect on the next device connect.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">DX Spots</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">When connected to the RigPi spot manager, active DX spots appear as colored tags on the spectrum display. Click any tag to tune to that frequency. The ELMER Workability Index opens automatically for the spotted station.</span></p>
+<p class="p_Normal" style="line-height: 1.94; margin: 3px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">In </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">MAP mode</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, spots appear as pins on the world map. The map includes:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Live grayline (solar terminator) shading</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Your QTH marker</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">DX spot pins with click-to-tune</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Remote SDR receiver pins (KiwiSDR / OpenWebRX)</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">ELMER Workability Index</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Workability Index assesses the probability of completing a QSO with a specific DX station on a selected band, based on multiple real-time data sources.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Using the Workability Index</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click a DX spot on the spectrum or map — the callsign fills automatically</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Or</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> type any callsign in the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Enter call</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> box and press Enter</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Select the desired band from the band selector</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 8px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ELMER fetches data from multiple sources and displays the score</span></p>
+<p class="p_Normal" style="border-color: #000000; border-style: solid; border-width: 2px; border-top: none; border-right: none; border-bottom: none; background: #f0faf0; padding: 6px 6px 6px 6px; margin: 0 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Tip:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Changing the band selector automatically retunes the SDR to that band and re-runs the Workability Index.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Score Factors</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Factor</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Weight</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Data Source</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">PSKReporter activity</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">20%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">PSKReporter.info — who is hearing the DX right now</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Band / MUF</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">18%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Solar flux + path distance formula</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Grayline alignment</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">15%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Calculated from UTC time and path coordinates</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Solar conditions</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">15%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">NOAA SWPC — SFI and K-index</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">ARRL DX Bulletin</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">12%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Weekly bulletin — confirms DXpedition active</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Antenna alignment</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">10%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Rotor azimuth vs. short/long path bearing</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Cluster activity</span></p>
+</td>
+<td style="vertical-align:middle; width:101px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">10%</span></p>
+</td>
+<td style="vertical-align:middle; width:625px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Recent spot count for this entity</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Score Grades</span></h3>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="width:887px; border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Score</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Grade</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Meaning</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">75–100%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Excellent</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Strong likelihood of completing QSO</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">55–74%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Good</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Worth trying — conditions favorable</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">35–54%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Fair</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Marginal — try at suggested times</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">20–34%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Poor</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Unlikely but band changes may help</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; width:157px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&lt;20%</span></p>
+</td>
+<td style="vertical-align:middle; width:103px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Unlikely</span></p>
+</td>
+<td style="vertical-align:middle; width:623px; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Conditions not currently favorable</span></p>
+</td>
+</tr>
+</table>
+</div>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Workability Report Contents</span></h3>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Score gauge</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — circular gauge with color coding</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Narrative</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — plain-English assessment with specific recommendations</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Path info</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — short path and long path bearings, distance in Megameters and km</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Solar conditions</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — SFI (Solar Flux Index) and K-index</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Contributing factors</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — bar chart showing each factor's score and detail</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">QRZ lookup</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — operator name, location, photo, confirmation methods</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">LoTW status</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — whether station is in the Logbook of the World user list (230,000+ calls)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">DXSummit activity</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — typical operating hours and bands based on recent spots</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Signal check</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — real-time SDR detection at the spot frequency</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Log history</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — your previous QSOs with this station and confirmation status</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Award needs</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — DXCC, WAC, WAZ, WAS status for this entity</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Upcoming contests</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — relevant contests in the next 7 days (WA7BNM calendar)</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Copy / View</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Copy / View</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to open a formatted report in a new window with Courier New monospace font. Use Select All (Cmd+A or Ctrl+A) and Copy to paste into email, log notes, or a text document.</span></p>
+<h3 style="margin: 8px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #444444;">Rotor Guidance</span></h3>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If a rotor is connected, ELMER reads its current azimuth from RigPi and includes rotation instructions in the narrative: </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic;">&quot;Rotor is at 45° — rotate to 97° for short path to C5D.&quot;</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Remote SDR</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Remote</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> tab connects ELMER to worldwide KiwiSDR and OpenWebRX receivers — over 1,300 receivers in the database.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 7px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">1.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Find Remote Hosts</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to load the receiver database</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 7px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">2.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Enable </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">MAP mode</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to see receiver pins on the world map</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 7px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">3.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click a map pin to connect to that receiver</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 7px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">4.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Or type a hostname directly (e.g. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; background-color: #f4f4f4;">sdr.k9mq.com:8073</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">) and click Connect</span></p>
+<p class="p_Normal" style="line-height: 1.94; margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">When connected to a remote receiver, the local SDR pauses and the remote spectrum and waterfall are displayed.</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Rig Sync</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">When a transceiver is connected via RigPi, ELMER stays synchronized bidirectionally:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Tuning on the SDR updates the transceiver frequency via CAT</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Transceiver VFO changes update the SDR display</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Mode changes are synchronized</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Multi-User Operation</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Up to 4 users can connect to ELMER simultaneously. Each user has:</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Independent display center frequency and span (virtual slice)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Independent mode, bandwidth, and filter settings</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Independent band memories and squelch</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Settings saved automatically per user</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Messaging</span></h2>
+<p class="p_Normal" style="line-height: 1.94; margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The envelope button ( ✉ ) in the top bar opens the messaging panel. Admin can broadcast messages to all users or a specific user. Non-admin users can send messages to admin.</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Red toast</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Alert (manual dismiss)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cyan toast</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Info (auto-dismiss 10 seconds)</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Green toast</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Message (auto-dismiss 20 seconds)</span></p>
+<h2 style="margin: 10px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #2c5d88;">Tips and Best Practices</span></h2>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Best HF sensitivity</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Use an AirSpy HF+</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">RTL-SDR HF</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Set Device Args to </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">direct_samp=2</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for HF frequencies</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Grayline</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Enable MAP mode to see the solar terminator; paths crossing the terminator have the best propagation</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Workability timing</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Check WI (Workability Index) before calling; the narrative suggests the best time window</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">LoTW before working</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — WI shows whether the DX station uses LoTW, saving wasted QSO time</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Band memories</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Each band has 3 slots (digital/CW/phone). Click the band pill to cycle through them</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Signal check</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — The automatic signal check tells you if there’s actually a signal at the spot frequency before you call</span></p>
+<p class="p_Normal" style="margin: 0 0 0 7px;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Remote access</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> — Use </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4; text-decoration: underline;"><a href="https://%3CCloudflare" target="_blank" class="weblink">https://&lt;Cloudflare</a></span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; background-color: #f4f4f4;">&nbsp;URL&gt;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for full clipboard support in the Workability report</span></p>
+<p class="p_Normal" style="margin: 7px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-style: italic;">RigPi-SDR — Copyright © 2026 Howard Nurse, W6HN. Developed with AI assistance. Licensed under the MIT License.</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

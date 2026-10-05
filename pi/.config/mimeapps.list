@@ -1,0 +1,6 @@
+[Added Associations]
+application/x-desktop=sdrconnect.desktop;
+
+[Default Applications]
+application/x-desktop=sdrconnect.desktop
+x-scheme-handler/rpi-imager=com.raspberrypi.rpi-imager-uri-handler.desktop

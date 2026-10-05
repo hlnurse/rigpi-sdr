@@ -1,0 +1,1333 @@
+** Message: 22:56:35.112: environement.vala:58: Exporting primary_variable
+** Message: 22:56:35.112: environement.vala:59: desktop_environnement XDG_CURRENT_DESKTOP
+** Message: 22:56:35.112: environement.vala:150: confir_dirs is null, export : /etc/xdg
+** Message: 22:56:35.112: environement.vala:184: Exporting XDG_CONFIG_DIRS
+** Message: 22:56:35.112: environement.vala:218: custom_data :
+** Message: 22:56:35.112: environement.vala:219: data_dirs :~/.local/share:/usr/local/share:/usr/share/raspi-ui-overrides:/usr/share:/usr/share/gdm:/var/lib/menu-xdg
+** Message: 22:56:35.112: environement.vala:220: data_dirs not null, export : ~/.local/share:/usr/local/share:/usr/share/raspi-ui-overrides:/usr/share:/usr/share/gdm:/var/lib/menu-xdg
+** Message: 22:56:35.112: environement.vala:225: Exporting XDG_DATA_DIRS
+** Message: 22:56:35.112: utils.vala:138: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.112: utils.vala:144: System system path location : /etc/xdg/lxsession/rpd-x/desktop.conf
+** Message: 22:56:35.112: utils.vala:148: Final file used : /etc/xdg/lxsession/rpd-x/desktop.conf
+** Message: 22:56:35.112: utils.vala:39: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.112: utils.vala:45: System system path location : /etc/xdg/lxsession/rpd-x/desktop.conf
+
+** (lxsession:1232): WARNING **: 22:56:35.113: utils.vala:70: No such file or directory
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “iGtk/ColorScheme” in group “GTK”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “windows_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “panel/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “dock/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “file_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “desktop_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “launcher_manager/autostart” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “composite_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “im1/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “im2/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “widget1/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “notification/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “keybindings/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “im_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “screensaver/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “power_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “audio_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “workspace_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “screenshot_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “message_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “upgrade_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “updates_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “updates_manager/timeout” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “crash_manager/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “crash_manager/dev_mode” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “crash_manager/timeout” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “upstart_user_session” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “proxy_manager/http” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “a11y/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “xrandr/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “network_gui/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “webbrowser/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “email/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “pdf_reader/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “video_player/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “audio_player/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “image_display/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “text_editor/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “archive/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “charmap/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “calculator/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “spreadsheet/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “bittorent/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “document/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “webcam/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “burn/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “notes/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “disk_utility/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “tasks/command” in group “Session”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have group “Keymap”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “laptop_mode” in group “State”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “gnome” in group “Dbus”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “type” in group “Environment”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “ubuntu_menuproxy” in group “Environment”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “toolkit_integration” in group “Environment”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “gtk/overlay_scrollbar_disable” in group “Environment”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “qt/force_theme” in group “Environment”
+** Message: 22:56:35.113: settings.vala:540: Key file does not have key “qt/platform” in group “Environment”
+** Message: 22:56:35.113: settings.vala:462: Monitoring: /etc/xdg/lxsession/rpd-x/desktop.conf
+** Message: 22:56:35.113: settings.vala:470: Desktop file is not in config home, monitoring creation of it
+** Message: 22:56:35.113: settings.vala:485: Monitoring home path: /home/pi/.config/lxsession/rpd-x/desktop.conf
+** Message: 22:56:35.113: environement.vala:79: Exporting variable
+** Message: 22:56:35.113: environement.vala:80: desktop_environnement XDG_CURRENT_DESKTOP
+** Message: 22:56:35.113: environement.vala:177: custom_config :
+** Message: 22:56:35.113: environement.vala:178: config_dirs :/etc/xdg
+** Message: 22:56:35.113: environement.vala:179: confir_dirs not null, export : /etc/xdg
+** Message: 22:56:35.113: environement.vala:184: Exporting XDG_CONFIG_DIRS
+** Message: 22:56:35.113: environement.vala:218: custom_data :
+** Message: 22:56:35.113: environement.vala:219: data_dirs :~/.local/share:/usr/local/share:/usr/share/raspi-ui-overrides:/usr/share:/usr/share/gdm:/var/lib/menu-xdg
+** Message: 22:56:35.113: environement.vala:220: data_dirs not null, export : ~/.local/share:/usr/local/share:/usr/share/raspi-ui-overrides:/usr/share:/usr/share/gdm:/var/lib/menu-xdg
+** Message: 22:56:35.113: environement.vala:225: Exporting XDG_DATA_DIRS
+** Message: 22:56:35.113: utils.vala:39: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.113: utils.vala:45: System system path location : /etc/xdg/lxsession/rpd-x/desktop.conf
+
+** (lxsession:1232): WARNING **: 22:56:35.113: utils.vala:70: No such file or directory
+** Message: 22:56:35.113: environement.vala:254: No entry in [Environment_variable]. Key file does not have group “Environment_variable”
+
+** (lxsession:1232): WARNING **: 22:56:35.115: process.vala:49: Failed to execute child process “xprop” (No such file or directory)
+
+** (lxsession:1232): WARNING **: 22:56:35.115: process.vala:50: Error when launching xprop
+** Message: 22:56:35.115: utils.vala:138: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.115: utils.vala:144: System system path location : /etc/xdg/lxsession/rpd-x/conffiles.conf
+** Message: 22:56:35.115: utils.vala:148: Final file used : /etc/xdg/lxsession/rpd-x/conffiles.conf
+** Message: 22:56:35.115: options.vala:164: Activate xsettings_manager build-in
+** Message: 22:56:35.115: utils.vala:39: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.115: utils.vala:45: System system path location : /etc/xdg/lxsession/rpd-x/desktop.conf
+
+** (lxsession:1232): WARNING **: 22:56:35.115: utils.vala:70: No such file or directory
+** Message: 22:56:35.121: app.vala:728: polkit separate
+** Message: 22:56:35.121: app.vala:728: polkit separate
+** Message: 22:56:35.125: app.vala:76: Launching lxpolkit 
+** Message: 22:56:35.125: utils.vala:138: Config system location : /etc/xdg/lxsession/rpd-x
+** Message: 22:56:35.125: utils.vala:144: System system path location : /etc/xdg/lxsession/rpd-x/autostart
+** Message: 22:56:35.125: utils.vala:148: Final file used : /etc/xdg/lxsession/rpd-x/autostart
+** Message: 22:56:35.125: autostart.vala:42: Autostart path : /etc/xdg/lxsession/rpd-x/autostart
+** Message: 22:56:35.132: app.vala:76: Launching lxpanel-pi 
+** Message: 22:56:35.136: app.vala:76: Launching pcmanfm-pi 
+
+** (lxsession:1232): WARNING **: 22:56:35.137: app.vala:86: Failed to execute child process “xscreensaver” (No such file or directory)
+
+** (lxsession:1232): WARNING **: 22:56:35.137: app.vala:87: Error when launching xscreensaver
+** Message: 22:56:35.143: options.vala:107: Create build-in Clipboard
+** Message: 22:56:35.145: main.vala:450: Check keymap_mode (null)
+** Message: 22:56:35.148: app.vala:76: Launching /usr/bin/ssh-agent 
+SSH_AUTH_SOCK=/tmp/ssh-rNJjEcrKCxkn/agent.1332; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=1340; export SSH_AGENT_PID;
+echo Agent pid 1340;
+** Message: 22:56:35.183: main.vala:40: lxpolkit is already running. Exiting
+Cannot register authentication agent: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: An authentication agent already exists for the given subject
+** Message: 22:56:35.310: app.vala:130: /usr/bin/ssh-agent exit with this type of exit: 0
+grep: /home/pi/.config/lxpanel-pi/panels/*: No such file or directory
+Openbox-Message: Unable to find a valid menu file "/usr/share/lxde/openbox/menu.xml"
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::content-type
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1836 (g_file_info_get_content_type): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-hidden
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1647 (g_file_info_get_is_hidden): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::content-type
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1836 (g_file_info_get_content_type): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-hidden
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1647 (g_file_info_get_is_hidden): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::content-type
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1836 (g_file_info_get_content_type): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-hidden
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1647 (g_file_info_get_is_hidden): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.586: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.599: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.599: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.599: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.599: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.599: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.600: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.601: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.602: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:56:35.603: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: GFileInfo created without standard::edit-name
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: GFileInfo created without standard::size
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: GFileInfo created without standard::is-symlink
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: GFileInfo created without standard::is-hidden
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: file ../../../gio/gfileinfo.c: line 1647 (g_file_info_get_is_hidden): should not be reached
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: GFileInfo created without standard::is-backup
+
+(pcmanfm:1325): GLib-GIO-CRITICAL **: 22:56:35.804: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+
+(pcmanfm:1325): Gtk-WARNING **: 22:56:36.070: Could not load a pixbuf from icon theme.
+This may indicate that pixbuf loaders or the mime database could not be found.
+Failure: No such entity
+** Message: 22:56:38.264: batt: battery 0 not found
+** Message: 22:56:38.377: up: Checking for updates
+** Message: 22:56:40.344: up: Cache updated - comparing versions
+** Message: 22:56:44.048: up: Check complete - 25 updates available
+
+(lxpanel-pi:1323): Gtk-WARNING **: 22:57:05.531: Could not load a pixbuf from icon theme.
+This may indicate that pixbuf loaders or the mime database could not be found.
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.106: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.106: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:14.107: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+Unhandled Exception: System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+ ---> System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+ ---> System.DllNotFoundException: Unable to load shared library 'swig_bindings' or one of its dependencies. In order to help diagnose loading problems, consider using a tool like strace. If you're using glibc, consider setting the LD_DEBUG environment variable: 
+swig_bindings.so: cannot open shared object file: No such file or directory
+libswig_bindings.so: cannot open shared object file: No such file or directory
+swig_bindings: cannot open shared object file: No such file or directory
+libswig_bindings: cannot open shared object file: No such file or directory
+
+   at System.Runtime.InteropServices.NativeLibrary.LoadLibErrorTracker.Throw(String) + 0x50
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.FixupModuleCell(InteropHelpers.ModuleFixupCell*) + 0x14c
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.ResolvePInvokeSlow(InteropHelpers.MethodFixupCell*) + 0x40
+   at coreradiobackendPINVOKE.SWIGExceptionHelper.SWIGRegisterExceptionCallbacks_coreradiobackend(coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate applicationDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate arithmeticDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate divideByZeroDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate indexOutOfRangeDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate invalidCastDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate invalidOperationDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate ioDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate nullReferenceDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate outOfMemoryDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate overflowDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate systemExceptionDelegate) + 0x68
+   at coreradiobackendPINVOKE.SWIGExceptionHelper..cctor() + 0x22c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0xbc
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0x15c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.CheckStaticClassConstructionReturnGCStaticBase(StaticClassConstructionContext*, Object) + 0x14
+   at coreradiobackendPINVOKE..cctor() + 0x98
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0xbc
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0x15c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.CheckStaticClassConstructionReturnNonGCStaticBase(StaticClassConstructionContext*, IntPtr) + 0x14
+   at coreradiobackendPINVOKE.new_CoreRadio() + 0x8c
+   at SDRconnect.Desktop.CoreRadioBackendSingleton.<>c.<.cctor>b__4_0() + 0x30
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode) + 0xb8
+   at System.Lazy`1.ExecutionAndPublication(LazyHelper, Boolean) + 0x58
+   at System.Lazy`1.CreateValue() + 0x40
+   at SDRconnect.Desktop.Program.Main(String[] args) + 0x94
+   at SDRconnect!<BaseAddress>+0x1aa2458
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:57:46.626: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+Unhandled Exception: System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+ ---> System.TypeInitializationException: A type initializer threw an exception. To determine which type, inspect the InnerException's StackTrace property.
+ ---> System.DllNotFoundException: Unable to load shared library 'swig_bindings' or one of its dependencies. In order to help diagnose loading problems, consider using a tool like strace. If you're using glibc, consider setting the LD_DEBUG environment variable: 
+swig_bindings.so: cannot open shared object file: No such file or directory
+libswig_bindings.so: cannot open shared object file: No such file or directory
+swig_bindings: cannot open shared object file: No such file or directory
+libswig_bindings: cannot open shared object file: No such file or directory
+
+   at System.Runtime.InteropServices.NativeLibrary.LoadLibErrorTracker.Throw(String) + 0x50
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.FixupModuleCell(InteropHelpers.ModuleFixupCell*) + 0x14c
+   at Internal.Runtime.CompilerHelpers.InteropHelpers.ResolvePInvokeSlow(InteropHelpers.MethodFixupCell*) + 0x40
+   at coreradiobackendPINVOKE.SWIGExceptionHelper.SWIGRegisterExceptionCallbacks_coreradiobackend(coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate applicationDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate arithmeticDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate divideByZeroDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate indexOutOfRangeDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate invalidCastDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate invalidOperationDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate ioDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate nullReferenceDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate outOfMemoryDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate overflowDelegate, coreradiobackendPINVOKE.SWIGExceptionHelper.ExceptionDelegate systemExceptionDelegate) + 0x68
+   at coreradiobackendPINVOKE.SWIGExceptionHelper..cctor() + 0x22c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0xbc
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0x15c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.CheckStaticClassConstructionReturnGCStaticBase(StaticClassConstructionContext*, Object) + 0x14
+   at coreradiobackendPINVOKE..cctor() + 0x98
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0xbc
+   --- End of inner exception stack trace ---
+   at System.Runtime.CompilerServices.ClassConstructorRunner.EnsureClassConstructorRun(StaticClassConstructionContext*) + 0x15c
+   at System.Runtime.CompilerServices.ClassConstructorRunner.CheckStaticClassConstructionReturnNonGCStaticBase(StaticClassConstructionContext*, IntPtr) + 0x14
+   at coreradiobackendPINVOKE.new_CoreRadio() + 0x8c
+   at SDRconnect.Desktop.CoreRadioBackendSingleton.<>c.<.cctor>b__4_0() + 0x30
+   at System.Lazy`1.ViaFactory(LazyThreadSafetyMode) + 0xb8
+   at System.Lazy`1.ExecutionAndPublication(LazyHelper, Boolean) + 0x58
+   at System.Lazy`1.CreateValue() + 0x40
+   at SDRconnect.Desktop.Program.Main(String[] args) + 0x94
+   at SDRconnect!<BaseAddress>+0x1aa2458
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: GFileInfo created without standard::edit-name
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: file ../../../gio/gfileinfo.c: line 1757 (g_file_info_get_edit_name): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: GFileInfo created without standard::size
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: file ../../../gio/gfileinfo.c: line 1860 (g_file_info_get_size): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: GFileInfo created without standard::is-symlink
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: file ../../../gio/gfileinfo.c: line 1691 (g_file_info_get_is_symlink): should not be reached
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: GFileInfo created without standard::is-backup
+
+(lxpanel-pi:1323): GLib-GIO-CRITICAL **: 22:58:21.028: file ../../../gio/gfileinfo.c: line 1669 (g_file_info_get_is_backup): should not be reached
+X connection to :0 broken (explicit kill or server shutdown).

@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<cubicsdr_config>
+    <window>
+        <x>201</x>
+        <y>301</y>
+        <w>1280</w>
+        <h>422</h>
+        <max>0</max>
+        <tips>1</tips>
+        <perf_mode>1</perf_mode>
+        <theme>0</theme>
+        <font_scale>0</font_scale>
+        <snap>1</snap>
+        <center_freq>100000000</center_freq>
+        <waterfall_lps>30</waterfall_lps>
+        <spectrum_avg>0.65</spectrum_avg>
+        <modemprops_collapsed>0</modemprops_collapsed>
+        <db_offset>0</db_offset>
+        <main_split>119</main_split>
+        <vis_split>78</vis_split>
+        <bookmark_split>200</bookmark_split>
+        <bookmark_visible>1</bookmark_visible>
+    </window>
+    <recording>
+        <path></path>
+        <squelch>0</squelch>
+        <file_time_limit>0</file_time_limit>
+    </recording>
+    <devices>
+        <device>
+            <id>AirSpy HF+ [c8529780be444686]</id>
+            <name></name>
+            <ppm>0</ppm>
+            <offset>0</offset>
+            <sample_rate>0</sample_rate>
+            <agc_mode>1</agc_mode>
+        </device>
+        <device>
+            <id>AirSpy HF+ [c8529780ea4946c7]</id>
+            <name></name>
+            <ppm>0</ppm>
+            <offset>0</offset>
+            <sample_rate>0</sample_rate>
+            <agc_mode>1</agc_mode>
+        </device>
+        <device>
+            <id>Generic RTL2832U OEM :: 00000001</id>
+            <name></name>
+            <ppm>0</ppm>
+            <offset>0</offset>
+            <sample_rate>0</sample_rate>
+            <agc_mode>1</agc_mode>
+        </device>
+        <device>
+            <id>Generic RTL2832U OEM :: 93075412</id>
+            <name></name>
+            <ppm>0</ppm>
+            <offset>0</offset>
+            <sample_rate>0</sample_rate>
+            <agc_mode>1</agc_mode>
+        </device>
+    </devices>
+    <rig>
+        <enabled>0</enabled>
+        <model>1</model>
+        <rate>57600</rate>
+        <port>/dev/ttyUSB0</port>
+        <control>1</control>
+        <follow>1</follow>
+        <center_lock>0</center_lock>
+        <follow_modem>0</follow_modem>
+    </rig>
+</cubicsdr_config>

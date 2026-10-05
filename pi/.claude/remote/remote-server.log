@@ -1,0 +1,16 @@
+Claude remote server listening on /home/pi/.claude/remote/rpc.sock
+2026/03/21 16:01:38 [Server] New connection from: @
+2026/03/21 16:01:38 [Server] RPC request: method=server.ping, id=1
+2026/03/21 16:01:38 [Server] RPC response sent: id=1, hasError=false
+2026/03/21 16:01:38 [Server] RPC request: method=server.ping, id=2
+2026/03/21 16:01:38 [Server] RPC response sent: id=2, hasError=false
+2026/03/21 16:01:42 [Server] RPC request: method=files.list, id=3
+2026/03/21 16:01:42 [Server] RPC response sent: id=3, hasError=false
+2026/03/21 16:03:30 [Server] RPC request: method=files.list, id=4
+2026/03/21 16:03:30 [Server] RPC response sent: id=4, hasError=false
+2026/03/21 16:03:34 [Server] RPC request: method=files.validate, id=5
+2026/03/21 16:03:34 [Server] RPC response sent: id=5, hasError=false
+2026/03/21 16:03:34 [Server] RPC request: method=git.info, id=6
+2026/03/21 16:03:34 [Server] RPC response sent: id=6, hasError=false
+
+Shutting down...

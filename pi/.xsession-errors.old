@@ -1,0 +1,66 @@
+Xsession: X session started for pi at Thu Oct  1 10:03:19 AM EDT 2026
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+xrdb: Can't open display ''
+xhost:  unable to open display ""
+Error opening display!
+dbus-update-activation-environment: setting USER=pi
+dbus-update-activation-environment: setting TEXTDOMAIN=pam_chksshpwd
+dbus-update-activation-environment: setting XDG_SESSION_TYPE=wayland
+dbus-update-activation-environment: setting HOME=/home/pi
+dbus-update-activation-environment: setting DESKTOP_SESSION=LXDE-pi-labwc
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+dbus-update-activation-environment: setting LOGNAME=pi
+dbus-update-activation-environment: setting XDG_SESSION_CLASS=user
+dbus-update-activation-environment: setting PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+dbus-update-activation-environment: setting XDG_RUNTIME_DIR=/run/user/1000
+dbus-update-activation-environment: setting LANG=en_US.UTF-8
+dbus-update-activation-environment: setting XDG_SESSION_DESKTOP=LXDE-pi-labwc
+dbus-update-activation-environment: setting XDG_GREETER_DATA_DIR=/var/lib/lightdm/data/pi
+dbus-update-activation-environment: setting SHELL=/bin/bash
+dbus-update-activation-environment: setting GDMSESSION=LXDE-pi-labwc
+dbus-update-activation-environment: setting NO_AT_BRIDGE=1
+dbus-update-activation-environment: setting GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+dbus-update-activation-environment: setting PWD=/home/pi
+00:00:00.126 [ERROR] [../src/config/rcxml.c:1187] <snapping><range> is deprecated. Use <snapping><range inner="" outer=""> instead.
+00:00:00.131 [ERROR] [../src/config/rcxml.c:1258] <windowSwitcher show="" /> is deprecated. Use <windowSwitcher><osd show="" />
+00:00:00.131 [ERROR] [../src/config/rcxml.c:1282] <windowSwitcher allWorkspaces="" /> is deprecated. Use <action name="NextWindow" workspace=""> instead.
+00:00:05.842 [ERROR] [backend/drm/util.c:65] Failed to parse EDID
+no profile matched
+pgrep: pattern that searches for process name longer than 15 characters will result in zero matches
+Try `pgrep -f' option to match against the complete command line.
+pgrep: pattern that searches for process name longer than 15 characters will result in zero matches
+Try `pgrep -f' option to match against the complete command line.
+(EE) Failed to open authorization file "/home/pi/.Xauthority": No such file or directory
+The XKEYBOARD keymap compiler (xkbcomp) reports:
+> Warning:          Unsupported maximum keycode 708, clipping.
+>                   X11 cannot support keycodes above 255.
+> Warning:          Virtual modifier ScrollLock multiply defined
+>                   Using 0, ignoring 0
+Errors from xkbcomp are not fatal to the X server
+
+(polkit-mate-authentication-agent-1:2095): GLib-CRITICAL **: 10:03:28.464: g_variant_new_string: assertion 'string != NULL' failed
+
+(polkit-mate-authentication-agent-1:2095): polkit-mate-1-WARNING **: 10:03:28.466: Failed to register client: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+xsettingsd: Loaded 19 settings from /home/pi/.config/xsettingsd/xsettingsd.conf
+xsettingsd: Set XFixes client disconnect mode (v6.0)
+xsettingsd: Created window 0x600001 on screen 0 with timestamp 92593
+xsettingsd: Selection _XSETTINGS_S0 is owned by 0x0
+xsettingsd: Took ownership of selection _XSETTINGS_S0
+
+(nm-applet:2100): libayatana-appindicator-WARNING **: 10:03:28.923: libayatana-appindicator is deprecated. Please use libayatana-appindicator-glib in newly written code.
+
+(nm-applet:2100): Gtk-CRITICAL **: 10:03:29.078: gtk_widget_get_scale_factor: assertion 'GTK_IS_WIDGET (widget)' failed
+** Message: 10:03:29.293: batt: battery 0 not found
+** Message: 10:03:29.539: up: Checking for updates
+** Message: 10:03:34.145: up: Error updating cache - W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. OpenPGP signature verification failed: http://deb.debian.org/debian trixie-updates InRelease: Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T19:48:40Z Verifying signature:            Not live until 2026-10-01T19:48:52Z
+E: http://deb.debian.org/debian trixie-updates InRelease is not (yet) available (Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T19:48:40Z Verifying signature:            Not live until 2026-10-01T19:48:52Z)
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. OpenPGP signature verification failed: http://deb.debian.org/debian-security trixie-security InRelease: Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T18:06:23Z Verifying signature:            Not live until 2026-10-01T18:06:23Z
+E: http://deb.debian.org/debian-security trixie-security InRelease is not (yet) available (Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T18:06:23Z Verifying signature:            Not live until 2026-10-01T18:06:23Z)
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. OpenPGP signature verification failed: https://download.docker.com/linux/debian bookworm InRelease: Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T20:28:24Z
+E: https://download.docker.com/linux/debian bookworm InRelease is not (yet) available (Sub-process /usr/bin/sqv returned an error code (1), error message is: Verifying signature:            Not live until 2026-10-01T20:28:24Z)
+W: Repositories should provide a clear-signed InRelease file, but none found at http://debian.org/dists/trixie-backports/InRelease.
+E: The repository 'http://debian.org trixie-backports Release' does not have a Release file.
+W: Updating from such a repository can't be done securely, and is therefore disabled by default.
+W: See apt-secure(8) manpage for repository creation and user configuration details.
+
+(EE) failed to read Wayland events: Broken pipe

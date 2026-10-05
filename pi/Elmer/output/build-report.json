@@ -1,0 +1,203 @@
+{
+  "builder": "RigPi Elmer Builder",
+  "version": "0.20",
+  "sources": [
+    {
+      "id": "official-help",
+      "type": "help_zip",
+      "enabled": true,
+      "authority": 100,
+      "path": "/home/pi/Elmer/sources/Help.zip",
+      "exists": true
+    },
+    {
+      "id": "groups-messages",
+      "type": "groups_io_mbox",
+      "enabled": true,
+      "authority": 60,
+      "path": "/home/pi/Elmer/sources/messages.mbox",
+      "exists": true
+    },
+    {
+      "id": "rigpibeta-messages",
+      "type": "groups_io_mbox",
+      "enabled": false,
+      "authority": 70,
+      "path": "/home/pi/Elmer/sources/rigpibeta/messages.mbox",
+      "exists": false
+    },
+    {
+      "id": "hamlib-github",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 90,
+      "path": "",
+      "exists": true
+    },
+    {
+      "id": "rigpi-github",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 95,
+      "path": "",
+      "exists": true
+    },
+    {
+      "id": "wsjtx-github",
+      "type": "github_repository",
+      "enabled": true,
+      "authority": 90,
+      "path": "",
+      "exists": true
+    },
+    {
+      "id": "chatgpt-archive",
+      "type": "ai_chat_archive",
+      "enabled": false,
+      "authority": 85,
+      "path": "/home/pi/Elmer/sources/chats/chatgpt",
+      "exists": false
+    },
+    {
+      "id": "claude-archive",
+      "type": "ai_chat_archive",
+      "enabled": false,
+      "authority": 75,
+      "path": "/home/pi/Elmer/sources/chats/claude",
+      "exists": false
+    },
+    {
+      "id": "groups-files",
+      "type": "groups_io_files_export",
+      "enabled": true,
+      "authority": 70,
+      "path": "/home/pi/Elmer/sources/RigPi-2",
+      "exists": true
+    },
+    {
+      "id": "wsjtx-manual",
+      "type": "html_manual",
+      "enabled": true,
+      "authority": 100,
+      "path": "",
+      "exists": false
+    },
+    {
+      "id": "sigidwiki-amateur-radio",
+      "type": "mediawiki_category",
+      "enabled": true,
+      "authority": 72,
+      "path": "",
+      "exists": false
+    },
+    {
+      "id": "fcc-part-97",
+      "type": "ecfr_part",
+      "enabled": true,
+      "authority": 100,
+      "path": "",
+      "exists": true
+    }
+  ],
+  "summary": {
+    "topics": 100,
+    "images": 133,
+    "internal_links": 664,
+    "external_links": 80,
+    "broken_internal_links": 0,
+    "missing_anchors": 0,
+    "missing_images": 0,
+    "unused_images": 13,
+    "orphan_pages": 0,
+    "duplicate_titles": 0,
+    "legacy_references": 70,
+    "ignored_urls": 0,
+    "needs_review_urls": 2,
+    "average_words": 631.8,
+    "overall_quality": 90.5,
+    "approved_images": 119
+  },
+  "groups_io": [
+    {
+      "messages": 11421,
+      "threads": 2089,
+      "contributors": 1114,
+      "duplicates": 0,
+      "empty_or_short": 211,
+      "date_start": "2019-04-14T19:15:02+00:00",
+      "date_end": "2026-07-24T19:18:02+00:00",
+      "average_thread_size": 5.47
+    }
+  ],
+  "groups_io_files": [
+    {
+      "source_id": "groups-files",
+      "documents": 49,
+      "duplicates": 1,
+      "unsupported": 2,
+      "extraction_failed_or_short": 1,
+      "by_extension": {
+        ".dat": 2,
+        ".docx": 2,
+        ".h": 1,
+        ".pdf": 34,
+        ".rtf": 2,
+        ".txt": 8
+      }
+    }
+  ],
+  "github": [
+    {
+      "source_id": "hamlib-github",
+      "commit": "7bbde194b4c806729539d7063b10c8636644421b",
+      "counts": {
+        "github_file": 981,
+        "github_wiki": 17,
+        "github_release": 30,
+        "github_issue": 1350,
+        "github_issue_comment": 4136
+      }
+    },
+    {
+      "source_id": "rigpi-github",
+      "commit": "567168378fa98453fe268984775da4faf1a0b3ad",
+      "counts": {
+        "github_file": 384,
+        "github_release": 1,
+        "github_issue": 5,
+        "github_issue_comment": 37
+      }
+    },
+    {
+      "source_id": "wsjtx-github",
+      "commit": "ccdfaf3c1c109010d15399674ce278167cfde848",
+      "counts": {
+        "github_file": 1468,
+        "github_manual": 56,
+        "github_release": 3,
+        "github_issue": 30,
+        "github_issue_comment": 22
+      }
+    }
+  ],
+  "manuals": [
+    {
+      "source_id": "wsjtx-manual",
+      "version": "3.0.0",
+      "sections": 96
+    }
+  ],
+  "mediawiki": [
+    {
+      "source_id": "sigidwiki-amateur-radio",
+      "pages": 86
+    }
+  ],
+  "ecfr": [
+    {
+      "source_id": "fcc-part-97",
+      "as_of": "2026-09-03",
+      "sections": 61
+    }
+  ]
+}

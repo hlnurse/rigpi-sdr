@@ -1,0 +1,8 @@
+{
+  "report": {
+    "generate_html": true,
+    "generate_json": true,
+    "generate_sqlite": true,
+    "generate_build_report": true
+  }
+}

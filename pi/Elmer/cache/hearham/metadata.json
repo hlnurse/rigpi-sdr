@@ -1,0 +1,12 @@
+{
+  "cached": 18743,
+  "downloaded": 22699,
+  "downloaded_at": "2026-10-03T21:44:43.510860+00:00",
+  "duplicates": 222,
+  "inactive": 3444,
+  "individual_verification_dates_available": false,
+  "invalid": 290,
+  "sha256": "35cee9d95237a2aab959695d27f3480ce5519b525008da55fc4b0ae8f1484cb1",
+  "source": "HearHam",
+  "source_url": "https://hearham.com/api/repeaters/v1"
+}

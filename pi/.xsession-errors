@@ -1,0 +1,65 @@
+Xsession: X session started for pi at Fri Oct  2 04:54:45 PM EDT 2026
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+xrdb: Can't open display ''
+xhost:  unable to open display ""
+Error opening display!
+dbus-update-activation-environment: setting USER=pi
+dbus-update-activation-environment: setting TEXTDOMAIN=pam_chksshpwd
+dbus-update-activation-environment: setting XDG_SESSION_TYPE=wayland
+dbus-update-activation-environment: setting HOME=/home/pi
+dbus-update-activation-environment: setting DESKTOP_SESSION=LXDE-pi-labwc
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+dbus-update-activation-environment: setting LOGNAME=pi
+dbus-update-activation-environment: setting XDG_SESSION_CLASS=user
+dbus-update-activation-environment: setting PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+dbus-update-activation-environment: setting XDG_RUNTIME_DIR=/run/user/1000
+dbus-update-activation-environment: setting LANG=en_US.UTF-8
+dbus-update-activation-environment: setting XDG_SESSION_DESKTOP=LXDE-pi-labwc
+dbus-update-activation-environment: setting XDG_GREETER_DATA_DIR=/var/lib/lightdm/data/pi
+dbus-update-activation-environment: setting SHELL=/bin/bash
+dbus-update-activation-environment: setting GDMSESSION=LXDE-pi-labwc
+dbus-update-activation-environment: setting NO_AT_BRIDGE=1
+dbus-update-activation-environment: setting GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+dbus-update-activation-environment: setting PWD=/home/pi
+00:00:00.071 [ERROR] [../src/config/rcxml.c:1187] <snapping><range> is deprecated. Use <snapping><range inner="" outer=""> instead.
+00:00:00.074 [ERROR] [../src/config/rcxml.c:1258] <windowSwitcher show="" /> is deprecated. Use <windowSwitcher><osd show="" />
+00:00:00.074 [ERROR] [../src/config/rcxml.c:1282] <windowSwitcher allWorkspaces="" /> is deprecated. Use <action name="NextWindow" workspace=""> instead.
+00:00:14.037 [ERROR] [backend/drm/util.c:65] Failed to parse EDID
+no profile matched
+pgrep: pattern that searches for process name longer than 15 characters will result in zero matches
+Try `pgrep -f' option to match against the complete command line.
+pgrep: pattern that searches for process name longer than 15 characters will result in zero matches
+Try `pgrep -f' option to match against the complete command line.
+xsettingsd: Loaded 19 settings from /home/pi/.config/xsettingsd/xsettingsd.conf
+(EE) Failed to open authorization file "/home/pi/.Xauthority": No such file or directory
+The XKEYBOARD keymap compiler (xkbcomp) reports:
+> Warning:          Unsupported maximum keycode 708, clipping.
+>                   X11 cannot support keycodes above 255.
+> Warning:          Virtual modifier ScrollLock multiply defined
+>                   Using 0, ignoring 0
+Errors from xkbcomp are not fatal to the X server
+xsettingsd: Set XFixes client disconnect mode (v6.0)
+xsettingsd: Created window 0x800001 on screen 0 with timestamp 28527
+xsettingsd: Selection _XSETTINGS_S0 is owned by 0x0
+xsettingsd: Took ownership of selection _XSETTINGS_S0
+
+(polkit-mate-authentication-agent-1:2124): GLib-CRITICAL **: 16:55:02.685: g_variant_new_string: assertion 'string != NULL' failed
+
+(polkit-mate-authentication-agent-1:2124): polkit-mate-1-WARNING **: 16:55:02.686: Failed to register client: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+
+(nm-applet:2129): libayatana-appindicator-WARNING **: 16:55:03.104: libayatana-appindicator is deprecated. Please use libayatana-appindicator-glib in newly written code.
+
+(nm-applet:2129): Gtk-CRITICAL **: 16:55:03.228: gtk_widget_get_scale_factor: assertion 'GTK_IS_WIDGET (widget)' failed
+** Message: 16:55:03.321: batt: battery 0 not found
+** Message: 16:55:05.220: up: Checking for updates
+** Message: 16:55:10.200: up: Error updating cache - W: Repositories should provide a clear-signed InRelease file, but none found at http://debian.org/dists/trixie-backports/InRelease.
+E: The repository 'http://debian.org trixie-backports Release' does not have a Release file.
+W: Updating from such a repository can't be done securely, and is therefore disabled by default.
+W: See apt-secure(8) manpage for repository creation and user configuration details.
+
+** Message: 16:55:03.071: up: Checking for updates
+** Message: 16:55:04.994: up: Error updating cache - W: Repositories should provide a clear-signed InRelease file, but none found at http://debian.org/dists/trixie-backports/InRelease.
+E: The repository 'http://debian.org trixie-backports Release' does not have a Release file.
+W: Updating from such a repository can't be done securely, and is therefore disabled by default.
+W: See apt-secure(8) manpage for repository creation and user configuration details.
+

@@ -1,0 +1,16 @@
+[Unit]
+Description=WayVNC process used by Raspberry Pi Connect
+ConditionFileIsExecutable=/usr/bin/wayvnc
+PartOf=rpi-connect.service
+
+[Service]
+ExecStart=/usr/bin/rpi-connect-env /usr/bin/wayvnc --config /etc/rpi-connect/wayvnc.config --render-cursor --unix-socket --socket=%t/rpi-connect-wayvnc-ctl.sock %t/rpi-connect-wayvnc.sock
+ExecStartPre=/usr/bin/test -S %t/wayland-0 -o -S %t/wayland-1
+ExecStop=/usr/bin/wayvncctl --socket=%t/rpi-connect-wayvnc-ctl.sock wayvnc-exit
+ExecStopPost=/usr/bin/rm -f %t/rpi-connect-wayvnc-ctl.sock %t/rpi-connect-wayvnc.sock
+SyslogIdentifier=rpi-connect-wayvnc
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=rpi-connect.service

@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FFT Viewer with dB Range + Frequency Axis</title>
+    <style>
+      body {
+        margin: 0;
+        background: black;
+        color: white;
+        font-family: sans-serif;
+      }
+      #controls {
+        background: #222;
+        padding: 5px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      label {
+        margin-right: 5px;
+      }
+      #spectrum {
+        width: 100%;
+        height: 220px;
+        display: block;
+      }
+      #waterfall {
+        width: 100%;
+        height: calc(100vh - 260px);
+        display: block;
+      }
+      input[type="range"] {
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+      <div>
+        <label for="floorSlider">dB floor:</label>
+        <input type="range" id="floorSlider" min="-120" max="0" value="-80" />
+        <span id="floorValue">-80 dB</span>
+      </div>
+      <div>
+        <label for="ceilSlider">dB ceiling:</label>
+        <input type="range" id="ceilSlider" min="-60" max="30" value="-20" />
+        <span id="ceilValue">-20 dB</span>
+      </div>
+    </div>
+
+    <canvas id="spectrum"></canvas>
+    <canvas id="waterfall"></canvas>
+
+    <script>
+      const spectrumCanvas = document.getElementById("spectrum");
+      const specCtx = spectrumCanvas.getContext("2d", {
+        willReadFrequently: true,
+      });
+      const wfCanvas = document.getElementById("waterfall");
+      const wfCtx = wfCanvas.getContext("2d", { willReadFrequently: true });
+
+      let dbFloor = -80;
+      let dbCeil = -20;
+
+      // Assume these (change to your actual gqrx values)
+      const centerFreq = 100e6; // 100 MHz
+      const sampleRate = 96000; // 96 kHz
+
+      function resize() {
+        spectrumCanvas.width = window.innerWidth;
+        spectrumCanvas.height = 220;
+        wfCanvas.width = window.innerWidth;
+        wfCanvas.height = window.innerHeight - 260;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      // Sliders
+      const floorSlider = document.getElementById("floorSlider");
+      const ceilSlider = document.getElementById("ceilSlider");
+      const floorValue = document.getElementById("floorValue");
+      const ceilValue = document.getElementById("ceilValue");
+
+      floorSlider.addEventListener("input", () => {
+        dbFloor = parseInt(floorSlider.value);
+        floorValue.textContent = dbFloor + " dB";
+        if (dbFloor >= dbCeil) {
+          dbCeil = dbFloor + 1;
+          ceilSlider.value = dbCeil;
+          ceilValue.textContent = dbCeil + " dB";
+        }
+      });
+
+      ceilSlider.addEventListener("input", () => {
+        dbCeil = parseInt(ceilSlider.value);
+        ceilValue.textContent = dbCeil + " dB";
+        if (dbCeil <= dbFloor) {
+          dbFloor = dbCeil - 1;
+          floorSlider.value = dbFloor;
+          floorValue.textContent = dbFloor + " dB";
+        }
+      });
+
+      const evtSource = new EventSource("/stream");
+      evtSource.onmessage = (e) => {
+        if (e.data === "0") return;
+        const bins = e.data.split(",").map(parseFloat);
+        drawSpectrum(bins);
+        drawWaterfall(bins);
+      };
+
+      function drawSpectrum(bins) {
+        const w = spectrumCanvas.width,
+          h = spectrumCanvas.height;
+        const plotHeight = h - 20; // leave space for labels
+        specCtx.fillStyle = "black";
+        specCtx.fillRect(0, 0, w, h);
+
+        // Draw FFT line
+        specCtx.strokeStyle = "lime";
+        specCtx.beginPath();
+        bins.forEach((v, i) => {
+          const norm = Math.max(
+            0,
+            Math.min(1, (v - dbFloor) / (dbCeil - dbFloor)),
+          );
+          const x = i * (w / bins.length);
+          const y = plotHeight - norm * plotHeight;
+          if (i === 0) specCtx.moveTo(x, y);
+          else specCtx.lineTo(x, y);
+        });
+        specCtx.stroke();
+
+        // Frequency labels
+        specCtx.fillStyle = "white";
+        specCtx.font = "12px sans-serif";
+        specCtx.textAlign = "center";
+        const divisions = 10;
+        for (let d = 0; d <= divisions; d++) {
+          const x = d * (w / divisions);
+          const freq =
+            centerFreq - sampleRate / 2 + (d / divisions) * sampleRate;
+          const label = (freq / 1e6).toFixed(3) + " MHz";
+          specCtx.fillText(label, x, h - 5);
+        }
+      }
+
+      function drawWaterfall(bins) {
+        const w = wfCanvas.width,
+          h = wfCanvas.height;
+        const imageData = wfCtx.getImageData(0, 0, w, h);
+        wfCtx.putImageData(imageData, 0, 1);
+        const row = wfCtx.createImageData(w, 1);
+
+        bins.forEach((v, i) => {
+          const x = Math.floor(i * (w / bins.length));
+          const idx = x * 4;
+          const norm = Math.max(
+            0,
+            Math.min(1, (v - dbFloor) / (dbCeil - dbFloor)),
+          );
+
+          // Blue→Green→Red
+          const r = Math.floor(255 * norm);
+          const g = Math.floor(255 * (1 - Math.abs(norm - 0.5) * 2));
+          const b = Math.floor(255 * (1 - norm));
+
+          row.data[idx] = r;
+          row.data[idx + 1] = g;
+          row.data[idx + 2] = b;
+          row.data[idx + 3] = 255;
+        });
+
+        wfCtx.putImageData(row, 0, 0);
+      }
+    </script>
+  </body>
+</html>

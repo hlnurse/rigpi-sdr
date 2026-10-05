@@ -1,0 +1,20 @@
+
+Sat Oct  4 10:04:31 2025
+ vncext:      VNC extension running!
+ vncext:      Listening for VNC connections on local interface(s), port 5902
+ vncext:      Created VNC server for screen 0
+[mi] mieq: warning: overriding existing handler (nil) with 0x55564d8575e8 for event 2
+[mi] mieq: warning: overriding existing handler (nil) with 0x55564d8575e8 for event 3
+3NI3X0 New Xtigervnc server 'rigpi5:2 (pi)' on port 5902 for display :2.
+3NI3X0 Use xtigervncviewer -SecurityTypes VncAuth -passwd /home/pi/.config/tigervnc/passwd :2 to connect to the VNC server.
+
+Wi-Fi is currently blocked by rfkill.
+Use raspi-config to set the country before use.
+
+X connection to :2 broken (explicit kill or server shutdown).
+
+Sat Oct  4 10:10:10 2025
+ ComparingUpdateTracker: 0 pixels in / 0 pixels out
+ ComparingUpdateTracker: (1:nan ratio)
+The Xtigervnc server cleanly exited!
+tigervncserver: No matching VNC server running for this user!

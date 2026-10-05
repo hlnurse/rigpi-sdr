@@ -1,0 +1,24 @@
+[Unit]
+Description=RigPi Elmer public demonstration gateway
+After=network-online.target elmer-cloud.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=elmer
+Group=elmer
+WorkingDirectory=/opt/elmer/app
+Environment=CREDENTIALS_DIRECTORY=/etc/elmer
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/elmer/venv/bin/python /opt/elmer/app/elmer_gateway.py --host 127.0.0.1 --port 8092 --db /opt/elmer/data/knowledge.db --state-db /opt/elmer/state/gateway.db --gateway-secret /etc/elmer/gateway_secret
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+UMask=0027
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
