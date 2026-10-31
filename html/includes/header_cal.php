@@ -37,7 +37,7 @@ if ($row) {
 	<div class="collapse navbar-collapse navbar-toggleable-lg" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 <li class="nav-item">
-	<a class="nav-link" id="tunerB" href="./index.php"><u>T</u>UNER<span class="sr-only">(current)</span></a>
+	<a class="nav-link" id="tunerB" href="./tuner.php"><u>T</u>UNER<span class="sr-only">(current)</span></a>
 </li>
 			<li class="nav-item">
 	  <?php if ($level < 4) {

@@ -151,20 +151,20 @@ if (ctype_digit(trim($freq))) {
 
 function doGPIO()
 {
-    return; //doGPIO is used to turn KX3 power on, but system("gpio...") has been deprecated.
-    system("gpio mode 2 out");
-    system("gpio mode 3 out");
-    system("gpio write 2 1");
+    // WiringPi 3.16 supports the Pi 5; restore the original KX3 sequence.
+    system("/usr/bin/gpio mode 2 out");
+    system("/usr/bin/gpio mode 3 out");
+    system("/usr/bin/gpio write 2 1");
 
     for ($i = 0; $i < 40; $i++) {
-        system("gpio write 2 1");
+        system("/usr/bin/gpio write 2 1");
         usleep(10);
-        system("gpio write 2 0");
+        system("/usr/bin/gpio write 2 0");
         usleep(10);
     }
-    system("gpio write 3 1");
+    system("/usr/bin/gpio write 3 1");
     usleep(10000000);
-    system("gpio write 3 0");
-    system("gpio unexportall");
+    system("/usr/bin/gpio write 3 0");
+    // Leave unrelated GPIO lines alone (including remote CW).
 }
 ?>

@@ -5,7 +5,6 @@
 #include <string.h>
 #include <time.h>
 
-#define CIC_R 64
 #define CIC_N 3
 #define TWO_PI 6.283185307179586476925286766559
 
@@ -22,8 +21,9 @@
 
 typedef struct {
     double input_rate;
-    double osc_re, osc_im;
-    double step_re, step_im;
+    int cic_r;
+    float osc_re, osc_im;
+    float step_re, step_im;
     double last_freq;
     uint64_t osc_count;
 
@@ -110,6 +110,8 @@ rx888_audio_state *rx888_audio_create(double input_rate) {
     rx888_audio_state *s = (rx888_audio_state *)calloc(1, sizeof(*s));
     if (!s) return NULL;
     s->input_rate = input_rate;
+    s->cic_r = (int)llrint(input_rate / FS_CIC);
+    if (s->cic_r < 1) s->cic_r = 1;
     s->last_freq = -1.0;
     s->last_mode = -1;
     design_lowpass(s->d1_coef, D1_TAPS, FS_CIC, 30000.0);
@@ -130,9 +132,9 @@ void rx888_audio_reset(rx888_audio_state *s) {
 
 static void set_frequency(rx888_audio_state *s, double freq) {
     if (fabs(freq - s->last_freq) <= 0.5) return;
-    const double angle = -TWO_PI * freq / s->input_rate;
-    s->step_re = cos(angle);
-    s->step_im = sin(angle);
+    const float angle = (float)(-TWO_PI * freq / s->input_rate);
+    s->step_re = cosf(angle);
+    s->step_im = sinf(angle);
     s->last_freq = freq;
     reset_stream_state(s);
 }
@@ -241,7 +243,7 @@ static inline void resample_100k_to_48k(rx888_audio_state *s, float current, flo
     s->rs_prev = current;
 }
 
-int rx888_audio_process(rx888_audio_state *s, const float *in, int n, double freq, int mode, float *out, int out_cap) {
+int rx888_audio_process(rx888_audio_state *s, const int16_t *in, int n, double freq, int mode, float *out, int out_cap) {
     if (!s || !in || !out || n <= 0 || out_cap <= 0) return 0;
 
     const double process_start_ms = now_ms();
@@ -250,8 +252,8 @@ int rx888_audio_process(rx888_audio_state *s, const float *in, int n, double fre
 
     /* Quantize mixed IQ before the CIC and use modulo integer arithmetic.
        The comb output is converted back to float after removing CIC gain. */
-    const double input_scale = 1048576.0; /* 2^20 */
-    const double cic_scale = 1.0 / (input_scale * (double)(CIC_R * CIC_R * CIC_R));
+    const float input_scale = 32.0f; /* int16 / 32768 * 2^20 */
+    const double cic_scale = 1.0 / (input_scale * (double)(s->cic_r * s->cic_r * s->cic_r));
     int produced = 0;
 
     /*
@@ -268,20 +270,20 @@ int rx888_audio_process(rx888_audio_state *s, const float *in, int n, double fre
     double demod_sample_ms = 0.0, resamp_sample_ms = 0.0;
 
     for (int k = 0; k < n; ++k) {
-        const double xr = (double)in[k] * s->osc_re;
-        const double xi = (double)in[k] * s->osc_im;
-        const double nr = s->osc_re * s->step_re - s->osc_im * s->step_im;
-        const double ni = s->osc_re * s->step_im + s->osc_im * s->step_re;
+        const float xr = in[k] * s->osc_re;
+        const float xi = in[k] * s->osc_im;
+        const float nr = s->osc_re * s->step_re - s->osc_im * s->step_im;
+        const float ni = s->osc_re * s->step_im + s->osc_im * s->step_re;
         s->osc_re = nr;
         s->osc_im = ni;
         if ((++s->osc_count & 16383u) == 0) {
-            const double norm = 1.0 / sqrt(s->osc_re * s->osc_re + s->osc_im * s->osc_im);
+            const float norm = 1.0f / sqrtf(s->osc_re * s->osc_re + s->osc_im * s->osc_im);
             s->osc_re *= norm;
             s->osc_im *= norm;
         }
 
-        const int64_t qr = (int64_t)llrint(xr * input_scale);
-        const int64_t qi = (int64_t)llrint(xi * input_scale);
+        const int64_t qr = (int64_t)(xr * input_scale);
+        const int64_t qi = (int64_t)(xi * input_scale);
         s->int_re[0] += (uint64_t)qr;
         s->int_im[0] += (uint64_t)qi;
         for (int j = 1; j < CIC_N; ++j) {
@@ -289,7 +291,7 @@ int rx888_audio_process(rx888_audio_state *s, const float *in, int n, double fre
             s->int_im[j] += s->int_im[j - 1];
         }
 
-        if (++s->cic_phase != CIC_R) continue;
+        if (++s->cic_phase != s->cic_r) continue;
         s->cic_phase = 0;
         ++cic_outputs;
 
@@ -310,7 +312,7 @@ int rx888_audio_process(rx888_audio_state *s, const float *in, int n, double fre
         memcpy(&ci_i, &ci_u, sizeof(ci_i));
 
         /* Profile a sparse, rotating subset of CIC outputs. */
-        const int profile_this = ((cic_outputs & 255u) == 0u);
+        const int profile_this = 0;
         double stage_start_ms = 0.0;
 
         float d1r, d1i;

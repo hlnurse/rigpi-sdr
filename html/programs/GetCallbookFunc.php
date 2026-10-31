@@ -855,22 +855,35 @@ function toASCII($str)
     );
 }
 
+function isCallbookSilentKey($record)
+{
+    if (!is_array($record)) return false;
+    $qsl = trim(html_entity_decode(strip_tags((string) ($record["QSLMgr"] ?? "")), ENT_QUOTES | ENT_HTML5, "UTF-8"));
+    $name = trim(html_entity_decode(strip_tags((string) ($record["His_Name"] ?? "")), ENT_QUOTES | ENT_HTML5, "UTF-8"));
+    // Accept explicit source markers, not license codes, expiry dates or
+    // ordinary QSL manager callsigns such as SK0ABC.
+    return preg_match('/^(?:SK(?=$|[\s:;,.(])|silent[ -]+key\b)/i', $qsl) === 1
+        || preg_match('/\bsilent[ -]+key\b|[\(\[]\s*SK\s*[\)\]]/i', $name) === 1;
+}
+
 function getISize($user, $db)
 {
     $db->where("User", $user);
     $rowBook = $db->getOne("Callbook");
-    $uri = $rowBook["ImageURL"];
-    if (strlen((string) ($uri ?? "")) > 0) {
-        list($width, $height) = getimagesize($uri);
-
-        $tArray = ["ImageH" => $height, "ImageW" => $width];
-        $db->where("User", $user);
-        $rowBook = $db->update("Callbook", $tArray);
-    } else {
-        $tArray = ["ImageH" => 0, "ImageW" => 0];
-        $db->where("User", $user);
-        $row = $db->update("Callbook", $tArray);
+    $uri = (string) ($rowBook["ImageURL"] ?? "");
+    $width = 0;
+    $height = 0;
+    if ($uri !== "") {
+        // Photos are optional. A blocked or missing image must not corrupt
+        // the lookup response with a PHP warning or leave stale dimensions.
+        $size = @getimagesize($uri);
+        if (is_array($size) && isset($size[0], $size[1])) {
+            $width = (int) $size[0];
+            $height = (int) $size[1];
+        }
     }
+    $db->where("User", $user);
+    $db->update("Callbook", ["ImageH" => $height, "ImageW" => $width]);
 }
 
 function fillGeo($user, $call, $db, $which)

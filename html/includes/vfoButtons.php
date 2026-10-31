@@ -5,13 +5,13 @@ $vfo = "<div class='row' style='margin-left:0; margin-right:0;'>
 				<i class='fas fa-play fa-fw' id='playOK' style='color:green'></i>
 				<i class='fas fa-play fa-fw d-none' id='play' style='color:red'></i>
 				<i class='fas fa-sync fa-fw d-none' id='spinner'></i>
-					<u>C</u>onnect Radio
+					<u>C</u>onnect Hamlib
 			</button>
 		</div>
 		<div class='col-6 btn-padding'>
 			<button class='btn btn-color btn-primary btn-sm btn-block' id='disconnect' type='button'>
 				<i class='fas fa-stop fa-fw'></i>
-					<u>D</u>isconnect Radio
+					<u>D</u>isconnect Hamlib
 			</button>
 		</div>
 	</div>

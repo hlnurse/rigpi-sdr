@@ -1,0 +1,12 @@
+/* Copyright (c) 2026 Howard Nurse, W6HN. MIT License. */
+#dLED.rigpi-relay-host{display:block!important;width:100%;max-width:340px;min-width:0;height:auto;margin-top:14px!important;box-sizing:border-box;}
+#dLED.rigpi-relay-host.d-none{display:none!important;}
+.rigpi-relay-host .rigpi-relay-row{display:grid;grid-template-columns:repeat(8,minmax(0,1fr)) auto;gap:1px;align-items:center;padding:2px 4px;border:1px solid #ddd;border-radius:9px;background:#696969;box-sizing:border-box;}
+.rigpi-relay-host .rigpi-relay-button{display:flex;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:40px;padding:1px;border:0;border-radius:5px;background:transparent!important;color:#fff!important;font:700 11px/1 Arial,Helvetica,sans-serif;touch-action:manipulation;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+#dLED.rigpi-relay-host .rigpi-relay-number,#dLED.rigpi-relay-host .rigpi-relay-caption{font:700 11px/1 Arial,Helvetica,sans-serif!important;padding:0!important;margin:0!important;background:transparent!important;color:#fff!important;-webkit-text-fill-color:#fff!important;}
+#dLED.rigpi-relay-host .rigpi-relay-lamp{display:block;width:18px;height:18px;flex:0 1 18px;aspect-ratio:1;border:1px solid #888;border-radius:50%;padding:0!important;margin:0!important;background:radial-gradient(circle at 32% 28%,#fff 0,#e6e6e6 25%,#aaa 70%,#666 100%)!important;box-shadow:0 1px 2px #0008;box-sizing:border-box;}
+#dLED.rigpi-relay-host .rigpi-relay-on .rigpi-relay-lamp{background:radial-gradient(circle at 32% 28%,#ffb1b1 0,#ff3030 27%,#e00000 70%,#7d0000 100%)!important;border-color:#a70000;}
+.rigpi-relay-host .rigpi-relay-button:focus-visible{outline:2px solid #fff;outline-offset:-2px;background:#333!important;}
+.rigpi-relay-host .rigpi-relay-button:active{background:#555!important;}
+.rigpi-relay-host .rigpi-relay-button:disabled{cursor:not-allowed;opacity:.55;}
+.rigpi-relay-host [hidden]{display:none!important;}

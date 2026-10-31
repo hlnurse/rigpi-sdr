@@ -335,7 +335,7 @@ if (file_exists($tempFile)) {
 							  if (tMyPTT==2){
 								  $.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
 							  }
-							openWindowWithPost("/index.php", {
+							openWindowWithPost("/tuner.php", {
 								});
 						});
 					});

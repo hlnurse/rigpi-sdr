@@ -13,7 +13,7 @@ $db = new MysqliDb(
 $db->where("Username", $tUserName);
 $row = $db->getOne("Users");
 $level = "1";
-// Only set SDR vars if not already set by the page (e.g. index.php sets them early)
+// Only set SDR vars if not already set by the page (e.g. tuner.php sets them early)
 if (!isset($sdrHost)) {
     $sdrHost = "http://" . gethostname() . ".local";
 }
@@ -47,7 +47,9 @@ if ($row) {
 }
 $elmerSdrUserID = max(1, (int) ($row["uID"] ?? 1));
 $elmerSdrRadio = max(1, (int) ($row["SelectedRadio"] ?? $elmerSdrUserID));
-$elmerSdrFrameURL = "/sdr" . $elmerSdrUserID . "?" . http_build_query(
+require_once "/var/www/html/programs/SdrInstanceFunc.php";
+$elmerSdrInstance = sdrInstanceForUser($row ?: []);
+$elmerSdrFrameURL = "/sdr" . $elmerSdrInstance . "?" . http_build_query(
     [
         "user" => strtolower((string) $tUserName),
         "radio" => $elmerSdrRadio,
@@ -73,7 +75,7 @@ $elmerSdrFrameURL = "/sdr" . $elmerSdrUserID . "?" . http_build_query(
 	<div class="collapse navbar-collapse navbar-toggleable-lg" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 <li class="nav-item">
-	<a class="nav-link" id="tunerB" onfocus="this.select();" href="/index.php"<span class="sr-only"><u>T</u>UNER</span></a>
+	<a class="nav-link" id="tunerB" onfocus="this.select();" href="/tuner.php"<span class="sr-only"><u>T</u>UNER</span></a>
 </li>
 <li class="nav-item">
 	<?php if ($level < 4) {
@@ -116,6 +118,7 @@ $elmerSdrFrameURL = "/sdr" . $elmerSdrUserID . "?" . http_build_query(
  } ?>
 	<li><a class="dropdown-item" href="/settings.php"<span class='sr-only'>Basic Radio</span></a></li>
 	<li><a class="dropdown-item" href="/settingsAdvanced.php"<span class='sr-only'>Advanced Radio</span></a></li>
+            <li><a class='dropdown-item' href='/wizardSdr.php?standalone=1'>SDR Devices</a></li>
 	<li><a class="dropdown-item" href="/rotorSettings.php"<span class='sr-only'>Rotor</span></a></li>
 	<li><a class="dropdown-item" href="/keyerSettings.php"<span class='sr-only'>Keyer</span></a></li>
 	<li><a class="dropdown-item" href="/logDesigner.php"<span class='sr-only'>Log Designer</span></a></li>
@@ -127,23 +130,23 @@ $elmerSdrFrameURL = "/sdr" . $elmerSdrUserID . "?" . http_build_query(
 	<li><a class="dropdown-item" href="/macros.php"<span class='sr-only'>Macros</span></a></li>
 
 	<?php if ($level <= 2) {
-     echo "<li><a class='dropdown-item' href='./system.php'" .
-         "<span class='sr-only'>System</span></a></li>";
- } ?>
+ echo "<li><a class='dropdown-item' href='./system.php'>System Settings</a></li>";
+ echo "<li><a class='dropdown-item' href='./systemStatus.php'>System Status</a></li>";
+} ?>
 	</ul>
 </li>
 <li class="nav-item dropdown">
 		<a class="nav-link menu-dropdown-toggle" data-toggle="dropdown" id="help" role="button" aria-haspopup="true" aria-expanded="false"><u>H</u>ELP</a>
-	<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	<ul class="dropdown-menu" aria-labelledby="help">
 		<li><a class="dropdown-item" href="/help.php" >RigPi Help</a></li>
-		<li><button class="dropdown-item" type="button" onclick="if (typeof showRigPiWelcome === 'function') { showRigPiWelcome(true); } else { window.location.href = '/index.php?welcome=1'; }">Welcome to RigPi</button></li>
+		<li><button class="dropdown-item" type="button" onclick="if (typeof showRigPiWelcome === 'function') { showRigPiWelcome(true); } else { window.location.href = '/tuner.php?welcome=1'; }">Welcome to RigPi</button></li>
 		<li><a class="dropdown-item" href="/elmer.php">Ask Elmer</a></li>
 		<li><a class="dropdown-item" href="https://rigpi.groups.io" target="_blank">RigPi Forum</a></li>
 		<li><a class="dropdown-item" href="https://rigpi.com" target="_blank">RigPi Home Page</a></li>
 		<li><a class="dropdown-item" href="https://k1elsystems.com" target="_blank">K1EL Systems Home Page</a></li>
-		<li><a class="dropdown-item" href="/license.php"<span class='sr-only'>RSS License</span></a></li>
-		<li><a class="dropdown-item" href="/acknowledgments.php"<span class="sr-only">Legal Acknowledgments</span></a></li>
-		<li><a class="dropdown-item" href="/about.php"<span class="sr-only">About</span></a></li>
+		<li><a class="dropdown-item" href="/license.php">RSS License</a></li>
+		<li><a class="dropdown-item" href="/acknowledgments.php">Legal Acknowledgments</a></li>
+		<li><a class="dropdown-item" href="/about.php">About</a></li>
 	</ul>
 </li>
 </ul>
@@ -223,11 +226,13 @@ function showSettings(){
 		if(set) set.click();
 	}
 	document.addEventListener('keydown', function(e) {
-		if (!e.altKey || e.ctrlKey || e.metaKey) return;
-		if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
-		e.preventDefault();
-		e.stopPropagation();
+		if (!e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.isComposing || e.getModifierState?.('AltGraph')) return;
+		if (e.target.isContentEditable || e.target.closest?.('input,textarea,select,[role="textbox"],[role="combobox"]')) return;
 		const _code = e.code;
+                if (!['KeyA','KeyT','KeyK','KeyL','KeyS','KeyC','KeyM','KeyE','KeyH','KeyR','KeyW'].includes(_code)) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                if(e.repeat)return;
 		switch(_code) {
 			case 'KeyA': showAskElmer(); break;
 			case 'KeyT': showTuner();    break;
@@ -243,3 +248,5 @@ function showSettings(){
 		}
 	}, true);
 </script>
+
+<?php require __DIR__ . '/elmer_control_shared_header.php'; ?>

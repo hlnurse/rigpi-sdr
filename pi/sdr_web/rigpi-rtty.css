@@ -1,0 +1,27 @@
+/* RigPi receive-only RTTY panel. Copyright 2026 Howard Nurse. MIT License. */
+#tab_rtty{color:#b9d6c1;font:12px/1.35 system-ui,sans-serif;min-width:0;padding:7px;box-sizing:border-box;background:#08100c;}
+#tab_rtty.active{display:flex;flex-direction:column;gap:7px;min-height:0;overflow:auto;}
+#tab_rtty .rtty-toolbar,#tab_rtty .rtty-settings,#tab_rtty .rtty-text-tools{display:flex;flex-wrap:wrap;align-items:center;gap:7px;flex-shrink:0;}
+#tab_rtty .rtty-toolbar{border-bottom:1px solid #294d33;padding-bottom:6px;}
+#tab_rtty button,#tab_rtty select,#tab_rtty input[type=number]{background:#17241c;color:#e2f5e8;border:1px solid #496450;border-radius:4px;font:12px system-ui,sans-serif;padding:4px 6px;min-height:28px;box-sizing:border-box;}
+#tab_rtty button{cursor:pointer;}#tab_rtty button:disabled{opacity:.5;cursor:wait;}
+#tab_rtty button:focus-visible,#tab_rtty canvas:focus-visible{outline:2px solid #7bff99;outline-offset:2px;}
+#tab_rtty label{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:11px;}
+#tab_rtty input[type=number]{width:70px;}#tab_rtty input[type=range]{width:80px;accent-color:#72f98b;}
+#tab_rtty input[type=checkbox]{accent-color:#72f98b;}
+#tab_rtty .rtty-tuning{display:flex;align-items:center;gap:9px;min-width:0;flex-shrink:0;}
+#tab_rtty #rttyScope{width:55%;max-width:230px;height:auto;aspect-ratio:320/210;background:#020704;border:1px solid #385443;border-radius:8px;display:block;}
+#tab_rtty .rtty-tone-info{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0;}
+#tab_rtty .rtty-tone-info b{color:#8cf6a1;}#tab_rtty .rtty-tone-info small{color:#8aa893;font-size:10px;}
+#tab_rtty #rttyAudioSpectrum{width:100%;height:84px;background:#020704;border:1px solid #385443;border-radius:5px;box-sizing:border-box;display:block;cursor:crosshair;flex-shrink:0;touch-action:manipulation;}
+#tab_rtty #rttyText{flex:1;min-height:120px;max-height:400px;margin:0;padding:8px;border:1px solid #294d33;border-radius:5px;color:#85fba0;background:#010603;font:14px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;overflow:auto;box-sizing:border-box;}
+#tab_rtty #rttyStatus{color:#83d996;font-size:11px;}#tab_rtty #rttyCount{font-size:10px;}
+#tab_rtty .rtty-footnote{font-size:10px;color:#7d9787;flex-shrink:0;}
+@media(max-width:480px){#tab_rtty .rtty-tuning{gap:6px;}#tab_rtty #rttyScope{width:52%;}#tab_rtty #rttyText{font-size:13px;}#tab_rtty .rtty-settings{gap:5px;}}
+
+/* Reserve two lines so live measurements never change the tuning row height. */
+#tab_rtty #rttyOffset{display:block;flex:none;width:100%;height:32px;min-height:32px;max-height:32px;box-sizing:border-box;white-space:pre;overflow:hidden;text-overflow:ellipsis;font:11px/16px ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums;}
+
+/* Keep live status beside the start/stop button in a stable two-line slot. */
+#tab_rtty .rtty-toolbar{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:center;}
+#tab_rtty #rttyStatus{display:block;min-width:0;height:30px;min-height:30px;max-height:30px;margin:0;padding:0;box-sizing:border-box;font:11px/15px system-ui,sans-serif;white-space:normal;overflow:hidden;overflow-wrap:anywhere;}

@@ -3107,7 +3107,28 @@
           return base + path;
         }
 
-        async function loadAudioDevices() {
+        function requestMicrophone(constraints) {
+    if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === "function") {
+      return navigator.mediaDevices.getUserMedia(constraints);
+    }
+    const legacyGetUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    if (legacyGetUserMedia) {
+      return new Promise((resolve, reject) => legacyGetUserMedia.call(navigator, constraints, resolve, reject));
+    }
+    const secureHint = window.isSecureContext
+      ? " Try a current version of Safari, Chrome, or Firefox."
+      : " Open RigPi through its HTTPS address; browsers block microphones on ordinary HTTP pages.";
+    return Promise.reject(new Error("Microphone access is unavailable in this browser." + secureHint));
+  }
+
+  function enumerateAudioDevices() {
+    if (navigator.mediaDevices && typeof navigator.mediaDevices.enumerateDevices === "function") {
+      return navigator.mediaDevices.enumerateDevices();
+    }
+    return Promise.resolve([]);
+  }
+
+  async function loadAudioDevices() {
           try {
             const srcSel = document.getElementById("audioSource");
             const sinkSel = document.getElementById("audioSink");
@@ -3115,11 +3136,11 @@
 
             // Request mic permission to get device labels/IDs
             try {
-              const s = await navigator.mediaDevices.getUserMedia({audio: true});
+              const s = await requestMicrophone({audio: true});
               s.getTracks().forEach(t => t.stop());
             } catch(e) {}
 
-            const devices = await navigator.mediaDevices.enumerateDevices();
+            const devices = await enumerateAudioDevices();
 
             // Only rebuild if not already populated with real IDs
             const alreadyHasIds = Array.from(srcSel.options).some(
@@ -3649,7 +3670,7 @@
                   ? true
                   : { deviceId: { exact: srcSel.value } };
 
-              const txStream = await navigator.mediaDevices.getUserMedia({
+              const txStream = await requestMicrophone({
                 audio: audioConstraint
               });
             window._txStream = txStream; // prevent GC

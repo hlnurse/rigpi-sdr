@@ -57,13 +57,13 @@ try {
     if ($secret === '') throw new RuntimeException('HackRF transmit has not been provisioned.');
 
     $action = strtolower(trim((string)($request['action'] ?? 'status')));
-    $endpoint = $action === 'offer' ? 'offer' : 'control';
-    if (!in_array($action, ['offer', 'stop', 'heartbeat', 'status'], true)) {
-        throw new InvalidArgumentException('The HackRF transmit action is invalid.');
+    $endpoint = $action;
+    if (!in_array($action, ['offer', 'cw', 'cw_speed', 'stop', 'heartbeat', 'status'], true)) {
+        throw new InvalidArgumentException('The SDR transmit action is invalid.');
     }
     $payload = $request;
     $payload['maximum_seconds'] = $maximumSeconds;
-    if ($action !== 'offer') $payload = ['action' => $action];
+    if (!in_array($action, ['offer', 'cw', 'cw_speed'], true)) $payload = ['action' => $action];
     $json = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     $port = 8000 + $sdrNumber;
     $context = stream_context_create(['http' => [
@@ -75,7 +75,7 @@ try {
         'ignore_errors' => true,
     ]]);
     $raw = @file_get_contents("http://127.0.0.1:{$port}/api/hackrf_tx/{$endpoint}", false, $context);
-    if (!is_string($raw) || $raw === '') throw new RuntimeException('The HackRF transmit service did not respond.');
+    if (!is_string($raw) || $raw === '') throw new RuntimeException('The SDR transmit service did not respond.');
     $status = 500;
     foreach (($http_response_header ?? []) as $header) {
         if (preg_match('/^HTTP\/\S+\s+(\d+)/', $header, $match)) $status = (int)$match[1];

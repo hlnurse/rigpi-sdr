@@ -1,6392 +1,2304 @@
 <?php
-/*
- * RigPi Tuner
- * Copyright (c) 2025 Howard Nurse, W6HN
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
+// The master owns navigation and audio; Tuner remains a protected child page.
 session_start();
-$dRoot = "/var/www/html";
-require $dRoot . "/programs/GetMyRadioFunc.php";
-require_once $dRoot . "/programs/GetUserFieldFunc.php";
-require_once $dRoot . "/classes/Membership.php";
-$membership = new Membership();
-if (isset($_SESSION["myUsername"])) {
-    $tUserName = $_SESSION["myUsername"];
-    $tCall = $_SESSION["myCall"];
-    $membership->confirm_Member($tUserName);
-} else {
+if (!isset($_SESSION["myUsername"])) {
     header("Location: /login.php");
-    session_reset();
     exit();
 }
-$tMyPort = $_SESSION["myPort"];
-$tMyRadio = $_SESSION["myRadio"];
-if (!empty($_SESSION["firstuse"])) {
-    $firstUse = $_SESSION["firstUse"];
-} else {
-    $firstUse = 1;
+session_write_close();
+$shellTunerUrl = '/tuner.php' . (!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
+header('Cache-Control: no-store');
+if (($_SERVER['HTTP_SEC_FETCH_DEST'] ?? '') === 'iframe') {
+    header('Location: ' . $shellTunerUrl, true, 307);
+    exit();
 }
-// SDR settings for this user
-require_once $dRoot . "/classes/MysqliDb.php";
-require $dRoot . "/programs/sqldata.php";
-$sdrHostLAN = getUserField($tUserName, "SDRHost");
-$sdrHostRemote = getUserField($tUserName, "SDRHostRemote");
-$sdrPort = getUserField($tUserName, "SDRPort");
-// Detect LAN vs remote connection
-$clientIP =
-    $_SERVER["HTTP_CF_CONNECTING_IP"] ??
-    ($_SERVER["HTTP_X_FORWARDED_FOR"] ??
-        ($_SERVER["REMOTE_ADDR"] ?? "127.0.0.1"));
-console_log($clientIP);
-$clientIP = trim(explode(",", $clientIP)[0]); // take first IP if comma-separated
-//$clientIP = $_SERVER["REMOTE_ADDR"] ?? "127.0.0.1";
-$isLAN =
-    strpos($clientIP, "192.168.") === 0 ||
-    strpos($clientIP, "10.") === 0 ||
-    preg_match("/^172\.(1[6-9]|2[0-9]|3[01])\./", $clientIP) ||
-    $clientIP === "127.0.0.1";
-//$sdrHost = $isLAN || !$sdrHostRemote ? $sdrHostLAN : $sdrHostRemote;
-$sdrHost = $isLAN || !$sdrHostRemote ? $sdrHostLAN : $sdrHostRemote;
-// GUARD: an SDR URL must have BOTH a scheme and a /sdrN path.
-//   - schemeless ("rigpi5.local/sdr2") is read by the browser as a relative
-//     path, so the iframe loads index.php inside itself -> infinite headers
-//   - pathless ("http://rigpi5.local") falls through nginx's `location /` to
-//     index.php -> same recursion, different road
-// Blank it rather than render it. The iframe stays empty and the user sees
-// "no radio assigned" instead of the app eating itself.
-require_once $dRoot . "/programs/SdrInstanceFunc.php";
-if (!sdrHostValid($sdrHost)) {
-    error_log(
-        "[RigPi] Invalid SDRHost for $tUserName: " .
-            var_export($sdrHost, true) .
-            "\n",
-        3,
-        "/var/log/rigpi-access.log"
-    );
-    $sdrHost = "";
-}
-$sdrURL = $sdrHost;
-$sdrFrameHost = $sdrHost ? (parse_url($sdrHost, PHP_URL_PATH) ?: "") : "";
-console_log(
-    "IP: $clientIP isLAN: " . ($isLAN ? "yes" : "no") . " SDRHost: $sdrHost"
-);
-// $sdrPort =
-//     isset($_sdrRow["SDRPort"]) && $_sdrRow["SDRPort"]
-//         ? (int) $_sdrRow["SDRPort"]
-//         : 8001;
-// $sdrIP = $_SERVER["SERVER_ADDR"] ?? "localhost";
-//$sdrUrl = $sdrHost; //"http://{$sdrHost}:{$sdrPort}/?user={$tUserName}&radio={$tMyRadio}&call={$tCall}";
-
-function console_log($data)
-{
-    echo "<script>";
-    echo "console.log(" . json_encode($data) . ")";
-    echo "</script>";
-}
-//console_log("SDRHost: $sdrUrl");
-$theme = getUserField($tUserName, "Theme");
-$_SESSION["firstUse"] = 0;
-if ($theme == 0) {
-    $tThemePanel = "panelNUMOrange1000.json";
-    $tThemeMeter = "smeterOrange.json";
-} elseif ($theme == 1) {
-    $tThemePanel = "panelNUMOrange1000.json";
-    $tThemeMeter = "smeterNight.json";
-} elseif ($theme == 2) {
-    $tThemePanel = "panelNUMOrange1000.json";
-    $tThemeMeter = "smeterLCD.json";
-} elseif ($theme == 3) {
-    $tThemePanel = "panelNUMOrange1000.json";
-    $tThemeMeter = "smeterHigh.json";
-} elseif ($theme == 4) {
-    $tThemePanel = "panelNUMOrange1000.json";
-    $tThemeMeter = "smeterLCD.json";
-}
-require_once $dRoot . "/classes/MysqliDb.php";
-require $dRoot . "/programs/sqldata.php";
-$db = new MysqliDb(
-    "127.0.0.1",
-    $sql_radio_username,
-    $sql_radio_password,
-    $sql_radio_database
-);
-$db->where("Username", $tUserName);
-$row = $db->getOne("Users");
-$level = "11";
-if ($row) {
-    $level = $row["Access_Level"];
-    $tUDPPort = $row["WSJTXPort"];
-    $sdrPosition = $row["SDRPosition"];
-    $sdrPage = $row["SDRPage"];
-    console_log("Where: " . $sdrPage . " " . $sdrPosition);
-}
-$db->where("IsAlive", "1");
-$rows = $db->get("RadioInterface");
-$online = $db->count;
 ?>
+<!DOCTYPE html>
+<html lang="en" class="shell-starting">
+<head>
+<script>
+// Compatibility for old redirects in browsers without Fetch Metadata headers.
+if (window !== window.top) {
+    window.location.replace(<?php echo json_encode($shellTunerUrl, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>);
+}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RigPi</title>
 
-	<!--This is the Tuner HTML window -->
-
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="utf-8">
-			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-			<title><?php echo $tCall; ?> RigPi Tuner <?php echo " for " .
-     $tUserName; ?></title>
-			<meta name="description" content="RigPi Tuner">
-			<meta name="author" content="Howard Nurse, W6HN">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-			<script src="/Bootstrap/jquery.min.js" ></script>
-			<link rel="stylesheet" href="/Bootstrap/bootstrap.min.css">
-			<style>
-				.btn-info.btn-mode-sel {
-					background-color: rgb(185, 207, 210) !important;
-					border-color: rgb(185, 207, 210) !important;
-					color: #212529 !important;
-				}
-			</style>
-			<link rel="shortcut icon" href="/favicon.ico">
-			<link rel="apple-touch-icon" href="/favicon.ico">
-			<link rel="stylesheet" href="/css/elmer_control.css?v=20260903-1">
-			<?php require $dRoot . "/includes/styles.php"; ?>
-			<?php if (
-       $sdrPosition !== "none" &&
-       ($sdrPage === "tuner" || $sdrPage === "both")
-   ): ?>
-			<style>
-				body.body-black-scroll { overflow-y: auto !important; overflow-x: hidden !important; padding-bottom: 40px !important; }
-				body.body-black-scroll.modal-open { overflow-x: visible !important; }
-				body.modal-open #sdrPanel { display: block !important; visibility: visible !important; opacity: 1 !important; }
-				body.modal-open #sdrIframe { display: block !important; visibility: visible !important; opacity: 1 !important; }
-			</style>
-			<?php endif; ?>
-			<link href="/awe/css/all.css" rel="stylesheet">
-			<link href="/awe/css/fontawesome.css" rel="stylesheet">
-			<link href="/awe/css/solid.css" rel="stylesheet">
-			<link rel="stylesheet" href="/Bootstrap/jquery-ui.css">
-			<script src="/Bootstrap/popper.min.js"></script>
-
-			<script src="/Bootstrap/bootstrap.min.js"></script>
 <style>
-				html, body { height: 100%; margin: 0; }
-				body { display: flex; flex-direction: column; }
-				main { flex: 1; position: relative; }
-				iframe { width: 100%; height: 600px; border: 0; display: block; }
-				.fallback {
-				  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-				  background: rgba(255,255,255,0.95); text-align: center; padding: 1rem; flex-direction: column;
-				  font-size: 1rem;
-				}
-				.hidden { display: none; }
-			  </style>
 
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<script type="text/javascript">
-		var sdrMiddle=<?php echo $sdrPosition === "middle" &&
-  ($sdrPage === "tuner" || $sdrPage === "both")
-      ? "true"
-      : "false"; ?>;
-			var resetTimer, spaceUp, oldState;
-			var tRotateButton;
-			var tRotateButtonCommand;
-			var tRotateButtonLabel;
-			var tRotateButtonAngle;
-			var pknob;
-
-			function dec_to_bho(n, base) {
-					if (n < 0) {
-							n = 0xFFFFFFFF + n + 1;
-					}
-					switch (base) {
-							case 'B':
-									return parseInt(n, 10).toString(2);
-							case 'H':
-									return parseInt(n, 10).toString(16);
-							case 'O':
-									return parseInt(n, 10).toString(8);
-							default:
-									return "Wrong input.........";
-					}
-			}
-
-			var ppanel;
-			var ppanel;
-			var pmeter;
-			var lowerText;
-			var pled;
-			var swiper;
-			var knobOld, tBandsAvail;
-			var plus;
-			var ptt;
-			var catTuneTimer=0;
-			var keypad;
-			var tBusy;
-			var spacePTT=0;
-		var spacePTTKeyDown=false;
-		var tMyPTTCAT=0;
-			var tPTT=0, tPTTIsOn=0;
-			var fastCatPTTIsOn=0;
-			var tKnobPTT=0;
-			var tSwipeOld=0;
-			var xmit=false;
-			var trXmit=true;
-			var tuningIncrement=100;
-			var windowLoaded=false;
-			var tUpdate;
-			var mp1, tdx="";
-			var mp100;
-			var waitRefresh=0;
-			var tMyRadio='1';
-			var tMyRadio='1';
-			var tCWPort="/dev/ttyS0";
-			var tMyRotorPort="";
-			var tCurBeam=0;
-			let tUserName="<?php echo $tUserName; ?>";
-					var tIsGuest=<?php echo isset($_SESSION["isGuest"]) &&
-     $_SESSION["isGuest"] == "1"
-         ? "true"
-         : "false"; ?>;
-			var tAccessLevel="<?php echo $level; ?>";
-			var tFirstUse="<?php echo $firstUse; ?>";
-			var tMyCall="<?php echo $tCall; ?>";
-			var tOnline="<?php echo $online; ?>";
-			var tUser='';
-			var tSplitOn=0;
-			var tTuneFromTap=0;
-			var classTimer;
-			var trOn=0; //T/R macro
-			var tLine1="";
-			var tLine2="";
-			var stLine1="";
-			var stLine2="";
-			var curDigit=0;
-			var curSubDigit=0;
-			var tMyKeyer='';
-			var tMain=0;
-			var tSub=0;
-			var tMode='FM';
-			var tModeOld='xyz';
-			var tNoRadio=true;
-			var tOverPanel=false;
-			var tMouseDelta=0;
-			var tIgnoreRepeating=false;
-			var tMyPTT=1;
-			var tAliveCount=0;
-			var tMeterCal=1;
-			var ld='ld2';
-			var lu=2;
-			var slider1='';
-			var band1='';
-			var band2='';
-			var alreadyDone=0;
-			var tRadioMem="";
-			var tInternet=1;
-			var tNoReboot=0;
-			var speedPot=0, speedPotEnable=0;
-			var tSplitDisabled=0;
-			var notGotPerfectWidgets=0;
-			var tMyKeyerFunction="0";
-			var tMyKeyerPort="0";
-			var tMyKeyerIP="0";
-			var ptt;
-			var ptt1;
-			var lock;
-			var lockOn, tTuneOn=0;
-			var crx;
-			var tTrx=0;
-			var lastSpaceTimer=0;
-			var tRadioName="";
-			var tRadioModel="";
-			var tRadioPort='0.0.0.0:4532';
-			var si;
-			var tDisconnected=0;
-			var tMyCWPort;
-			var tButtonWait=0;
-			var tMyRotorRadio; //ve9gj
-			var led1,led2,led3,led4,led5,led6,led7,led8;
-			var mBank=1;
-			var mBankUserSelected=false; // true once user manually selects a bank
-			var showVideo=2;
-			var jsonPanel='';
-			var jsonSMeter='';
-			var wanIP, tPC, tID;
-			var tAz=0;
-			var tBand=20;
-			var tBandOld='22';
-			var tBandMHz="14MHz";
-			var tBandWidth=3000;
-			var tKnobLock=0, tUDPPort=2333;
-			var doUSBUpdate=1; //used to update label on first pass
-			var mtrLabel="S-Meter", AFGainOld=0, USBAFGain, USBAFGain1, USBAFGainOld=0;
-			var checkPTT=0;  //used to prevent repetitive PTT commands
-			var outputAF, sliderAF, outputPwrOut, sliderPwrOut, sliderMic, outputMic, outputRF, sliderRF, tVal;
-			var sliderAFGainOride, sliderRFGainOride, sliderPwrOutOride, sliderMicLvlOride;
-			var sliderAFRef, sliderRFRef, sliderPwrOutRef, sliderMicRef, sliderHandle;
-			var latchBtn1=[],latchBtn2=[],latchBtn3=[],latchBtn4=[],latchBtn=[], bntLatchColor;
-			var bEnable=[],bModeEnable=[],aMacros=[], bk, tMainSelect, tSpeed, tSpeedOriginal, tAData, speedLock=0;
-			var tNum=0,tPre,tPost, lt1, transRadioID, transRadioName;
-			var supportsUSB_AF=0, tMyTCPPort=0;
-			var startConnection=0, startCounter=0, tMyIP="", tM1;
-			let modeList;
-			var fftFOut, fftFOutCk, fftFIn, fftFInCk;
-			var fftPane = 1;
-			var alertActive = true;
-
-
-			$(document).ready(function()
-			{
-						// Track state so the alert modal doesn't spam repeatedly
-
-				function checkRemoteRig() {
-					let statusText="";
-					if (tDisconnected==1){
-						return;
-					}
-					fetch('/programs/check_rig.php')
-						.then(response => response.text())
-						.then(text => text.trim() ? JSON.parse(text) : null)
-						.then(data => {
-							if (!data) return;
-
-							if (data.status === 'timeout' || data.status === 'offline') {
-								// Trigger the browser popup modal only if it hasn't popped up yet
-								if (!alertActive  && data.status === 'offline') {
-									alertActive = true;
-									tDisconnected = 2;
-									var text="⚠️ RIGCTLD ERROR<br><br>RigPi radio control is offline. Is your radio turned on?<p><p>"
-									  $(".modalA-body").html(text);
-									$(".modalA-title").html("Radio Connection Error");
-									tDisconnected=1;
-									var pl=$('#play');
-									  pl.addClass('d-none');
-									  var pl=$('#playOK');
-									  pl.removeClass('d-none');
-									  var el=$('#spinner');
-									  el.addClass('d-none');
-
-									  $("#myModalAlert").modal('show');
-									  setTimeout(function(){
-
-										  $("#myModalAlert").modal('hide');
-									 },
-									  4000);
-
-								}else if (!alertActive  && data.status === 'timeout' ){
-									alertActive = true;
-									tDisconnected=1;
-									var pl=$('#play');
-									  pl.removeClass('d-none');
-									  pl=$('#playOK');
-									  pl.addClass('d-none');
-									  var el=$('#spinner');
-									  el.addClass('d-none');
-
-									var text = "⚠️ RIGCTLD ERROR\n\n" + data.message + "<p><p>Please check if your radio is turned on. \n\nIf you used Connect Radio, consider setting Pwr Ctrl in Advanced Settings to Auto Power On";
-									tDisconnected=2;
-									  $(".modalA-body").html(text);
-									$(".modalA-title").html("Radio Connection Error");
-									  $("#myModalAlert").modal('show');
-									  setTimeout(function(){
-
-										  $("#myModalAlert").modal('hide');
-									 },
-									  8000);
-
-
-								}
-							} else {
-								alertActive = false;
-							}
-						})
-						.catch(error => {
-							console.error('Error:', error);
-						});
-				}
-
-				// Run immediately on page load
-
-				// Check the remote rig status every 5 seconds
-				setInterval(checkRemoteRig, 5000);
-
-			(function () {
-			  let targetIP = '192.168.1.15'; // Optionally set a default IP here
-/*			  function getIPFromQuery() {
-				const params = new URLSearchParams(window.location.search);
-				return params.get('ip') || '';
-			  }
-*/			  function normalizeHost(raw) {
-				if (!raw) return '';
-				raw = raw.replace(/^\s*https?:\/\//i, '');
-				raw = raw.replace(/\/.*$/, '');
-				raw = raw.replace(/:\d+$/, '');
-				return raw;
-			  }
-
-			  const ipInput = document.getElementById('ipInput');
-			  const loadBtn = document.getElementById('loadBtn');
-			  const frame = document.getElementById('nrspFrame');
-			  const fallback = document.getElementById('fallback');
-			  const openLink = document.getElementById('openLink');
-/*
-			  if (!targetIP) {
-				targetIP = getIPFromQuery();
-			  }
-			  if (targetIP) ipInput.value = normalizeHost(targetIP);
-*/
-			  function buildUrl(host) {
-				if (!host) return '';
-				return 'http://' + host + ':9001/';
-			  }
-
-			  function loadIntoSlot(host) {
-				if (!frame) return;
-				fallback.classList.add('hidden');
-				const url = buildUrl(host);
-				if (!url) return;
-				frame.src = url;
-				openLink.href = url;
-
-				let showedFallback = false;
-				const failTimeout = setTimeout(() => {
-				  try {
-					const w = frame.contentWindow;
-					if (!w || frame.clientHeight === 0) {
-					  fallback.classList.remove('hidden');
-					  showedFallback = true;
-					}
-				  } catch (e) {
-					fallback.classList.remove('hidden');
-					showedFallback = true;
-				  }
-				}, 1400);
-
-				frame.onload = function () {
-				  clearTimeout(failTimeout);
-				  if (!showedFallback) {
-					fallback.classList.add('hidden');
-				  } else {
-					fallback.classList.remove('hidden');
-				  }
-				};
-			  }
-			  const raw = '192.168.1.37';
-			  const host = normalizeHost(raw);
-
-				loadIntoSlot(host);
-
-/*			  loadBtn.addEventListener('click', () => {
-				const raw = ipInput.value.trim();
-				const host = normalizeHost(raw);
-				if (!host) {
-				  alert('Please enter an IP or hostname.');
-				  return;
-				}
-			  });
-
-			  if (ipInput.value) loadIntoSlot(ipInput.value);
-*/			})();
-
-		function updateButtons(){
-	var bName="";
-	for (i=0;i<15;i++){
-		switch (i){
-			case 0:
-				bName="#160Button";
-				break;
-			case 1:
-				bName="#80Button";
-				break;
-			case 2:
-				bName="#60Button";
-				break;
-			case 3:
-				bName="#40Button";
-				break;
-			case 4:
-				bName="#30Button";
-				break;
-			case 5:
-				bName="#20Button";
-				break;
-			case 6:
-				bName="#17Button";
-				break;
-			case 7:
-				bName="#15Button";
-				break;
-			case 8:
-				bName="#12Button";
-				break;
-			case 9:
-				bName="#10Button";
-				break;
-			case 10:
-				bName="#6Button";
-				break;
-			case 11:
-				bName="#2Button";
-				break;
-			case 12:
-				bName="#125Button";
-				break;
-			case 13:
-				bName="#70Button";
-				break;
-			case 14:
-				bName="#23Button";
-				break;
-		};
-		if (bEnable[i]=="0") {
-			$(bName).removeClass("btn-success");
-			$(bName).addClass("btn-secondary");
-		}else{
-			$(bName).removeClass("btn-secondary");
-			$(bName).removeClass("btn-mode-sel");
-		};
-	};
-
-};
-				function updateModeSelection(){
-					var bName="";
-					for (i=0;i<9;i++){
-						switch (i){
-							case 0:
-								bName="#lsbButton";
-								break;
-							case 1:
-								bName="#usbButton";
-								break;
-							case 2:
-								bName="#usbdButton";
-								break;
-							case 3:
-								bName="#cwButton";
-								break;
-							case 4:
-								bName="#cwrButton";
-								break;
-							case 5:
-								bName="#rttyButton";
-								break;
-							case 6:
-								bName="#fmButton";
-								break;
-							case 7:
-								bName="#amButton";
-								break;
-							case 8:
-								bName="#rttyrButton";
-								break;
-						};
-						var tB2=bName.substring(1);
-//						console.log("bName: " + bName + " " + tB2);
-						var tB=document.getElementById(tB2);
-						if (tB.classList.contains("btn-mode-sel")){
-							$(bName).removeClass("btn-mode-sel");
-						}
-					};
-					waitRefresh=4;
-				};
-	function setTopBand(tText){
-	if (notGotPerfectWidgets==1){
-		return;
-	}
-	band2.setText(tText);
-	band2.setNeedRepaint(true);
-	band2.refreshElement();
-//	waitRefresh=4;
+#rigpiShellLoading {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    color: #e3f2fd;
+    background: #444;
+    font: 400 18px/1.4 -apple-system, system-ui, "Segoe UI", sans-serif;
+}
+.shell-starting #rigpiShellLoading { display: grid; }
+#rigpiShellProgress {
+    width: min(280px, 70vw);
+    height: 10px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #292929;
+    border: 1px solid #707070;
+}
+#rigpiShellProgressFill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #70bfff;
+    transition: width 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+    #rigpiShellProgressFill { transition: none; }
 }
 
-function setMiddleBand(tText){
-	if (notGotPerfectWidgets==1){
-		return;
-	}
-	band1.setText(tText);
-	band1.setNeedRepaint(true);
-	band1.refreshElement();
+html, body { background-color: #444; }
+.shell-starting #rigpiContent, .shell-starting #rigpiShellNav { visibility: hidden; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-		function doBandUp(){
-	switch (tBand){
-	case "160":
-		getBandMemory("80");
-		break;
-	case "80":
-		getBandMemory("60");
-		break;
-	case "60":
-		getBandMemory("40");
-		break;
-	case "40":
-		getBandMemory("30");
-		break;
-	case "30":
-		getBandMemory("20");
-		break;
-	case "20":
-		getBandMemory("17");
-		break;
-	case "17":
-		getBandMemory("15");
-		break;
-	case "15":
-		getBandMemory("12");
-		break;
-	case "12":
-		getBandMemory("10");
-		break;
-	case "10":
-		getBandMemory("6");
-		break;
-	case "6":
-		if (tBandsAvail==11){
-			getBandMemory("160");  //does radio do 2?
-		}else{
-			getBandMemory("2");  //does radio do 2?
-		};
-		break;
-	case "2":
-		getBandMemory("160");
-		break;
-	}
-}
-function doBandDown(){
-	switch (tBand){
-	case "160":
-		if (tBandsAvail==11){
-			getBandMemory("6");  //does radio do 2?
-		}else{
-			getBandMemory("2");  //does radio do 2?
-		};
-		break;
-	case "80":
-		getBandMemory("160");
-		break;
-	case "60":
-		getBandMemory("80");
-		break;
-	case "40":
-		getBandMemory("60");
-		break;
-	case "30":
-		getBandMemory("40");
-		break;
-	case "20":
-		getBandMemory("30");
-		break;
-	case "17":
-		getBandMemory("20");
-		break;
-	case "15":
-		getBandMemory("17");
-		break;
-	case "12":
-		getBandMemory("15");
-		break;
-	case "10":
-		getBandMemory("12");
-		break;
-	case "6":
-		getBandMemory("10");
-		break;
-	case "2":
-		getBandMemory("6");
-		break;
-	}
-}
-function updateFFTPosition(){
-	var cp=$('#dPanel');
-	var ck=$('#dKnob');
-	var dm=$('#dMeter');
-	var mc=$('#mcall');
-	var tv=$('#topVFO');
-	var m1=$('#myBank1');
-	var m2=$('#myBank2');
-	var m3=$('#myBank3');
-	var m4=$('#myBank4');
-	var fft1=$('#sdr1');
-	var fft2=$('#sdr2');
-	var fft3=$('#sdr3');
-	fftPane=1;
-	if (fftPane==1){
-		fft1.removeClass('d-none');
-		// if (m1.hasClass('d-none')){
-		 m1.removeClass('d-none');
-		 m2.removeClass('d-none');
-		 m3.removeClass('d-none');
-		 m4.removeClass('d-none');
-		// }
-		// if (fft1.hasClass('d-none')){
-//	 	fft1.addClass('d-none');
-		// }
-		// if (cp.hasClass('d-none')){
-		 cp.removeClass('d-none');
-		// }
-		// if (ck.hasClass('d-none')){
-		 ck.removeClass('d-none');
-		// }
-		// if (dm.hasClass('d-none')){
-		 dm.removeClass('d-none');
-		// }
-		// if (mc.hasClass('d-none')){
-		 mc.removeClass('d-none');
-		// }
-		// if (tv.hasClass('d-none')){
-		 tv.removeClass('d-none');
-		// }
-	}else if (fftPane==2) {
-		if (fft2.hasClass('d-none')){
-			fft1.addClass('d-none')
-			fft2.removeClass('d-none');
-		}
-		m1.addClass('d-none');
-		m2.addClass('d-none');
-		m3.addClass('d-none');
-		m4.addClass('d-none');
-
-//		if (!(cp.hasClass('d-none'))){
-			 cp.addClass('d-none');
-//		}
-//		if (ck.hasClass('d-none')){
-			ck.addClass('d-none');
-//		}
-//		if (dm.hasClass('d-none')){
-			dm.addClass('d-none');
-//		}
-//		if (mc.hasClass('d-none')){
-			mc.addClass('d-none');
-//		}
-//		if (tv.hasClass('d-none')){
-			tv.addClass('d-none');
-//		}
-	} else if (fftPane==3){
-		fft3.removeClass('d-none');
-		m1.removeClass('d-none');
-		 m2.removeClass('d-none');
-		 m3.removeClass('d-none');
-		 m4.removeClass('d-none');
-
-			// if (m1.hasClass('d-none')){
-			// }
-			// if (fft1.hasClass('d-none')){
-	//	 	fft1.addClass('d-none');
-			// }
-			// if (cp.hasClass('d-none')){
-			 cp.removeClass('d-none');
-			// }
-			// if (ck.hasClass('d-none')){
-			 ck.removeClass('d-none');
-			// }
-			// if (dm.hasClass('d-none')){
-			 dm.removeClass('d-none');
-			// }
-			// if (mc.hasClass('d-none')){
-			 mc.removeClass('d-none');
-			// }
-			// if (tv.hasClass('d-none')){
-			 tv.removeClass('d-none');
-
-	}
-
-
-}
-updateFFTPosition();
-function getBandMemory(nBand)
-{
-	waitRefresh=6;
-		var pl=$('#play');
-		if (pl.hasClass('d-none')){
-			if (tDisconnected==1){
-				showConnectAlert();
-				return;
-			}
-		if (nBand==23 || nBand==70 ){
-			setTopBand(nBand+"cm");
-		}else{
-			setTopBand(nBand+"m");
-		}
-		var qBand=nBand+'L';
-		var tF='0';
-		tM1=tModeOld.toLowerCase();
-		if (tMain.indexOf('UNK')==-1  &&
-			tMain.indexOf('0000000000')==-1  &&
-			tSub.indexOf('UNK')==-1 &&
-			tM1.indexOf('UNK')==-1)
-			{
-			 $.post("/programs/SetFrequencyMem.php", {radio: tMyRadio, main: tMain, sub: tSub, mode: tM1, bw: -1}, function(response){
-
-				$.post('/programs/GetFrequencyMem.php',{radio: tMyRadio, band: qBand}, function(response)
-				{
-					var obj = JSON.parse(response);
-					var tF=obj[0];
-					var tM=obj[1];
-					var tB=obj[2];
-					var tM2=tM.toLowerCase();
-					tBa=GetBandFromFrequency(tMain);
-					tBa1=GetBandFromFrequency(tF);
-					updateModeSelection();
-					updateButtons();
-					$('#' + tBa1+ 'Button').addClass('btn-mode-sel');
-					$('#' + tM2 + 'Button').addClass('btn-mode-sel');
-
-					$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: tF, table: "RadioInterface"}, function(response){
-						var t =response;
-						$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: tF, table: "RadioInterface"}, function(response){
-							t = response;
-							$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: tM2.toUpperCase(), table: "RadioInterface"}, function(response){
-								t = response;
-								$.post("/programs/SetSettings.php", {field: "BWOut", radio: tMyRadio, data: tB, table: "RadioInterface"}, function(response){
-									t = response;
-								});
-							});
-						});
-					});
-				});
-			 });
-		 };
-	 }
-}
-				btnLatchColor="btn-warning";
-				outputAF = document.getElementById("myAFVal");
-				sliderAF = document.getElementById("sliderAF");
-				outputRF = document.getElementById("myRFVal");
-				sliderRF = document.getElementById("sliderRF");
-				outputPwrOut = document.getElementById("myOutputPwrVal");
-				sliderPwrOut = document.getElementById("sliderPwrOut");
-				sliderHandle="";
-				outputMic = document.getElementById("myMicVal");
-				sliderMic = document.getElementById("sliderMic");
-				if (tAccessLevel==1 && tFirstUse>0){
-						$.post('/programs/testInternet.php',function(response){
-							if (response !=0){
-								tInternet=0;
-								tNoReboot=1;
-								$(".modalA-title").html("No Internet");
-								$("#modalA-body").html("<br>RSS does not find an Internet connection. <p><p>"+
-									"Certain functions such as Spots, QRZ Call Lookup, Version updating, and "+
-									"Maps will not function without a connection. (Try refreshing the Tuner page.)<p>");
-								  $("#myModalAlert").modal('show');
-							}else{
-						};
-					});
-				}
-
-					$(document).on('click', '#searchButton', function()
-					{
-								  var dx = $("#searchText").val().toUpperCase();
-								  if (dx.length == 0 || ~dx.indexOf("*") || ~dx.indexOf("=")) {
-									return;
-								  }
-					//			  tUserName='admin';
-					//			  tMyRadio=1;
-								  $.post(
-									"/programs/GetUserField.php",
-									{ un: tUserName, field: "uID" },
-									function (response) {
-									  tUser = response;
-									  $.post("/programs/SetSettings.php", {
-										field: "waitReset",
-										radio: tMyRadio,
-										data: 1,
-										table: "RadioInterface",
-									  });
-
-									  $.post(
-										"./programs/GetCallbook.php",
-										{ call: dx, what: "QRZData", user: tUser, un: tUserName },
-										function (response) {
-										  $(".modal-body").html(response);
-										  $.post(
-											"./programs/GetCallbook.php",
-											{ call: dx, what: "QRZpix", user: tUser, un: tUserName },
-											function (response) {
-											  var aPix = response.split("|");
-											  var h = aPix[1];
-											  var w = aPix[2];
-											  if (h > 0) {
-												if (aPix[3] === "flag") {
-													$(".modal-pix").attr("height", h + "px");
-													$(".modal-pix").attr("width", w + "px");
-													$(".modal-pix").addClass("flag-pix").css({"width":"auto","max-width":"150px","margin":"10px auto","display":"block"});
-												} else {
-													var wP = aPix[2] / 400;
-													var tW = w / wP;
-													var tH = h / wP;
-													$(".modal-pix").attr("height", tH + "px");
-													$(".modal-pix").attr("width", tW + "px");
-													$(".modal-pix").css({"display":"","margin":""});
-												}
-												$(".modal-pix").attr("src", aPix[0]);
-											  } else {
-												$(".modal-pix").attr("width", "0px");
-												$(".modal-pix").attr("src", "about:blank");
-											  }
-											  $(".modal-title").html(dx);
-											  $("#myModal").modal({ show: true });
-											}
-										  );
-										}
-									  );
-									  $.post("./programs/SetSettings.php", {
-										field: "DX",
-										radio: tMyRadio,
-										data: dx,
-										table: "MySettings",
-									  });
-									}
-								  );
-								});
-
-				function updateBank(which){
-					if ($(window).width()<435){
-						$('#myBank1x').text("BANK 1");
-						$('#myBank2x').text("BANK 2");
-						$('#myBank3x').text("BANK 3");
-						$('#myBank4x').text("BANK 4");
-					}
-					// Deselect all bank buttons first
-					$('#myBank1x,#myBank2x,#myBank3x,#myBank4x').removeClass('btn-info btn-warning').addClass('btn-color');
-					mBank=which;
-					loadMacroBank(mBank);
-					// Highlight selected bank button
-					$('#myBank'+mBank+'x').removeClass('btn-color').addClass('btn-info');
-					$.post("/programs/SetSettings.php", {field: "MacroBankTuner", radio: tMyRadio, data: mBank, table: "RadioInterface"});
-					};
-
-				  $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-					if (!$(this).next().hasClass('show')) {
-					$(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-					}
-					var $subMenu = $(this).next(".dropdown-menu");
-					$subMenu.toggleClass('show');
-
-
-					$(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-					$('.dropdown-submenu .show').removeClass("show");
-					});
-					return false;
-				});
-
-
-			$.post('/programs/GetSelectedRadio.php', {un:tUserName}, function(response)
-			{
-				$.get('/programs/GetMyRadio.php', 'f=Port&r='+response, function(response1) {
-					tMyRadio=response;
-					tMyTCPPort=30000 + parseInt(tMyRadio);
-					$.post("/programs/SetSettings.php", {field: "waitReset", radio: tMyRadio, data: 0, table: "RadioInterface"});
-
-					  tRadioPort=response1;
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MacroBankTuner', table: 'RadioInterface'}, function(response){
-							mBank=response
-							$('#myBank').text("Macro Bank: "+response);
-							loadMacroBank(mBank);
-							$('#myBank1x,#myBank2x,#myBank3x,#myBank4x').removeClass('btn-info btn-warning').addClass('btn-color');
-							if (!mBankUserSelected) updateBank(mBank);
-					})
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'USBAFGain', table: 'RadioInterface'}, function(response){
-					USBAFGain=response;
-					if (response>0){
-						USBAFGainOld=response;
-						var tM = USBAFGainOld;
-						$.post("/programs/SetSettings.php", {field: "USBAFGainOld", radio: tMyRadio, data: tM, table: "RadioInterface"}, function(response){	});
-						doUSBUpdate=1;
-					};
-				});
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeed', table: 'Keyer'}, function(response){
-					  tSpeed=response;
-				  });
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeed', table: 'Keyer'}, function(response){
-						tSpeedOriginal=response;
-						updateButtonLabels('/OLD', tSpeedOriginal);
-					});
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LatchBtn1', table: 'RadioInterface'}, function(response){
-					if (response==""){
-						response="?,".repeat(32);
-						$.post("/programs/SetSettings.php", {field: 'LatchBtn1', radio: tMyRadio, data: response, table: "RadioInterface"}, function(response){
-						});
-					}
-					latchBtn1=response.split(",");
-				});
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LatchBtn2', table: 'RadioInterface'}, function(response){
-					if (response==""){
-						response="?,".repeat(32);
-						$.post("/programs/SetSettings.php", {field: 'LatchBtn2', radio: tMyRadio, data: response, table: "RadioInterface"}, function(response){
-						});
-					}
-					latchBtn2=response.split(",");
-				});
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LatchBtn3', table: 'RadioInterface'}, function(response){
-					if (response==""){
-						response="?,".repeat(32);
-						$.post("/programs/SetSettings.php", {field: 'LatchBtn3', radio: tMyRadio, data: response, table: "RadioInterface"}, function(response){
-						});
-
-					}
-					latchBtn3=response.split(",");
-				});
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: "LatchBtn4", table: "RadioInterface"}, function(response){
-					if (response==""){
-						response="?,".repeat(32);
-						$.post("/programs/SetSettings.php", {field: 'LatchBtn4', radio: tMyRadio, data: response, table: "RadioInterface"}, function(response){
-						});
-
-					}
-					latchBtn4=response.split(",");
-				});
-
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'AFGainOride', table: 'RadioInterface'}, function(response){
-					sliderAFGainOride=response;
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'AFGain', table: 'RadioInterface'}, function(response){
-						$( function() {
-							$("#sliderAF").slider({
-								min: 1,
-								max: sliderAFGainOride,
-								range: 'min'
-							});
-							outputAF.innerHTML = response;
-							updateButtonLabels('RADIO AF MUTE', response-1);
-							$("#sliderAF").slider('value',response);
-					});
-
-					$("#sliderAF").on("slidechange",function(event){
-						tOverPanel=false;
-						var a = $("#sliderAF").slider('value');
-						tVal=a;
-						if (tVal!=sliderAFRef){
-							sliderAFRef=tVal;
-							waitRefresh=8;
-							var tV=tVal;
-							if (tV>0 && tV<100) tV=tV-1;
-							outputAF.innerHTML =tV;
-							updateButtonLabels('RADIO AF MUTE', tV);
-							$.post("/programs/SetSettings.php", {field: "AFGain", radio: tMyRadio, data: tVal, table: "RadioInterface"}, function(response){
-							});
-						};
-						});
-				});
-
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'RFGainOride', table: 'RadioInterface'}, function(response){
-					sliderRFGainOride=response;
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'RFGain', table: 'RadioInterface'}, function(response){
-						$( function() {
-							$("#sliderRF").slider({
-								min: 1,
-								max: sliderRFGainOride,
-								range: 'min'
-						});
-						outputRF.innerHTML = response;
-						$("#sliderRF").slider('value',response);
-						});
-					});
-
-					$("#sliderRF").on("slidechange",function(event){
-						tVal=$("#sliderRF").slider('value');
-						if (tVal<0) tVal=0;
-						if (tVal!=sliderRFRef){
-							waitRefresh=8;
-							sliderRFRef=tVal;
-							var tV=tVal;
-							if (tV>0 && tV<100) tV=tV-1;
-							outputRF.innerHTML =tV;
-							$.post("/programs/SetSettings.php", {field: "RFGain", radio: tMyRadio, data: tVal, table: "RadioInterface"}, function(response){
-							});
-						};
-					});
-				});
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'PwrOutOride', table: 'RadioInterface'}, function(response){
-					sliderPwrOutOride=response;
-
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'PwrOut', table: 'RadioInterface'}, function(response){
-						$( function() {
-							$("#sliderPwrOut").slider({
-								min: 1,
-								max: sliderPwrOutOride,
-								range: 'min'
-							});
-							outputPwrOut.innerHTML = response;
-							$("#sliderPwrOut").slider('value',response);
-						});
-					});
-
-					$("#sliderPwrOut").on("slidechange",function(event,ui){
-						tVal=$("#sliderPwrOut").slider('value');
-						if (tVal<0) tVal=0;
-						if (tVal!=sliderPwrOutRef){
-							waitRefresh=8;
-							sliderPwrOutRef=tVal;
-							sliderHandle=ui.handle;
-							var tV=tVal;
-							if (tV>0 && tV<100) tV=tV-1;
-							outputPwrOut.innerHTML =tV;
-							$.post("/programs/SetSettings.php", {field: "PwrOut", radio: tMyRadio, data: tVal, table: "RadioInterface"}, function(response){
-							});
-						};
-					});
-				});
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MicLvlOride', table: 'RadioInterface'}, function(response){
-					sliderMicLvlOride=response;
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MicLvl', table: 'RadioInterface'}, function(response){
-						$( function() {
-							$("#sliderMic").slider({
-								min: 1,
-								max: sliderMicLvlOride,
-								range: 'min'
-							});
-							outputMic.innerHTML = response;
-							$("#sliderMic").slider('value',response);
-						});
-					});
-
-					$("#sliderMic").on("slidechange",function(event,ui){
-						tVal=$("#sliderMic").slider('value');
-						if (tVal<0) tVal=0;
-						if (tVal!=sliderMicRef){
-							sliderMicRef=tVal;
-							waitRefresh=8;
-							sliderHandle=ui.handle;
-							var tV=tVal;
-							if (tV>0 && tV<100) tV=tV-1;
-							if (tV<0) tV=0;
-							outputMic.innerHTML =tV;
-							$.post("/programs/SetSettings.php", {field: "MicLvl", radio: tMyRadio, data: tVal, table: "RadioInterface"}, function(response){
-							});
-						};
-					});
-				});
-			});
-			$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'PowerControl', table: 'MySettings'}, function(response){
-				tPC=response;
-			});
-			var mtrCalField="";
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'TransmitLevel', table: 'MySettings'}, function(response){
-					if(response=="l RFPOWER_METER")
-					{
-						mtrLabel='Output Power Meter';
-						mtrCalField="PowerMeterCal";
-					}else if (response=="l SWR")
-					{
-						mtrLabel='SWR';
-						mtrCalField="SWRCal";
-					}else if (response=="l RFPOWER")
-					{
-						mtrLabel='RF Power Default';
-						mtrCalField="PowerDefaultCal";
-					}else if (response=="l MICGAIN")
-					{
-						mtrLabel="Mic Gain";
-						mtrCalField="MicGainCal";
-					}else if (response=="l ALC")
-					{
-						mtrLabel="ALC";
-						mtrCalField="ALCCal";
-					}else if (response=="l VD_METER")
-					{
-						mtrLabel="Voltage";
-						mtrCalField="VoltageCal";
-					}else if (response=="l ID_METER")
-					{
-						mtrLabel="Current";
-						mtrCalField="CurrentCal";
-					}else if (response=="l METER")
-					{
-						mtrLabel="Meter";
-						mtrCalField="MeterCal";
-					}
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: mtrCalField, table: 'RadioInterface'}, function(response)
-					{
-						tMeterCal=response;
-					});
-				});
-				$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKPot'}, function(response) {
-					speedPot=response;
-					$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKSpeed'}, function(response) {
-						tSpeed=response;
-						updateButtonLabels("/OLD", tSpeedOriginal);
-						$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed, table: "Keyer"});
-						$.post("/programs/SetSettings.php", {field: "CWChangeCk", radio: tMyRadio, data: 1, table: "RadioInterface"});
-						waitRefresh=2;
-					});
-				});
-
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'RadioName', table: 'MySettings'}, function(response)
-				{
-					tRadioName=response;
-					transRadioName=tRadioName;
-					$.post("/programs/RadioID.php", {tRadio: tRadioName}, function(response1) {
-						if (response1.length>0){
-							transRadioID=response1;
-						}
-					setMiddleBand(response);
-					$.post('/programs/GetRadioCaps.php', {a: transRadioName, r: transRadioID, q:'radio'}, function(response) {
-					  var caps=response;
-					  tBandsAvail=0;
-					  if (caps.indexOf('144000000')>0){
-						  tBandsAvail=12;
-					  }else if (caps.indexOf('54000000')>0){
-						  tBandsAvail=11;
-					  };
-					  if (!caps.indexOf('3500000')>0){
-						  tBandsAvail=2;
-					  };
-
-					  if (tBandsAvail==2){
-						  function doBandDown(){
-							  switch ("tBand"){
-							case "6":
-								getBandMemory("2");
-								break;
-							case "2":
-								getBandMemory("6");
-								break;
-							}
-						}
-						  function doBandUp(){
-							  switch ("tBand"){
-							case "6":
-								getBandMemory("2");
-								break;
-							case "2":
-								getBandMemory("6");
-								break;
-							}
-						}
-					  }else{
-
-
-
-					  }
-				  });
-				});
-		function changeVideoSource(sourceUrl) {
-		  // Pause the video if it's currently playing
-		  videoPlayer.pause();
-		  // Clear the existing source
-		  videoPlayer.innerHTML = '';
-		  // Create a n source element
-		  const sourceElement = document.createElement('source');
-		  sourceElement.setAttribute('src', sourceUrl);
-		  // Add the source element to the video player
-		  videoPlayer.appendChild(sourceElement);
-		  // Load and play the new video source
-		  videoPlayer.load();
-		  videoPlayer.play();
-		}
-
-
-//		$.post("/programs/GetIP1.php", function(response){
-			var d = new Date();
-			var n = d.getTime();
-			tMyIP='192.168.1.25';//response; //aData[0];
-			sdrHost = "<?php echo $sdrHost; ?>";
-                        sdrFrameHost = "<?php echo $sdrFrameHost; ?>";
-			const url = sdrHost;
-			if (!e) { /* no SDR iframe — skip iframe setup but continue */ }
-			else if (!sdrHost) {
-				// No valid SDR URL for this account. Never assign a relative or pathless
-				// src — that loads this page inside its own iframe, recursively.
-				e.removeAttribute("src");
-				e.insertAdjacentHTML("afterend",
-					'<div class="alert alert-warning m-3">No SDR assigned to this account. ' +
-					'Ask the administrator to select an instance in the Account editor.</div>');
-				e.style.display = "none";
-			} else {
-				e.src = sdrFrameHost + "?user=<?php echo strtolower(
-        $tUserName
-    ); ?>&radio=<?php echo $tMyRadio; ?>&call=<?php echo $tCall; ?>";
-			}			const cleanUrl = url.substring(0, url.lastIndexOf("/") );
-			var clientIP = cleanUrl;
-			console.log("HOST: "+clientIP);
-
-			var e = document.getElementById("sdrIframe");
-			if (!e) { /* no SDR iframe — skip iframe setup but continue */ }
-				if (e) e.src=sdrFrameHost + "?user=<?php echo strtolower(
-        $tUserName
-    ); ?>&radio=<?php echo $tMyRadio; ?>&call=<?php echo $tCall; ?>";
-			//alert(tMyIP);
-			tMyIP=clientIP+"/video?"+n;
-//			tMyIP="http://192.168.192.200";
-//			alert tMyIP;
-			$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'ShowVideo', table: 'MySettings'}, function(response)
-			{
-				showVideo=response;
-				if (showVideo>1){
-					if ($(window).width()<835){  //phones
-							if (showVideo==2){
-								$('#i3').attr('src', "");
-								$('#i2').attr('src', tMyIP);
-								$('#i1').attr('src', "");
-							}else if (showVideo==3) {
-								$('#i1').attr('src', tMyIP);
-								$('#i2').attr('src', "");
-								$('#i3').attr('src', "");
-							}else{
-								$('#i1').attr('src',"");
-								$('#i2').attr('src', "");
-								$('#i3').attr('src', tMyIP);
-							}
-				}else{ //normal screens
-///						if (wIP==aData[2]){
-							if (showVideo==2){
-								$('#i3').attr('src', "");
-								$('#i2').attr('src', tMyIP);
-								$('#i1').attr('src', "");
-							}else if (showVideo==3) {
-								$('#i1').attr('src', tMyIP);
-								$('#i2').attr('src', "");
-								$('#i3').attr('src', "");
-							}else{
-								$('#i1').attr('src',"");
-								$('#i2').attr('src', "");
-								$('#i3').attr('src', tMyIP);
-							}
-					};
-				}else{
-					$('#i1').attr('src', '');
-					$('#i2').attr('src', '');
-					$('#i3').attr('src', '');
-				};
-			});
-//		});
-
-//Main buttons
-			if (notGotPerfectWidgets==0){
-				up1 = ppanel.getByName("up1");
-				up1.addOnClickHandler(up1Clicked);
-				dn1 = ppanel.getByName("dn1");
-				dn1.addOnClickHandler(dn1Clicked);
-				up10 = ppanel.getByName("up10");
-				up10.addOnClickHandler(up10Clicked);
-				dn10 = ppanel.getByName("dn10");
-				dn10.addOnClickHandler(dn10Clicked);
-				up100 = ppanel.getByName("up100");
-				up100.addOnClickHandler(up100Clicked);
-				up1000 = ppanel.getByName("up1000");
-				up1000.addOnClickHandler(up1000Clicked);
-				dn100 = ppanel.getByName("dn100");
-				dn100.addOnClickHandler(dn100Clicked);
-
-				up01 = ppanel.getByName("up.1");
-				up01.addOnClickHandler(up01Clicked);
-				dn01 = ppanel.getByName("dn.1");
-				dn01.addOnClickHandler(dn01Clicked);
-				up001 = ppanel.getByName("up.01");
-				up001.addOnClickHandler(up001Clicked);
-				dn001 = ppanel.getByName("dn.01");
-				dn001.addOnClickHandler(dn001Clicked);
-				up0001 = ppanel.getByName("up.001");
-				up0001.addOnClickHandler(up0001Clicked);
-				dn0001 = ppanel.getByName("dn.001");
-				dn0001.addOnClickHandler(dn0001Clicked);
-
-				upx1 = ppanel.getByName("upx1");
-				upx1.addOnClickHandler(upx1Clicked);
-				dnx1 = ppanel.getByName("dnx1");
-				dnx1.addOnClickHandler(dnx1Clicked);
-				upx01 = ppanel.getByName("upx01");
-				upx01.addOnClickHandler(upx01Clicked);
-				dnx01 = ppanel.getByName("dnx01");
-				dnx01.addOnClickHandler(dnx01Clicked);
-				upx001 = ppanel.getByName("upx001");
-				upx001.addOnClickHandler(upx001Clicked);
-				dnx001 = ppanel.getByName("dnx001");
-				dnx001.addOnClickHandler(dnx001Clicked);
-//Sub buttons
-				sup1 = ppanel.getByName("sup1");
-				sup1.addOnClickHandler(sup1Clicked);
-				sdn1 = ppanel.getByName("sdn1");
-				sdn1.addOnClickHandler(sdn1Clicked);
-				sup10 = ppanel.getByName("sup10");
-				sup10.addOnClickHandler(sup10Clicked);
-				sdn10 = ppanel.getByName("sdn10");
-				sdn10.addOnClickHandler(sdn10Clicked);
-				sup100 = ppanel.getByName("sup100");
-				sup100.addOnClickHandler(sup100Clicked);
-				sdn100 = ppanel.getByName("sdn100");
-				sdn100.addOnClickHandler(sdn100Clicked);
-				sdn1000 = ppanel.getByName("sdn1000");
-				sup1000 = ppanel.getByName("sup1000");
-
-				sup01 = ppanel.getByName("sup.1");
-				sup01.addOnClickHandler(sup01Clicked);
-				sdn01 = ppanel.getByName("sdn.1");
-				sdn01.addOnClickHandler(sdn01Clicked);
-				sup001 = ppanel.getByName("sup.01");
-				sup001.addOnClickHandler(sup001Clicked);
-				sdn001 = ppanel.getByName("sdn.01");
-				sdn001.addOnClickHandler(sdn001Clicked);
-				sup0001 = ppanel.getByName("sup.001");
-				sup0001.addOnClickHandler(sup0001Clicked);
-				sdn0001 = ppanel.getByName("sdn.001");
-				sdn0001.addOnClickHandler(sdn0001Clicked);
-
-				supx1 = ppanel.getByName("supx1");
-				supx1.addOnClickHandler(supx1Clicked);
-				sdnx1 = ppanel.getByName("sdnx1");
-				sdnx1.addOnClickHandler(sdnx1Clicked);
-				supx01 = ppanel.getByName("supx01");
-				supx01.addOnClickHandler(supx01Clicked);
-				sdnx01 = ppanel.getByName("sdnx01");
-				sdnx01.addOnClickHandler(sdnx01Clicked);
-				supx001 = ppanel.getByName("supx001");
-				supx001.addOnClickHandler(supx001Clicked);
-				sdnx001 = ppanel.getByName("sdnx001");
-				sdnx001.addOnClickHandler(sdnx001Clicked);
-//Main lines
-				ld1 = ppanel.getByName("lhd1");
-				lu1 = ppanel.getByName("lhu1");
-				ld2 = ppanel.getByName("lhd2");
-				lu2 = ppanel.getByName("lhu2");
-				ld3 = ppanel.getByName("lhd3");
-				lu3 = ppanel.getByName("lhu3");
-				ld4 = ppanel.getByName("lkd1");
-				lu4 = ppanel.getByName("lku1");
-				ld5 = ppanel.getByName("lkd2");
-				lu5 = ppanel.getByName("lku2");
-				ld6 = ppanel.getByName("lkd3");
-				lu6 = ppanel.getByName("lku3");
-				ld7 = ppanel.getByName("lmd1");
-				lu7 = ppanel.getByName("lmu1");
-				ld8 = ppanel.getByName("lmd2");
-				lu8 = ppanel.getByName("lmu2");
-				ld9 = ppanel.getByName("lmd3");
-				lu9 = ppanel.getByName("lmu3");
-				lu10 = ppanel.getByName("lmu4");
-				ld10 = ppanel.getByName("lmd4");
-//Sub lines
-				sld1 = ppanel.getByName("slhd1");
-				slu1 = ppanel.getByName("slhu1");
-				sld2 = ppanel.getByName("slhd2");
-				slu2 = ppanel.getByName("slhu2");
-				sld3 = ppanel.getByName("slhd3");
-				slu3 = ppanel.getByName("slhu3");
-				sld4 = ppanel.getByName("slkd1");
-				slu4 = ppanel.getByName("slku1");
-				sld5 = ppanel.getByName("slkd2");
-				slu5 = ppanel.getByName("slku2");
-				sld6 = ppanel.getByName("slkd3");
-				slu6 = ppanel.getByName("slku3");
-				sld7 = ppanel.getByName("slmd1");
-				slu7 = ppanel.getByName("slmu1");
-				sld8 = ppanel.getByName("slmd2");
-				slu8 = ppanel.getByName("slmu2");
-				sld9 = ppanel.getByName("slmd3");
-				slu9 = ppanel.getByName("slmu3");
-				sld10 = ppanel.getByName("slmd4");
-				slu10 = ppanel.getByName("slmu4");
-
-				tLine1=ld4;
-				tLine2=lu4;
-				stLine1=sld4;
-				stLine2=slu4;
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MainSelect', table: 'MySettings'}, function(response){
-					tMainSelect=response;
-					var tSel='0';
-					tSelM='1' + tSel.repeat(tMainSelect);
-					//var tSelM=tMainSelect;
-					doDigit(tSelM, 1);
-				});
-				doSubDigit(1000, 1);
-				plus = pknob.getByName("PlusButton");
-				plus.addOnClickHandler(plusClicked);
-				lock = pknob.getByName("Lock");
-				lockOn = pknob.getByName("LockOn");
-				lock.addOnClickHandler(function (sender, e)
-				{
-					if (tKnobLock==1){
-						tKnobLock=0;
-						lockOn.setVisible(false);
-						lock.setVisible(true);
-					}else{
-						tKnobLock=1;
-						lockOn.setVisible(true);
-						lock.setVisible(false);
-					};
-				});
-				minus = pknob.getByName("MinusButton");
-				minus.addOnClickHandler(minusClicked);
-				ptt = pknob.getByName("PTT");
-				ptt1 = pknob.getByName("PTTOn");
-				cRX=ppanel.getByName("TR");
-			ptt.addOnClickHandler(function (sender, e)
-			{
-				var rec = document.getElementById('dKnob').getBoundingClientRect();
-				var position=rec.top + window.scrollY - window.pageYOffset;
-				if (position>50)  //last condition prevents PTT under hamburger menu on phones
-				{
-					if (xmit==true){
-						setPTT(0,0);
-						tKnobPTT=0;
-
-//						console.log("PTT=0");
-					}else{
-						setPTT(1,0);
-						tKnobPTT=1;
-//						console.log("PTT=1");
-					};
-				};
-			});
-
-			$.post("/includes/vfoButtons.php", function(response){
-				var bVFO=response;
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'ShowVideo', table: 'MySettings'}, function(response)
-				{
-					showVideo=response;
-					var wWidth=$(window).width();
-					if ($(window).width()<835){  //if small screen, show bar s-meter and keypad button
-						var st=$(".status");
-						  st.addClass('d-none');
-						console.log("[VFO] small screen branch, width="+$(window).width());
-						if (!sdrMiddle) { $("#bottomVFO").html(bVFO); }
-						gNum=ppanel.getByName("GroupNUM");
-						gNum.setVisible(true);
-						gDig=ppanel.getByName("GroupDigits");
-						gDig.setVisible(false);
-						gDig.setActive(false);
-						nPos=ppanel.getByName("NUMrect");
-						nPos.setActive(true);
-						nPos=ppanel.getByName("Guide1");
-						nPos.setActive(false);
-						nPos=ppanel.getByName("Label1");
-						nPos.setActive(true);
-						nPos=ppanel.getByName("Slider1");
-						nPos.setActive(false);
-						nPos=ppanel.getByName("BarBorder");
-						nPos.setActive(false);
-						nPos=ppanel.getByName("LinearLevel1");
-						nPos.setActive(false);
-						if (showVideo==1 || showVideo==3 || showVideo==4){
-							cBarVal=pmeter.getByName("Slider1");
-						}
-						keypad=ppanel.getByName("NUMBut")
-						keypad.addOnClickHandler(keypadClicked);
-						$("#colPan").removeClass("col-sm-4");
-						$("#colPan").addClass("col-sm-12");
-						$("#colKnob").removeClass("col-sm-4");
-						$("#colKnob").addClass("col-sm-12");
-						$("#colVid").removeClass("col-sm-4");
-						$("#colVid").addClass("col-sm-12");
-						if (fftPane==2) {
-							$("#dMeter").addClass('d-none');
-							$("#dPanel").addClass('d-none');
-							$("#dKnob").addClass('d-none');
-							$(".mycall").addClass('d-none');
-							$("#lowerText").addClass('d-none');
-							$('#topVFO').addClass('d-none');
-							$('#myBank').addClass('d-none');
-
-						}else if (showVideo==1){ //no video
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dMeter").addClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$(".mycall").addClass('d-none');
-							$("#lowerText").removeClass('d-none');
-						}else if (showVideo==2){ //meter
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").removeClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dMeter").addClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").addClass('d-none');
-						}else if (showVideo==3){ //panel
-							$(".videoPanel").removeClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dPanel").addClass('d-none');
-							$("#dMeter").addClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").addClass('d-none');
-						}else if (showVideo==4){ //knob
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").removeClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dMeter").addClass('d-none');
-							$("#dKnob").addClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").addClass('d-none');
-						};
-					}else{ //1-0 digits will show, large format
-						var st=$(".status");
-						st.removeClass('d-none');
-						console.log("[VFO] loading topVFO, sdrMiddle="+sdrMiddle);
-						if (!sdrMiddle) { $("#topVFO").html(bVFO); $("#topVFO").removeClass("d-none"); }
-						if (showVideo==2){
-							gNum=ppanel.getByName("GroupNUM");
-							gNum.setVisible(true);
-							gDig=ppanel.getByName("GroupDigits");
-							gDig.setVisible(false);
-							gDig.setActive(false);
-							nPos=ppanel.getByName("NUMrect");
-							nPos.setActive(true);
-							nPos=ppanel.getByName("Guide1");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("Label1");
-							nPos.setActive(true);
-							nPos=ppanel.getByName("Slider1");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("BarBorder");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("LinearLevel1");
-							nPos.setActive(false);
-						}else{
-							gNum=ppanel.getByName("GroupNUM");
-							gNum.setVisible(false);
-							gDig=ppanel.getByName("GroupDigits");
-							gDig.setVisible(true);
-							gDig.setActive(true);
-							nPos=ppanel.getByName("NUMrect");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("Guide1");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("Label1");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("Slider1");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("BarBorder");
-							nPos.setActive(false);
-							nPos=ppanel.getByName("LinearLevel1");
-							nPos.setActive(false);
-						}
-						$("#colPan").removeClass("col-sm-12");
-						$("#colPan").addClass("col-sm-4");
-						$("#colKnob").removeClass("col-sm-12");
-						$("#colKnob").addClass("col-sm-4");
-						$("#colVid").removeClass("col-sm-12");
-						$("#colVid").addClass("col-sm-4");
-						if (fftPane==2) {
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").addClass('d-none');
-
-							$("#dMeter").addClass('d-none');
-							$("#dPanel").addClass('d-none');
-							$("#dKnob").addClass('d-none');
-							$(".mycall").addClass('d-none');
-							$("#lowerText").addClass('d-none');
-							$("#bandSel").addClass('d-none');
-							$("#myBank").addClass('d-none');
-						} else if (showVideo==1){
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dMeter").removeClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$(".mycall").removeClass('d-none');
-							$("#lowerText").removeClass('d-none');
-						}else if (showVideo==2){ //meter
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").removeClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dMeter").addClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").addClass('d-none');
-						}else if (showVideo==3){ //panel same as meter
-							$(".videoPanel").removeClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").addClass('d-none');
-							$("#dPanel").addClass('d-none');
-							$("#dMeter").removeClass('d-none');
-							$("#dKnob").removeClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").removeClass('d-none');
-						}else if (showVideo==4){ //knob
-							$(".videoPanel").addClass('d-none');
-							$(".videoMeter").addClass('d-none');
-							$(".videoKnob").removeClass('d-none');
-							$("#dPanel").removeClass('d-none');
-							$("#dMeter").removeClass('d-none');
-							$("#dKnob").addClass('d-none');
-							$("#lowerText").removeClass('d-none');
-							$(".mycall").removeClass('d-none');
-						};
-					};
-
-				});
-			});
-
-				$(document).on('click', '#myBank1', function()
-				{
-					updateBank(1);
-				});
-
-				$(document).on('click', '#myBank2', function()
-				{
-					updateBank(2);
-				});
-
-				$(document).on('click', '#myBank3', function()
-				{
-					updateBank(3);
-				});
-
-				$(document).on('click', '#myBank4', function()
-				{
-					updateBank(4);
-				});
-
-				$.post("/programs/GetUserField.php", {un:tUserName, field:'BandEnable'}, function(response)
-				{
-					if (response==""){
-						response="1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
-					}
-					bEnable=response.split(",");
-					updateButtons();
-				});
-
-
-
-
-	//bands
-	$(document).on('click', '#160Button', function()
-	{
-		if (bEnable[0]==1){
-			getBandMemory('160');
-		}
-	});
-
-	$(document).on('click', '#80Button', function()
-	{
-		if (bEnable[1]==1){
-			getBandMemory('80');
-		}
-	});
-
-	$(document).on('click', '#60Button', function()
-	{
-		if (bEnable[2]==1){
-			getBandMemory('60');
-		}
-	});
-
-	$(document).on('click', '#40Button', function()
-	{
-		if (bEnable[3]==1){
-			getBandMemory('40');
-		}
-	});
-
-	$(document).on('click', '#30Button', function()
-	{
-		if (bEnable[4]==1){
-			getBandMemory('30');
-		}
-	});
-
-	$(document).on('click', '#20Button', function()
-	{
-		if (bEnable[5]==1){
-			getBandMemory('20');
-		}
-	});
-
-	$(document).on('click', '#17Button', function()
-	{
-		if (bEnable[6]==1){
-			getBandMemory('17');
-		}
-	});
-
-	$(document).on('click', '#15Button', function()
-	{
-		if (bEnable[7]==1){
-			getBandMemory('15');
-		}
-	});
-
-	$(document).on('click', '#12Button', function()
-	{
-		if (bEnable[8]==1){
-			getBandMemory('12');
-		}
-	});
-
-	$(document).on('click', '#10Button', function()
-	{
-		if (bEnable[9]==1){
-			getBandMemory('10');
-		}
-	});
-
-	$(document).on('click', '#6Button', function()
-	{
-		if (bEnable[10]==1){
-			getBandMemory('6');
-		}
-	});
-
-	$(document).on('click', '#2Button', function()
-	{
-		if (bEnable[11]==1){
-			getBandMemory('2');
-		}
-	});
-
-	$(document).on('click', '#125Button', function()
-	{
-		if (bEnable[12]==1){
-			getBandMemory('1.25');
-		}
-	});
-
-	$(document).on('click', '#70Button', function()
-	{
-		if (bEnable[13]==1){
-			getBandMemory('70');
-		}
-	});
-
-	$(document).on('click', '#23Button', function()
-	{
-		if (bEnable[14]==1){
-			getBandMemory('23');
-		}
-	});
-
-	function updateModeButtons(){
-			$.post('/programs/RadioID.php', {tRadio: transRadioName}, function(response) {
-			if (response.length>0){
-				transRadioID=response;
-			}
-			$.post("/programs/getRigCaps.php", {myRadioName: transRadioName, myRadio: transRadioID, cap: "Mode list:"}, function(response){
-				modeList=response;
-			var bName="";
-			for (i=0;i<9;i++){
-				switch (i){
-					case 0:
-						bName="#lsbButton";
-						if (modeList.indexOf('LSB')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 1:
-						bName="#usbButton";
-						if (modeList.indexOf('USB')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 2:
-						bName="#usbdButton";
-						if (modeList.indexOf('USB-D')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 3:
-						bName="#cwButton";
-						if (modeList.indexOf('CW')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 4:
-						bName="#cwrButton";
-						if (modeList.indexOf('CWR')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 5:
-						bName="#rttyButton";
-						if (modeList.indexOf('RTTY')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 6:
-						bName="#fmButton";
-						if (modeList.indexOf('FM')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 7:
-						bName="#amButton";
-						if (modeList.indexOf('AM')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-					case 8:
-						bName="#rttyrButton";
-						if (modeList.indexOf('RTTYR')<0){
-							bModeEnable[i]="0";
-						}
-						break;
-				};
-				if (bModeEnable[i]=="0") {
-					$(bName).removeClass("btn-info");
-					$(bName).addClass("btn-secondary");
-				}else{
-					$(bName).removeClass("btn-secondary");
-					$(bName).addClass("btn-info");
-				};
-			};
-		});
-	});
-	};
-
-	function meterTimer(tr){
-
-		if (tr==0 ){
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'SMeterIn'}, function(response) {
-				var cMeterVal=pmeter.getByName("Slider1");
-				if (response<46){
-					var mtr1=Number(parseInt(response)+54);
-					mtr=255/100 * mtr1;
-					cMeterVal.setValue(mtr, true);
-					var cBarVal=ppanel.getByName("LinearLevel1");
-					mtr=Math.floor(mtr1/7);
-					mtr=mtr*7;
-					cBarVal.setValue(mtr, true);
-				}
-			});
-		}else{
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'txMeterIn'}, function(response) {
-				if (response>0){
-					var cMeterVal=pmeter.getByName("Slider1");
-					var mtr1=parseInt(100*response,10)/tMeterCal;
-					if (mtr1 < 0){
-						console.log('oops")');
-						return;
-					}
-					mtr=mtr1;//using mtr direct provides more accurate calibration, limited testing
-					cMeterVal.setValue(mtr, true);
-					console.log("MTR: " + mtr);
-					var cBarVal=ppanel.getByName("LinearLevel1");
-					mtr=Math.floor(mtr1/7);
-					mtr=mtr*7;
-					cBarVal.setValue(mtr, true);
-				}
-			});
-		}
-	}
-//	}
-	function updateTimer()
-	{
-		if (waitRefresh>0)
-		{
-			console.log( waitRefresh);
-			waitRefresh=waitRefresh-1;
-			return;
-		}
-		var tTrx1=10;
-			if(tTrx==0)
-			{
-
-//			console.log(tTrx + " " +  trXmit);
-
-				if (tTrx==1 && trXmit==true){
-					setPTT(1, 0);
-				}
-				$.post('/programs/GetInterfaceIn.php',{radio: tMyRadio, un: tUserName, myCall:tMyCall }, function(response)
-				{
-				if (response.indexOf("NG")>-1){
-					return;
-				}
-
-				var tAData=response.split('`');
-				if (startConnection==1){ //this allows several cycles of timer to test for connection
-					if (tAData[0]=="OFF" && startCounter>0){
-						startCounter=startCounter-1;
-						return true;
-					}
-					checkConnection(tAData[0]);
-					startConnection=0;
-				}
-				tTrx=tAData[9];
-
-				tPTT=tAData[7];
-				var tBW=tAData[17];
-				tMode=tAData[3];
-//				console.log("MODE: " + tMode);
-				tMain=tAData[0];
-				fftFIn=tAData[18];
-				fftFInCk=tAData[19];
-				fftFOut=tAData[20];
-				fftFOutCk=tAData[21];
-//				console.log(fftFInCk + " " + fftFOutCk);
-				var cRX=ppanel.getByName("TR");
-				cRX.setNeedRepaint(true);
-				cRX.refreshElement();
-				if (tDisconnected==0){
-					if (tBW!==tBandWidth){
-						tBandWidth=tBW;
-					}
-					if (tAData[11]!=sliderRFRef){
-						var tP=tAData[11];
-						if (tP<100 && tP>0) tP=tP-1;
-						outputRF.innerHTML = tP;
-						$('#sliderRF').slider('value',tAData[11]);
-					};
-					if (tAData[12]!=sliderAFRef){
-						sliderAFRef=tAData[12];
-						var tP=parseInt(tAData[12]);
-						if (tP<100 && tP>0) tP=tP-1;
-						outputAF.innerHTML = tP;
-						$('#sliderAF').slider('value',tAData[12]);
-						if (tAData[12]>1){
-							updateButtonLabels('RADIO AF MUTE',tAData[12]-1);
-						}
-					};
-					if (tAData[13]!=sliderPwrOutRef && sliderPwrOutOride!=0){
-						tP=parseInt(tAData[13]);
-						sliderPwrOutRef=tP;
-						if (tP<100 && tP>0) tP=tP-1;
-						outputPwrOut.innerHTML = tP;
-						$('#sliderPwrOut').slider('value',tAData[13]);
-					};
-					if (tAData[14]!=sliderMicRef && sliderMicLvlOride!=0){
-						tP=parseInt(tAData[14]);
-						if (tP<100 && tP>0) tP=tP-1;
-						outputMic.innerHTML = tP;
-						$('#sliderMic').slider('value',tAData[14]);
-					};
-					if (tAData[15]!=(USBAFGain+1) || doUSBUpdate==1){
-						doUSBUpdate=0;
-						USBAFGain1=tAData[15]-1;
-						if (USBAFGain1>0){
-							USBAFGainOld=USBAFGain1;
-							USBAFGain=USBAFGain1;
-							var tM=USBAFGain1;
-							updateButtonLabels('RADIO USB MUTE', tM);
-						}
-
-						if (USBAFGain==0){
-							USBAFGain1=USBAFGain1;
-						}
-						if (tAData[15]>0){
-							$.post("/programs/SetSettings.php", {field: "USBAFGainOld", radio: tMyRadio, data: USBAFGain1, table: "RadioInterface"}, function(response){
-							});
-
-						};
-					}
-				};
-				var tAlive=tAData[8];  //to watch for no connection to radio
-				tTrx=tAData[9];
-				setSdrTransmitMute(Number(tTrx)===1||Number(tPTT)===1);
-				var tSlave=tAData[10];
-				tSlave=dec_to_bho(tSlave, 'B');
-				tSlave=padDigits(tSlave, 8);
-
-				if (notGotPerfectWidgets==0){
-					for (i=1;i<9;i++){
-						var tL='R'+i+'O';
-						var tLed=pled.getByName(tL);
-						if (tSlave.substr(8-i, 1)==0){
-							tLed.setVisible(true);
-						}else{
-							tLed.setVisible(false);
-						}
-					}
-				}
-				var tRadioUpdate=tAData[8];
-				if (tRadioUpdate.length!=0){
-			$.post("/programs/SetSettings.php", {field: "RadioData", radio: tMyRadio, data: "", table: "RadioInterface"});
-				}
-				var tNowDead=0;
-				if (tAlive=='0'){
-					tAliveCount=tAliveCount+1;
-					if (tAliveCount>5){
-						tNowDead=1;
-						tAliveCount=6;
-					}
-				}else{
-					tAliveCount=0;
-				}
-				var wWidth=$(window).width();
-				var wHeight=$(window).height();
-				var st=$(".status");
-				if (!$.isNumeric(tAData[0] ) || parseInt(tAData[0])==0){
-					if (wWidth<1000 && wHeight<600){
-					   st.removeClass('d-none');
-					}
-					tNoRadio=true;
-					tAData[0]="00000000";
-					tAData[3]='';
-					tAData[2]="00000000";
-					tAData[4]=-54;
-				}else{
-					if (wWidth<1000 && wHeight<600){
-					   st.addClass('d-none');
-					}else{
-					   st.removeClass('d-none');
-					}
-				}
-				$.post("/programs/SetSettings.php", {field: "IsAlive", radio: tMyRadio, data: "1", table: "RadioInterface"});
-				tMain=tAData[0];
-				tSub=tAData[2];
-				tPTT=tAData[7];
-				tBusy=tPTT;
-				tMain=("0000000000" + tMain).slice(-10);
-				var tF=addPeriods(tMain);
-				if (notGotPerfectWidgets==1){
-					return;
-				}
-				if (waitRefresh==0){
-					var cMain=ppanel.getByName("Main");
-					cMain.setText(tF);
-					console.log("tmain5: "+tF);
-
-					cMain.setNeedRepaint(true);
-					cMain.refreshElement();
-					var tSplit=tAData[1];
-					if (tSplitDisabled==0){
-						tSplitOn=tSplit;
-						toggleSplitButton(tSplitOn, 1);
-					}else{
-						$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'SplitOut'}, function(response)
-						{
-							if (tSplitOn!=response){
-								tSplitOn=response;
-								toggleSplitButton(tSplitOn, 1);
-							};
-						});
-					}
-				   var cSub=ppanel.getByName("Sub");
-					var cSubIn=ppanel.getByName("SubInactive");
-					var cFreq2s=("0000000000" + tSub).slice(-10);
-					var tSub1=cFreq2s;
-					cFreq2s=addPeriods(cFreq2s);
-					cFreq2s1=cFreq2s.trim();
-					if (tSplitOn==1){
-						cSub.setVisible(true);
-						cSubIn.setVisible(false);
-						cSub.setText(cFreq2s);
-					}else{
-						cSub.setVisible(false);
-						cSubIn.setVisible(true);
-						cSubIn.setText(cFreq2s);
-					}
-/*												if (tSplitOn!=tSplit){
-						tSplitOn=response
-						toggleSplitButton(tSplitOn);
-						cSub.setNeedRepaint(true);
-						cSub.refreshElement();
-					}
-*/											}
-				var cMode=ppanel.getByName("Mode");
-				if (tMode=="PKTUSB"){
-					tMode="USB-D";
-				}
-				if (tMode=="PKTLSB"){
-					tMode="LSB-D";
-				}
-//						console.log("Mode: " + tModeOld + " radio: " + tMode);
-				if (tModeOld !== tMode){
-					tModeOld=tMode;
-					setBandMemory();
-					console.log("here goes "+typeof tMode, tMode);
-
-					var tNew=tMode.toLowerCase();
-					if (tNew=='usb-d'){tNew='usbd'};
-					updateModeSelection();
-					var tB='#'+tNew+'Button';
-					$(tB).addClass('btn-mode-sel');
-				}
-				if (tBandOld!==tAData[5] && tAData[5]!=='UNK'){
-//						console.log("Band: " + tBandOld + " radio: " + tAData[5]);
-					tBandOld=tAData[5];
-					setBandMemory();
-					tBand=tAData[5];
-					var tMo=tBandOld;
-					var tNew=tBand;
-					updateButtons();
-					$('#' + tNew + 'Button').addClass('btn-mode-sel');
-				}
-
-				cMode.setText(tMode);
-				cMode.setNeedRepaint(true);
-				cMode.refreshElement();
-				$("#fPanel4").text("User: "+tMyCall+" (" +(tIsGuest ? "guest/"+tUserName : tUserName)+")");
-				if (tAData[0]=="00000000"){
-//						if (tDisconnectedTest==0){
-						tDisconnected=1;
-						$tDisconnectedTest=1;
-						$("#fPanel1").html("&nbsp;No Radio");
-						$("#fPanel2").text("");
-						$("#fPanel3").text("");
-						$('#fPanel1').attr('style', 'background-color:red');
-						var sl=$('#spinner');
-						if (sl.hasClass('d-none')){
-							  //not connecting
-							  var pl=$('#play');
-							  pl.removeClass('d-none');
-							pl=$('#playOK');
-							pl.addClass('d-none');
-						  }else{
-							  //is connecting, no radio yet
-							  var pl=$('#play');
-							pl.addClass('d-none');
-							  pl=$('#playOK');
-							  pl.removeClass('d-none');
-						  };
-//						  };
-				}else{
-					tDisconnected=0;
-					tDisconnectedTest=0;
-					var sl=$('#spinner');
-					pl=$('#playOK');
-					pl.removeClass('d-none');
-					pl=$('#play');
-					pl.addClass('d-none');
-
-					tF=tF.trim();
-					if (notGotPerfectWidgets==1){
-						return;
-					}
-					if (tF.length==8){
-						tF=tF.substr(1);
-						if (tF.substr(0,1)=="0"){
-							tF=tF.substr(1);
-						}
-						if (cFreq2s1.substr(0,1)=="."){
-							cFreq2s=cFreq2s1.substr(1);
-						}
-						$("#fPanel1").text("Main: "+tF+" kHz");
-						if (tSplitOn==1){
-							$("#fPanel2").text("Sub: "+cFreq2s+" kHz");
-						}else{
-							$("#fPanel2").text("");
-						}
-
-					}else{
-						$("#fPanel1").text("Main: "+tF+" MHz");
-						if (tSplitOn==1){
-							$("#fPanel2").text("Sub: "+cFreq2s+" MHz");
-						}else{
-							$("#fPanel2").text("");
-						}
-					}
-					$("#fPanel3").text("Mode: "+tMode+ " - BW: " + tBandWidth);
-					$('#fPanel1').attr('style', 'background-color:black');
-					tNoRadio=false;
-				};
-
-				if (trOn==1 && 	waitRefresh==0){
-					tPTT=tAData[9];
-					if (tPTT==1 && spacePTT==0){
-						setPTT(1,0);
-					}
-				}
-
-			});
-			meterTimer(tBusy);
-		}else{  //in transmit
-			$.post('/programs/GetInterfaceIn.php',{radio: tMyRadio, un: tUserName, myCall:tMyCall }, function(response)
-			{
-				console.log("xmit response " + response);
-				tAData=response.split('`');
-				if (tAData[0]==""){
-					tAData[0]='145000000';
-				}
-				tTrx=tAData[9];
-				tPTT=tAData[7];
-				setSdrTransmitMute(Number(tTrx)===1||Number(tPTT)===1);
-				tF=tAData[0];
-				tF=addPeriods(tF);
-				if (tF.length==8){
-					tF=tF.substr(1);
-					if (tF.substr(0,1)=="0"){
-						tF=tF.substr(1);
-					}
-					if (cFreq2s1.substr(0,1)=="."){
-						cFreq2s=cFreq2s1.substr(1);
-					}
-					$("#fPanel1").text("Main: "+tF+" kHz");
-					if (tSplitOn==1){
-						$("#fPanel2").text("Sub: "+cFreq2s+" kHz");
-					}else{
-						$("#fPanel2").text("");
-					}
-
-				}else{
-					$("#fPanel1").text("Main: "+tF+" MHz");
-					if (tSplitOn==1){
-						$("#fPanel2").text("Sub: "+cFreq2s+" MHz");
-					}else{
-						$("#fPanel2").text("");
-					}
-				}
-				$("#fPanel3").text("Mode: "+tMode+ " - BW: " + tBandWidth);
-				$('#fPanel1').attr('style', 'background-color:black');
-				tNoRadio=false;
-				console.log("tTrx: " + tTrx);
-				if (tTrx==0){
-					tPTT=0;
-					setPTT(0,0);
-					ptt1.setVisible(false);
-					ptt.setVisible(true);
-					return;
-				}
-				if (showVideo==1 || showVideo==3 || showVideo==4){
-/*					var cMeterVal=pmeter.getByName("Slider1");
-					var mtr1=parseInt(100*tAData[4],10)/tMeterCal;
-					mtr=mtr1;//using mtr direct provides more accurate calibration, limited testing
-					cMeterVal.setValue(mtr, true);
-					var cBarVal=ppanel.getByName("LinearLevel1");
-					mtr=Math.floor(mtr1/7);
-					mtr=mtr*7;
-					cBarVal.setValue(mtr, true);
-*/				}
-		//Start PTT=momentary in transmit5
-		if (tPTTLatch==2 && waitRefresh==0){
-			tBusy=tTrx;
-			var tPr=ptt.getPressed();
-			if (tKnobPTT==0){
-				if (tBusy==1){
-					if (tKnobPTT==0 && trOn==0 && spacePTT==0){
-					}else{
-						setPTT(1,0);
-
-					}
-				}else{
-					setPTT(0, 0);
-				}
-			}else{
-				if (tTrx==1){
-//					AbsoluteOrientationSensor
-				var xo = tPr || spacePTT==1;
-					if (xo==false){
-						setPTT(0, 0);
-//								tKnobPTT=0;
-						tBusy=0;
-//dupe							$.post("/programs/SetSettings.php", {field: "PTTOut", radio: tMyRadio, data: "0", table: "RadioInterface"});
-					}else{
-						setPTT(1, 0);
-						tBusy=1;
-//dupe							$.post("/programs/SetSettings.php", {field: "PTTOut", radio: tMyRadio, data: "1", table: "RadioInterface"});
-					}
-				}
-			}
-		}
-		//End PTT Momentary
-		//Start PTT Latch
-		if (tPTTLatch==1){
-			if (tPTT==0 ){
-				setPTT(0, 0);
-				checkPTT=0;
-			}else{
-				setPTT(1, 1);
-				checkPTT=1;
-			}
-			tBusy=tPTT;
-		}
-		//End PTT Latch
-			});
-			meterTimer(tBusy);
-		};
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		var now = new Date();
-		var now_hours=now.getUTCHours();
-		now_hours=("00" + now_hours).slice(-2);
-		var now_minutes=now.getUTCMinutes();
-		now_minutes=("00" + now_minutes).slice(-2);
-		if (notGotPerfectWidgets==0){
-			var timeUTC = ppanel.getByName("LocalTime");
-			timeUTC.setText(now_hours+":"+now_minutes);
-			timeUTC.setNeedRepaint(true);
-			timeUTC.refreshElement();
-		}
-		$("#fPanel5").text(now_hours+":"+now_minutes+'z');
-	}
-	$(document).on('click', '#cwButton', function()
-	{
-		if (bModeEnable[3]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'CW', table: "RadioInterface"});
-		};
-	});
-
-
-	$(document).on('click', '#fmButton', function()
-	{
-		if (bModeEnable[6]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'FM', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#cwButton', function()
-	{
-		if (bModeEnable[3]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'CW', table: "RadioInterface"});
-		}
-	});
-
-	$(document).on('click', '#fmButton', function()
-	{
-		if (bModeEnable[6]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'FM', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#lsbButton', function()
-	{
-		if (bModeEnable[0]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'LSB', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#usbButton', function()
-	{
-		if (bModeEnable[1]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'USB', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#cwrButton', function()
-	{
-		if (bModeEnable[4]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'CWR', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#amButton', function()
-	{
-		if (bModeEnable[7]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'AM', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#rttyButton', function()
-	{
-		if (bModeEnable[5]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'RTTY', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#rttyrButton', function()
-	{
-		if (bModeEnable[8]==1){
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'RTTYR', table: "RadioInterface"});
-		};
-	});
-
-	$(document).on('click', '#usbdButton', function()
-	{
-		if (bModeEnable[2]==1){
-			updateModeButtons();
-			$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: 'PKTUSB', table: "RadioInterface"});
-		};
-	});
-	$.post("/programs/GetUserField.php", {un:tUserName, field:'ModeEnable'}, function(response)
-		{
-			if (response==""){
-				response="1,1,1,1,1,1,1,1,1";
-			}
-			bModeEnable=response.split(",");
-			updateModeButtons();
-		});
-
-
-		$('.modal').on('hide.bs.modal', function (e) {
-			  $.post("/programs/SetSettings.php", {field: "waitReset", radio: tMyRadio, data: 0, table: "RadioInterface"});
-		  });
-
-		$(document).on('click', '#closeModalInput', function(){
-			var x = document.getElementById("curFreq");
-			var f = x.value.replaceAll(".","");
-			if (f != null || f !=""){
-				//note: mainout and subout set in and out
-				$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: f, table: "RadioInterface"});
-				$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: f, table: "RadioInterface"});
-			}
-			var x = document.getElementById("curMode1");
-			var m = x.value;
-			tMode=m;
-			if (m != null || m !=""){
-				var x = document.getElementById("curPassband1").value;
-				var xP=x.split("=");
-				xP[1]=xP[1].replace("Hz","");
-				$.post("/programs/SetSettings.php", {field: "BWOut", radio: tMyRadio, data: xP[1],table:"RadioInterface"});
-				$.post("/programs/SetSettings.php", {field: "ModeOut", radio: tMyRadio, data: m,table:"RadioInterface"});
-			};
-		});
-	}; //end no widgets
-
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'ID', table: 'MySettings'}, function(response)
-	{
-		tID=response;
-	});
-
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'DisableSplitPolling', table: 'MySettings'}, function(response)
-	{
-		tSplitDisabled=response;
-		if (tSplitDisabled==1){
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'SplitOut'}, function(response)
-			{
-				tSplitOn=response;
-				toggleSplitButton(tSplitOn, 2);
-			});
-		};
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKFunction', table: 'Keyer'}, function(response)
-	{
-		tMyKeyerFunction=response;
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'PTTLatch', table: 'MySettings'}, function(response)
-	{
-		tPTTLatch=response;
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKRemotePort', table: 'Keyer'}, function(response)
-	{
-		tMyKeyerPort =response;
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKRemoteIP', table: 'Keyer'}, function(response)
-	{
-		tMyKeyerIP=response;
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeedPotEnable', table: 'Keyer'}, function(response){
-		  speedPotEnable=response;
-	});
-
-
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'Model', table: 'MySettings'}, function(response)
-	{
-		tRadioModel=response;
-	});
-	$.get('/programs/GetMyRadio.php', 'f=KeyerPort&r='+tMyRadio, function(response1) {
-		tCWPort= response1;
-		if (tCWPort>4530 && tCWPort<5000){
-			tCWPort='0.0.0.0:'+tCWPort;
-		}
-		$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'Keyer', table: 'MySettings'}, function(response)
-		{
-			$('#myKeyer').text("CW: "+response);
-			tMyKeyer=response;
-			});
-			$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'SlaveCommand', table: 'MySettings'}, function(response){
-			if (response == "Macro Decimal"){
-				var ple=$('#dLED');
-					ple.removeClass('d-none');
-			}
-		});
-	});
-	tUpdate = setInterval(updateTimer,300);
-//	tUpdate = setInterval(meterTimer,30);
-
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'PTTMode', table: 'MySettings'}, function(response)
-	{
-		tMyPTT=response;
-	});
-		$.get('/programs/GetMyRadio.php', 'f=PTTCAT&r='+tMyRadio, function(response) {
-			tMyPTTCAT=parseInt(response,10)||0;
-		});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'RotorPort', table: 'MySettings'}, function(response)
-	{
-		tMyRotorPort=response;
-		if (tMyRotorPort > 4532 && tMyRotorPort < 5000){  //VE9GJ
-			tMyRotorRadio = (tMyRotorPort - 4531)/2;
-		}else{
-			tMyRotorRadio = tMyRadio;
-		}
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LogName', table: 'MySettings'}, function(response)
-	{
-		$('#myLog').text("Log: "+response);
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MacroBankTuner', table: 'RadioInterface'}, function(response){
-			mBank=response
-			$('#myBank').text("Macro Bank: "+response);
-			var t=0;
-	});
-	$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'DX', table: 'MySettings'}, function(response)
-	{
-		$('#searchText').val(response.toUpperCase());
-		var tunetodx = $('meta[name="tunetodx"]').attr('content');
-		if (tunetodx) $('#searchText').val(tunetodx);
-		var lsdx = localStorage.getItem('tunetodx');
-		if (lsdx) { $('#searchText').val(lsdx.toUpperCase()); localStorage.removeItem('tunetodx'); }
-		window.addEventListener('storage', function(e) {
-			if (e.key === 'tunetodx' && e.newValue) {
-				$('#searchText').val(e.newValue.toUpperCase());
-				localStorage.removeItem('tunetodx');
-				$('#searchButton').click();
-			}
-		});
-		var ckm = document.cookie.match(/tunetodx=([^;]+)/);
-		if (ckm) { $('#searchText').val(decodeURIComponent(ckm[1]).toUpperCase()); document.cookie='tunetodx=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/'; }
-		var hash = window.location.hash;
-		if (hash.indexOf('tunetodx=') >= 0) {
-			var tunetodx = decodeURIComponent(hash.split('tunetodx=')[1]);
-			$('#searchText').val(tunetodx.toUpperCase());
-		}
-
-	});
-});
-$(document).on('click', '#macroButton', function(){
-		var win="/macros.php?x="+tUserName+"&c="+tMyCall;
-		window.open(win, "_self");
-	});
-	$(document).on('click', '#modeButton', function(){
-		var win="/modeFilter.php?x="+tUserName+"&c="+tMyCall;
-		window.open(win, "_self");
-	});
-	$(document).on('click', '#bandButton', function(){
-		var win="/bandFilter.php?x="+tUserName+"&c="+tMyCall;
-		window.open(win, "_self");
-	});
-});
-
-var jsonKnob='';
-var jsonLED='';
-if (notGotPerfectWidgets==0){
-	<?php include $dRoot . "/includes/$tThemePanel"; ?>;
-	<?php include $dRoot . "/includes/$tThemeMeter"; ?>;
-	<?php include $dRoot . "/includes/bigPTT1.json"; ?>;
-	<?php include $dRoot . "/includes/led.json"; ?>;
-
-	//*************************************************//
-	// The three following PerfectWidgets components are proprietary included under a commercial license and are NOT open source
-	pmeter = window.RigPiSMeter ? new RigPiSMeter.Widget("dMeter", {theme: <?php echo (int) $theme; ?>}) : new PerfectWidgets.Widget("dMeter", jsonSMeter);
-	ppanel = new PerfectWidgets.Widget("dPanel", jsonPanel);
-	pknob = new PerfectWidgets.Widget("dKnob", jsonKnob);
-	pled = new PerfectWidgets.Widget("dLED", jsonLED);
-	var theme=<?php echo $theme; ?>
-
-	switch(theme){
-	case 0:
-		bk="Orange";
-		break;
-	case 1:
-		bk="Night";
-		break;
-	case 2:
-		bk="LCD";
-		break;
-	case 3:
-		bk="HighCon";
-		break;
-	case 4:
-		bk="Green";
-		break;
-	}
-	var bkd=ppanel.getByName(bk);
-	bkd.setVisible(true);
-	bkd=pmeter.getByName(bk);
-//	bkd.setVisible(true);
-	//End of commercially licensed components
-	//*************************************************//
-	setTimeout(function(){
-		for(var b=1;b<=4;b++){ var mb="#myBank"+b+"x"; $(mb).addClass("btn-color"); }
-		changeMacroColor(mBank);
-	}, 500); // re-apply btn-color after theme loads
-
-	if (tFirstUse>0){
-		$("#play").removeClass('d-none');
-		$("#playOK").addClass('d-none');
-	}
-			 slider1 = pknob.getByName("Slider1");
-	band2=ppanel.getByName("Band2");
-	band1=ppanel.getByName("Band1");
-	freq0=ppanel.getByName("Freq10");
-	freq0.addOnClickHandler(freq0Click);
-	freq1=ppanel.getByName("Freq1");
-	freq1.addOnClickHandler(freq1Click);
-	freq2=ppanel.getByName("Freq2");
-	freq2.addOnClickHandler(freq2Click);
-	freq3=ppanel.getByName("Freq3");
-	freq3.addOnClickHandler(freq3Click);
-	freq4=ppanel.getByName("Freq4");
-	freq4.addOnClickHandler(freq4Click);
-	freq5=ppanel.getByName("Freq5");
-	freq5.addOnClickHandler(freq5Click);
-	freq6=ppanel.getByName("Freq6");
-	freq6.addOnClickHandler(freq6Click);
-	freq7=ppanel.getByName("Freq7");
-	freq7.addOnClickHandler(freq7Click);
-	freq8=ppanel.getByName("Freq8");
-	freq8.addOnClickHandler(freq8Click);
-	freq9=ppanel.getByName("Freq9");
-	freq9.addOnClickHandler(freq9Click);
-	led1=pled.getByName("R1PB");
-	led1.addOnClickHandler(sw1Click);
-	led2=pled.getByName("R2PB");
-	led2.addOnClickHandler(sw2Click);
-	led3=pled.getByName("R3PB");
-	led3.addOnClickHandler(sw3Click);
-	led4=pled.getByName("R4PB ");
-	led4.addOnClickHandler(sw4Click);
-	led5=pled.getByName("R5PB");
-	led5.addOnClickHandler(sw5Click);
-	led6=pled.getByName("R6PB");
-	led6.addOnClickHandler(sw6Click);
-	led7=pled.getByName("R7PB");
-	led7.addOnClickHandler(sw7Click);
-	led8=pled.getByName("R8PB");
-	led8.addOnClickHandler(sw8Click);
+body {
+    display: flex;
+    flex-direction: column;
 }
 
-function updateFreq(which)
-{
-	if (tDisconnected==1){
-		showConnectAlert();
-		return false;
-	}
-	tButtonWait=1;
-	var num=which;
-	if (tSplitOn==0){
-		switch (tLine1){
-			case ld1:
-				tMain=tMain.substring(0, tMain.length-1)+ num ;
-				break;
-			case ld2:
-				tMain=tMain.substring(0, tMain.length-2)+ num + tMain.substring(tMain.length-1);
-				doDigit(1,1);
-				break;
-			case ld3:
-				tMain=tMain.substring(0, tMain.length-3)+ num + tMain.substring(tMain.length-2);
-				doDigit(10,1);
-				break;
-			case ld4:
-				tMain=tMain.substring(0, tMain.length-4)+ num + tMain.substring(tMain.length-3);
-				doDigit(100,1);
-				break;
-			case ld5:
-				tMain=tMain.substring(0, tMain.length-5)+ num + tMain.substring(tMain.length-4);
-				doDigit(1000,1);
-				break;
-			case ld6:
-				tMain=tMain.substring(0, tMain.length-6)+ num + tMain.substring(tMain.length-5);
-				doDigit(10000,1);
-				break;
-			case ld7:
-				tMain=tMain.substring(0, tMain.length-7)+ num + tMain.substring(tMain.length-6);
-				doDigit(100000,1);
-				break;
-			case ld8:
-				tMain=tMain.substring(0, tMain.length-8)+ num + tMain.substring(tMain.length-7);
-				doDigit(1000000,1);
-				break;
-			case ld9:
-				doDigit(10000000,1);
-				tMain=tMain.substring(0, tMain.length-9)+ num + tMain.substring(tMain.length-8);
-				break;
-			case ld10:
-				doDigit(100000000,1);
-				tMain=tMain.substring(0, tMain.length-10)+ num + tMain.substring(tMain.length-9);
-				break;
-
-		}
-		var cFreq2m=("0000000000" + tMain).slice(-10);
-		var tMain1=addPeriods(cFreq2m);
-		var tF=tMain;
-		var cMain=ppanel.getByName("Main");
-		console.log("tmain1: "+tMain1);
-
-		cMain.setText(tMain1);
-		cMain.setNeedRepaint(true);
-		cMain.refreshElement();
-		console.log("mainoutxxx: "+tMain);
-
-		$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: tMain, table: "RadioInterface"}, function(response){
-				tButtonWait=0;
-			}
-		);
-	}else{
-		switch (stLine1){
-			case sld1:
-				tSub=tSub.substring(0, tSub.length-1)+num;
-				break;
-			case sld2:
-				tSub=tSub.substring(0, tSub.length-2) +num +  tSub.substring(tSub.length-1);
-				doSubDigit(1,1);
-				break;
-			case sld3:
-				tSub=tSub.substring(0, tSub.length-3) +num +  tSub.substring(tSub.length-2);
-				doSubDigit(10,1);
-				break;
-			case sld4:
-				tSub=tSub.substring(0, tSub.length-4) +num +  tSub.substring(tSub.length-3);
-				doSubDigit(100,1);
-				break;
-			case sld5:
-				tSub=tSub.substring(0, tSub.length-5) +num +  tSub.substring(tSub.length-4);
-				doSubDigit(1000,1);
-				break;
-			case sld6:
-				tSub=tSub.substring(0, tSub.length-6) +num +  tSub.substring(tSub.length-5);
-				doSubDigit(10000,1);
-				break;
-			case sld7:
-				tSub=tSub.substring(0, tSub.length-7) +num +  tSub.substring(tSub.length-6);
-				doSubDigit(100000,1);
-				break;
-			case sld8:
-				tSub=tSub.substring(0, tSub.length-8) +num +  tSub.substring(tSub.length-7);
-				doSubDigit(1000000,1);
-				break;
-			case sld9:
-				doSubDigit(10000000,1);
-				tSub=tSub.substring(0, tSub.length-9) +num +  tSub.substring(tSub.length-8);
-				break;
-			case sld10:
-			doSubDigit(100000000,1);
-			tSub=tSub.substring(0, tSub.length-9) +num +  tSub.substring(tSub.length-9);
-			break;
-
-		}
-		var cFreq2s=("0000000000" + tSub).slice(-10);
-		var tSub1=addPeriods(cFreq2s);
-		var cSub=ppanel.getByName("Sub");
-		cSub.setText(tSub1);
-		cSub.setNeedRepaint(true);
-		cSub.refreshElement();
-		$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: tSub, table: "RadioInterface"}, function(response){
-				tButtonWait=0;
-			}
-		);
-
-	}
-	waitRefresh=4;
-
+#rigpiShellNav {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 0;
+    padding: 8px 16px;
+    overflow-x: auto;
+    background: #e3f2fd;
+    color: #212529;
+    font: 400 16px/24px -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-function freq0Click()
-{
-	updateFreq(0);
+#rigpiShellNav .shell-logo {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 40px;
+    margin-right: 16px;
+}
+#rigpiShellNav .shell-logo img { display: block; }
+#rigpiShellNav .brand { text-decoration: none; }
+#rigpiShellNav .shell-logo:focus-visible,
+#rigpiShellNav .brand:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
 }
 
-function freq1Click()
-{
-	updateFreq(1);
+#rigpiShellNav .brand {
+    flex-shrink: 0;
+    margin-right: 16px;
+    padding: 5px 0;
+    color: #f00;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 400;
 }
 
-function freq2Click()
-{
-	updateFreq(2);
+#rigpiShellNav button,
+#rigpiShellNav summary {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 8px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.5);
+    font: inherit;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
-function freq3Click()
-{
-	updateFreq(3);
+#rigpiShellNav button:hover,
+#rigpiShellNav summary:hover,
+#rigpiShellNav details[open] > summary {
+    color: rgba(0, 0, 0, 0.7);
 }
 
-function freq4Click()
-{
-	updateFreq(4);
+#rigpiShellNav button[aria-current="page"],
+#rigpiShellNav details.has-current > summary {
+    background: #39f;
+    color: rgba(0, 0, 0, 0.9);
+    border-radius: 0;
 }
 
-function freq5Click()
-{
-	updateFreq(5);
+#rigpiShellNav button:focus-visible,
+#rigpiShellNav summary:focus-visible,
+#rigpiShellNav .shell-menu a:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: -2px;
 }
 
-function freq6Click()
-{
-	updateFreq(6);
+#rigpiShellNav details { flex-shrink: 0; }
+#rigpiShellNav details[hidden] { display: none; }
+#rigpiShellNav summary { list-style: none; }
+#rigpiShellNav summary::-webkit-details-marker { display: none; }
+#rigpiShellNav summary::after {
+    content: "";
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-left: 0.3em solid transparent;
 }
 
-function freq7Click()
-{
-	updateFreq(7);
+#rigpiShellNav .shell-menu {
+    position: fixed;
+    top: 56px;
+    left: 16px;
+    z-index: 1000;
+    box-sizing: border-box;
+    width: min(280px, calc(100vw - 20px));
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    padding: 8px 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    background: #fff;
+    color: #212529;
+    box-shadow: none;
 }
 
-function freq8Click()
-{
-	updateFreq(8);
+#rigpiShellNav .shell-menu button,
+#rigpiShellNav .shell-menu a {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 32px;
+    padding: 4px 24px;
+    color: #212529;
+    text-align: left;
+    text-transform: none;
+    text-decoration: none;
+    border-radius: 0;
+    font: inherit;
 }
 
-function freq9Click()
-{
-	updateFreq(9);
+#rigpiShellNav .shell-menu button:hover,
+#rigpiShellNav .shell-menu a:hover {
+    background: #f8f9fa;
+    color: #16181b;
 }
 
-function sw1Click()
-{
-	setLed(1);
+#rigpiShellNav .shell-menu button[aria-current="page"] {
+    background: #007bff;
+    color: #fff;
 }
 
-function sw2Click()
-{
-	setLed(2);
+#rigpiContent {
+    display: block;
+    flex: 1 1 0;
+    width: 100%;
+    height: 0;
+    min-height: 0;
+    border: none;
 }
 
-function sw3Click()
-{
-	setLed(3);
+#rigpiShellControls {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 8px;
+    margin-left: auto;
+    padding-left: 16px;
+}
+#rigpiShellControls[hidden] { display: none; }
+#rigpiShellSearch { display: flex; align-items: center; gap: 8px; margin: 0; }
+#rigpiShellSearchText {
+    box-sizing: border-box;
+    width: 100px;
+    height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #fff;
+    color: #495057;
+    font: inherit;
+    text-transform: uppercase;
+}
+#rigpiShellSearchText:focus {
+    outline: 0;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 3px #007bff40;
+}
+#rigpiShellControls button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 6px 12px;
+    color: #212529;
+}
+#rigpiShellControls svg { width: 20px; height: 20px; }
+#rigpiShellControls .shell-search-button {
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+#rigpiShellControls .shell-search-button:hover { background: #28a745; color: #fff; }
+#rigpiShellControls #rigpiShellAudio {
+    padding: 6px 8px;
+    width: 38px;
+    flex: 0 0 38px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+#rigpiShellControls #rigpiShellAudio .shell-audio-pause { display: none; }
+#rigpiShellControls #rigpiShellAudio[aria-pressed="true"] { color: #218838; border-color: #218838; }
+#rigpiShellControls #rigpiShellAudio[aria-pressed="true"] .shell-audio-play { display: none; }
+#rigpiShellControls #rigpiShellAudio[aria-pressed="true"] .shell-audio-pause { display: block; }
+#rigpiShellControls #rigpiShellAudio:focus-visible { outline: 2px solid #39f; outline-offset: 2px; }
+#rigpiShellAudioSettings {
+    box-sizing: border-box;
+    flex: 1;
+    min-height: 0;
+    padding: 0 15px 24px;
+    overflow: auto;
+    background: #444;
+    color: white;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+#rigpiShellAudioSettings[hidden] { display: none; }
+body.shell-audio-settings #rigpiContent { display: none; }
+#rigpiShellAudioSettings h1 {
+    margin: 0 0 24px;
+    padding: 12px 0 14px;
+    border-bottom: 1px solid white;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+}
+#rigpiShellAudioSettings .audio-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px 30px;
+}
+#rigpiShellAudioSettings .audio-setting-row {
+    display: flex;
+    min-width: 0;
+    min-height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    overflow: hidden;
+}
+#rigpiShellAudioSettings .audio-setting-label {
+    display: flex;
+    align-items: center;
+    flex: 0 0 108px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 6px 12px;
+    background: #888;
+}
+#rigpiShellAudioSettings .audio-setting-value {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    padding: 6px 12px;
+    color: #495057;
+    background: #e9ecef;
+    overflow-wrap: anywhere;
+}
+#rigpiShellAudioSettings input { min-width: 0; width: 100%; accent-color: #007bff; }
+#rigpiShellReceiveVolumeValue { flex: 0 0 5ch; min-width: 5ch; white-space: nowrap; overflow-wrap: normal; text-align: right; }
+#rigpiShellAudioSettings .audio-settings-note { margin: 15px 0 0; color: #ddd; font-size: 14px; }
+@media (max-width: 1000px) {
+    #rigpiShellAudioSettings .audio-settings-grid { grid-template-columns: 1fr; }
 }
 
-function sw4Click()
-{
-	setLed(4);
+#rigpiShellAudioFooter { display: none; }
+body.shell-audio-settings #rigpiShellAudioFooter {
+    display: grid;
+    grid-template-columns: 3fr 2fr 3fr 3fr 1fr;
+    flex: 0 0 auto;
+    padding: 0 15px;
+    background: black;
+    color: white;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+#rigpiShellAudioFooter > div { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 991px) {
+    body.shell-audio-settings #rigpiShellAudioFooter { grid-template-columns: 1fr; text-align: center; }
+    #rigpiShellAudioFooter > div:not(:first-child) { display: none; }
 }
 
-function sw5Click()
-{
-	setLed(5);
+#rigpiShellAudioSettings select { flex: 1; min-width: 0; width: 100%; border: 0; padding: 6px 12px; color: #495057; background: #fff; font: inherit; }
+#rigpiShellAudioSettings select:disabled { background: #e9ecef; }
+#rigpiShellAudioSettings .audio-setting-label { flex-basis: 120px; }
+#rigpiShellAudioSettings .audio-pan { padding: 0; gap: 0; background: #444; }
+#rigpiShellAudioSettings button { padding: 6px 16px; border: 1px solid #aaa; border-radius: 4px; color: white; background: #444; font: inherit; cursor: pointer; }
+#rigpiShellAudioSettings .audio-pan button { flex: 1; border: 0; border-radius: 0; }
+#rigpiShellAudioSettings button[aria-pressed="true"] { background: #39f; color: #111; }
+#rigpiShellAudioSettings .audio-meter-panel { margin-top: 24px; border-top: 1px solid #aaa; padding-top: 16px; }
+#rigpiShellAudioSettings .audio-meter-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+#rigpiShellAudioSettings h2 { margin: 0; font-size: 20px; font-weight: 400; }
+#rigpiShellAudioSettings .audio-meter-row { display: grid; grid-template-columns: 100px minmax(100px,1fr) 110px; align-items: center; gap: 15px; margin: 12px 0; }
+#rigpiShellAudioSettings meter { width: 100%; height: 24px; }
+#rigpiShellAudioSettings .audio-meter-scale { display: flex; justify-content: space-between; margin: 0 125px 0 115px; color: #ddd; font-size: 13px; }
+#rigpiShellAudioScope { display: block; width: 100%; height: 180px; background: #111; }
+#rigpiShellAudioScope[hidden], #rigpiShellAudioLevels[hidden] { display: none; }
+#rigpiShellAudioMessage { min-height: 21px; }
+
+#rigpiShellAudioSettings .audio-action-row { grid-column: 1 / -1; }
+#rigpiShellAudioSettings .audio-action-row .audio-setting-value { min-width: 0; flex: 1; }
+#rigpiShellAudioSettings .audio-action-row button { flex: 0 0 auto; white-space: nowrap; }
+#rigpiShellAudioSettings .audio-action-row [role="status"] { min-width: 0; overflow-wrap: anywhere; }
+
+#rigpiShellAudioSettings .audio-action-row.audio-playback-row { grid-column: span 2; }
+#shellRecordPlayer { height: 38px; }
+@media (max-width: 1000px) {
+    #rigpiShellAudioSettings .audio-action-row.audio-playback-row { grid-column: 1 / -1; }
 }
+</style>
+</head>
 
-function sw6Click()
-{
-	setLed(6);
-}
+<body>
 
-function sw7Click()
-{
-	setLed(7);
-}
-
-function sw8Click()
-{
-	setLed(8);
-}
-
-function setLed(which)
-{
-	if (tNoRadio==false && notGotPerfectWidgets==0){
-		$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'Slave', table: 'RadioInterface'}, function(response){
-			var tOld=response;
-			switch (which)
-			{
-				case 1:
-					whichval=1;
-					break;
-				case 2:
-					whichval=2;
-					break;
-				case 3:
-					whichval=4;
-					break;
-				case 4:
-					whichval=8;
-					break;
-				case 5:
-					whichval=16;
-					break;
-				case 6:
-					whichval=32;
-					break;
-				case 7:
-					whichval=64;
-					break;
-				case 8:
-					whichval=128;
-					break;
-			}
-			var tOld1 = dec_to_bho(tOld, 'B');
-			tOld1=padDigits(tOld1,8);
-			var bLed = which;//tOld ^ which;
-			var bled0 = tOld ^ whichval;
-			bled01=dec_to_bho(bled0,'B');
-			bled01=padDigits(bled01,8);
-			var bLed1 = dec_to_bho(bLed,'B');
-			bLed1=padDigits(bLed1,8);
-			var mL='R'+which+'O';
-			var tL=pled.getByName(mL);
-			var ti=8-which;//8-i;
-			if (bled01.substr(ti,1,1)==1 && tOld1.substr(ti,1,1)==0){
-				tL.setVisible(false);
-				var tCom="!SW"+which+"-1";
-			}else{
-				tL.setVisible(true);
-			}
-
-			$.post("/programs/SetSettings.php", {field: 'Slave', radio: tMyRadio, data: bled0, table: "RadioInterface"});
-		});
-	}
-}
+<div id="rigpiShellLoading" role="status" aria-live="polite">
+    <div id="rigpiShellProgress" role="progressbar" aria-label="RigPi startup progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="rigpiShellProgressFill"></span></div>
+    <span>Loading RigPi…</span>
+</div>
 
 
-$(".slider" ).on('touchstart',function() {
-	stopSliderScroll();
-});
+<nav id="rigpiShellNav" aria-label="RigPi main navigation">
+    <a class="shell-logo" href="https://www.rigpi.com" target="_blank" rel="noopener noreferrer" title="Go to https://www.rigpi.com">
+        <img src="/Images/RigPiW.png" width="30" height="30" alt="RigPi">
+    </a>
+    <a class="brand" href="https://www.rigpi.com" target="_blank" rel="noopener noreferrer" title="Go to https://www.rigpi.com">RigPi</a>
+    <button type="button" data-page="/tuner.php" aria-controls="rigpiContent"><u>T</u>uner</button>
+    <button type="button" data-page="/keyer.php" aria-controls="rigpiContent"><u>K</u>eyer</button>
+    <button type="button" data-page="/log.php" aria-controls="rigpiContent"><u>L</u>og</button>
+    <button type="button" data-page="/spots.php" aria-controls="rigpiContent"><u>S</u>pots</button>
+    <button type="button" data-page="/calendar_main.php" aria-controls="rigpiContent"><u>C</u>alendar</button>
+    <button type="button" data-page="/sdr.php" aria-controls="rigpiContent">El<u>m</u>er</button>
+    <button type="button" data-page="/elmer.php" aria-controls="rigpiContent"><u>A</u>sk Elmer</button>
+    <button type="button" data-page="/index_4.php" aria-controls="rigpiContent">SD<u>R</u>4</button>
+    <button type="button" data-page="/web.php" aria-controls="rigpiContent"><u>W</u>eb</button>
+    <details id="rigpiShellSettings" hidden>
+        <summary>S<u>e</u>ttings</summary>
+        <div class="shell-menu" aria-label="Settings pages"></div>
+    </details>
+    <details id="rigpiShellHelp" hidden>
+        <summary><u>H</u>elp</summary>
+        <div class="shell-menu" aria-label="Help resources"></div>
+    </details>
+    <div id="rigpiShellControls" hidden>
+        <button id="rigpiShellAudio" type="button" title="Start receive audio" aria-label="Start receive audio" aria-pressed="false">
+        <svg class="shell-audio-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 4v16l14-8z"/></svg>
+        <svg class="shell-audio-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+    </button>
+    <form id="rigpiShellSearch" role="search" aria-label="Callsign lookup">
+            <input id="rigpiShellSearchText" type="text" placeholder="Search for Call" aria-label="Search for Call" autocomplete="off">
+            <button type="submit" class="shell-search-button" title="Show call info" aria-label="Show call info">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><circle cx="10" cy="10" r="6"></circle><path d="m15 15 6 6"></path></svg>
+            </button>
+        </form>
+        <button id="rigpiShellLogout" type="button" title="Log Out from RigPi" aria-label="Log Out from RigPi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M10 3H4v18h6M9 12h12m-5-5 5 5-5 5"></path></svg>
+        </button>
+    </div>
+</nav>
 
-$(".slider" ).on('touchend',function(e) {
-	return true;
-});
+<main id="rigpiShellAudioSettings" aria-labelledby="rigpiShellAudioSettingsTitle" hidden>
+    <h1 id="rigpiShellAudioSettingsTitle" tabindex="-1">Audio Settings</h1>
+    <div class="audio-settings-grid">
+        <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellAudioSource">Rx source</label><select id="rigpiShellAudioSource"><option value="sdr">SDR</option><option value="radio">Radio USB audio</option></select></div>
+        <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellRadioInput">Radio input</label><select id="rigpiShellRadioInput" disabled><option value="">Select radio input</option></select></div>
+        <div class="audio-setting-row"><span class="audio-setting-label">Status</span><span id="rigpiShellAudioState" class="audio-setting-value" role="status">Paused</span></div>
+        <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellAudioOutput">Speakers</label><select id="rigpiShellAudioOutput"><option value="">System default</option></select></div>
+        <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellReceiveVolume">Rx volume</label><div class="audio-setting-value"><input id="rigpiShellReceiveVolume" type="range" min="0" max="200" step="1" value="50" aria-describedby="rigpiShellAudioVolumeNote"><output id="rigpiShellReceiveVolumeValue" for="rigpiShellReceiveVolume">50%</output></div></div>
+        <div class="audio-setting-row"><span class="audio-setting-label">Balance</span><div class="audio-setting-value audio-pan" role="group" aria-label="Receive balance"><button type="button" data-shell-pan="-1" aria-pressed="false">Left</button><button type="button" data-shell-pan="0" aria-pressed="true">Center</button><button type="button" data-shell-pan="1" aria-pressed="false">Right</button></div></div>
+    </div>
+    <p id="rigpiShellAudioVolumeNote" class="audio-settings-note">Receive settings apply immediately and are saved in this browser.</p>
+    <p id="rigpiShellAudioOutputNote" class="audio-settings-note"></p>
+    <p id="rigpiShellAudioMessage" class="audio-settings-note" role="status"></p>
+    <section class="audio-meter-panel" aria-labelledby="rigpiShellAudioMeterTitle">
+        <div class="audio-meter-heading"><h2 id="rigpiShellAudioMeterTitle">Receive audio level</h2><div role="group" aria-label="Receive meter view"><button type="button" id="rigpiShellAudioVuButton" aria-pressed="true">Level meters</button> <button type="button" id="rigpiShellAudioScopeButton" aria-pressed="false">Spectrum</button></div></div>
+        <div id="rigpiShellAudioLevels">
+            <div class="audio-meter-row"><label for="rigpiShellAudioRms">RMS</label><meter id="rigpiShellAudioRms" min="-60" max="0" low="-18" high="-6" optimum="-24" value="-60"></meter><output id="rigpiShellAudioRmsValue">— dBFS</output></div>
+            <div class="audio-meter-row"><label for="rigpiShellAudioPeak">Peak</label><meter id="rigpiShellAudioPeak" min="-60" max="0" low="-18" high="-6" optimum="-24" value="-60"></meter><output id="rigpiShellAudioPeakValue">— dBFS</output></div>
+            <div class="audio-meter-scale" aria-hidden="true"><span>-60</span><span>-40</span><span>-20</span><span>0 dBFS</span></div>
+        </div>
+        <canvas id="rigpiShellAudioScope" width="1200" height="180" aria-label="Receive audio spectrum from 0 to 12 kHz" hidden></canvas>
+        <p class="audio-settings-note">Levels are measured before the volume control.</p>
+    </section>
 
-function stopSliderScroll(){
-	$('.slider').bind('touchmove', function(e) {
-	  e.preventDefault();
-	  return true;
-	});
+    <section id="rigpiShellRecordingPanel" class="audio-meter-panel" aria-labelledby="rigpiShellRecordingTitle">
+<div class="audio-meter-heading"><h2 id="rigpiShellRecordingTitle">Recording</h2></div>
+<div class="audio-settings-grid">
+<div class="audio-setting-row"><span class="audio-setting-label">Rx audio</span><div class="audio-setting-value" style="flex-wrap:wrap"><button type="button" id="shellRecordStart">● Record</button><button type="button" id="shellRecordPause" disabled>Pause</button><button type="button" id="shellRecordStop" disabled>Stop</button><output id="shellRecordTimer" style="white-space:nowrap;font-variant-numeric:tabular-nums">00:00</output></div></div>
+<div class="audio-setting-row"><span class="audio-setting-label">Status</span><div class="audio-setting-value" style="flex-wrap:wrap;overflow-wrap:anywhere"><span id="shellRecordStatus" role="status">Ready</span> <button type="button" id="shellRecordRetry" hidden>Retry save</button> <a id="shellRecordLocal" hidden>Download unsaved recording</a></div></div>
+<div class="audio-setting-row"><label class="audio-setting-label" for="shellRecordFiles">Saved</label><select id="shellRecordFiles"><option value="">No recordings</option></select></div>
+<div class="audio-setting-row audio-action-row audio-playback-row"><span class="audio-setting-label">Playback</span><div class="audio-setting-value" style="flex-wrap:wrap"><audio id="shellRecordPlayer" controls preload="metadata" style="width:100%;max-width:340px" aria-label="Recording playback"></audio><button type="button" id="shellRecordDownload" hidden onclick="downloadShellRecording()">Download</button><button type="button" id="shellRecordRefresh">Refresh list</button></div></div>
+</div>
+<p class="audio-settings-note">Records the selected receive source, independently of speaker volume. Stop saves the recording on RigPi. Recording continues between shell pages; stopping receive audio also stops and saves the recording. Each recording stops automatically after 60 minutes.</p>
+</section>
+<section id="rigpiShellLoopbackPanel" class="audio-meter-panel" aria-labelledby="rigpiShellLoopbackTitle">
+<div class="audio-meter-heading"><h2 id="rigpiShellLoopbackTitle">Digital-mode loopback</h2></div>
+<div class="audio-settings-grid">
+<div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellLoopbackDevice">Loop out</label><select id="rigpiShellLoopbackDevice"><option value="">Loading loopback devices</option></select></div>
+<div class="audio-setting-row"><span class="audio-setting-label">Rx loopback</span><div class="audio-setting-value"><button type="button" id="rigpiShellLoopbackToggle" aria-pressed="false" disabled>Start loopback</button><span id="rigpiShellLoopbackStatus" role="status">Checking status</span></div></div>
+</div>
+<p class="audio-settings-note">Feeds SDR receive audio to WSJT-X and similar programs on this RigPi. Select the paired Loopback input in your digital-mode program. For Radio USB audio, select the radio USB input directly in that program.</p>
+</section>
+<section id="rigpiShellMicrophonePanel" class="audio-meter-panel" aria-labelledby="rigpiShellMicrophoneTitle">
+        <div class="audio-meter-heading"><h2 id="rigpiShellMicrophoneTitle">Transmit microphone</h2></div>
+        <div class="audio-settings-grid">
+            <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellMicrophoneInput">Microphone</label><select id="rigpiShellMicrophoneInput"><option value="">System default</option></select></div>
+            <div class="audio-setting-row audio-action-row"><span class="audio-setting-label">Mic check</span><div class="audio-setting-value"><button type="button" id="rigpiShellMicrophoneCheck" aria-pressed="false">Check microphone</button><span id="rigpiShellMicrophoneStatus" role="status">Microphone off</span></div></div>
+        </div>
+        <div class="audio-meter-row"><label for="rigpiShellMicrophoneRms">RMS</label><meter id="rigpiShellMicrophoneRms" min="-60" max="0" low="-18" high="-6" optimum="-24" value="-60"></meter><output id="rigpiShellMicrophoneRmsValue">— dBFS</output></div>
+        <div class="audio-meter-row"><label for="rigpiShellMicrophonePeak">Peak</label><meter id="rigpiShellMicrophonePeak" min="-60" max="0" low="-18" high="-6" optimum="-24" value="-60"></meter><output id="rigpiShellMicrophonePeakValue">— dBFS</output></div>
+        <p class="audio-settings-note">Mic check measures your microphone locally. The radio remains in receive.</p>
+        <div class="audio-settings-grid">
+            <div class="audio-setting-row"><label class="audio-setting-label" for="rigpiShellTransmitDevice">Radio output</label><select id="rigpiShellTransmitDevice"><option value="">Select radio output</option></select></div>
+            <div class="audio-setting-row audio-action-row"><span class="audio-setting-label">Tx audio</span><div class="audio-setting-value"><button type="button" id="rigpiShellTransmitConnect" aria-pressed="false">Connect TX audio</button><span id="rigpiShellTransmitStatus" role="status">Disconnected</span></div></div>
+        </div>
+        <p class="audio-settings-note">Connect TX audio, then use PTT on the Tuner. Microphone audio is muted when PTT is released.</p>
+
+    </section>
+</main>
+<footer id="rigpiShellAudioFooter" aria-label="RigPi status"><div></div><div></div><div></div><div></div><div></div></footer>
+
+
+
+<iframe
+    id="rigpiContent"
+    src="<?php echo htmlspecialchars($shellTunerUrl, ENT_QUOTES, 'UTF-8'); ?>"
+    title="RigPi"
+    allow="microphone; autoplay">
+</iframe>
+
+
+<script>
+window.rigpiShell = {
+    started: Date.now(),
+    version: "test-1",
+    currentUrl: null,
+    lastLoaded: null,
+    loadCount: 0
 };
 
-$( "#dKnob" ).on('touchstart',function() {
-	stopScroll();
-});
-
-$( "#dKnob" ).on('touchend',function(e) {
-	return true;
-});
-
-function stopScroll(){
-	$('#dKnob').bind('touchmove', function(e) {
-	  e.preventDefault();
-	  return true;
-	});
-}
-stopScroll();
-const pttb = document.getElementById('dKnob');
-function handleInteraction(event) {
-  event.preventDefault();
-		if (tPTTLatch==2){
-	  setPTT(0, 0);
-	  spacePTT=0;
-  }
-}
-if (window.PointerEvent) {  //to fix PTT lag for mobile and pc browsers
-  pttb.addEventListener('pointerup', handleInteraction);
-} else {
-  pttb.addEventListener('mouseup', handleInteraction);
-  pttb.addEventListener('touchend', handleInteraction);
-}
-$( "#dKnob" ).mouseover(function() {
-	tOverPanel=false;
-	$('#dKnob').bind('mousewheel', function(e) {
-		  e.preventDefault();
-	});
-});
-
-$( "#dKnob" ).mouseleave(function() {
-	tOverPanel=false;
-	$('body').on('scroll mousewheel', function(e) {
-		  return true;
-	});
-});
-
-$( "#dPanel" ).mouseover(function() {
-	tOverPanel=true;
-	$('#dPanel').bind('mousewheel', function(e) {
-		  e.preventDefault();
-	});
-});
-
-$( "#dPanel" ).mouseleave(function() {
-	tOverPanel=false;
-	$('body').on('scroll mousewheel', function(e) {
-		  return true;
-	});
-});
-
-
-$(document).on('click', '#logoutButton', function()
-{
-	openWindowWithPost("/login.php", {
-		status: "loggedout",
-		username: '',
-		password: ''});
-});
-
-function openWindowWithPost(url, data) {
-	var form = document.createElement("form");
-	form.target = "_self";
-	form.method = "POST";
-	form.action = url;
-	form.style.display = "none";
-
-	for (var key in data) {
-		var input = document.createElement("input");
-		input.type = "hidden";
-		input.name = key;
-		input.value = data[key];
-		form.appendChild(input);
-	}
-
-	document.body.appendChild(form);
-	form.submit();
+// Reserve a persistent browser context; no audio engine is loaded yet.
+window.rigpiShell.audioHost = {
+    status: "inactive",
+    created: Date.now(),
+    lastLoaded: null,
+    loadCount: 0
 };
 
-var knobOld=0;
-if (notGotPerfectWidgets==0){
-	slider1.addValueChangedHandler(
-   function (sender, e)
-	{
-		if (tNoRadio==true){
-			return;
-		}
-		var knobVal=parseInt(sender.getValue());
-		var knobChange = parseInt(knobVal/10)-knobOld;
-		var pl=$('#play');
-		if (knobChange!=0 && pl.hasClass('d-none') && tKnobLock==0)
-		{
-			if (knobChange < -5 || knobChange > 5)
-			{
-				knobOld=0;
-				knobChange=1;
-			}
-			if (tSplitOn==0){
-				var cMain=ppanel.getByName("Main");
-				var tMain=cMain.getText();
-				cFreq=tMain.replace(".", "");
-				cFreq=cFreq.replace(".", "");
-				cFreq1=parseInt(cFreq)+knobChange*tuningIncrement;
-				cFreq2=("0000000000" + cFreq1).slice(-10);
-				cFreq2=addPeriods(cFreq2);
-				knobOld=parseInt(knobVal/10);
-				cMain.setText(cFreq2);
-				console.log("tmain2: "+cFreq2);
+const rigpiAudioHost = document.createElement("iframe");
+rigpiAudioHost.id = "rigpiAudioHost";
+rigpiAudioHost.title = "RigPi audio host (inactive)";
+rigpiAudioHost.hidden = true;
+rigpiAudioHost.tabIndex = -1;
+rigpiAudioHost.allow = "microphone; autoplay";
+rigpiAudioHost.src = "about:blank";
+rigpiAudioHost.addEventListener("load", () => {
+    const host = window.rigpiShell.audioHost;
+    host.lastLoaded = new Date().toISOString();
+    host.loadCount += 1;
+    console.log("RigPi shell audio host loaded:", host.status, host.loadCount, host.lastLoaded);
+});
+// Keep this frame in the master document when rigpiContent navigates.
+document.body.appendChild(rigpiAudioHost);
 
-				cMain.setNeedRepaint(true);
-				cMain.refreshElement();
-				$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: cFreq1, table: "RadioInterface"});
-			}else{
-				var cSub=ppanel.getByName("Sub");
-				var tSub1=cSub.getText();
-				cFreq=tSub1.replace(".", "");
-				cFreq=cFreq.replace(".", "");
-				cFreq1=parseInt(cFreq)+knobChange*tuningIncrement;
-				cFreq2=("0000000000" + cFreq1).slice(-10);
-				cFreq2=addPeriods(cFreq2);
-				knobOld=parseInt(knobVal/10);
-				cSub.setText(cFreq2);
-				cSub.setNeedRepaint(true);
-				cSub.refreshElement();
-				$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: cFreq1, table: "RadioInterface"});
-			}
-			waitRefresh=0;
-		}
-		if (showVideo==1 || showVideo==3  || showVideo==4){
-			var cMeterVal=pmeter.getByName("Slider1");
-			cMeterVal.configureAnimation({"enabled":true,"ease":"easeOutBack","duration":1,"direction":"normal"});
-		}
-	   })
-   }
+// Receive-only prototype: no microphone capture or transmit connection.
+const shellAudioButton = document.getElementById("rigpiShellAudio");
+let shellAudioConfig = null;
+let shellRx = null;
+let shellRxGeneration = 0;
+Object.assign(window.rigpiShell.audioHost, { packets: 0, samples: 0, error: null });
 
-	function resetClass(){
-		var sec = 0;
-		clearInterval(classTimer);
-		classTimer = setInterval(function() {
-			sec=sec-1;
-			if (sec == -1) {
-				clearInterval(classTimer);
-			 }
-		}, 1000);
-	}
+let shellReceiveVolume = 50;
+try {
+    const saved = localStorage.getItem("rigpi_shell_receive_volume");
+    if (saved !== null && saved.trim() !== "" && Number.isFinite(Number(saved))) {
+        shellReceiveVolume = Math.max(0, Math.min(200, Number(saved)));
+    }
+} catch (_) { /* Volume still works when browser storage is unavailable. */ }
 
 
-	function PBmp1Clicked(updateVal)
-	{
-		tuneMain(1000);
-	}
-
-	function up1Clicked()
-	{
-		   tTuneFromTap=1;
-		doDigit(1000000, 0);
-	}
-
-	function sup1Clicked()
-	{
-		   tTuneFromTap=1;
-		doSubDigit(1000000, 0);
-	}
-
-	function dn1Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-1000000, 0);
-	}
-
-	function sdn1Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-1000000, 0);
-	}
-
-	function up10Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(10000000, 0);
-	}
-
-	function sup10Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-10000000, 0);
-	}
-
-	function dn10Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-10000000, 0);
-	}
-
-	function sdn10Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-10000000, 0);
-	}
-
-	function up100Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(100000000, 0);
-	}
-
-	function up1000Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(1000000000, 0);
-	}
-
-	function sup100Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(100000000, 0);
-	}
-
-	function sup1000Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(1000000000, 0);
-	}
-
-	function dn100Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-100000000, 0);
-	}
-
-	function sdn100Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-100000000, 0);
-	}
-
-	function sdn1000Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-1000000000, 0);
-	}
-
-	function up01Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(100000, 0);
-	}
-
-	function sup01Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(100000, 0);
-	}
-
-	function dn01Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-100000, 0);
-	}
-
-	function sdn01Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-100000, 0);
-	}
-
-	function up001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(10000, 0);
-	}
-
-	function sup001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(10000, 0);
-	}
-
-	function dn001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-10000, 0);
-	}
-
-	function sdn001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-10000, 0);
-	}
-
-	function up0001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(1000, 0);
-	}
-
-	function sup0001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(1000, 0);
-	}
-
-	function dn0001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-1000, 0);
-	}
-
-	function sdn0001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-1000, 0);
-	}
+function syncShellAudioFooter() {
+    if (document.getElementById("rigpiShellAudioSettings").hidden) return;
+    const frame = document.getElementById("rigpiContent");
+    try {
+        const cells = document.getElementById("rigpiShellAudioFooter").children;
+        for (let i = 0; i < cells.length; i++) {
+            const source = frame.contentDocument.getElementById("fPanel" + (i + 1));
+            const text = source ? source.textContent : "";
+            if (cells[i].textContent !== text) cells[i].textContent = text;
+            if (source) {
+                const style = frame.contentWindow.getComputedStyle(source);
+                cells[i].style.color = style.color;
+                cells[i].style.backgroundColor = style.backgroundColor;
+                cells[i].style.font = style.font;
+                cells[i].style.textAlign = style.textAlign;
+            }
+        }
+    } catch (_) {}
+}
+setInterval(syncShellAudioFooter, 1000);
 
 
-	function upx1Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(100,0);
-	}
+let shellRxChoice = null;
+let shellPan = 0;
+let shellSink = "";
+let shellMeterView = "level";
+try {
+    const saved = JSON.parse(localStorage.getItem("rigpi_shell_rx_choice") || "null");
+    if (saved && ["sdr", "radio"].includes(saved.source)) shellRxChoice = saved;
+    const pan = Number(localStorage.getItem("rigpi_shell_pan") || "0");
+    if ([-1, 0, 1].includes(pan)) shellPan = pan;
+    shellSink = localStorage.getItem("rigpi_shell_sink") || "";
+} catch (_) {}
+function shellReceiveChoice(config) {
+    return shellRxChoice ? { source: shellRxChoice.source, device: shellRxChoice.device } : { ...config.receive };
+}
+function refreshShellReceiveControls() {
+    const config = shellAudioConfig;
+    const choice = config ? shellReceiveChoice(config) : { source: "sdr", device: null };
+    const source = document.getElementById("rigpiShellAudioSource");
+    source.options[0].textContent = config ? "SDR — " + (config.deviceLabel || "SDR") : "SDR";
+    source.value = choice.source;
+    source.disabled = !config;
+    const input = document.getElementById("rigpiShellRadioInput");
+    const devices = config?.radioDevices || [];
+    const signature = JSON.stringify(devices);
+    if (input.dataset.devices !== signature) {
+        input.replaceChildren(new Option("Select radio input", ""));
+        for (const item of devices) input.add(new Option(item.label, item.value));
+        input.dataset.devices = signature;
+    }
+    input.value = choice.device === null ? "" : String(choice.device);
+    input.disabled = !config;
+    document.querySelectorAll('[data-shell-pan]').forEach(button => {
+        button.setAttribute("aria-pressed", String(Number(button.dataset.shellPan) === shellPan));
+    });
+}
+function changeShellReceiveSource() {
+    if (!shellAudioConfig) return;
+    const source = document.getElementById("rigpiShellAudioSource").value;
+    const raw = document.getElementById("rigpiShellRadioInput").value;
+    const device = raw === "" ? null : Number(raw);
+    const message = document.getElementById("rigpiShellAudioMessage");
+    if (source === "radio" && device === null) {
+        message.textContent = "Select a radio input before choosing Radio USB audio.";
+        refreshShellReceiveControls();
+        return;
+    }
+    shellRxChoice = { source, device };
+    try { localStorage.setItem("rigpi_shell_rx_choice", JSON.stringify(shellRxChoice)); } catch (_) {}
+    message.textContent = "";
+    if (shellRx && shellRx.socket?.readyState === 1) {
+        const current = shellRx.config.receive;
+        if (current.source !== source || (source === "radio" && current.device !== device)) {
+            flushShellAudio(shellRx);
+            shellRx.config = { ...shellRx.config, receive: { ...shellRxChoice } };
+            shellRx.socket.send(JSON.stringify({ cmd: "audio_off" }));
+            shellRx.socket.send(JSON.stringify({ cmd: "audio_on", ...shellRxChoice }));
+            shellRx.lastPacket = Date.now();
+            setShellAudioStatus("waiting");
+        }
+    }
+    refreshShellReceiveControls();
+}
+document.getElementById("rigpiShellAudioSource").addEventListener("change", changeShellReceiveSource);
+document.getElementById("rigpiShellRadioInput").addEventListener("change", changeShellReceiveSource);
+document.querySelectorAll('[data-shell-pan]').forEach(button => button.addEventListener("click", () => {
+    shellPan = Number(button.dataset.shellPan);
+    if (shellRx) shellRx.panner.pan.setTargetAtTime(shellPan, shellRx.context.currentTime, 0.02);
+    try { localStorage.setItem("rigpi_shell_pan", String(shellPan)); } catch (_) {}
+    refreshShellReceiveControls();
+}));
+async function refreshShellSpeakers() {
+    const select = document.getElementById("rigpiShellAudioOutput");
+    const note = document.getElementById("rigpiShellAudioOutputNote");
+    const Context = rigpiAudioHost.contentWindow.AudioContext;
+    const supported = !!Context?.prototype.setSinkId && !!navigator.mediaDevices?.enumerateDevices;
+    select.disabled = !supported;
+    if (!supported) {
+        note.textContent = "Speaker selection is unavailable on this connection. Audio uses the Mac's selected sound output.";
+        return;
+    }
+    try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        select.replaceChildren(new Option("System default", ""));
+        for (const device of devices.filter(item => item.kind === "audiooutput" && item.deviceId !== "default")) {
+            select.add(new Option(device.label || "Speaker " + select.options.length, device.deviceId));
+        }
+        select.value = shellSink;
+        if (select.selectedIndex < 0) select.value = "";
+        note.textContent = "";
+    } catch (_) { note.textContent = "Unable to list speakers. Audio uses the system default."; }
+}
+document.getElementById("rigpiShellAudioOutput").addEventListener("change", async event => {
+    const selected = event.target.value;
+    const message = document.getElementById("rigpiShellAudioMessage");
+    event.target.disabled = true;
+    try {
+        if (shellRx) await shellRx.context.setSinkId(selected);
+        shellSink = selected;
+        try { localStorage.setItem("rigpi_shell_sink", shellSink); } catch (_) {}
+        message.textContent = "";
+    } catch (_) {
+        event.target.value = shellSink;
+        message.textContent = "That speaker could not be selected. The previous output is still in use.";
+    } finally { event.target.disabled = false; }
+});
+function setShellMeterView(view) {
+    shellMeterView = view;
+    document.getElementById("rigpiShellAudioLevels").hidden = view !== "level";
+    document.getElementById("rigpiShellAudioScope").hidden = view !== "spectrum";
+    document.getElementById("rigpiShellAudioVuButton").setAttribute("aria-pressed", String(view === "level"));
+    document.getElementById("rigpiShellAudioScopeButton").setAttribute("aria-pressed", String(view === "spectrum"));
+}
+document.getElementById("rigpiShellAudioVuButton").addEventListener("click", () => setShellMeterView("level"));
+document.getElementById("rigpiShellAudioScopeButton").addEventListener("click", () => setShellMeterView("spectrum"));
+function updateShellReceiveMeters() {
+    if (document.getElementById("rigpiShellAudioSettings").hidden) return;
+    const session = shellRx;
+    const active = session && session.context.state === "running" && !session.muted && window.rigpiShell.audioHost.status === "playing";
+    let rms = 0, peak = 0;
+    if (active) {
+        session.analyser.getFloatTimeDomainData(session.meterSamples);
+        for (const value of session.meterSamples) { rms += value * value; peak = Math.max(peak, Math.abs(value)); }
+        rms = Math.sqrt(rms / session.meterSamples.length);
+    }
+    for (const [name, value] of [["Rms", rms], ["Peak", peak]]) {
+        const db = value > 0 ? 20 * Math.log10(value) : -Infinity;
+        document.getElementById("rigpiShellAudio" + name).value = Math.max(-60, Math.min(0, db));
+        document.getElementById("rigpiShellAudio" + name + "Value").value = Number.isFinite(db) ? db.toFixed(1) + " dBFS" : "— dBFS";
+    }
+    if (shellMeterView !== "spectrum") return;
+    const canvas = document.getElementById("rigpiShellAudioScope");
+    const ctx = canvas.getContext("2d");
+    const width = canvas.width, height = canvas.height;
+    ctx.fillStyle = "#111"; ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = "#444"; ctx.lineWidth = 1;
+    for (let i = 1; i <= 4; i++) {
+        const x = i * width / 4;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height - 24); ctx.stroke();
+    }
+    ctx.font = "13px sans-serif"; ctx.fillStyle = "#ddd";
+    for (let i = 0; i <= 4; i++) ctx.fillText(i * 3 + " kHz", Math.min(width - 50, i * width / 4), height - 6);
+    if (!active) return;
+    session.analyser.getByteFrequencyData(session.meterBins);
+    ctx.strokeStyle = "#44dd99"; ctx.lineWidth = 2;
+    const trace = new Path2D();
+    const count = Math.min(session.meterBins.length, Math.floor(12000 / (session.context.sampleRate / session.analyser.fftSize)));
+    for (let i = 0; i < count; i++) {
+        const x = i * width / Math.max(1, count - 1);
+        const y = (height - 28) * (1 - session.meterBins[i] / 255);
+        if (i === 0) trace.moveTo(x, y); else trace.lineTo(x, y);
+    }
+    const area = new Path2D(trace);
+    area.lineTo(width, height - 28);
+    area.lineTo(0, height - 28);
+    area.closePath();
+    ctx.fillStyle = "rgba(144, 238, 144, 0.30)";
+    ctx.fill(area);
+    ctx.stroke(trace);
+}
+setInterval(updateShellReceiveMeters, 100);
 
-	function supx1Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(100,0);
-	}
+function updateShellAudioSettings() {
+    const config = (shellRx && shellRx.config) || shellAudioConfig;
+    refreshShellReceiveControls();
+    const state = window.rigpiShell.audioHost;
+    const labels = { inactive: "Paused", starting: "Connecting", waiting: "Waiting for audio", playing: "Playing", error: "Audio unavailable" };
+    document.getElementById("rigpiShellAudioState").textContent = state.error || labels[state.status] || state.status;
+    document.getElementById("rigpiShellReceiveVolume").value = shellReceiveVolume;
+    document.getElementById("rigpiShellReceiveVolumeValue").value = Math.round(shellReceiveVolume) + "%";
+}
 
-	function dnx1Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-100,0);
-	}
+function openShellAudioSettings() {
+    refreshShellRecordings();
+    refreshShellLoopback();
+    if (window.rigpiShell.transmit?.pttRequested) setShellTransmitGate(false);
+    refreshShellTransmitControls();
+    refreshShellMicrophones();
+    closeShellMenus();
+    try {
+        const config = readShellAudioConfig();
+        if (config) shellAudioConfig = config;
+    } catch (_) {}
+    updateShellAudioSettings();
+    document.getElementById("rigpiShellAudioSettings").hidden = false;
+    document.body.classList.add("shell-audio-settings");
+    updateShellNavigation();
+    syncShellAudioFooter();
+    refreshShellSpeakers();
+    updateShellReceiveMeters();
+    document.getElementById("rigpiShellAudioSettingsTitle").focus();
+}
 
-	function sdnx1Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-100,0);
-	}
-
-	function upx01Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(10,0);
-	}
-
-	function supx01Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(10,0);
-	}
-
-	function dnx01Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-10,0);
-	}
-
-	function sdnx01Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-10,0);
-	}
-
-	function upx001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(1,0);
-	}
-
-	function supx001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(1,0);
-	}
-
-	function dnx001Clicked()
-	{
-		tTuneFromTap=1;
-		doDigit(-1,0);
-	}
-
-	function sdnx001Clicked()
-	{
-		tTuneFromTap=1;
-		doSubDigit(-1,0);
-	}
-
-	function keypadClicked(updateVal)
-	{
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		}
-		if (tDisconnected==0){
-			$('#dt').blur().focus();
-		}else{
-			showConnectAlert();
-			return;
-		}
-	}
-
-   function plusClicked(updateVal)
-	{
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		}
-		var pl=$('#play');
-		if (pl.hasClass('d-none')){
-			clearInterval(si);
-			if (tSplitOn==0){
-				tuneMain(tuningIncrement);
-				si=setInterval(plusPressed, 500, "m");
-			}else{
-				tuneSplit(tuningIncrement);
-				si=setInterval(plusPressed, 500, "s");
-			}
-		};
-	}
-
-	function plusPressed(which){
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		}
-		if (plus.getPressed()){
-			if (which=="m"){
-				tuneMain(tuningIncrement);
-			}else{
-				tuneSplit(tuningIncrement);
-			}
-		}else{
-			clearInterval(si);
-		}
-
-	}
-
-	function minusClicked()
-	{
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		}
-		var pl=$('#play');
-		if (pl.hasClass('d-none')){
-			clearInterval(si);
-			if (tSplitOn==0){
-				tuneMain(-1*tuningIncrement);
-				si=setInterval(minusPressed, 500, "m");
-			}else{
-				tuneSplit(-1*tuningIncrement);
-				si=setInterval(minusPressed, 500, "s");
-			}
-		};
-	}
-
-	function minusPressed(which){
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		}
-		if (minus.getPressed()){
-			if (which=="m"){
-				tuneMain(-1*tuningIncrement);
-			}else{
-				tuneSplit(-1*tuningIncrement);
-			}
-		}else{
-			clearInterval(si);
-		}
-
-	}
-
-	$(window).on('wheel', function(event){
-		var pl=$('#play');
-		if (pl.hasClass('d-none')){
-			if (tOverPanel==true){
-				if (tSplitOn==0){
-					if (event.originalEvent.deltaY<0){
-						tuneMain(tuningIncrement);
-					}else{
-						tuneMain(-tuningIncrement);
-					}
-				}else{
-					if (event.originalEvent.deltaY<0){
-						tuneSplit(tuningIncrement);
-					}else{
-						tuneSplit(-tuningIncrement);
-					}
-				}
-			}
-		}
-	})
-$(document).keydown(function(e){
-	if (window.elmerControlKeyboardActive || $(e.target).closest('#elmerControl').length || document.querySelector('#elmerControl')?.contains(document.activeElement)) return true;
-	var t=e.key;
-	e.multiple
-	var w=e.which;
-	if (w==13){
-		$("#searchButton").click();
-	}
+document.getElementById("rigpiShellReceiveVolume").addEventListener("input", (event) => {
+    shellReceiveVolume = Number(event.target.value);
+    if (shellRx) shellRx.gain.gain.setTargetAtTime(rigpiShell.transmit?.pttRequested ? 0 : shellReceiveVolume / 100, shellRx.context.currentTime, 0.02);
+    document.getElementById("rigpiShellReceiveVolumeValue").value = shellReceiveVolume + "%";
+    try { localStorage.setItem("rigpi_shell_receive_volume", String(shellReceiveVolume)); } catch (_) {}
 });
 
-	$("input").bind("keydown", function(event)
-	{
-		if (window.elmerControlKeyboardActive || $(event.target).closest('#elmerControl').length || document.querySelector('#elmerControl')?.contains(document.activeElement)) return true;
-		// track enter key
-		var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
-		if (keycode == 13) { // keycode for enter key
-			if ($('#searchText').val()==''){
-				return false;
-			}
-			tDX=$('#searchText').val().toUpperCase();
-			$('#searchText').val(tDX);
-			document.getElementById('searchButton').click();
-			$.post("/programs/SetSettings.php", {field: "DX", radio: tMyRadio, data: tDX, table: "MySettings"});
-			return false;
-		} else  {
-			return true;
-		}
-	});
-
-	function showSettings(){
-		var set=document.getElementById('Preview');
-		set.click();
-	}
-
-	function changeMacroColor(which){
-		// Deselect all bank buttons
-		$('#myBank1x,#myBank2x,#myBank3x,#myBank4x').removeClass('btn-info btn-warning').addClass('btn-color');
-		// Highlight selected
-		$('#myBank'+which+'x').removeClass('btn-color').addClass('btn-info');
-		$.post("/programs/SetSettings.php", {field: "MacroBankTuner", radio: tMyRadio, data: which, table: "RadioInterface"});
-		return false;
-	}
-
-	function checkConnection(response){
-		if (response > 0){
-			tDisconnected=0;
-			var text= "<br>"+tRadioName + " is connected, frequency is: <br><br><h2c>" + addPeriods(response) + " MHz<br><br>";
-		}else{
-			setTimeout(() => console.log("First"), 1000);
-			$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'MainIn', table: 'RadioInterface'}, function(response){
-				  if (response=="OFF" || trim(response) == ""){
-					tDisconnected=1;
-					var text="<br>RigPi is waiting for radio " + tRadioName + "...<p><p>";
-				  }else{
-					tDisconnected=0;
-					var text= "<br>"+tRadioName + " is connected, frequency is: <br><br>1<h2c>" + addPeriods(response) + " MHz<br><br>";
-				  }
-			})
-		}
-		if (tDisconnected==0){
-			$(".modalA-body").html(text);
-			$(".modalA-title").html("Radio Connection");
-			  $("#myModalAlert").modal('show');
-			  if (tMyPTT==3){
-				  $.post('/programs/doGPIOPTT.php', {PTTControl: "on"});
-			  }
-			  var pl=$('#play');
-			  pl.addClass('d-none');
-			  var pl=$('#playOK');
-			  pl.removeClass('d-none');
-			  var el=$('#spinner');
-			  el.addClass('d-none');
-			  setTimeout(function(){
-				  $("#myModalAlert").modal('hide');
-			 },
-			  4000);
-		}else{
-			tDisconnected=1;
-			var pl=$('#play');
-			  pl.addClass('d-none');
-			  var pl=$('#playOK');
-			  pl.removeClass('d-none');
-			  var el=$('#spinner');
-			  el.addClass('d-none');
-
-			  var text="<br>RigPi is waiting...is your radio turned on?<p><p>"
-			  $(".modalA-body").html(text);
-			$("modalA-title").html("Radio Problem");
-			  $("#myModalAlert").modal('show');
-			  setTimeout(function(){
-
-				  $("#myModalAlert").modal('hide');
-			 },
-			  4000);
-
-
-		  }
-	}
-	function doHamlib(){
-		$.post('/programs/hamlibDo.php', {test: 0, keyer:tMyKeyer, radio:tMyRadio, user:tUserName, radioPort:tRadioPort, CWPort:tCWPort, tcpPort:tMyTCPPort, rotorPort: tMyRotorPort, keyerPort:tMyKeyerPort, keyerIP:tMyKeyerIP, keyerFunc:tMyKeyerFunction, UDPPort: tUDPPort}, function(response) {
-			if (response.indexOf("OFF")>-1 || response.trim == ""){
-				checkConnection(response);
-				startCounter=0;
-				startConnection=0;
-			}else{
-				$.post('/programs/SetSettings.php', {field: 'MainIn', radio: tMyRadio, data: response.trim(), table: 'RadioInterface'});
-				$.post('/programs/SetSettings.php', {field: 'SubIn', radio: tMyRadio, data: response.trim(), table: 'RadioInterface'});
-				startConnection=1;
-				startCounter=4;
-			}
-		})
-	}
-
-
-
-
-
-
-		function connectRadio(){
-			var pl=$('#play');
-			pl.addClass('d-none');
-			var pl=$('#playOK');
-			pl.addClass('d-none');
-			var el=$('#spinner');
-			el.addClass('fa-spin');
-			el.removeClass('d-none');
-			waitRefresh=4;
-			tDisconnected=0;
-			if (tMyKeyer=='RigPi Keyer' || tMyKeyer == 'rpk1'){
-				tMyKeyer='rpk1';
-				$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKSpeed'}, function(response) {
-					tSpeed=response;
-					updateButtonLabels("/OLD", tSpeedOriginal);//tSpeed);
-					$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed, table: "Keyer"});
-					$.post("/programs/SetSettings.php", {field: "CWChangeCk", radio: tMyRadio, data: 1, table: "RadioInterface"});
-					$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: "", table: "RadioInterface"});
-				});
-			}else if (tMyKeyer=='via CAT'){
-				tMyKeyer='cat';
-			}else if (tMyKeyer=="WinKeyer"){
-				tMyKeyer="wkr";
-			}else if (tMyKeyer=="External CTS"){
-				tMyKeyer="ext";
-			}
-			var response=false;
-			doDisconnect(function(){
-				tDisconnected=0;
-				var el=$('#spinner');
-				el.addClass('fa-spin');
-				el.removeClass('d-none');
-
-				$.post('/programs/h.php',{test: 0, keyer: tMyKeyer,radio:tMyRadio, user:tUserName, radioPort:tRadioPort, CWPort:tCWPort, tcpPort:tMyTCPPort, rotorPort: tMyRotorPort, keyerPort:tMyKeyerPort, keyerIP:tMyKeyerIP, keyerFunc:tMyKeyerFunction, UDPPort: tUDPPort, startUpDelay: 0, lite: 0},function(response){
-///				response='7074000';
-//			$.post('/programs/SetSettings.php', {field: 'MainOut', radio: tMyRadio, data: response.trim(), table: 'RadioInterface'});
-					$.post('/programs/SetSettings.php', {field: 'MainIn', radio: tMyRadio, data: response, table: 'RadioInterface'});
-//			$.post('/programs/SetSettings.php', {field: 'SubOut', radio: tMyRadio, data: response.trim(), table: 'RadioInterface'});
-					$.post('/programs/SetSettings.php', {field: 'SubIn', radio: tMyRadio, data: response, table: 'RadioInterface'});
-					alertActive=true
-
-					doHamlib();
-				});
-			});
-	};
-		//vfo
-		$(document).on('click', '#connect', function()
-		{
-			connectRadio();
-		});
-
-
-		function setSplit(which){
-			if (tSplitOn==0){
-				$.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: 1, table: "RadioInterface"});
-			}else{
-				$.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: 0, table: "RadioInterface"});
-			}
-		}
-		function doDisconnect(onComplete){
-			var reconnecting=typeof onComplete==='function';
-			tSplitOn=0;
-			toggleSplitButton(tSplitOn, 1);
-			var el=$('#spinner');
-			  el.addClass('d-none');
-			  tDisconnected=1;
-		   $.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: tSplitOn, table: "RadioInterface"});
-		   var disconnectRequest=$.post('/programs/disconnectRadio.php', {radio: tMyRadio, port: tRadioPort, id: tID, user: tUserName, rotor: tMyRotorRadio, instance:<?php echo $_SESSION[
-         "myInstance"
-     ]; ?>}, function(response) {
-			  var pl=$('#play');
-				pl.removeClass('d-none');
-				var pl=$('#playOK');
-				pl.addClass('d-none');
-				if (!reconnecting){
-					if (tPC.indexOf('Off')>0){
-						$(".modalA-body").html('<br>Radio is disconnected and power is off.<br><br>');
-					}else{
-						$(".modalA-body").html('<br>Radio is disconnected.<br><br>');
-					}
-					$(".modalA-title").html("Radio Connection");
-					$("#myModalAlert").modal('show');
-					setTimeout(function(){
-						$("#myModalAlert").modal('hide');
-						setTimeout(function(){
-							if ($('.modal.show').length===0){
-								$('.modal-backdrop').remove();
-								$('body').removeClass('modal-open').css('padding-right','');
-							}
-						},250);
-					},2000);
-				}
-				   $.post("/programs/SetSettings.php", {field: "SubIn", radio: tMyRadio, data: "OFF", table: "RadioInterface"});
-				   $.post("/programs/SetSettings.php", {field: "MainIn", radio: tMyRadio, data: "OFF", table: "RadioInterface"});
-				  if (tMyPTT==3){
-					  $.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
-				  }
-			});
-			disconnectRequest.always(function(){
-				if(reconnecting){
-					$("#myModalAlert").modal('hide');
-					$('.modal-backdrop').remove();
-					$('body').removeClass('modal-open').css('padding-right','');
-				}
-				if(typeof onComplete==='function')onComplete();
-			});
-			waitRefresh=4;
-
-		}
-
-		window.elmerRadioConnectionCommand=function(action){
-			if(action==='connect')connectRadio();
-			else if(action==='disconnect')doDisconnect();
-		};
-		window.elmerRadioPowerCommand=function(command){processCommand(command,'');};
-		window.elmerVfoCommand=function(action){
-			var ids={swap:'#ABButton',a_to_b:'#A2BButton',a_to_memory:'#A2MButton',memory_to_a:'#M2AButton'};
-			if(!ids[action])return;
-			var run=function(){$(ids[action]).trigger('click');};
-			if(tSplitOn==1){run();return;}
-			$('#SplitaButton').trigger('click');
-			setTimeout(run,600);
-		};
-
-
-		function disconnectRadio(){
-			return; //not used
-			tSplitOn=0;
-				toggleSplitButton(tSplitOn, 1);
-				var el=$('#spinner');
-				  el.addClass('d-none');
-				  tDisconnected=1;
-			   $.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: tSplitOn, table: "RadioInterface"});
-				  $.post('/programs/disconnectRadio.php', {radio: tMyRadio, port: tRadioPort, id: tID, user: tUserName, rotor: tMyRotorRadio}, function(response) {
-				  var pl=$('#play');
-					pl.removeClass('d-none');
-					var pl=$('#playOK');
-					pl.addClass('d-none');
-					$(".modalA-body").html("<br"+response+"<br><br>");
-					$(".modalA-title").html("Radio Connection");
-					  $("#myModalAlert").modal('show');
-					  setTimeout(function(){
-						  $("#myModalAlert").modal('hide');
-					 },
-					  2000);
-					   $.post("/programs/SetSettings.php", {field: "MainIn", radio: tMyRadio, data: "OFF", table: "RadioInterface"});
-					  if (tMyPTT==3){
-						  $.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
-					  }
-				});
-				waitRefresh=4;
-		}
-
-		$(document).on('click', '#disconnect', function()
-		{
-			doDisconnect();
-		});
-
-
-		$(document).on('click', '#A2BButton', function()
-		{
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (tSplitOn==0){
-				showDisabedAlert();
-				return false;
-			}
-		   $.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'MainIn'}, function(response)
-			{
-				var tA=response;
-				$.post('/programs/SetSettings.php', {field: 'B', radio: tMyRadio, data: tA, table: 'RadioInterface'}, function(response)
-				{
-					$.post('/programs/SetSettings.php', {field: 'SubOut', radio: tMyRadio, data: tA, table: 'RadioInterface'}, function(response)
-					{
-					});
-				});
-			});
-		});
-
-		$(document).on('click', '#A2MButton', function()
-		{
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (tSplitOn==0){
-				showDisabledAlert();
-				return false;
-			}
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'MainIn'}, function(response)
-			{
-				var tA=response;
-				$.post('/programs/SetSettings.php', {field: 'M', radio: tMyRadio, data: tA, table: 'RadioInterface'});
-			})
-		});
-
-		$(document).on('click', '#M2AButton', function()
-		{
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (tSplitOn==0){
-				showDisabledAlert();
-				return false;
-			}
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'M'}, function(response)
-			{
-				var tA=response;
-				$.post('/programs/SetSettings.php', {field: 'A', radio: tMyRadio, data: tA, table: 'RadioInterface'}, function(response)
-				{
-					$.post('/programs/SetSettings.php', {field: 'MainOut', radio: tMyRadio, data: tA, table: 'RadioInterface'});
-				});
-			})
-		});
-
-		$(document).on('click', '#ABButton', function() {
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (tSplitOn==0){
-				showDisabledAlert();
-				return false;
-			}
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'MainIn'}, function(response) {
-				var tA=response;
-				$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'SubIn'}, function(response) {
-					var tB=response;
-					$.post('/programs/SetSettings.php', {field: 'B', radio: tMyRadio, data: tA, table: 'RadioInterface'}, function(response)
-					{
-						$.post('/programs/SetSettings.php', {field: 'A', radio: tMyRadio, data: tB, table: 'RadioInterface'}, function(response)
-						{
-							$.post('/programs/SetSettings.php', {field: 'SubOut', radio: tMyRadio, data: tA, table: 'RadioInterface'}, function(response)
-							{
-								$.post('/programs/SetSettings.php', {field: 'MainOut', radio: tMyRadio, data: tB, table: 'RadioInterface'});
-							});
-						});
-					});
-				});
-			});
-		});
-
-		<?php require_once $dRoot . "/includes/buildMacros.php"; ?>
-
-		$(document).on('click', '#SplitaButton', function()
-		{
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			var btn =document.getElementById('SplitaButton');
-			if (tSplitDisabled==0){
-				$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'SplitIn'}, function(response)
-				{
-					var tSplit=response;
-					if (tSplit==1)
-					{
-						tSplit=0;
-					}else{
-						tSplit=1;
-					}
-					tSplitOn=tSplit;
-				   if (tSplitOn==1){
-						doDigit(0, 1);
-						doSubDigit(tuningIncrement, 1);
-					}else{
-						doSubDigit(0, 1);
-						doDigit(tuningIncrement, 1)
-					}
-					toggleSplitButton(tSplit, 1);
-					waitRefresh=0;
-					$.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: tSplitOn, table: "RadioInterface"});
-				 });
-			}else{
-				if (tSplit==0){
-					tSplit=1;
-					doDigit(0, 1);
-					doSubDigit(tuningIncrement, 1);
-				}else{
-					tSplit=0;
-					doSubDigit(0, 1);
-					doDigit(tuningIncrement, 1)
-				}
-				toggleSplitButton(tSplit, 1);
-				$.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: tSplit, table: "RadioInterface"});
-			}
-		});
-
-		$('#dt').keyup(function(e) {
-			var t=e.key;
-			if (e.which>47 && e.which< 58 && tButtonWait==0){
-				if (tNoRadio==true || t===""){
-					$('#dt').blur().focus();
-					$('#dt').val('');
-					return;
-				}
-				alreadyDone=0;
-				$('#dt').blur().focus();
-				$('#dt').val(t);
-				numTune(t);
-			}else{
-				return;
-			}
-		});
-
-
-
-		$.post('/programs/GetUserField.php', {un:tUserName,field:'WSJTXPort'}, function(response){
-		  tUDPPort=response;
-		});
-
-	var tUpdate = setInterval(bearingTimer,1000)
-	function bearingTimer()
-	{
-		$.post("/programs/GetRotorIn.php", {rotor: tMyRotorRadio},function(response){
-			var tAData=response.split('`');
-			tAData=response;
-			if (tAData=="+"){
-				tAData="--";
-			}
-			tAz=Math.round(tAData)+"&#176;";
-			tCurBeam=tAz;
-			for (i = 0; i < 32; i++) {
-				x=aMacros[i];
-				if (typeof x=='string'){
-					if (x.indexOf("ROTATE")>-1){
-						var mB="m" + i + "Button";
-						y=x.split("|");
-						if (document.getElementById(mB)){
-							document.getElementById(mB).innerHTML=y[0] + " (" + tCurBeam + ")";
-						}
-					};
-				};
-			};
-
-	//		refreshButtons();
-			$(".angle").html(tAz);
-		});
-		tBand=GetBandFromFrequency(tMain);
-//		if (tBand.indexOf('NK')>0){
-//			setTopBand(tBand);
-//		}else{
-			if (tBand==70 || tBand==23){
-				setTopBand(tBand+'cm');
-			}else{
-				setTopBand(tBand+'m');
-			}
-//		}
-		$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKSpeed'}, function(response) {
-			if (response.indexOf("NG")<0){
-			tSpeed=response;
-			for (i = 0; i < 32; i++) {
-				x=aMacros[i];
-				if (typeof x=='string'){
-
-				if (x.indexOf("/OLD")>-1){
-					var mB="m" + i + "Button";
-					y=x.split("|");
-					if (document.getElementById(mB)){
-						document.getElementById(mB).innerHTML=y[0] + " (" + tSpeed + ")";
-					}
-				};
-			};
-			};
-
-			if (speedPotEnable==1 && speedLock==0){
-				$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKPot'}, function(response) {
-					if (speedPot!=response){
-						speedPot=response;
-						tSpeed=speedPot;
-						updateButtonLabels("/OLD", tSpeedOriginal);//tSpeed);
-						$.post('/programs/GetKeyerOut.php',{radio: tMyRadio, field: 'WKMinWPM'}, function(response) {
-							var tMin=response;
-							tSpeed=parseInt(tSpeed)+parseInt(tMin);
-							$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed, table: "Keyer"});
-							$.post("/programs/SetSettings.php", {field: "CWChangeCk", radio: tMyRadio, data: 1, table: "RadioInterface"});
-							waitRefresh=2;
-
-						});
-					};
-
-				});
-			}
-		};
-		});
-	}
-
-	window.sendFastCatPTT = function(state,reliable){
-
-		if ((parseInt(tMyPTT,10)||0)!==0 || (parseInt(tMyPTTCAT,10)||0)!==1) {
-			console.log("sendFastCatPTT REJECTED by guard");
-			return;
-		}
-
-		state=state?1:0;
-
-		if (reliable && navigator.sendBeacon){
-			var body=new URLSearchParams();
-			body.set('port',tRadioPort);
-			body.set('radio',String(tMyRadio));
-			body.set('ptt',String(state));
-			navigator.sendBeacon('/programs/rigctl_handler.php',body);
-		}else{
-			$.post('/programs/rigctl_handler.php',{
-					port:tRadioPort,
-					radio:tMyRadio,
-					ptt:state
-			})
-			.done(function(response){
-					console.log("FastCAT PTT SUCCESS", response);
-			})
-			.fail(function(xhr,status,error){
-					console.log("FastCAT PTT FAILED", xhr.status, status, error, xhr.responseText);
-			});
-		}
-	};
-function setSpacebarPTT(state,reliable){
-			state=state?1:0;
-			setPTT(state,0);
-	}
-function spacebarPTTTargetIsEditable(target){
-		return $(target).is('input,textarea,select,button,[contenteditable=true]');
-	}
-
-	$(document).keydown(function(e){
-		if ((e.which||e.keyCode)!==32 || notGotPerfectWidgets!==0) return true;
-		if (window.elmerControlKeyboardActive || $(e.target).closest('#elmerControl').length || document.querySelector('#elmerControl')?.contains(document.activeElement)) return true;
-		if (spacebarPTTTargetIsEditable(e.target)) return true;
-		if (tDisconnected===1){showConnectAlert();return false;}
-		e.preventDefault();
-		if (e.repeat || spacePTTKeyDown) return false;
-		spacePTTKeyDown=true;
-		if (parseInt(tPTTLatch,10)===2){
-			spacePTT=1;
-			setSpacebarPTT(1);
-		}else{
-			spacePTT=spacePTT?0:1;
-			setSpacebarPTT(spacePTT);
-		}
-		return false;
-	});
-
-	function releaseMomentarySpacebarPTT(){
-    spacePTTKeyDown=false;
-    spacePTT=0;
-    setSpacebarPTT(0,true);
+function setShellAudioStatus(status, error = null) {
+    const state = window.rigpiShell.audioHost;
+    state.status = status;
+    state.error = error;
+    const active = status === "starting" || status === "waiting" || status === "playing";
+    shellAudioButton.setAttribute("aria-label", active ? "Pause receive audio" : "Start receive audio");
+    shellAudioButton.setAttribute("aria-pressed", String(active));
+    shellAudioButton.title = error || (active ? "Pause receive audio" : "Start receive audio");
+    updateShellAudioSettings();
+    console.log("RigPi shell receive audio:", status, error || "");
 }
-window.addEventListener('blur',releaseMomentarySpacebarPTT);
-document.addEventListener('visibilitychange',function(){if(document.hidden)releaseMomentarySpacebarPTT();});
-window.addEventListener('pagehide',releaseMomentarySpacebarPTT,true);
 
-$(document).keyup(function(e)
-	{
-	if (window.elmerControlKeyboardActive || $(e.target).closest('#elmerControl').length || document.querySelector('#elmerControl')?.contains(document.activeElement)) return true;
-		if (tDisconnected==1){
-	//		showConnectAlert();
-	//		return false;
-		}
-		var t=e.key;
-		var w=e.which;
-		if (e.key==="Escape")
-		{ // escape key maps to keycode `27`
-			stopCatSidetone();
-			holdText='';
-			tTuneOn=0;
-			clearTimeout(catTuneTimer);
-			if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-				$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_stop", table: "RadioInterface"});
-			}
-			var tNum=String.fromCharCode(10);
-			if (tNum==""){
-				return;
-			}
-			$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
-	//		$.post("./programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\stop_morse", table: "RadioInterface"});
-			trOn=0;   //false?
-			spacePTT=0;
-			setPTT(0,0);
-			return false;
-		} else if (e.key===" "){
-				e.preventDefault();
-
-				spacePTTKeyDown=false;
-
-				if (parseInt(tPTTLatch,10)===2 && spacePTT){
-						spacePTT=0;
-						setSpacebarPTT(0,true);
-				}
-
-				return false;
-		}
-	//	}
-	});
-
-	windowLoaded=true;
-
-
-		function doFCheck(which){
-			for (i = 0; i < 32; i++) {
-				x=aMacros[i];
-				if (x.indexOf(which)>0){
-					y=x.split("|");
-					y=y[1].replace(which,"").trim();
-					processCommand(y,i);
-				};
-			};
-		};
-	$(document).keydown(function(e){
-	if (window.elmerControlKeyboardActive || $(e.target).closest('#elmerControl').length || document.querySelector('#elmerControl')?.contains(document.activeElement)) return true;
-			var t=e.key;
-			var w=e.which;
-			if (w==13){
-				$("#seachButton").click();
-				return false;
-			}
-			if (e.ctrlKey){
-				if (tDisconnected==1){
-					showConnectAlert()
-					return false;
-				}
-				switch(w){
-					case 49: //1
-						document.getElementById("160Button").click();
-						break;
-					case 50: //2
-						document.getElementById("80Button").click();
-						break;
-					case 51: //3
-						document.getElementById("60Button").click();
-						break;
-					case 52: //4
-						document.getElementById("40Button").click();
-						break;
-					case 53: //5
-						document.getElementById("30Button").click();
-						break;
-					case 54: //6
-						document.getElementById("20Button").click();
-						break;
-					case 55: //7
-						document.getElementById("17Button").click();
-						break;
-					case 56: //8
-						document.getElementById("15Button").click();
-						break;
-					case 57: //9
-						document.getElementById("12Button").click();
-						break;
-					case 65: //a
-						document.getElementById("10Button").click();
-						break;
-					case 66: //b
-						document.getElementById("6Button").click();
-						break;
-					case 67: //c
-						document.getElementById("2Button").click();
-						break;
-					case 68: //d
-						document.getElementById("125Button").click();
-						break;
-					case 69: //e
-						document.getElementById("70Button").click();
-						break;
-					case 70: //f
-						document.getElementById("23Button").click();
-						break;
-					case 83: //usbd
-						document.getElementById("usbdButton").click();
-						break;
-					case 76: //lsb
-						document.getElementById("lsbButton").click();
-						break;
-					case 77: //am
-						document.getElementById("amButton").click();
-						break;
-					case 82: //cwr
-						document.getElementById("cwrButton").click();
-						break;
-					case 84: //rtty
-						document.getElementById("rttyButton").click();
-						break;
-					case 85: //usb
-						document.getElementById("usbButton").click();
-						break;
-					case 87: //cw
-						document.getElementById("cwButton").click();
-						break;
-					case 89: //rttyr
-						document.getElementById("rttyrButton").click();
-						break;
-				}
-			}
-			if (e.altKey){
-				switch(w){
-					case 49: //1
-						mBank=1;
-						changeMacroColor(mBank);
-						loadMacroBank(mBank);
-						break;
-					case 50: //2
-						mBank=2;
-						changeMacroColor(mBank);
-						loadMacroBank(mBank);
-						break;
-					case 51: //3
-						mBank=3;
-						changeMacroColor(mBank);
-						loadMacroBank(mBank);
-						break;
-					case 52: //4
-						mBank=4;
-						changeMacroColor(mBank);
-						loadMacroBank(mBank);
-						break;
-					case 65: //a
-						showCalendar();
-						e.preventDefault();
-						break;
-					case 67: //c
-						connectRadio();
-						break;
-					case 68: //d
-						$.post('/programs/disconnectRadio.php', {radio: tMyRadio, port: tRadioPort, id: tID, user: tUserName, rotor: tMyRotorRadio, instance:<?php echo $_SESSION[
-          "myInstance"
-      ]; ?>}, function(response) {
-						});
-						break;
-					case 69: // e
-						showSettings();
-						e.preventDefault();
-						break;
-					case 72: // h
-						showHelp();
-						e.preventDefault();
-						break;
-					case 73: // i
-						setSplit();
-						e.preventDefault();
-						break;
-					case 75: //k
-						var win="/keyer.php?x="+tUserName+"&c="+tMyCall;
-						window.open(win, "_self");
-						break;
-					case 76: //l
-						var win="/log.php?x="+tUserName+"&c="+tMyCall;
-						window.open(win, "_self");
-						break;
-					case 83: // s
-						var win="/spots.php?x="+tUserName+"&c="+tMyCall;
-						window.open(win, "_self");
-						break;
-					case 84: // t
-						var win="/index.php?x="+tUserName+"&c="+tMyCall;
-						window.open(win, "_self");
-						break;
-					case 87: // w
-						var win="/web.php?x="+tUserName+"&c="+tMyCall;
-						window.open(win, "_self");
-						break;
-					case 88: // xx
-						openWindowWithPost("/login.php", {
-						status: "loggedout",
-						password: '',
-						username: tUserName});
-				}
-
-				return false
-			}
-			if (w==191)
-				{
-					if (e.shiftKey){
-						<?php require $dRoot . "/includes/shortcuts.php"; ?>
-						$("#modalCO-body").html(tSh);
-						$("#modalCO-title").html("Shortcut Keys");
-						  $("#myModalCancelOnly").modal('show');
-					}else{
-						var tS1=document.activeElement.tagName;
-						if (tS1=='INPUT'){
-							return true;
-						}else{
-							$("#searchText").focus();
-							return false;
-						}
-					}
-				};
-				if (w>111 && w<125){
-					x=w-111;
-					x="F"+x+":";
-					doFCheck(x);
-					return false;
-				};
-		if (w===32 && notGotPerfectWidgets===0){
-			e.preventDefault();
-			return false;
-
-		}else if (t ==="+"){
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					}
-					if (tSplitOn==0){
-						tuneMain(tuningIncrement);
-					}else{
-						tuneSplit(tuningIncrement);
-					}
-					return false;
-				}else if (e.which>47 && e.which< 58){
-					if (tOverPanel==false){
-						return true;
-					}
-					alreadyDone=0;
-					var num = t;
-					numTune(num);
-					waitRefresh=3;
-					return false;
-				}else if (document.activeElement===sliderHandle ){
-					return false;
-				}else if (w ==37){
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					}
-					if (tOverPanel==true){
-					if (tSplitOn==0){
-						switch (tLine1){
-							case ld1:
-								doDigit(10,1);
-								break;
-							case ld2:
-								doDigit(100,1);
-								break;
-							case ld3:
-								doDigit(1000,1);
-								break;
-							case ld4:
-								doDigit(10000,1);
-								break;
-							case ld5:
-								doDigit(100000,1);
-								break;
-							case ld6:
-								doDigit(1000000,1);
-								break;
-							case ld7:
-								doDigit(10000000,1);
-								break;
-							case ld8:
-								doDigit(100000000,1);
-								break;
-							case ld9:
-								doDigit(1000000000,1);
-								break;
-							case ld10:
-								doDigit(1,1);
-							break;
-						}
-					}else{
-						switch (stLine1){
-							case sld1:
-								doSubDigit(10,1);
-								break;
-							case sld2:
-								doSubDigit(100,1);
-								break;
-							case sld3:
-								doSubDigit(1000,1);
-								break;
-							case sld4:
-								doSubDigit(10000,1);
-								break;
-							case sld5:
-								doSubDigit(100000,1);
-								break;
-							case sld6:
-								doSubDigit(1000000,1);
-								break;
-							case sld7:
-								doSubDigit(10000000,1);
-								break;
-							case sld8:
-								doSubDigit(100000000,1);
-								break;
-							case sld9:
-								doSubDigit(1000000000,1);
-								break;
-							case sld10:
-								doSubDigit(1,1);
-								break;
-						}
-					}
-				}
-					return false;
-				}else if (w==39){
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					}
-					if (tOverPanel==true){
-					if (tSplitOn==0){
-						switch (tLine1){
-							case ld1:
-								doDigit(1000000000,1);
-								break;
-							case ld2:
-								doDigit(1,1);
-								break;
-							case ld3:
-								doDigit(10,1);
-								break;
-							case ld4:
-								doDigit(100,1);
-								break;
-							case ld5:
-								doDigit(1000,1);
-								break;
-							case ld6:
-								doDigit(10000,1);
-								break;
-							case ld7:
-								doDigit(100000,1);
-								break;
-							case ld8:
-								doDigit(1000000,1);
-								break;
-							case ld9:
-								doDigit(10000000,1);
-								break;
-							case ld10:
-								doDigit(100000000,1);
-								break;
-						}
-					}else{
-						switch (stLine1){
-							case sld1:
-								doSubDigit(1000000000,1);
-								break;
-							case sld2:
-								doSubDigit(1,1);
-								break;
-							case sld3:
-								doSubDigit(10,1);
-								break;
-							case sld4:
-								doSubDigit(100,1);
-								break;
-							case sld5:
-								doSubDigit(1000,1);
-								break;
-							case sld6:
-								doSubDigit(10000,1);
-								break;
-							case sld7:
-								doSubDigit(100000,1);
-								break;
-							case sld8:
-								doSubDigit(1000000,1);
-								break;
-							case sld9:
-								doSubDigit(10000000,1);
-								break;
-							case sld10:
-								doSubDigit(100000000,1);
-								break;
-						}
-					}
-				}
-					return false;
-				}else if (w==38){
-					plusClicked();
-					return false;
-				}else if (w==40){
-					minusClicked();
-					return false;
-				}else if (t==="-"){
-					if (!e.ctrlKey){
-						if (tSplitOn==0){
-							tuneMain(-1*tuningIncrement);
-						}else{
-							tuneSplit(-1*tuningIncrement);
-						}
-					}else{
-						return true;
-					}
-					return false;
-				}else if (t==="["){
-					doBandDown();
-				}else if (t==="]"){
-					doBandUp();
-				}
-			});
-		});
-	}); //end ready
-
-	function updateColors(){
-			var which=mBank;
-			$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'Macros'+mBank}, function(response)
-			{
-				if (response.indexOf("NG")<0){
-				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LatchBtn'+mBank, table: 'RadioInterface'}, function(response1){
-				if (response1==""){
-					response=",".repeat(32);
-				}
-				latchBtn=response1.split(",");
-
-				var tMacros=decodeURIComponent((response+'').replace(/\+/g,'%20'));
-				loadMacroBank(mBank);
-				aMacros=tMacros.split('~');
-				var mBtn;
-				aMCommands=[];
-				for (i = 0; i < 32; i++) {
-					var mID='m'+i+'Button';
-					var tLabel = aMacros[i];
-					latchBtn=latchBtn+1;
-					tLabel=tLabel.split('|');
-					var tLatch=latchBtn[i];
-					if (tLatch.indexOf("+")>0){
-						btnLatchColor=tLatch.substr(tLatchindexOf("+")+1);
-					}else{
-						btnLatchColor="btn-color";
-					}
-					var btn =document.getElementById(mID);
-					btn.innerHTML=tLabel[0];
-					var arlbtn=latchBtn[i];
-					if (arlbtn==null || arlbtn==""){
-						arlbtn="?";
-					}
-					if (arlbtn!="?"){
-						$(btn).removeClass(btnLatchColor);
-						$(btn).addClass("btn-color");
-					}else{
-						$(btn).removeClass("btn-color");
-						$(btn).addClass(btnLatchColor);
-					}
-					if (tLabel[0].trim()=="BANK"){
-						mBtn=btn;
-						mBtn.innerHTML="BANK "+mBank;
-					}
-					aMCommands.push(tLabel[1]);
-				};
-			});
-		};
-		});
-	};
-
-	function updateButtonLabels (which, what){
-		for (i = 0; i < 32; i++) {
-			x=aMacros[i];
-				if (typeof x=='string'){
-					if (which!='/OLD'){
-						if (x.indexOf(which)>-1){
-							mB="m" + i + "Button";
-							y=x.split("|");
-							if (document.getElementById(mB)){
-								document.getElementById(mB).innerHTML=y[0] + " (" + what + ")";
-							}
-						};
-					}else{
-					x=x.replace("ZZ",tSpeedOriginal);
-					var x1=x.indexOf('/OLD');
-					if (x1>-1){
-						var mB="m" + i + "Button";
-						y=x.split("|");
-						what=tSpeedOriginal;
-						if (document.getElementById(mB)){
-							document.getElementById(mB).innerHTML=y[0] + " (" + what + ")";
-						}
-					};
-
-				}
-			};
-		};
-	};
-
-	function resetIgnoreRepeating(){
-		if (tPTTLatch==2){
-			setPTT(0, 0);
-			spacePTT=0;
-		}
-		tIgnoreRepeating=false;
-	}
-
-	function padDigits(number, digits) {
-		return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
-	};
-
-	$.getScript("/js/modalLoad.js");
-///check here
-	var hackrfPttPending=false;
-	var sdrTransmitMuteState=null;
-	var voiceKeyerMacro=null;
-
-	var sdrAudioResumePromise=null;
-	var replayingSdrAudioGesture=false;
-	function sdrAudioNeedsGestureResume(){
-		var frame=document.getElementById('sdrIframe');
-		if(!frame || !frame.contentWindow)return false;
-		try{
-			return typeof frame.contentWindow.rigpiAudioNeedsGestureResume==='function' &&
-				frame.contentWindow.rigpiAudioNeedsGestureResume();
-		}catch(_){return false;}
-	}
-	function resumeSdrAudioFromPageGesture(){
-		if(sdrAudioResumePromise)return sdrAudioResumePromise;
-		var frame=document.getElementById('sdrIframe');
-		if(!frame || !frame.contentWindow)return Promise.resolve(false);
-		try{
-			if(typeof frame.contentWindow.rigpiResumeAudioFromGesture!=='function')return Promise.resolve(false);
-			sdrAudioResumePromise=Promise.resolve(frame.contentWindow.rigpiResumeAudioFromGesture());
-			return sdrAudioResumePromise.finally(function(){sdrAudioResumePromise=null;});
-		}catch(_){return Promise.resolve(false);}
-	}
-	document.addEventListener('pointerdown',resumeSdrAudioFromPageGesture,true);
-	document.addEventListener('click',function(event){
-		if(replayingSdrAudioGesture || (!sdrAudioResumePromise && !sdrAudioNeedsGestureResume()))return;
-		var target=event.target;
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		resumeSdrAudioFromPageGesture().finally(function(){
-			replayingSdrAudioGesture=true;
-			try{target.click();}finally{replayingSdrAudioGesture=false;}
-		});
-	},true);
-	document.addEventListener('keydown',function(event){
-		if(replayingSdrAudioGesture || (!sdrAudioResumePromise && !sdrAudioNeedsGestureResume()))return;
-		var delayKey=event.key==='Enter' || /^F(?:[1-9]|1[0-2])$/.test(event.key);
-		var promise=resumeSdrAudioFromPageGesture();
-		if(!delayKey)return;
-		var target=event.target;
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		promise.finally(function(){
-			replayingSdrAudioGesture=true;
-			try{target.dispatchEvent(new KeyboardEvent('keydown',{key:event.key,code:event.code,keyCode:event.keyCode,which:event.which,bubbles:true,cancelable:true,ctrlKey:event.ctrlKey,altKey:event.altKey,shiftKey:event.shiftKey,metaKey:event.metaKey}));}
-			finally{replayingSdrAudioGesture=false;}
-		});
-	},true);
-	var catSidetoneEnabled=localStorage.getItem('rigpiCatSidetone')!=='0';
-
-	function catKeyerSelected(){
-		return tMyKeyer==='cat' || tMyKeyer==='via CAT';
-	}
-
-	function currentCatSidetoneWpm(){
-		var value=Array.isArray(tSpeed)?tSpeed[1]:tSpeed;
-		value=parseInt(value,10);
-		return Number.isFinite(value) && value>=5 && value<=80?value:20;
-	}
-
-	function postCatSidetone(data){
-		if(!catKeyerSelected())return;
-		var frame=document.getElementById('sdrIframe');
-		if(!frame||!frame.contentWindow)return;
-		frame.contentWindow.postMessage(Object.assign({
-			type:'rigpi-cat-sidetone',enabled:catSidetoneEnabled,
-			wpm:currentCatSidetoneWpm()
-		},data||{}),location.origin);
-	}
-
-	function playCatSidetone(text){
-		if(catSidetoneEnabled)postCatSidetone({action:'play',text:String(text||'')});
-	}
-
-	function stopCatSidetone(){
-		postCatSidetone({action:'stop'});
-	}
-
-	window.addEventListener('pagehide',stopCatSidetone);
-
-	function showVoiceKeyerError(message){
-		$(".modalA-body").html("<br>"+$('<div>').text(message).html()+"<br><br>");
-		$(".modalA-title").html("Voice Keyer");
-		$("#myModalAlert").modal('show');
-		setTimeout(function(){ $("#myModalAlert").modal('hide'); },4000);
-	}
-
-	function voiceKeyerRecordingUrl(raw){
-		raw=String(raw||'').trim().replace(/^['"]|['"]$/g,'');
-		var markdownLink=raw.match(/^\[[^\]]*\]\((https?:\/\/[^)]+)\)$/i);
-		if(markdownLink)raw=markdownLink[1];
-		if(raw.indexOf('/http')===0)raw=raw.substring(1);
-		var url=new URL(raw,location.origin);
-		if(!url.pathname.startsWith('/Recordings/')||
-			!/\.(mp3|wav|ogg|m4a)$/i.test(url.pathname)){
-			throw new Error('Use an MP3, WAV, OGG, or M4A file in /Recordings/.');
-		}
-		// A saved public URL should also work locally. The recording is always
-		// fetched from this RigPi, never from an arbitrary remote server.
-		return url.pathname+url.search;
-	}
-
-	function finishVoiceKeyerMacro(errorMessage){
-		var session=voiceKeyerMacro;
-		if(!session)return;
-		voiceKeyerMacro=null;
-		clearTimeout(session.prepareTimer);
-		clearTimeout(session.startTimer);
-		clearTimeout(session.safetyTimer);
-		if(session.keyed)setPTT(0,0);
-		if(errorMessage)showVoiceKeyerError(errorMessage);
-	}
-
-	function cancelVoiceKeyerMacro(errorMessage){
-		var session=voiceKeyerMacro;
-		if(session){
-			var frame=document.getElementById('sdrIframe');
-			if(frame?.contentWindow){
-				frame.contentWindow.postMessage({
-					type:'rigpi-voice-keyer-cancel',request_id:session.requestId
-				},location.origin);
-			}
-		}
-		finishVoiceKeyerMacro(errorMessage);
-	}
-
-	function startVoiceKeyerMacro(rawUrl){
-		if(tDisconnected==1){showConnectAlert();return false;}
-		if(voiceKeyerMacro){
-			showVoiceKeyerError('A voice recording is already playing.');
-			return false;
-		}
-		var recordingUrl;
-		try{recordingUrl=voiceKeyerRecordingUrl(rawUrl);}
-		catch(error){showVoiceKeyerError(error.message);return false;}
-		var frame=document.getElementById('sdrIframe');
-		if(!frame?.contentWindow){
-			showVoiceKeyerError('The SDR audio panel is not ready.');
-			return false;
-		}
-		var requestId='voice-keyer-'+Date.now()+'-'+Math.random().toString(16).slice(2);
-		voiceKeyerMacro={requestId:requestId,keyed:false,prepareTimer:null,startTimer:null,safetyTimer:null};
-		voiceKeyerMacro.prepareTimer=setTimeout(function(){
-			cancelVoiceKeyerMacro('The recording did not become ready. Start SDR Audio and try again.');
-		},12000);
-		frame.contentWindow.postMessage({
-			type:'rigpi-voice-keyer-prepare',request_id:requestId,url:recordingUrl
-		},location.origin);
-		return false;
-	}
-
-	window.addEventListener('message',function(event){
-		var frame=document.getElementById('sdrIframe');
-		if(!frame||event.source!==frame.contentWindow||event.origin!==location.origin||
-			!event.data||event.data.type!=='rigpi-voice-keyer-result')return;
-		var session=voiceKeyerMacro;
-		if(!session||event.data.request_id!==session.requestId)return;
-		if(event.data.status==='prepared'){
-			clearTimeout(session.prepareTimer);
-			var duration=Math.max(0,Math.min(120,Number(event.data.duration)||0));
-			setPTT(1,0);
-			session.keyed=true;
-			session.startTimer=setTimeout(function(){
-				if(voiceKeyerMacro!==session)return;
-				frame.contentWindow.postMessage({
-					type:'rigpi-voice-keyer-play',request_id:session.requestId
-				},location.origin);
-			},250);
-			session.safetyTimer=setTimeout(function(){
-				cancelVoiceKeyerMacro('Voice recording playback timed out.');
-			},Math.max(8000,duration*1000+5000));
-		}else if(event.data.status==='ended'){
-			clearTimeout(session.safetyTimer);
-			session.safetyTimer=setTimeout(function(){finishVoiceKeyerMacro();},150);
-		}else if(event.data.status==='error'){
-			finishVoiceKeyerMacro(event.data.error||'The voice recording could not be played.');
-		}else if(event.data.status==='cancelled'){
-			finishVoiceKeyerMacro();
-		}
-	});
-
-	window.addEventListener('pagehide',function(){
-		if(!voiceKeyerMacro)return;
-		var frame=document.getElementById('sdrIframe');
-		if(frame?.contentWindow)frame.contentWindow.postMessage({
-			type:'rigpi-voice-keyer-cancel',request_id:voiceKeyerMacro.requestId
-		},location.origin);
-		sendFastCatPTT(0,true);
-		if(navigator.sendBeacon){
-			var off=new URLSearchParams({field:'PTTOut',radio:String(tMyRadio),data:'0',table:'RadioInterface'});
-			navigator.sendBeacon('/programs/SetSettings.php',off);
-			var receive=new URLSearchParams({field:'Transmit',radio:String(tMyRadio),data:'0',table:'RadioInterface'});
-			navigator.sendBeacon('/programs/SetSettings.php',receive);
-			if(parseInt(tMyPTT,10)===1){
-				navigator.sendBeacon('/programs/doGPIOPTT.php',new URLSearchParams({PTTControl:'off'}));
-			}
-		}
-	});
-	function setSdrTransmitMute(state, force){
-		state=state?true:false;
-		if(!force && sdrTransmitMuteState===state)return;
-		sdrTransmitMuteState=state;
-		var frame=document.getElementById('sdrIframe');
-		if(!frame||!frame.contentWindow)return;
-		frame.contentWindow.postMessage({
-			type:'rigpi-sdr-transmit-mute',muted:state
-		},location.origin);
-	}
-
-	document.addEventListener('DOMContentLoaded',function(){
-		var frame=document.getElementById('sdrIframe');
-		if(!frame)return;
-		frame.addEventListener('load',function(){
-			setSdrTransmitMute(Number(tTrx)===1||Number(tPTT)===1||xmit===true,true);
-		});
-	});
-
-	function setPttVisual(state){
-		var cRX=ppanel.getByName("TR");
-		if(state==1){
-			tKnobPTT=1; xmit=true; trXmit=true;
-			cRX.setText("XMIT");
-			ptt1.setVisible(true); ptt.setVisible(false);
-		}else{
-			tKnobPTT=0; xmit=false; trXmit=false; tTrx=0; trOn=0;
-			cRX.setText("RCV");
-			ptt1.setVisible(false); ptt.setVisible(true);
-		}
-		cRX.setNeedRepaint(true); cRX.refreshElement();
-	}
-
-	function setHackrfPtt(state){
-		if(hackrfPttPending)return;
-		var frame=document.getElementById('sdrIframe');
-		if(!frame||!frame.contentWindow){showConnectAlert();return;}
-		hackrfPttPending=true;
-		var requestId='hackrf-ptt-'+Date.now()+'-'+Math.random().toString(16).slice(2);
-		var timer=setTimeout(function(){
-			window.removeEventListener('message',receive);
-			hackrfPttPending=false;
-			setPttVisual(0);
-			$(".modalA-body").html("<br>HackRF transmit did not respond.<p><p>");
-			$(".modalA-title").html("HackRF PTT");
-			$("#myModalAlert").modal('show');
-		},12000);
-		function receive(event){
-			if(event.source!==frame.contentWindow||!event.data||
-				event.data.type!=='rigpi-hackrf-ptt-result'||
-				event.data.request_id!==requestId)return;
-			clearTimeout(timer); window.removeEventListener('message',receive);
-			hackrfPttPending=false;
-			if(event.data.ok){setPttVisual(state?1:0);return;}
-			setPttVisual(0);
-			$(".modalA-body").html("<br>"+$('<div>').text(event.data.error||'HackRF transmit failed.').html()+"<p><p>");
-			$(".modalA-title").html("HackRF PTT");
-			$("#myModalAlert").modal('show');
-		}
-		window.addEventListener('message',receive);
-		var targetOrigin=location.origin;
-		// use location.origin; frame.src may redirect to another host
-		frame.contentWindow.postMessage({type:'rigpi-hackrf-ptt',request_id:requestId,state:state?1:0},targetOrigin);
-	}
-
-	function routePttToSelectedSdr(state, pttBypass){
-		var frame=document.getElementById('sdrIframe');
-		if(!frame||!frame.contentWindow){setPTT(state,pttBypass,true);return;}
-		var requestId='ptt-probe-'+Date.now()+'-'+Math.random().toString(16).slice(2);
-		var finished=false;
-		var timer=setTimeout(function(){finish(false);},750);
-		function finish(useHackrf){
-			if(finished)return;
-			finished=true;
-			clearTimeout(timer);
-			window.removeEventListener('message',receive);
-			if(useHackrf)setHackrfPtt(state);
-			else setPTT(state,pttBypass,true);
-		}
-		function receive(event){
-			if(event.source!==frame.contentWindow||!event.data||
-				event.data.type!=='rigpi-elmer-sdr-result'||
-				event.data.request_id!==requestId)return;
-			finish(String(event.data.device_driver||'').toLowerCase()==='hackrf');
-		}
-		window.addEventListener('message',receive);
-		var targetOrigin=location.origin;
-		// use location.origin; frame.src may redirect to another host
-		frame.contentWindow.postMessage({
-			type:'rigpi-elmer-sdr-control',request_id:requestId,action:'probe'
-		},targetOrigin);
-	}
-
-	function setPTT(state, pttBypass, sdrChecked){
-		                                // HackRF transmit is intentionally disabled in this release.
-                // PTT always controls the radio assigned to this account.
-        sdrChecked = true;
-		if(tDisconnected==1){
-			showConnectAlert();
-			return;
-		}
-		if (checkPTT==1 && state == 1 ){
-			return;
-		}
-		checkPTT=0;
-		// Mute immediately for locally requested PTT; live polling below keeps
-		// this synchronized when PTT originates at the radio itself.
-		setSdrTransmitMute(state==1);
-		waitRefresh=4;
-		if (state==1){
-			console.log("PTT ON");
-		};
-		if (state==0){
-			console.log("PTT OFF");
-		};
-
-
-		if (notGotPerfectWidgets==0 && tAccessLevel < 4){
-			var ttPTT=tMyRadio;
-			if (tRadioModel=="NET rigctl"){
-				if (tRadioPort.indexOf('4532')!=-1){
-					ttPTT=1;
-				}else if (tRadioPort.indexOf('4534')!=-1){
-					ttPTT=2;
-				}else if (tRadioPort.indexOf('4536')!=-1){
-					ttPTT=3;
-				}else if (tRadioPort.indexOf('4538')!=-1){
-					ttPTT=4;
-				}else if (tRadioPort.indexOf('4540')!=-1){
-					ttPTT=5;
-				}else if (tRadioPort.indexOf('4543')!=-1){
-					ttPTT=6;
-				}else if (tRadioPort.indexOf('4544')!=-1){
-					ttPTT=7;
-				}else if (tRadioPort.indexOf('4546')!=-1){
-					ttPTT=8;
-				}else{
-					ttPTT=tMyRadio;
-				}
-			}
-			if (state==1 && tPTTIsOn==0 && tDisconnected==0){
-				if (fastCatPTTIsOn==0){
-						sendFastCatPTT(1,false);
-						fastCatPTTIsOn=1;
-				}
-				tKnobPTT=1;
-				xmit=true;
-				trXmit=true;
-				if (pttBypass==0){
-					$.post("/programs/SetSettings.php", {field: "PTTOut", radio: ttPTT, data: "1", table: "RadioInterface"});
-					$.post("/programs/SetSettings.php", {field: "Transmit", radio: ttPTT, data: "1", table: "RadioInterface"});
-				}
-
-				if (tMyPTT==1){
-					$.post('/programs/doGPIOPTT.php', {PTTControl: "on"});
-				}
-				var cRX=ppanel.getByName("TR");
-				cRX.setText("XMIT");
-				ptt1.setVisible(true);
-				ptt.setVisible(false);
-
-				cRX.setNeedRepaint(true);
-				cRX.refreshElement();
-				ptt1.setVisible(true);
-				ptt.setVisible(false);
-				var cMeterLabel=pmeter.getByName("MtrFn");
-				cMeterLabel.setText(mtrLabel);
-				cMeterLabel.setNeedRepaint(true);
-				cMeterLabel.refreshElement();
-			}else{
-				if (fastCatPTTIsOn==1){
-						sendFastCatPTT(0,false);
-						fastCatPTTIsOn=0;
-				}
-				tKnobPTT=0;
-				xmit=false;
-				tTrx=0;
-				trXmit=false;
-				trOn=0;
-				if (pttBypass==0){
-					$.post("/programs/SetSettings.php", {field: "PTTOut", radio: ttPTT, data: "0", table: "RadioInterface"});
-					$.post("/programs/SetSettings.php", {field: "Transmit", radio: ttPTT, data: "0", table: "RadioInterface"});
-				}
-				if (tMyPTT==1)
-				{
-					$.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
-				}
-				var cRX=ppanel.getByName("TR");
-				cRX.setText("RCV");
-				cRX.setNeedRepaint(true);
-				cRX.refreshElement();
-				ptt1.setVisible(false);
-				ptt.setVisible(true);
-				var cMeterLabel=pmeter.getByName("MtrFn");
-				cMeterLabel.setText("S-Meter");
-				cMeterLabel.setNeedRepaint(true);
-				cMeterLabel.refreshElement();
-			}
-		}
-	}
-
-	function toggleSplitButton(split, forgetAlert)
-	{
-		if (tDisconnected==1 && forgetAlert==0){
-			showConnectAlert();
-			return false;
-		}
-		if (split==1)
-		{
-			$('.btn-toggle').removeClass('btn-color');
-			$('.btn-toggle').removeClass('btn-primary');
-			$('.btn-toggle').addClass('btn-danger');
-			$('#A2BButton').addClass('btn-color');
-			$('#A2BButton').addClass('btn-primary');
-			$('#A2BButton').removeClass('btn-secondary');
-			$('#A2MButton').addClass('btn-color');
-			$('#A2MButton').addClass('btn-primary');
-			$('#A2MButton').removeClass('btn-secondary');
-			$('#M2AButton').addClass('btn-color');
-			$('#M2AButton').addClass('btn-primary');
-			$('#M2AButton').removeClass('btn-secondary');
-			$('#ABButton').addClass('btn-color');
-			$('#ABButton').addClass('btn-primary');
-			$('#ABButton').removeClass('btn-secondary');
-		}
-		else   //split off
-		{
-			$('.btn-toggle').addClass('btn-primary');
-			$('.btn-toggle').addClass('btn-color');
-			$('.btn-toggle').removeClass('btn-danger');
-			$('#A2BButton').removeClass('btn-primary');
-			$('#A2BButton').removeClass('btn-color');
-			$('#A2BButton').addClass('btn-secondary');
-			$('#A2MButton').addClass('btn-secondary');
-			$('#A2MButton').removeClass('btn-color');
-			$('#A2MButton').removeClass('btn-primary');
-			$('#M2AButton').removeClass('btn-primary');
-			$('#M2AButton').removeClass('btn-color');
-			$('#M2AButton').addClass('btn-secondary');
-			$('#ABButton').removeClass('btn-primary');
-			$('#ABButton').removeClass('btn-color');
-			$('#ABButton').addClass('btn-secondary');
-		}
-	}
-
-	function loadMacroBank(which)
-	{
-		which=which.toString();
-		$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'LatchBtn'+which, table: 'RadioInterface'}, function(response){
-			if (response.indexOf("NG")<0){
-
-			if (response==""){
-				response="?,".repeat(32);
-			}
-			latchBtn=response.split(",");
-
-		$.post('/programs/GetInterface.php',{radio: tMyRadio, field: 'Macros'+which}, function(response)
-		{
-			var tMacros=decodeURIComponent((response+'').replace(/\+/g,'%20'));
-			aMacros=tMacros.split('~');
-			var mBtn;
-			aMCommands=[];
-			for (i = 0; i < 32; i++) {
-				var mID='m'+i+'Button';
-				var tLabel = aMacros[i];
-				tLabel=tLabel.split('|');
-				if (tLabel[1].indexOf("+")>0){
-					btnLatchColor=tLabel[1].substr(tLabel[1].indexOf("+")+1);
-				}else{
-					btnLatchColor="btn-info";
-				}
-				var btn =document.getElementById(mID);
-				btn.innerHTML=tLabel[0];
-				var arlbtn=latchBtn[i];
-				if (arlbtn==null || arlbtn==""){
-					arlbtn="?";
-				}
-			if (arlbtn=="?"){
-					$(btn).removeClass(btnLatchColor);
-					$(btn).addClass("btn-color");
-				}else{
-					$(btn).removeClass("btn-color");
-					$(btn).addClass(btnLatchColor);
-				}
-				if (tLabel[0].trim()=="BANK"){
-					mBtn=btn;
-					mBtn.innerHTML="BANK "+mBank;
-				}
-				if (tLabel[0].substring(0,6)=="ROTATE" && tLabel[0].indexOf("STOP")==-1){
-					tRotateButton=btn;
-					tRotateButtonLabel=tLabel[0];
-					mBtn=btn;
-					mBtn.innerHTML=tRotateButtonLabel + " (" + tCurBeam+")";
-				}
-				aMCommands.push(tLabel[1]);
-			}
-			if (tAccessLevel<4){
-				$.post('/programs/isSupported.php',{radio: tMyRadio, getSet: 'set', text:'AF('}, function(response){
-					if (response==1 && sliderAFGainOride>0){
-						$("#AF").removeClass('d-none');
-						tVal=$("#sliderAF").slider('value');
-						var tV=tVal;
-						if (tV==0){
-							tV=1;
-						}
-						updateButtonLabels('RADIO AF MUTE', tV-1);
-					}
-				});
-				$.post('/programs/isSupported.php',{radio: tMyRadio, getSet: 'set', text:'USB_AF'}, function(response){
-					supportsUSB_AF=response;
-				});
-
-				$.post('/programs/isSupported.php',{radio: tMyRadio, getSet: 'set', text:'RF('}, function(response){
-					if (response==1 && sliderRFGainOride>0){
-						$("#RF").removeClass('d-none');
-					}
-				});
-				$.post('/programs/isSupported.php',{radio: tMyRadio, getSet: 'set', text:'RFPOWER('}, function(response){
-					if (response==1 && sliderPwrOutOride>0){
-						$("#Pwr").removeClass('d-none');
-					}
-				});
-				$.post('/programs/isSupported.php',{radio: tMyRadio, getSet: 'set', text:'MICGAIN('}, function(response){
-					if (response==1 && sliderMicLvlOride > 0){
-						$("#Mic").removeClass('d-none');
-					}
-				});
-			}
-		})
-	};
-		});
-	}
-
-	var aMCommands=[];
-	//processCommand ties into /includes/buildMacros.php
-	var rigpiConnectNoticeTimer=0;
-	function showConnectAlert(){
-		var notice=$("#rigpiConnectNotice");
-		if (!notice.length){
-			notice=$("<div>", {id:"rigpiConnectNotice", role:"status", "aria-live":"polite"})
-				.append($("<div>", {"class":"rigpi-connect-notice-icon", "aria-hidden":"true"})
-					.append($("<img>", {"class":"rigpi-radio-image", src:"/Images/radio.png", alt:""}))
-					.append($("<i>", {"class":"fas fa-times-circle"})))
-				.append($("<div>", {"class":"rigpi-connect-notice-title", text:"Radio Connection"}))
-				.append($("<div>", {"class":"rigpi-connect-notice-message", text:"The radio is not connected."}))
-				.appendTo("body");
-		}
-		clearTimeout(rigpiConnectNoticeTimer);
-		notice.stop(true, true).fadeIn(100);
-		rigpiConnectNoticeTimer=setTimeout(function(){notice.fadeOut(180);}, 2000);
-		return false;
-	}
-
-	function showDisabledAlert(){
-		$(".modalA-body").html("<br>VFO buttons work when Split is on.<p><p>");
-		$(".modalA-title").html("Split Alert");
-		  $("#myModalAlert").modal('show');
-		  setTimeout(function(){
-			  $("#myModalAlert").modal('hide');
-		 },
-		  2000);
-		return;
-	}
-
-	function doFKey(which,btn){
-		var thisOne=which.substring(0, 1);
-		var tCommand=which.substr(which.indexOf(":")+1);
-		processCommand(tCommand, btn);
-	}
-
-	function processCommand(which,btn)
-	{
-		var tMe=tMyCall;
-		var tWhat = which.replace(/'\*/g, tMe);
-		which = tWhat.replace(/'X/g,$('#searchText').val());
-		tPre=which.substring(0, 1);
-		tPost=which.substring(1);
-		if (which.indexOf("+")>0){
-			btnLatchColor=which.substr(which.indexOf("+")+1);
-			which=which.substr(0,which.indexOf("+"));
-		}else{
-			btnLatchColor="btn-info";
-		}
-		if (tPre=="F"){
-			doFKey(tPost,btn);
-			return false;
-		}
-		if (tPre=="{"){
-			var lbtn=btn.substring(2,btn.indexOf("B"));
-			var arlbtn=latchBtn[lbtn];
-			if (arlbtn==null || arlbtn==""){
-				arlbtn="?";
-			}
-			if (arlbtn !== "?"){
-				//second state of latch
-				tPost=latchBtn[lbtn];
-				latchBtn[lbtn]="?";
-				tPre=tPost.substr(0,1);
-				tPost=tPost.substring(1);
-				tPost=tPost.replace("XX",AFGainOld);
-				tPost=tPost.replace("YY",USBAFGainOld);
-				tPost=tPost.replace("ZZ",tSpeedOriginal);
-				if (tPost.indexOf("+")!==-1){
-					tPost=tPost.substring(0,tPost.indexOf("+"));
-				}
-				$(btn).removeClass(btnLatchColor);
-				$(btn).addClass("btn-color");
-				lt1=latchBtn.join(",");
-				if (tPost.indexOf('L AF')!==-1){
-					$.post("/programs/SetSettings.php", {field: "AFGain", radio: tMyRadio, data: AFGainOld, table: "RadioInterface"}, function(response){
-						waitRefresh=1;
-						var tOK=response;
-						which=tPre+tPost;
-						var tLat="latchBtn"+mBank;
-						$.post("/programs/SetSettings.php", {field: tLat, radio: tMyRadio, data: lt1, table: "RadioInterface"}, function(response){
-							});
-					});
-				}else{
-					if (supportsUSB_AF==1 && tPost.indexOf('L USB_AF')>-1){
-						$.post("/programs/SetSettings.php", {field: "USBAFGainOld", radio: tMyRadio, data: USBAFGainOld, table: "RadioInterface"}, function(response){
-							updateButtonLabels('RADIO USB MUTE', USBAFGainOld);
-
-						});
-
-						$.post("/programs/SetSettings.php", {field: "USBAFGain", radio: tMyRadio, data: USBAFGainOld, table: "RadioInterface"}, function(response){
-
-							var tOK=response;
-							updateButtonLabels('USB MUTE', USBAFGainOld);
-							which=tPre+tPost;
-							var tLat="latchBtn"+mBank;
-							$.post("/programs/SetSettings.php", {field: tLat, radio: tMyRadio, data: lt1, table: "RadioInterface"}, function(response){
-								});
-						});
-					};
-					waitRefresh=4;
-				};
-			}else{
-				// first of latch
-				tPre=tPost.substring(0,1);
-				var tPost1=tPost.substring(tPost.indexOf("}")+1);
-				tPost=tPost.substring(1,tPost.indexOf("}"));
-				var tPost2=tPost1; //save second command plus color
-				if (tPost1.indexOf("+")>0){
-					tPost1=tPost1.substring(0,tPost1.indexOf("+"));
-				}
-				tPost2=tPost2.replace("XX",AFGainOld);
-				tPost2=tPost2.replace("YY",USBAFGainOld);
-				tPost2=tPost2.replace("ZZ",tSpeedOriginal);
-				latchBtn[lbtn]=tPost2;
-				$(btn).removeClass("btn-color");
-				$(btn).addClass(btnLatchColor);
-				lt1 = latchBtn.join(",");
-
-				if (supportsUSB_AF==1 && tPost.indexOf('USB_AF') > -1){
-					USBAFGain=0;
-					updateButtonLabels('RADIO USB MUTE', 0);
-					$.post("/programs/SetSettings.php", {field: "USBAFGain", radio: tMyRadio, data: 0, table: "RadioInterface"}, function(response){
-					});
-				}else if (tPost1.indexOf('L AF')>-1){
-					AFGainOld=$("#sliderAF").slider('value');
-					$.post("/programs/SetSettings.php", {field: "AFGain", radio: tMyRadio, data: 0, table: "RadioInterface"}, function(response){
-					});
-				}
-			};
-			which=tPre+tPost;
-			var tLat="latchBtn"+mBank;
-			$.post("/programs/SetSettings.php", {field: tLat, radio: tMyRadio, data: lt1, table: "RadioInterface"}, function(response){
-				});
-		};
-		if (tPre=="/"){
-			tDX=$('#searchText').val().toUpperCase();
-			tPost=tPost.replace('<dxcall>',tDX);
-			if (tPost.indexOf('<mode>')>0){
-				var tM='';
-				if (tMode=="USB" || tMode=="LSB"|| tMode=="AM" || tMode=="FM"){
-					tM="PHONE";
-				}else if (tMode=="PKTLSB" ||tMode=="PKTUSB" || tMode=="USB-D" || tMode=="LSB-D" || tMode=="RTTY" || tMode=="RTTYR"){
-					tM="DIGI";
-				}else{
-					tM="CW"
-				}
-				tPost=tPost.replace('<mode>',tM);
-			}
-			if (tPost.indexOf("<band>")>0){
-				var tB=parseInt(tMain);
-				tB=addPeriods(tB);
-				tB=tB.slice(0,tB.length-6);
-				if (tB>1000){
-					tB='1.2GHz';
-				}else if(tB>400){
-					tB='430MHz';
-				}else if(tB>220){
-					tB='220MHz';
-				}else if(tB>143){
-					tB='144MHz';
-				}else if(tB>49){
-					tB='50MHz';
-				}else if(tB>27){
-					tB='28MHz';
-				}else if(tB>24){
-					tB='24MHz';
-				}else if(tB>21){
-					tB='21MHz';
-				}else if(tB>17){
-					tB='18MHz';
-				}else if(tB>13){
-					tB='14MHz';
-				}else if(tB>10){
-					tB='10MHz';
-				}else if(tB>6){
-					tB='7MHz';
-				}else if(tB>5){
-					tB='5MHz';
-				}else if(tB>3){
-					tB='3.5MHz';
-				}else if(tB>1.7){
-					tB='1.8MHz';
-				}else{
-					tB=tB+'MHz';
-				}
-				tPost=tPost.replace('<band>',tB);
-			}
-			window.open(tPost, '_blank');
-		}
-		if (tPre=='$'){
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (tPost.indexOf('<02>')==0){
-				var tSpeedP=tPost.split(">");
-				if (tSpeedP[1]==0){
-					$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeedOriginal', table: 'Keyer'}, function(response)
-					{
-
-						tSpeedOriginal=response;
-						updateButtonLabels('/OLD', tSpeedOriginal);
-						tPost="<02><"+parseInt(tSpeedOriginal)+">";
-						$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed, table: "Keyer"});
-					});
-				}else{
-					tPost="<02><"+parseInt(tSpeedP[1])+">";
-					tSpeed=parseInt(tSpeedP[1]);
-					updateButtonLabels("/OLD", tSpeedOriginal);
-					$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeedP[1], table: "Keyer"});
-					$.post("/programs/SetSettings.php", {field: "WKSpeedOriginal", radio: tMyRadio, data: tSpeedOriginal, table: "Keyer"});
-				}
-			}
-				if (tPost.indexOf('<03>')>-1){
-					$.post("/programs/SetSettings.php", {field: "WKSpeedPotEnable", radio: tMyRadio, data: 1, table: "Keyer"});
-					speedPotEnable=1;
-					return false;
-				}
-				if (tPost.indexOf('<04>')>-1){
-					$.post("/programs/SetSettings.php", {field: "WKSpeedPotEnable", radio: tMyRadio, data: 0, table: "Keyer"});
-					speedPotEnable=0;
-					return false;
-				}
-			// Plain text CAT CW is most reliable on the radio worker's existing
-			// rigctld session. This also selects CW before sending. Winkeyer
-			// control-byte macros continue through the legacy CW queue below.
-			if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-				// <1b> is the Winkeyer prosign prefix. CAT radios should
-				// receive the visible letters normally (BK -> B K).
-				var catCWText=tPost.replace(/<1b>/ig,'');
-				if (catCWText.indexOf('<')===-1){
-					playCatSidetone(catCWText);
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text "+catCWText, table: "RadioInterface"});
-					return false;
-				}
-			}
-			tPost=" " + tPost;
-			$.post("/programs/ConcatSettings.php", {field: "CWIn", radio: tMyRadio, data: tPost, table: "RadioInterface"}, function(response){
-				var tt=response;
-			});
-			return false;
-		}
-		if (/^!(PLAY|VOICE)\s+/i.test(which))
-		{
-			return startVoiceKeyerMacro(which.replace(/^!(PLAY|VOICE)\s+/i,''));
-		}
-		if (which=="*PS1;")
-		{
-			alertActive = true;
-
-			if (tRadioModel !="NET rigctl"){
-				if (tDisconnected==0){
-					$("#modalCO-body").html("<br>Radio is already on.<br><br>");
-					$("#modalCO-title").html("Radio Power");
-					  $("#myModalCancelOnly").modal('show');
-					setTimeout(function(){
-						  $("#myModalCancelOnly").modal('hide');
-					 },
-					  2000);
-					return true;
-				}
-				$("#modalCO-body").html("Radio is powering up, please wait.");
-				$("#modalCO-title").html("Radio Power");
-				  $("#myModalCancelOnly").modal('show');
-                $.post('/programs/connectRadio.php', function(response1){
-                    $("#modalCO-body").html("Power is on and radio is connected.");
-                    setTimeout(function(){
-                        $("#myModalCancelOnly").modal('hide');
-                    }, 2000);
-                });
-			}else{
-				$("#modalCO-body").html("Shared radio access (Net rigctl) can't control power on/off.");
-				$("#modalCO-title").html("Radio Power");
-				$("#myModalCancelOnly").modal('show');
-			}
-		}else if (which=="*PS0;"){
-
-
-				if (tRadioModel !="NET rigctl"){
-					tSplitOn=0;
-					toggleSplitButton(tSplitOn, 1);
-					$.post("/programs/SetSettings.php", {field: "SplitOut", radio: tMyRadio, data: tSplitOn, table: "RadioInterface"});
-					$.post("/programs/SetSettings.php", {field: "MainIn", radio: tMyRadio, data: "OFF", table: "RadioInterface"}, function(response){
-						if (tMyPTT==3){
-							$.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
-						}
-					});
-					$.post('/programs/powerOff.php', {radio: tMyRadio, user: tUserName}, function(response){
-
-						$.post('/programs/disconnectRadio.php', {id: tID, radio: tMyRadio, port: tRadioPort, user: tUserName, rotor: tMyRotorRadio, instance:<?php echo $_SESSION[
-          "myInstance"
-      ]; ?>}, function(response1){
-		  					$(".modalA-body").html("<br>Radio is disconnected and power is off.<br><br>");
-							$(".modalA-title").html("Radio Connection");
-							$("#myModalAlert").modal('show');
-							alertActive = true;
-							setTimeout(function(){
-									$("#myModalAlert").modal('hide');
-							   },
-								4000);
-								alertActive = true;
-							  return;
-						});
-					});
-				}else{
-					$("#modalCO-body").html("Shared radio access (Net rigctl) can't control power on/off.");
-					$("#modalCO-title").html("Radio Power");
-					$("#myModalCancelOnly").modal('show');
-				};
-		}else if (which.substr(0,7)=="!ROTATE"){
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-
-			tRotateButtonCommand=which;
-			var ro=which.split(" ");
-			if (ro[1]){
-				//special macro with space to rotate to specific value
-				$.post("/programs/SetMyRotorBearing.php", {w: "turn", i: tMyRotorRadio, a: ro[1]});
-			}else{
-				$.post('/programs/GetSetting.php',{radio: tMyRotorRadio, field: 'RotorAzIn', table: 'RadioInterface'}, function(response)
-				{
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					}
-					terr=0;
-					if (response =="")
-					{
-						terr=1;
-						response=0;
-					}
-						$.post("/programs/SetSettings.php", {field: "waitReset", radio: tMyRadio, data: 1, table: "RadioInterface"}, function(response1)
-						{
-						if (terr==1){
-							var caption="Rotor bearing error.\n\nEnter new value and click OK.";
-						}else{
-							var caption="Rotor bearing is now " + parseInt(response) + " deg.\n\nEnter new value and click OK.";
-						}
-						var curBeam=parseInt(response);
-						var text = prompt(caption, parseInt(response));
-						if (text){
-							$.post("/programs/SetMyRotorBearing.php", {w: "turn", i: tMyRotorRadio, a: text}); //VE9GJ
-						}else{
-							$.post("/programs/SetMyRotorBearing.php", {w: "err", i: tMyRotorRadio, a: 0});
-						}
-					});
-				});
-			}
-		}else if (which=="!RTR STOP"){
-			$.post("/programs/SetMyRotorBearing.php", {w: "stop", i: tMyRotorRadio, a: ''});  //VE9GJ
-		}else if (which=="!BANK"){
-			mBank=parseInt(mBank)+1;
-			if (mBank==5){mBank=1};
-			loadMacroBank(mBank);
-			$('#myBank1x,#myBank2x,#myBank3x,#myBank4x').removeClass('btn-info btn-warning').addClass('btn-color');
-			$('#myBank'+mBank+'x').removeClass('btn-color').addClass('btn-info');
-			$(mB).addClass("btn-info");
-			$.post("/programs/SetSettings.php", {field: "MacroBankTuner", radio: tMyRadio, data: mBank, table: "RadioInterface"});
-			return false;
-		}else if (which=="!PTTON"){
-			  if (tDisconnected==1){
-				  showConnectAlert();
-				  return false;
-			  }
-			  $.post('/programs/doGPIOPTT.php', {PTTControl: "on"});
-		}else if (which=="!PTTOFF"){
-			  if (tDisconnected==1){
-				  showConnectAlert();
-				  return false;
-			  }
-			  $.post('/programs/doGPIOPTT.php', {PTTControl: "off"});
-		}else if (which.substring(0,3)=="!SW"){
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: which, table: "RadioInterface"});
-		}else{
-			switch(tPre)
-			{
-			case "*":	//direct radio command using hamlib format
-				var pl=$('#play');
-				if (tDisconnected==1){
-					showConnectAlert();
-					return false;
-				}
-				if (!pl.hasClass('d-none')){
-					return;
-				}
-				$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*"+tPost, table: "RadioInterface"});
-				if (tPost=="\stop_morse"){
-					setPTT(0, 0);
-					var tNum=String.fromCharCode(10);
-					$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
-				}
-				break;
-			case '#':	//direct system command
-				$.post("/programs/systemExec.php", {command: tPost});
-				break;
-			case '!':	//special command
-				if (tPost=='ESC'){
-					stopCatSidetone();
-					tTuneOn=0;
-				clearTimeout(catTuneTimer);
-				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_stop", table: "RadioInterface"});
-				}
-					setPTT(0, 0);
-					var tNum=String.fromCharCode(10);
-					$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
-				}else if (tPost=='TUNE'){
-					if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-						if (tTuneOn==1){
-							stopCatSidetone();
-							tTuneOn=0;
-							clearTimeout(catTuneTimer);
-							$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_tune_off", table: "RadioInterface"});
-						}else{
-							tTuneOn=1;
-							postCatSidetone({action:'continuous',on:true});
-							// The radio worker selects CW, temporarily uses the radio's
-							// minimum key speed, and restores the original speed at key-up.
-							$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_tune_on", table: "RadioInterface"});
-							catTuneTimer=setTimeout(function(){
-								if (tTuneOn==1){
-									tTuneOn=0;
-									stopCatSidetone();
-									$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_tune_off", table: "RadioInterface"});
-								}
-							},8000);
-						}
-						return false;
-					}
-					if (tTuneOn==1){
-						tTuneOn=0;
-						var tNum=String.fromCharCode(11)+String.fromCharCode(0);
-						$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
-					}else{
-						tTuneOn=1;
-						var tNum=String.fromCharCode(11)+String.fromCharCode(1);
-						$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
-					}
-				}else if (tPost=='VOIP1'){
-					$.post("/programs/start-mumble1.php", function  (response) {
-					});
-				}else if (tPost=='TUNETO'){
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					};
-					$("#curMode1").val(tMode);
-					$(".modal-title").html("Tune to");
-					$(".modalI-body").html("<br>&nbsp;&nbsp;&nbsp;Enter any combination and click OK.");
-					$("#myModalInput").modal('show');
-					var x = document.getElementById("curFreq");
-					x.value=addPeriods(parseInt(tMain));
-					$.post("/programs/RadioID.php", {tRadio: tRadioName}, function(response1) {
-						if (response1.length>1){
-							transRadioID=response1;
-						}
-
-						$.post("/programs/getRigBandwidths.php", {myRadioName: transRadioName, myRadio: tMyRadio, myRadioID:transRadioID, mode: ""}, function(response){
-							var x = document.getElementById("curPassband1");
-							x.value=response;
-							//("Select Passband");
-						});
-
-						$.post("/programs/getRigCaps.php", {myRadioName: transRadioName, myRadio: transRadioID, cap: "Mode list:"}, function(response){
-							var tL="";
-							var tList1=response;
-							var tList=tList1.split(" ");
-							for (i=0;i<tList.length-1;i++)  //skip last
-							{
-								tL=tL+"<div class='mymode' id=i<li><a class='dropdown-item' href='#'>"+tList[i]+"</a></li></div>";
-							};
-							var caps=response;
-							x = document.getElementById("modeList");
-							x.innerHTML=tL;
-						});
-
-						$.post("/programs/getRigBandwidths.php", {myRadio: transRadioID, mode: tMode}, function(response){
-							var tB="";
-							var tList=response.split("\t");
-							for (i=1;i<tList.length;i++){
-								var tB1=tList[i];
-								var tB2=tB1;
-								if (tB1.indexOf("kHz")>0){
-									tB2=tB1.split("=");
-									tB2[1]=tB2[1].replace(" kHz","");
-									tB2[1]=tB2[1]*1000;
-									tB2=tB2[0]+"=" + tB2[1]+" "+"Hz"
-								}
-								tB2=tB2.replace(".0","");
-								tB=tB+"<div class='mypassband' id='"+i+"'<li><a class='dropdown-item' href='#'>"+tB2+"</a></li></div>";
-							};
-							x = document.getElementById("passbandList");
-							x.innerHTML=tB;
-						});
-
-					});
-				}else if (tPost=="T/R" && tAccessLevel<4){
-					if (tDisconnected==1){
-						showConnectAlert();
-						return false;
-					};
-					if (tTrx==1){
-						setPTT(0, 0);
-						tTrx=0;
-					}else{
-						setPTT(1, 0);
-					}
-				}
-
-			}
-		}
-	}
-
-	$(document).on('click', '.mymode', function() {
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		};
-		if (tMain.indexOf('UNK')==-1  && tSub.indexOf('UNK')==-1){
-			var text = $(this).text();
-			$("#curMode1").val(text);
-			$.post("/programs/getRigBandwidths.php", {myRadioName: transRadioName, myRadio: tMyRadio, myRadioID:transRadioID, mode: text}, function(response){
-				var tB="";
-				var tList=response.split("\t");
-				for (i=1;i<tList.length;i++){
-					var tB1=tList[i];
-					if (tB1=="USB-D"){
-						tB1="PKTUSB";
-					}
-					var tB2=tB1;
-					if (tB1.indexOf("kHz")>0){
-						tB2=tB1.split("=");
-						tB2[1]=tB2[1].replace(" kHz","");
-						tB2[1]=tB2[1]*1000;
-						tB2=tB2[0]+"=" + tB2[1]+" "+"Hz"
-					}
-					tB2=tB2.replace(".0","");
-					tBandWidth=tB2[1];
-					tB=tB+"<div class='mypassband' id=i<li><a class='dropdown-item' href='#'>"+tB2+"</a></li></div>";
-					if (tMain.indexOf('UNK')==-1 && tMain.indexOf('0000000000')==-1 && tSub.indexOf('UNK')==-1 && tMode.indexOf('UNK')==-1){				$.post("/programs/SetFrequencyMem.php",{radio: tMyRadio, main: tMain, sub: tSub, mode: tB1, bw: -1}, function(response){
-									t=response;
-						});
-					};
-				};
-				x = document.getElementById("passbandList");
-				x.innerHTML=tB;
-			});
-		}
-	});
-
-	$(document).on('click', '.mypassband', function() {
-		var text = $(this).text();
-		var x = document.getElementById("curPassband1");
-		x.value=text;
-	});
-
-	function tuneMain(increment)
-	{
-		if (tDisconnected==1){
-		};
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		if (tTuneFromTap=0){
-			toggleSplitButton(0, 1);
-		}else{
-			tTuneFromTap=0;
-		}
-
-		var cMain=ppanel.getByName("Main");
-		var tMain=cMain.getText();
-		cFreq=tMain.replace(".", "");
-		cFreq=cFreq.replace(".", "");
-		cFreq1=parseInt(cFreq)+increment;
-		if (cFreq1<0){
-			return;
-		}
-		cFreq2=("0000000000" + cFreq1).slice(-10);
-		cFreq2=addPeriods(cFreq2);
-		cMain.setText(cFreq2);
-		console.log("tmain3: "+cFreq2);
-
-		cMain.setNeedRepaint(true);
-		cMain.refreshElement();
-		$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: cFreq1, table: "RadioInterface"}, function(response){
-			t=response;
-		});
-		waitRefresh=3;
-	}
-
-	function tuneSplit(increment)
-	{
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		toggleSplitButton(1, 1);
-		var cSub=ppanel.getByName("Sub");
-		var cSubIn=ppanel.getByName("SubInactive");
-		cSubIn.setVisible(false);
-		var tSub1=cSub.getText();
-		cFreq=tSub1.replace(".", "");
-		cFreq=cFreq.replace(".", "");
-		cFreq1=parseInt(cFreq)+increment;
-		if (cFreq1<0){
-			return;
-		}
-		cFreq2=("0000000000" + cFreq1).slice(-10);
-		cFreq2=addPeriods(cFreq2);
-		cSub.setText(cFreq2);
-		cSub.setVisible(true);
-		cSub.setNeedRepaint(true);
-		cSub.refreshElement();
-		$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: cFreq1, table: "RadioInterface"});
-		waitRefresh=3;
-	}
-
-	function setBandMemory(){
-		tBandwidth=-1;
-		if (tMain.indexOf('UNK')==-1 && tMain.indexOf('0000000000')==-1 && tSub.indexOf('UNK')==-1 && tMode.indexOf('UNK')==-1){
-			$.post("/programs/SetFrequencyMem.php", {radio: tMyRadio, main: tMain, sub: tSub, mode: tMode, bw: -1}, function(response){});
-		};
-	};
-
-	function GetBandFromFrequency(nFreq)
-	{
-		if (nFreq > 1800000 && nFreq < 2000000){
-			return "160";
-		}else if (nFreq > 3500000 && nFreq < 4000000){
-			return "80";
-		}else if (nFreq > 5330000 && nFreq < 5405010){
-			return "60";
-		}else if (nFreq > 7000000 && nFreq < 7300000){
-			return "40";
-		}else if (nFreq > 10100000 && nFreq < 10150000){
-			return "30";
-		}else if (nFreq > 14000000 && nFreq < 14500000){
-			return "20";
-		}else if (nFreq > 18060000 && nFreq < 18168000){
-			return "17";
-		}else if (nFreq > 21000000 && nFreq < 21450000){
-			return "15";
-		}else if (nFreq > 24890000 && nFreq < 24990000){
-			return "12";
-		}else if (nFreq > 28000000 && nFreq < 29700000){
-			return "10";
-		}else if (nFreq > 50000000 && nFreq < 54000000){
-			return "6";
-		}else if (nFreq > 144000000 && nFreq < 148000000){
-			return "2";
-		}else if (nFreq > 220000000 && nFreq < 225000000){
-			return "1.25";
-		}else if (nFreq > 420000000 && nFreq < 450000000){
-			return "70";
-		}else if (nFreq >= 1240000000 && nFreq < 1300000000){
-			return "23";
-		}else {
-			return "UNK";
-		}
-	}
-
-	function doDigit(whichIncrement, skipShift){
-
-		if (tDisconnected==1){
-//			return false;
-		};
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		if (whichIncrement==0){
-			tLine1.setVisible(false);
-			tLine2.setVisible(false);
-			return;
-		}
-		if (whichIncrement!=curDigit){
-			skipShift=1;
-		}
-		tTuneFromTap=1;
-		if (skipShift==0){
-			tuneMain(whichIncrement);
-		}
-		curDigit=whichIncrement;
-		skipShift=0;
-		tuningIncrement=Math.abs(whichIncrement);
-		tLine1.setVisible(false);
-		tLine2.setVisible(false);
-		ld=ld4;
-		lu=lu4;
-		switch(tuningIncrement){
-			case 1:
-				ld=ld1;
-				lu=lu1;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 0, table: "MySettings"})
-				break;
-			case 10:
-				ld=ld2;
-				lu=lu2;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 1, table: "MySettings"})
-				break;
-			case 100:
-				ld=ld3;
-				lu=lu3;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 2, table: "MySettings"})
-				break;
-			case 1000:
-				ld=ld4;
-				lu=lu4;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 3, table: "MySettings"})
-				break;
-			case 10000:
-				ld=ld5;
-				lu=lu5;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 4, table: "MySettings"})
-				break;
-			case 100000:
-				ld=ld6;
-				lu=lu6;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 5, table: "MySettings"})
-				break;
-			case 1000000:
-				ld=ld7;
-				lu=lu7;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 6, table: "MySettings"})
-				break;
-			case 10000000:
-				ld=ld8;
-				lu=lu8;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 7, table: "MySettings"})
-				break;
-			case 100000000:
-				ld=ld9;
-				lu=lu9;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 8, table: "MySettings"})
-				break;
-			case 1000000000:
-				ld=ld10;
-				lu=lu10;
-				$.post("/programs/SetSettings.php", {field: "MainSelect", radio: tMyRadio, data: 9, table: "MySettings"})
-				break;
-		}
-		waitRefresh=8;
-		lu.setVisible(true);
-		ld.setVisible(true);
-		tLine1=ld;
-		tLine2=lu;
-	}
-
-	function doSubDigit(whichIncrement, skipShift){
-		if (tDisconnected==1){
-			return false;
-		};
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		var pl=$('#play');
-		if (!pl.hasClass('d-none')){
-			return;
-		}
-		if (whichIncrement==0){
-			stLine1.setVisible(false);
-			stLine2.setVisible(false);
-			return;
-		}
-		if (tSplitOn==0){
-			return;
-		}
-		if (whichIncrement!=curSubDigit){
-			skipShift=1;
-		}
-		tTuneFromTap=1;
-		if (skipShift==0){
-			tuneSplit(whichIncrement);
-		}
-		curSubDigit=whichIncrement;
-		skipShift=0;
-		tuningIncrement=Math.abs(whichIncrement);
-		stLine1.setVisible(false);
-		stLine2.setVisible(false);
-		var sld;
-		var slu;
-		sld=sld5;
-		slu=slu5;
-		switch(tuningIncrement){
-			case 1:
-				sld=sld1;
-				slu=slu1;
-				break;
-			case 10:
-				sld=sld2;
-				slu=slu2;
-				break;
-			case 100:
-				sld=sld3;
-				slu=slu3;
-				break;
-			case 1000:
-				sld=sld4;
-				slu=slu4;
-				break;
-			case 10000:
-				sld=sld5;
-				slu=slu5;
-				break;
-			case 100000:
-				sld=sld6;
-				slu=slu6;
-				break;
-			case 1000000:
-				sld=sld7;
-				slu=slu7;
-				break;
-			case 10000000:
-				sld=sld8;
-				slu=slu8;
-				break;
-			case 100000000:
-				sld=sld9;
-				slu=slu9;
-				break;
-			case 1000000000:
-				sld=sld10;
-				slu=slu10;
-				break;
-		}
-		slu.setVisible(true);
-		sld.setVisible(true);
-		stLine1=sld;
-		stLine2=slu;
-	}
-
-	function numTune(num)
-	{
-		if (tDisconnected==1){
-			showConnectAlert();
-			return false;
-		};
-		if (notGotPerfectWidgets==1){
-			return;
-		}
-		if (alreadyDone==0){
-			tButtonWait=1;
-			alreadyDone=1;
-			if (tSplitOn==0){
-				switch (tLine1){
-				case ld1:
-					tMain=tMain.substring(0, tMain.length-1)+ num;
-					break;
-				case ld2:
-					tMain=tMain.substring(0, tMain.length-2)+ num + tMain.substring(tMain.length-1);
-					doDigit(1,1);
-					break;
-				case ld3:
-					tMain=tMain.substring(0, tMain.length-3)+ num + tMain.substring(tMain.length-2);
-					doDigit(10,1);
-					break;
-				case ld4:
-					tMain=tMain.substring(0, tMain.length-4)+ num + tMain.substring(tMain.length-3);
-					doDigit(100,1);
-					break;
-				case ld5:
-					tMain=tMain.substring(0, tMain.length-5)+ num + tMain.substring(tMain.length-4);
-					doDigit(1000,1);
-					break;
-				case ld6:
-					tMain=tMain.substring(0, tMain.length-6)+ num + tMain.substring(tMain.length-5);
-					doDigit(10000,1);
-					break;
-				case ld7:
-					tMain=tMain.substring(0, tMain.length-7)+ num + tMain.substring(tMain.length-6);
-					doDigit(100000,1);
-					break;
-				case ld8:
-					tMain=tMain.substring(0, tMain.length-8)+ num + tMain.substring(tMain.length-7);
-					doDigit(1000000,1);
-					break;
-				case ld9:
-					doDigit(10000000,1);
-					tMain=tMain.substring(0, tMain.length-9)+ num + tMain.substring(tMain.length-8);
-					break;
-				case ld10:
-					doDigit(100000000,1);
-					tMain=tMain.substring(0, tMain.length-10)+ num + tMain.substring(tMain.length-9);
-					break;
-
-				}
-				var cFreq2m=("0000000000" + tMain).slice(-10);
-				var tMain1=addPeriods(cFreq2m);
-				var cMain=ppanel.getByName("Main");
-				cMain.setText(tMain1);
-				console.log("tmain4: "+tMain1);
-
-				cMain.setNeedRepaint(true);
-				cMain.refreshElement();
-				$.post("/programs/SetSettings.php", {field: "MainOut", radio: tMyRadio, data: tMain, table: "RadioInterface"}, function(response){
-						tButtonWait=0;
-					}
-				 );
-			}else{
-				switch (stLine1){
-					case sld1:
-						tSub=tSub.substring(0, tSub.length-1)+ num;
-						break;
-					case sld2:
-						tSub=tSub.substring(0, tSub.length-2)+ num + tSub.substring(tSub.length-1);
-						doSubDigit(1,1);
-						break;
-					case sld3:
-						tSub=tSub.substring(0, tSub.length-3)+ num + tSub.substring(tSub.length-2);
-						doSubDigit(10,1);
-						break;
-					case sld4:
-						tSub=tSub.substring(0, tSub.length-4)+ num + tSub.substring(tSub.length-3);
-						doSubDigit(100,1);
-						break;
-					case sld5:
-						tSub=tSub.substring(0, tSub.length-5)+ num + tSub.substring(tSub.length-4);
-						doSubDigit(1000,1);
-						break;
-					case sld6:
-						tSub=tSub.substring(0, tSub.length-6)+ num + tSub.substring(tSub.length-5);
-						doSubDigit(10000,1);
-						break;
-					case sld7:
-						tSub=tSub.substring(0, tSub.length-7)+ num + tSub.substring(tSub.length-6);
-						doSubDigit(100000,1);
-						break;
-					case sld8:
-						tSub=tSub.substring(0, tSub.length-8)+ num + tSub.substring(tSub.length-7);
-						doSubDigit(1000000,1);
-						break;
-					case sld9:
-						doSubDigit(10000000,1);
-						tSub=tSub.substring(0, tSub.length-9)+ num + tSub.substring(tSub.length-8);
-						break;
-					case sld10:
-						doSubDigit(100000000,1);
-						tSub=tSub.substring(0, tSub.length-9)+ num + tSub.substring(tSub.length-9);
-						break;
-				};
-				var cFreq2s=("0000000000" + tSub).slice(-10);
-				var tSub1=addPeriods(cFreq2s);
-				var cSub=ppanel.getByName("Sub");
-				cSub.setText(tSub1);
-				cSub.setNeedRepaint(true);
-				cSub.refreshElement();
-				$.post("/programs/SetSettings.php", {field: "SubOut", radio: tMyRadio, data: tSub, table: "RadioInterface"}, function(response){
-						tButtonWait=0;
-					}
-				);
-			};
-		};
-	};
-	  function addPeriods(nStr) {  //convert '14025000' to '14.025.000'
-		nStr += "";
-		x = nStr.split(".");
-		x1 = x[0];
-		x2 = x.length > 1 ? "." + x[1] : "";
-		var rgx = /(\d+)(\d{3})/;
-		while (rgx.test(x1)) {
-		  x1 = x1.replace(rgx, "$1" + "." + "$2");
-		}
-		var newF = x1 + x2;
-		if (newF.length > 12) {
-		  newF = newF.replace(".", "");
-		}
-		var tF = newF;
-		var tFS = "";
-		if (newF != "0000.000.000") {
-		  while (tF.charAt(0) == "0") {
-			tF = tF.substring(1);
-			tFS = tFS + " ";
-			newF = tFS + tF;
-		  }
-		}
-		return newF;
-	  }
-
-	  window.addEventListener('message', function(e) {
-		  if (e.data && e.data.type === 'elmrTune') {
-			  var dx = e.data.dx;
-			  $('#searchText').val(dx);
-			  $.post('/programs/SetSettings.php', {
-				  field: 'DX', radio: tMyRadio,
-				  data: dx, table: 'MySettings'
-			  });
-		  }
-	  });
-//	  checkRadioPower();
-
-	</script>
-
-	</head>
-	<body class="body-black-scroll" id="tuner">
-		<?php $showSDR = true; ?>
-		<?php require $dRoot . "/includes/header.php"; ?>
-        <?php require $dRoot . "/includes/rigpi-welcome.php"; ?>
-		<?php if (
-      ($sdrPosition === "top" || $sdrPosition === "middle") &&
-      ($sdrPage === "tuner" || $sdrPage === "both")
-  ): ?>
-		<div id="sdrPanel" style="width:100%; height:450px;">
-			<iframe src=""
-				id="sdrIframe"
-				style="width:100%; height:450px; border:none; display:block;"
-				allow="autoplay; microphone"
-				title="RigPi SDR"></iframe>
-		<hr>
-		</div>
-		<hr>
-		<?php endif; ?>
-		 <div class="container-fluid">
-			 <p>
-	   <!-- sdr1 removed -->
-
-		<input class="textarea dummytext" type="tel" id="dt">
-		<div class="col-sm-12" id="">
-
-			 <div class="row">
-				<!-- sdr2 removed -->
-			</div>
-		</div>
-		<div class="row">
-				<div class="col-sm-4 mx-auto<?php if (
-        $sdrPosition === "middle" &&
-        ($sdrPage === "tuner" || $sdrPage === "both")
-    ) {
-        echo " d-none";
-    } ?>" id="colPan">
-					<div class="row fixed mx-auto noselect d-none"  style="margin-bottom:10px;" id="dPanel">
-					</div>
-					 <div class="row  fixed noselect mx-auto">
-						<div class="col-12">
-							 <iframe class="videoPanel embed-responsive-item d-none" id="i1" style="width:340px; height:260px; margin-left: -15px;" scrolling="no" src=""></iframe>
-					   </div>
-					</div>
-					<div class="row" style="margin-top:10px">
-						<div class=" d-none col-12" id="topVFO">
-						</div>
-					</div>
-			   </div>
-			   <div class="col-sm-4 mx-auto fixed noselect<?php if (
-          $sdrPosition === "middle" &&
-          ($sdrPage === "tuner" || $sdrPage === "both")
-      ) {
-          echo " d-none";
-      } ?>" id="colVid">
-					<div class="row">
-						<div class="col mx-auto" >
-							<div class="row center fixed noselect d-none" id="dMeter">
-							</div>
-									<div class="row  fixed noselect mx-auto">
-									<div class="col-12">
-										<iframe class="videoMeter d-none embed-responsive-item" id="i2" style="width: 340px; height: 260px; margin-left: -15px;" scrolling="no" src=""></iframe>
-								  </div>
-							</div>
-						</div>
-					</div>
-					<div class=" row">
-						<div class="col">
-						   <div class="mycall text-white-medium d-none" id="mcall" style="margin-top:-54px">
-								<?php echo $tCall; ?>
-								<hr>
-							 </div>
-							<div class="row" style="margin-left:20px;margin-right:20px">
-								<div class='d-none col-6 btn-padding' id="myBank1">
-									<button class="btn btn-color btn-secondary btn-sm btn-block" title="Select Macro Bank 1" id="myBank1x" type="button">
-										MACRO BANK <u>1</u>
-									</button>
-								</div>
-									<div class='d-none col-6 btn-padding' id="myBank2">
-									<button class="btn btn-color btn-secondary btn-sm btn-block" title="Select Macro Bank 2" id="myBank2x" type="button">
-										MACRO BANK <u>2</u>
-									</button>
-								</div>
-							</div>
-							<div class="row" style="margin-left:20px;margin-right:20px">
-								<div class='col-6 d-none btn-padding' id="myBank3">
-									<button class="btn btn-color btn-secondary btn-sm btn-block" title="Select Macro Bank 3" id="myBank3x" type="button">
-										MACRO BANK <u>3</u>
-									</button>
-								</div>
-								<div class='col-6 d-none btn-padding' id="myBank4">
-									<button class="btn btn-color btn-secondary btn-sm btn-block" title="Select Macro Bank 4" id="myBank4x" type="button">
-										MACRO BANK <u>4</u>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-			   </div>
-				<div class="col-sm-4 mx-auto<?php if (
-        $sdrPosition === "middle" &&
-        ($sdrPage === "tuner" || $sdrPage === "both")
-    ) {
-        echo " d-none";
-    } ?>" id="colKnob">
-					<div class="row fixed mx-auto noselect d-none" style="margin-left:-10px;" id="dKnob"></div>
-					<div class="row  fixed mx-auto">
-						<div class="col-12">
-							 <iframe class="videoKnob d-none embed-responsive-item" id="i3" style="width: 340; height:260px; margin-left: -15px;" scrolling="no" src=""></iframe>
-					   </div>
-					</div>
-					<div class="row fixed mx-auto noselect d-none" id="dLED"></div>
-				</div>
-			</div>
-
-			<div class="row" style="margin-top:10px">
-				<div class="col-12<?php if (
-        $sdrPosition === "middle" &&
-        ($sdrPage === "tuner" || $sdrPage === "both")
-    ) {
-        echo " d-none";
-    } ?>" id="bottomVFO">
-				</div>
-			</div>
-		</div>
-			<?php if (
-       $sdrPosition !== "middle" ||
-       $sdrPage === "none"
-   ): ?><hr><?php endif; ?>   <div id="macroDiv" class="px-3"<?php if (
-       $sdrPosition !== "none" &&
-       ($sdrPage === "tuner" || $sdrPage === "both")
-   ) {
-       if ($sdrPosition === "bottom") {
-           echo ' style="margin-bottom:0px;"';
-       } else {
-           echo ' style="margin-bottom:30px;"';
-       }
-   } ?>>
-				<?php require $dRoot . "/includes/macroButtons.php"; ?>
-		   </div>
-			<?php require $dRoot . "/includes/elmer_control_panel.php"; ?>
-			<?php if (
-       $sdrPosition === "bottom" &&
-       ($sdrPage === "tuner" || $sdrPage === "both")
-   ): ?>
-		<hr style="margin:4px 0;">
-		<div id="sdrPanel" style="width:100%; height:450px; margin-top:0;">
-			<iframe src=""
-				id="sdrIframe"
-				style="width:100%; height:450px; border:none; display:block;"
-				allow="autoplay; microphone" title="RigPi SDR"></iframe>
-		</div>
-		<?php else: ?>
-		<div style="height:10px;">&nbsp;</div>
-		<?php endif; ?>
-			<div class="row">
-		   <!-- sdr3 removed -->
-		   </div>
-		   <div>
-			   <script>
-			   // const ws = new WebSocket("ws://rigpi5.local:8080");
-			   // const canvas = document.getElementById("fftCanvas");
-			   // const ctx = canvas.getContext("2d");
-//
-			   // ws.binaryType = "arraybuffer";
-//
-			   // ws.onmessage = (event) => {
-				//  const data = new Float32Array(event.data);
-				//  ctx.clearRect(0, 0, canvas.width, canvas.height);
-				//  ctx.beginPath();
-				//  for (let i = 0; i < data.length; i++) {
-				//    const x = (i / data.length) * canvas.width;
-				//    const y = canvas.height - (data[i] * canvas.height); // scale as needed
-				//    ctx.lineTo(x, y);
-				//  }
-				//  ctx.stroke();
-			   // };
-			   </script>
-		   </div>
-		   <div id="fallback" class="fallback hidden" role="status" aria-live="polite">
-			 <div><strong>Unable to embed the remote page.</strong></div>
-			 <div class="small">This usually happens when the remote server forbids embedding (X-Frame-Options / CSP) or the host is unreachable.</div>
-			 <div>
-			   <a id="openLink" href="#" target="_blank" rel="noopener" class="button">Open nRSP in new tab</a>
-			 </div>
-			 <div class="small">Or check the IP and try again.</div>
-		   </div>
-			 <div class="status">
-				<?php require $dRoot . "/includes/footer.php"; ?>
-			</div>
-		</div>
-	<?php if (
-     ($sdrPosition === "middle" || $sdrPosition === "top") &&
-     ($sdrPage === "tuner" || $sdrPage === "both")
- ): ?>
-	<script>
-	var _sdrScrollFix = new MutationObserver(function() {
-		if (document.body.style.overflowY !== "auto") {
-			document.body.style.setProperty("overflow-y", "auto", "important");
-			document.body.style.setProperty("overflow-x", "hidden", "important");
-			document.body.style.setProperty("padding-bottom", "50px", "important");
-		}
-	});
-	_sdrScrollFix.observe(document.body, { attributes: true, attributeFilter: ["style"] });
-	document.body.style.setProperty("overflow-y", "auto", "important");
-	</script>
-	<?php endif; ?>
-	</body>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalxxx.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modal.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalAlert.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalCancelAlert.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalCancelReboot.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalUpdate.txt";
- } ?>
-	<?php if ($level !== 6) {
-     require $dRoot . "/includes/modalCancelOnly.txt";
- } ?>
-	<script src="/js/mscorlib.js" type="text/javascript"></script>
-	<script src="/js/PerfectWidgets.js" type="text/javascript"></script>
-	<script src="/js/rigpi-smeter.js?v=1.7.8" type="text/javascript"></script>
-	<script src="/Bootstrap/jquery-ui.js"></script>
-	<script src="/js/jquery.ui.touch-punch.min.js"></script>
-	<link rel="stylesheet" href="/Bootstrap/jquery-ui.css">
-	<script src="/js/nav-active.js"></script>
+function closeShellSdrReceive(session) {
+    clearTimeout(session.rtcDeadline);
+    session.rtcAbort?.abort();
+    session.rtcActive = false;
+    if (session.rtcPeer) { session.rtcPeer.onconnectionstatechange = null; session.rtcPeer.ontrack = null; session.rtcPeer.close(); }
+    if (session.rtcElement) { session.rtcElement.pause(); session.rtcElement.srcObject = null; session.rtcElement.remove(); session.rtcElement = null; }
+    session.rtcStream?.getTracks().forEach(track => track.stop());
+    session.rtcSource?.disconnect();
+    session.rtcGate?.disconnect();
+    session.rtcPeer = null;
+    session.rtcSource = null;
+    session.rtcStream = null;
+    session.rtcGate = null;
+}
+async function startShellSdrReceive(session) {
+    if (session.config.receive.source !== "sdr" || session.rtcPeer || shellRx !== session) return;
+    const owner = document.getElementById("rigpiAudioHost").contentWindow;
+    const peer = new owner.RTCPeerConnection({iceServers:[]});
+    session.rtcPeer = peer;
+    const abort = new AbortController();
+    session.rtcAbort = abort;
+    const fallback = error => {
+        if (session.rtcPeer !== peer) return;
+        closeShellSdrReceive(session);
+        console.warn("RigPi shell SDR receive fallback:", error);
+    };
+    const activate = () => {
+        if (shellRx !== session || session.rtcPeer !== peer || peer.connectionState !== "connected" || !session.rtcSource || session.rtcActive) return;
+        flushShellAudio(session);
+        session.rtcActive = true;
+        session.rtcGate.gain.value = session.muted ? 0 : 1;
+        clearTimeout(session.rtcDeadline);
+        console.log("RigPi shell SDR receive WebRTC connected");
+    };
+    session.rtcDeadline = setTimeout(() => fallback("connection timed out"), 25000);
+    peer.ontrack = event => {
+        if (shellRx !== session || session.rtcPeer !== peer) { event.track.stop(); return; }
+        session.rtcStream = new owner.MediaStream([event.track]);
+        // Chrome needs an attached media element to pull and decode remote audio.
+        const element = owner.document.createElement("audio");
+        element.muted = true;
+        element.autoplay = true;
+        element.srcObject = session.rtcStream;
+        owner.document.body.appendChild(element);
+        session.rtcElement = element;
+        element.play().catch(error => fallback(error.message));
+        session.rtcSource = session.context.createMediaStreamSource(session.rtcStream);
+        session.rtcGate = session.context.createGain();
+        session.rtcGate.gain.value = 0;
+        session.rtcSource.connect(session.rtcGate);
+        session.rtcGate.connect(session.analyser);
+        event.track.onended = () => fallback("receive track ended");
+        activate();
+    };
+    peer.onconnectionstatechange = () => {
+        if (shellRx !== session || session.rtcPeer !== peer) return;
+        if (["failed", "closed", "disconnected"].includes(peer.connectionState)) fallback(peer.connectionState);
+        else activate();
+    };
+    try {
+        const receiver = peer.addTransceiver("audio", {direction:"recvonly"}).receiver;
+        if ("jitterBufferTarget" in receiver) receiver.jitterBufferTarget = 400;
+        await peer.setLocalDescription(await peer.createOffer());
+        if (peer.iceGatheringState !== "complete") await new Promise((resolve, reject) => {
+            const cleanup = () => { peer.removeEventListener("icegatheringstatechange", changed); abort.signal.removeEventListener("abort", cancelled); };
+            const changed = () => { if (peer.iceGatheringState === "complete") { cleanup(); resolve(); } };
+            const cancelled = () => { cleanup(); reject(new Error("Receive connection cancelled")); };
+            peer.addEventListener("icegatheringstatechange", changed);
+            abort.signal.addEventListener("abort", cancelled, {once:true});
+            if (abort.signal.aborted) cancelled(); else changed();
+        });
+        if (shellRx !== session || session.rtcPeer !== peer) return;
+        const url = new URL(session.config.url);
+        url.protocol = location.protocol;
+        url.pathname = url.pathname.replace(/\/ws\/spectrum$/, "/api/audio/offer");
+        url.search = "";
+        if (url.origin !== location.origin || !url.pathname.endsWith("/api/audio/offer")) throw new Error("Invalid receive service");
+        const response = await fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({sdp:peer.localDescription.sdp,type:"offer"}), signal:abort.signal});
+        const answer = await response.json();
+        if (!response.ok || !answer.sdp) throw new Error(answer.error || "Receive connection failed");
+        if (shellRx !== session || session.rtcPeer !== peer) return;
+        await peer.setRemoteDescription(answer);
+    } catch (error) { fallback(error.message); }
+}
+
+function flushShellAudio(session) {
+    session.sources.forEach((source) => { try { source.stop(); } catch (_) {} });
+    session.sources.clear();
+    session.nextTime = 0;
+}
+
+function stopShellAudio(status = "inactive", error = null) {
+    stopShellRecording();
+    shellRxGeneration += 1;
+    const session = shellRx;
+    shellRx = null;
+    if (session) {
+        clearTimeout(session.timeout);
+        clearInterval(session.watchdog);
+        closeShellSdrReceive(session);
+        flushShellAudio(session);
+        if (session.socket) {
+            try {
+                if (session.socket.readyState === 1) session.socket.send(JSON.stringify({ cmd: "audio_off" }));
+                session.socket.close();
+            } catch (_) { /* Local playback still stops if the socket has failed. */ }
+        }
+        session.context.close().catch(() => {});
+    }
+    setShellAudioStatus(status, error);
+}
+
+
+let shellExpressPending = null;
+let shellExpressIntent = null;
+let shellExpressRecoveryUntil = 0;
+let shellExpressNextAttempt = 0;
+let shellHideSdr = false;
+try { shellHideSdr = localStorage.getItem("rigpi_shell_hide_sdr") === "1"; } catch (_) {}
+function applyShellSdrVisibility(frame) {
+    document.querySelectorAll('#rigpiShellNav button[data-page="/sdr.php"], #rigpiShellNav button[data-page="/index_4.php"]').forEach((button) => {
+        button.hidden = shellHideSdr;
+        button.disabled = shellHideSdr;
+        button.style.display = shellHideSdr ? "none" : "";
+    });
+    try {
+        const page = frame.contentDocument;
+        if (!page?.head) return;
+        let style = page.getElementById("rigpiShellSdrVisibility");
+        if (!style) {
+            style = page.createElement("style");
+            style.id = "rigpiShellSdrVisibility";
+            style.textContent = '#sdrPanel, #tuner #sdrPanel + hr, #keyer #sdrPanel + hr, #elmerSdrWindow, .sdr-panel, .sdr-grid, #sdrDashboardStatus { display: none !important; }';
+            page.head.appendChild(style);
+        }
+        style.disabled = !shellHideSdr;
+    } catch (_) {}
+}
+
+// Conceal a No SDR navigation until the new document has its shell CSS.
+function bindShellSdrNavigation(frame) {
+    try {
+        const page = frame.contentDocument;
+        const owner = frame.contentWindow;
+        if (!page?.documentElement || page.documentElement.dataset.shellSdrNavigationBound) return;
+        page.documentElement.dataset.shellSdrNavigationBound = "true";
+        owner.addEventListener("pagehide", () => {
+            if (shellHideSdr || (shellExpressIntent?.noSdr && Date.now() < shellExpressIntent.expires)) {
+                frame.style.visibility = "hidden";
+                frame.setAttribute("aria-busy", "true");
+            }
+        });
+    } catch (_) {}
+}
+
+// Authentication replaces the whole master, so re-login gets a fresh startup gate.
+document.getElementById("rigpiContent").addEventListener("load", function () {
+    try {
+        const destination = this.contentWindow.location;
+        if (destination.pathname !== "/login.php") return;
+        document.documentElement.style.visibility = "hidden";
+        window.location.replace(destination.href);
+    } catch (_) {}
+});
+
+const shellSdrNavigationFrame = document.getElementById("rigpiContent");
+shellSdrNavigationFrame.addEventListener("load", () => {
+    try {
+        // Finish may carry the selection until the destination loads.
+        bindShellExpress(shellSdrNavigationFrame);
+        applyShellSdrVisibility(shellSdrNavigationFrame);
+        bindShellSdrNavigation(shellSdrNavigationFrame);
+    } finally {
+        shellSdrNavigationFrame.style.removeProperty("visibility");
+        shellSdrNavigationFrame.removeAttribute("aria-busy");
+    }
+});
+bindShellSdrNavigation(shellSdrNavigationFrame);
+
+applyShellSdrVisibility(document.getElementById("rigpiContent"));
+
+function selectShellUsbInput(config) {
+    const devices = config.radioDevices || [];
+    const physical = devices.filter(item => !/loopback|loop[0-9]|hermes|elmer|pulse|default/i.test(item.label));
+    const saved = shellRxChoice?.source === "radio" ? shellRxChoice.device : config.receive.source === "radio" ? config.receive.device : null;
+    const previous = physical.find(item => Number(item.value) === saved);
+    if (previous) return previous;
+    const codecs = physical.filter(item => /usb.*codec|codec.*usb/i.test(item.label));
+    if (codecs.length === 1) return codecs[0];
+    const usb = physical.filter(item => /usb/i.test(item.label));
+    return usb.length === 1 ? usb[0] : null;
+}
+function completeShellExpressSelection(noSdr) {
+    shellHideSdr = noSdr;
+    try { localStorage.setItem("rigpi_shell_hide_sdr", noSdr ? "1" : "0"); } catch (_) {}
+    shellExpressPending = { noSdr, expires: Date.now() + 20000 };
+    shellExpressRecoveryUntil = Date.now() + 45000;
+    shellExpressNextAttempt = 0;
+    console.log("RigPi shell Express selection:", noSdr ? "No SDR; use radio USB audio" : "SDR; show SDR panels");
+}
+function addShellRemoteDevice(page) {
+    const list = page.getElementById("deviceList");
+    if (!list || page.documentElement.dataset.shellRemoteDeviceBound) return;
+    page.documentElement.dataset.shellRemoteDeviceBound = "true";
+    function addChoice() {
+        if (page.getElementById("shellRemoteDevice")) return;
+        const label = page.createElement("label");
+        label.className = "sdr-device";
+        const input = page.createElement("input");
+        input.type = "radio";
+        input.name = "sdrDevice";
+        input.id = "shellRemoteDevice";
+        const title = page.createElement("span");
+        title.className = "sdr-device-title";
+        title.textContent = "Remote (OpenWebRX and KiwiSDR)";
+        const detail = page.createElement("div");
+        detail.className = "sdr-device-detail";
+        detail.textContent = "Choose a remote receiver in the Remote controls.";
+        label.append(input, title, detail);
+        const noSdr = Array.from(list.children).find(item => item.querySelector(".sdr-device-title")?.textContent.trim() === "No SDR");
+        list.insertBefore(label, noSdr || null);
+    }
+    list.addEventListener("change", () => {
+        list.querySelectorAll(".sdr-device").forEach(label => {
+            label.classList.toggle("selected", !!label.querySelector("input:checked"));
+        });
+        if (page.getElementById("shellRemoteDevice")?.checked) {
+            page.getElementById("finish").disabled = false;
+        }
+    });
+    const observer = new MutationObserver(addChoice);
+    observer.observe(list, {childList: true});
+    page.defaultView.addEventListener("pagehide", () => observer.disconnect(), {once: true});
+    addChoice();
+}
+
+function openShellRemoteControls() {
+    shellExpressIntent = null;
+    shellHideSdr = false;
+    try { localStorage.setItem("rigpi_shell_hide_sdr", "0"); } catch (_) {}
+    const frame = document.getElementById("rigpiContent");
+    applyShellSdrVisibility(frame);
+    window.rigpiShell.navigate("/sdr.php");
+    const expires = Date.now() + 20000;
+    const timer = setInterval(() => {
+        try {
+            const page = frame.contentDocument;
+            const receiver = page?.getElementById("elmerSdrFrame");
+            const controls = receiver?.contentDocument;
+            const button = controls?.querySelector('.panel-tab[data-panel="remote"]');
+            if (frame.contentWindow.location.pathname === "/sdr.php" &&
+                controls?.readyState === "complete" && button) {
+                clearInterval(timer);
+                button.click();
+                console.log("RigPi shell: Remote receiver controls opened");
+                return;
+            }
+        } catch (_) {}
+        if (Date.now() > expires) {
+            clearInterval(timer);
+            console.warn("RigPi shell: open the Remote tab to choose a receiver.");
+        }
+    }, 250);
+}
+
+function bindShellExpress(frame) {
+    try {
+        const owner = frame.contentWindow;
+        const page = frame.contentDocument;
+        if (owner.location.pathname !== "/wizardSdr.php") {
+            const intent = shellExpressIntent;
+            shellExpressIntent = null;
+            if (intent && Date.now() < intent.expires && ["/tuner.php", "/sdr.php"].includes(owner.location.pathname)) {
+                completeShellExpressSelection(intent.noSdr);
+                applyShellSdrVisibility(frame);
+            }
+            return;
+        }
+        addShellRemoteDevice(page);
+    if (page.documentElement.dataset.shellExpressBound) return;
+        page.documentElement.dataset.shellExpressBound = "true";
+        page.getElementById("finish")?.addEventListener("click", (event) => {
+        if (page.getElementById("shellRemoteDevice")?.checked) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            openShellRemoteControls();
+            return;
+        }
+            const selected = page.querySelector('input[name="sdrDevice"]:checked');
+            const title = selected?.closest(".sdr-device")?.querySelector(".sdr-device-title")?.textContent?.trim();
+            shellExpressIntent = title ? { noSdr: title === "No SDR", expires: Date.now() + 60000 } : null;
+        }, true);
+        const originalFetch = owner.fetch;
+        owner.fetch = async function(...args) {
+            let selection = null;
+            try {
+                const address = new URL(String(args[0]), owner.location.href);
+                const options = args[1] || {};
+                if (address.origin === location.origin && address.pathname.endsWith("/api/device") && options.method?.toUpperCase() === "POST") {
+                    const body = JSON.parse(options.body);
+                    selection = body.driver === "fake" ? true : body.driver ? false : null;
+                }
+            } catch (_) {}
+            const response = await originalFetch.apply(owner, args);
+            if (selection !== null && response.ok) {
+                try {
+                    const result = await response.clone().json();
+                    if (result.ok) { shellExpressIntent = null; completeShellExpressSelection(selection); }
+                } catch (_) {}
+            }
+            return response;
+        };
+    } catch (_) {}
+}
+function finishShellExpressAudio() {
+    const pending = shellExpressPending;
+    if (!pending) {
+        if (Date.now() < shellExpressRecoveryUntil && !shellRx && shellAudioConfig && Date.now() >= shellExpressNextAttempt) {
+            shellExpressNextAttempt = Date.now() + 2000;
+            startShellAudio();
+        }
+        return;
+    }
+    const frame = document.getElementById("rigpiContent");
+    let path;
+    try { path = frame.contentWindow.location.pathname; } catch (_) { return; }
+    if (Date.now() > pending.expires) {
+        shellExpressPending = null;
+        document.getElementById("rigpiShellAudioMessage").textContent = "Open Tuner, then choose the receive source in Audio Settings.";
+        return;
+    }
+    if (!["/tuner.php", "/sdr.php", "/keyer.php"].includes(path)) return;
+    let config;
+    try { config = readShellAudioConfig(); } catch (_) { return; }
+    if (!config || (pending.noSdr && !(config.radioDevices || []).length)) return;
+    shellExpressPending = null;
+    shellAudioConfig = config;
+    const device = pending.noSdr ? selectShellUsbInput(config) : null;
+    if (pending.noSdr && !device) {
+        shellExpressRecoveryUntil = 0;
+        stopShellAudio("error", "Select the radio USB input in Audio Settings.");
+        return;
+    }
+    shellRxChoice = { source: pending.noSdr ? "radio" : "sdr", device: device ? Number(device.value) : config.receive.device };
+    try { localStorage.setItem("rigpi_shell_rx_choice", JSON.stringify(shellRxChoice)); } catch (_) {}
+    refreshShellReceiveControls();
+    document.getElementById("rigpiShellAudioMessage").textContent = pending.noSdr ? "Express selected radio USB audio automatically." : "Express selected SDR audio.";
+    changeShellReceiveSource();
+    if (!shellRx) startShellAudio();
+    applyShellSdrVisibility(frame);
+}
+setInterval(finishShellExpressAudio, 250);
+
+function hideShellLegacyAudio() {
+    const page = document.getElementById("rigpiContent").contentDocument;
+    page?.querySelectorAll("iframe").forEach(frame => {
+        try {
+            const doc = frame.contentDocument;
+            if (!doc?.getElementById("tab_audio") || !doc.head || doc.getElementById("shellLegacyAudioHidden")) return;
+            const style = doc.createElement("style");
+            style.id = "shellLegacyAudioHidden";
+            style.textContent = '.panel-tab[data-panel="audio"], #tab_audio { display: none !important; }';
+            doc.head.appendChild(style);
+            const tab = doc.querySelector('.panel-tab[data-panel="audio"]');
+            if (tab?.classList.contains("active")) {
+                doc.querySelector('.panel-tab[data-panel="sdr"]')?.click();
+            }
+            tab?.addEventListener("click", event => {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                openShellAudioSettings();
+            }, true);
+        } catch (_) { /* A receiver frame may still be loading. */ }
+    });
+}
+
+setInterval(hideShellLegacyAudio, 500);
+
+function readShellAudioConfig() {
+    hideShellLegacyAudio();
+    const page = document.getElementById("rigpiContent").contentDocument;
+    const frame = page && (page.getElementById("sdrIframe") || page.getElementById("elmerSdrFrame"));
+    if (!frame) return null;
+    const panel = frame.contentWindow;
+    if (typeof panel.spectrumWsUrl !== "function" || typeof panel.currentRxAudioConfig !== "function") return null;
+    const url = new URL(panel.spectrumWsUrl());
+    if (url.hostname !== location.hostname || !["ws:", "wss:"].includes(url.protocol)) return null;
+    const receive = panel.currentRxAudioConfig();
+    const audioButton = panel.document.getElementById("audioBtn");
+    return {
+        url: url.href, receive,
+        radioDevices: Array.from(panel.document.getElementById("rxRadioDevice")?.options || [])
+            .filter(option => option.value !== "" && Number.isFinite(Number(option.value)))
+            .map(option => ({ value: option.value, label: option.textContent.trim() })),
+        deviceLabel: panel.document.querySelector('select[title="Select SDR hardware device"] option:checked')?.textContent.trim() || "SDR",
+        panelPlaying: !!audioButton && audioButton.classList.contains("audio-connected"),
+        remote: !!(panel._sdrLastState && panel._sdrLastState.owrx_active)
+    };
+}
+
+function syncShellAudioPage() {
+    const url = window.rigpiShell.currentUrl;
+    if (!url || new URL(url).pathname === "/login.php") {
+        shellAudioConfig = null;
+        if (shellRx) stopShellAudio();
+        return;
+    }
+    try {
+        const config = readShellAudioConfig();
+        if (config) {
+            if (shellRx && shellAudioConfig && config.url !== shellAudioConfig.url) stopShellAudio();
+            shellAudioConfig = config;
+        }
+    } catch (_) { /* A nested panel may still be loading. */ }
+}
+
+async function startShellAudio() {
+    if (shellRx) return;
+    let generation = null;
+    try {
+        const current = readShellAudioConfig();
+        if (current) shellAudioConfig = current;
+        if (!shellAudioConfig) throw new Error("Open Tuner or Keyer first so the audio source is available.");
+        if (shellAudioConfig.panelPlaying) throw new Error("Stop the page's existing audio before starting shell audio.");
+        if (shellAudioConfig.remote) throw new Error("This first shell audio test uses local receive audio.");
+        const config = { ...shellAudioConfig, receive: shellReceiveChoice(shellAudioConfig) };
+        if (config.receive.source === "radio" && config.receive.device === null) throw new Error("Select a radio input in Audio Settings first.");
+        const owner = rigpiAudioHost.contentWindow;
+        const Context = owner.AudioContext || owner.webkitAudioContext;
+        if (!Context) throw new Error("Receive audio is unavailable in this browser.");
+        generation = ++shellRxGeneration;
+        const context = new Context();
+        const gain = context.createGain();
+        gain.gain.value = rigpiShell.transmit?.pttRequested ? 0 : shellReceiveVolume / 100;
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 2048;
+        const panner = context.createStereoPanner();
+        panner.pan.value = shellPan;
+        analyser.connect(gain);
+        gain.connect(panner);
+        panner.connect(context.destination);
+        const session = { context, gain, config, analyser, panner, meterSamples: new Float32Array(analyser.fftSize), meterBins: new Uint8Array(analyser.frequencyBinCount), sources: new Set(), nextTime: 0, socket: null,
+            timeout: null, watchdog: null, muted: false, rate: 48000, lastPacket: 0 };
+        shellRx = session;
+        Object.assign(window.rigpiShell.audioHost, { packets: 0, samples: 0, lastPacket: null });
+        setShellAudioStatus("starting");
+        await context.resume();
+        if (shellSink && typeof context.setSinkId === "function") {
+            try { await context.setSinkId(shellSink); }
+            catch (_) {
+                shellSink = "";
+                try { localStorage.removeItem("rigpi_shell_sink"); } catch (_) {}
+                document.getElementById("rigpiShellAudioMessage").textContent = "Saved speaker unavailable. Using system default.";
+            }
+        }
+        if (generation !== shellRxGeneration || shellRx !== session) return;
+        if (context.state !== "running") throw new Error("Click Start audio again to enable playback.");
+        const socket = new owner.WebSocket(config.url);
+        session.socket = socket;
+        socket.binaryType = "arraybuffer";
+        session.timeout = setTimeout(() => {
+            if (shellRx === session) stopShellAudio("error", "No receive audio arrived. Check the selected source and try again.");
+        }, 10000);
+        socket.onopen = () => {
+            if (shellRx !== session) return;
+            socket.send(JSON.stringify({ cmd: "audio_on", source: config.receive.source, device: config.receive.device }));
+            setShellAudioStatus("waiting");
+            startShellSdrReceive(session);
+        };
+        socket.onmessage = (event) => {
+            if (shellRx !== session) return;
+            if (typeof event.data === "string") {
+                let message;
+                try { message = JSON.parse(event.data); } catch (_) { return; }
+                if (!message || typeof message !== "object") return;
+                if (message.type === "sdr_tx_mute") {
+                    session.muted = message.muted === true;
+                    if (session.rtcGate && session.rtcActive) session.rtcGate.gain.value = session.muted ? 0 : 1;
+                    if (session.muted) flushShellAudio(session);
+                }
+                if (message.type === "audio_reset") flushShellAudio(session);
+                if (message.owrx_active === true) {
+                    stopShellAudio("error", "Remote receive audio is outside this first shell test.");
+                }
+                return;
+            }
+            const data = new DataView(event.data);
+            if (data.byteLength < 3 || data.getUint8(0) !== 1 || (data.byteLength - 1) % 2) return;
+            const state = window.rigpiShell.audioHost;
+            state.packets += 1;
+            state.samples += (data.byteLength - 1) / 2;
+            state.lastPacket = new Date().toISOString();
+            session.lastPacket = Date.now();
+            clearTimeout(session.timeout);
+            if (state.status !== "playing") setShellAudioStatus("playing");
+            if (session.rtcActive || session.muted || context.state !== "running") return;
+            const count = (data.byteLength - 1) / 2;
+            const buffer = context.createBuffer(1, count, session.rate);
+            const samples = buffer.getChannelData(0);
+            for (let i = 0; i < count; i += 1) samples[i] = data.getInt16(1 + i * 2, true) / 32768;
+            const now = context.currentTime;
+            // Absorb packet arrival jitter without repeatedly inserting short gaps.
+            if (session.nextTime > now + 0.65) flushShellAudio(session);
+            if (session.nextTime < now + 0.005) session.nextTime = now + 0.20;
+            const source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(analyser);
+            session.sources.add(source);
+            source.onended = () => { session.sources.delete(source); source.disconnect(); };
+            source.start(session.nextTime);
+            session.nextTime += buffer.duration;
+        };
+        socket.onerror = () => {
+            if (shellRx === session) stopShellAudio("error", "Receive audio connection failed. Click Start audio to retry.");
+        };
+        socket.onclose = () => {
+            if (shellRx === session) stopShellAudio("error", "Receive audio disconnected. Click Start audio to retry.");
+        };
+        session.watchdog = setInterval(() => {
+            if (shellRx !== session) return;
+            if (session.lastPacket && Date.now() - session.lastPacket > 10000) {
+                stopShellAudio("error", "Receive audio stopped arriving. Click Start audio to retry.");
+            }
+        }, 2000);
+    } catch (error) {
+        if (generation !== null && generation !== shellRxGeneration) return;
+        stopShellAudio("error", error.message);
+    }
+}
+
+shellAudioButton.addEventListener("click", () => {
+    shellExpressPending = null;
+    shellExpressRecoveryUntil = 0;
+    if (shellRx) stopShellAudio();
+    else startShellAudio();
+});
+window.addEventListener("pagehide", () => stopShellAudio());
+
+window.rigpiShell.navigate = function (path) {
+    let destination;
+
+    try {
+        if (typeof path !== "string" || !path.trim()) {
+            throw new Error("A page URL is required.");
+        }
+        destination = new URL(path, window.location.href);
+        if (destination.origin !== window.location.origin ||
+            destination.protocol !== window.location.protocol) {
+            throw new Error("Navigation must stay on this RigPi site.");
+        }
+        if (["/", "/index.php", "/rigpi-shell-test.php"].includes(destination.pathname)) {
+            throw new Error("The shell cannot load itself inside the iframe.");
+        }
+    } catch (error) {
+        console.warn("RigPi shell navigation rejected:", error.message);
+        return false;
+    }
+
+    document.getElementById("rigpiShellAudioSettings").hidden = true;
+    document.body.classList.remove("shell-audio-settings");
+    updateShellNavigation();
+    document.getElementById("rigpiContent").src = destination.href;
+    return true;
+};
+
+const shellNavButtons = document.querySelectorAll("#rigpiShellNav button[data-page]");
+
+const shellMenuGroups = document.querySelectorAll("#rigpiShellNav details");
+
+function closeShellMenus() {
+    shellMenuGroups.forEach((group) => { group.open = false; });
+}
+
+shellMenuGroups.forEach((group) => {
+    group.addEventListener("toggle", () => {
+        if (!group.open) return;
+        shellMenuGroups.forEach((other) => {
+            if (other !== group) other.open = false;
+        });
+        const panel = group.querySelector(".shell-menu");
+        const rect = group.querySelector("summary").getBoundingClientRect();
+        panel.style.left = Math.max(10, Math.min(rect.left, window.innerWidth - panel.offsetWidth - 10)) + "px";
+        panel.style.top = rect.bottom + 8 + "px";
+    });
+});
+
+document.addEventListener("click", (event) => {
+    if (!event.target.closest("#rigpiShellNav details")) closeShellMenus();
+});
+
+function dismissShellMenus(event) {
+    if (event.key !== "Escape") return;
+    const openGroup = document.querySelector("#rigpiShellNav details[open]");
+    if (openGroup) {
+        closeShellMenus();
+        openGroup.querySelector("summary").focus();
+    }
+}
+document.addEventListener("keydown", dismissShellMenus);
+window.addEventListener("resize", closeShellMenus);
+
+function embeddedHeaderControls() {
+    const frame = document.getElementById("rigpiContent");
+    const doc = frame.contentDocument;
+    return {
+        searchText: doc && doc.getElementById("searchText"),
+        searchButton: doc && doc.getElementById("searchButton"),
+        logoutButton: doc && doc.getElementById("logoutButton")
+    };
+}
+
+document.getElementById("rigpiShellSearch").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const controls = embeddedHeaderControls();
+    if (controls.searchText && controls.searchButton) {
+        controls.searchText.value = document.getElementById("rigpiShellSearchText").value;
+        controls.searchButton.click();
+    }
+});
+
+document.getElementById("rigpiShellLogout").addEventListener("click", () => {
+    const controls = embeddedHeaderControls();
+    if (controls.logoutButton) controls.logoutButton.click();
+});
+
+let shellSearchSyncTimer = null;
+
+document.getElementById("rigpiShellSearchText").addEventListener("input", (event) => {
+    try {
+        const controls = embeddedHeaderControls();
+        if (controls.searchText) controls.searchText.value = event.target.value;
+    } catch (error) {
+        // The iframe may be changing pages.
+    }
+});
+
+function hideEmbeddedHeader(frame) {
+    clearInterval(shellSearchSyncTimer);
+    shellSearchSyncTimer = null;
+    const shellControls = document.getElementById("rigpiShellControls");
+    shellControls.hidden = true;
+    try {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        const controls = embeddedHeaderControls();
+        const header = controls.logoutButton && controls.logoutButton.closest("nav.navbar");
+        if (!header) return;
+        if (!controls.searchText || !controls.searchButton) return;
+        const shellSearchText = document.getElementById("rigpiShellSearchText");
+        shellSearchText.value = controls.searchText.value;
+        // Legacy pages seed DX asynchronously with .val(), without input events.
+        let lastSearchValue = controls.searchText.value;
+        shellSearchSyncTimer = setInterval(() => {
+            if (!controls.searchText.isConnected) return;
+            const value = controls.searchText.value;
+            if (value !== lastSearchValue) {
+                lastSearchValue = value;
+                if (shellSearchText.value !== value) shellSearchText.value = value;
+            }
+        }, 250);
+        shellControls.hidden = false;
+        header.setAttribute("data-rigpi-shell-header", "");
+        const style = doc.createElement("style");
+        style.id = "rigpiShellHeaderStyle";
+        style.textContent = 'nav[data-rigpi-shell-header] { display: none !important; }';
+        doc.head.appendChild(style);
+        frame.contentWindow.dispatchEvent(new Event("resize"));
+    } catch (error) {
+        shellControls.hidden = true;
+        console.warn("RigPi shell header unchanged:", error.message);
+    }
+}
+
+function syncShellMenus(frame) {
+    let doc;
+    try {
+        doc = frame.contentDocument;
+        if (!doc) return;
+        if (new URL(window.rigpiShell.currentUrl).pathname === "/login.php") {
+            shellMenuGroups.forEach((group) => {
+                group.hidden = true;
+                group.querySelector(".shell-menu").replaceChildren();
+            });
+            return;
+        }
+        [["rigpiShellSettings", "Preview"], ["rigpiShellHelp", "help"]].forEach(([groupId, sourceId]) => {
+            const group = document.getElementById(groupId);
+            const source = doc.getElementById(sourceId);
+            const menu = source && source.parentElement.querySelector("ul.dropdown-menu");
+            if (!menu) {
+                if (doc.querySelector("nav")) group.hidden = true;
+                return;
+            }
+            const panel = group.querySelector(".shell-menu");
+            panel.replaceChildren();
+        if (group.id === "rigpiShellSettings") {
+            const audioSettings = document.createElement("button");
+            audioSettings.type = "button";
+            audioSettings.textContent = "Audio Settings";
+            audioSettings.dataset.shellAudioSettings = "true";
+            audioSettings.setAttribute("aria-controls", "rigpiShellAudioSettings");
+            audioSettings.addEventListener("click", openShellAudioSettings);
+            panel.appendChild(audioSettings);
+        }
+            menu.querySelectorAll("a[href], button").forEach((item) => {
+                let control;
+                if (item.tagName === "A") {
+                    const url = new URL(item.getAttribute("href"), doc.baseURI);
+                    if (url.origin === window.location.origin && url.protocol === window.location.protocol) {
+                        control = document.createElement("button");
+                        control.type = "button";
+                        control.dataset.page = url.pathname + url.search + url.hash;
+                        control.setAttribute("aria-controls", "rigpiContent");
+                        control.addEventListener("click", () => {
+                            closeShellMenus();
+                            window.rigpiShell.navigate(control.dataset.page);
+                        });
+                    } else if (url.protocol === "https:" || url.protocol === "http:") {
+                        control = document.createElement("a");
+                        control.href = url.href;
+                        control.target = "_blank";
+                        control.rel = "noopener noreferrer";
+                        control.addEventListener("click", closeShellMenus);
+                    } else return;
+                } else if (item.textContent.trim() === "Welcome to RigPi") {
+                    control = document.createElement("button");
+                    control.type = "button";
+                    control.addEventListener("click", () => {
+                        closeShellMenus();
+                        const currentFrame = document.getElementById("rigpiContent").contentWindow;
+                        if (typeof currentFrame.showRigPiWelcome === "function") {
+                            currentFrame.showRigPiWelcome(true);
+                        } else {
+                            window.rigpiShell.navigate("/tuner.php?welcome=1");
+                        }
+                    });
+                } else return;
+                control.textContent = item.textContent.trim();
+                panel.appendChild(control);
+            });
+            group.hidden = !panel.children.length;
+        });
+        doc.addEventListener("pointerdown", closeShellMenus);
+        doc.addEventListener("keydown", dismissShellMenus);
+    } catch (error) {
+        console.warn("RigPi shell menus unavailable:", error.message);
+        shellMenuGroups.forEach((group) => { group.hidden = true; });
+    }
+}
+
+const shellShortcutTargets = new Map();
+document.querySelectorAll("#rigpiShellNav > button[data-page], #rigpiShellNav > details > summary").forEach((control) => {
+    const letter = control.querySelector("u");
+    if (!letter) return;
+    const key = letter.textContent.trim().toLowerCase();
+    shellShortcutTargets.set(key, control);
+    control.setAttribute("aria-keyshortcuts", "Alt+" + key.toUpperCase());
+    control.title = "Alt+" + key.toUpperCase() + " (Option on Mac)";
+});
+
+function handleShellShortcut(event) {
+    if (!event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.isComposing ||
+        event.getModifierState("AltGraph")) return;
+    // Option produces special characters on macOS; code identifies the letter key.
+    const key = /^Key[A-Z]$/.test(event.code)
+        ? event.code.slice(3).toLowerCase() : event.key.toLowerCase();
+    const control = shellShortcutTargets.get(key);
+    if (!control || control.closest("[hidden]") || control.disabled) return;
+    const target = event.target;
+    const active = target && target.ownerDocument && target.ownerDocument.activeElement;
+    const editing = (element) => element && (element.isContentEditable ||
+        element.closest('input, textarea, select, [role="textbox"], [role="combobox"]'));
+    if (editing(target) || editing(active)) {
+        // Keep character entry, and block the legacy menu shortcut behind the field.
+        event.stopImmediatePropagation();
+        return;
+    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (event.repeat) return;
+    control.focus();
+    control.click();
+}
+
+document.addEventListener("keydown", handleShellShortcut, true);
+
+function updateShellNavigation() {
+    const showingAudio = !document.getElementById("rigpiShellAudioSettings").hidden;
+    const currentPath = !showingAudio && window.rigpiShell.currentUrl
+        ? new URL(window.rigpiShell.currentUrl).pathname
+        : null;
+
+    document.querySelectorAll("#rigpiShellNav button[data-page]").forEach((button) => {
+        if (new URL(button.dataset.page, window.location.href).pathname === currentPath) {
+            button.setAttribute("aria-current", "page");
+        } else {
+            button.removeAttribute("aria-current");
+        }
+    });
+    const audioItem = document.querySelector('[data-shell-audio-settings]');
+    if (audioItem) {
+        if (showingAudio) audioItem.setAttribute("aria-current", "page");
+        else audioItem.removeAttribute("aria-current");
+    }
+    shellMenuGroups.forEach((group) => {
+        group.classList.toggle("has-current", !!group.querySelector('[aria-current="page"]'));
+    });
+}
+
+shellNavButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        window.rigpiShell.navigate(button.dataset.page);
+    });
+});
+
+document.getElementById("rigpiContent").addEventListener("load", function () {
+    const timestamp = new Date().toISOString();
+    window.rigpiShell.lastLoaded = timestamp;
+    window.rigpiShell.loadCount += 1;
+    window.rigpiShell.currentUrl = null;
+
+    try {
+        window.rigpiShell.currentUrl = this.contentWindow.location.href;
+        console.log("RigPi iframe loaded:", window.rigpiShell.currentUrl, timestamp);
+    } catch (error) {
+        console.log("RigPi iframe loaded: URL unavailable", timestamp);
+    }
+    closeShellMenus();
+    syncShellMenus(this);
+    hideEmbeddedHeader(this);
+    applyShellSdrVisibility(this);
+    bindShellExpress(this);
+    syncShellAudioPage();
+    try {
+        this.contentDocument.addEventListener("keydown", handleShellShortcut, true);
+    } catch (error) {
+        // Only same-origin embedded pages can use shell shortcuts.
+    }
+    updateShellNavigation();
+    shellMenuGroups.forEach((group) => {
+        group.classList.toggle("has-current", !!group.querySelector('[aria-current="page"]'));
+    });
+});
+
+setInterval(() => {
+    const seconds = Math.floor(
+        (Date.now() - window.rigpiShell.started) / 1000
+    );
+
+    console.log("RigPi shell alive:", seconds, "seconds");
+}, 5000);
+</script>
+<script>
+// Microphone capture belongs to the persistent audio iframe, independent of page navigation.
+let shellMic = null;
+let shellMicGeneration = 0;
+let shellMicStarting = false;
+let shellMicDevice = "";
+try { shellMicDevice = localStorage.getItem("rigpi_shell_microphone") || ""; } catch (_) {}
+window.rigpiShell.microphone = { status: "off", label: "", rms: -60, peak: -60 };
+function setShellMicrophoneStatus(message) {
+    document.getElementById("rigpiShellMicrophoneStatus").textContent = message;
+    const button = document.getElementById("rigpiShellMicrophoneCheck");
+    button.textContent = shellMicStarting ? "Cancel microphone check" : shellMic ? "Stop microphone check" : "Check microphone";
+    button.setAttribute("aria-pressed", String(!!shellMic));
+    document.getElementById("rigpiShellMicrophoneInput").disabled = shellMicStarting || !!shellMic;
+}
+async function refreshShellMicrophones() {
+    const select = document.getElementById("rigpiShellMicrophoneInput");
+    try {
+        const devices = await rigpiAudioHost.contentWindow.navigator.mediaDevices?.enumerateDevices();
+        const options = [new Option("System default", "")];
+        for (const device of devices || []) {
+            if (device.kind === "audioinput" && device.deviceId && device.deviceId !== "default") options.push(new Option(device.label || "Microphone " + options.length, device.deviceId));
+        }
+        if (shellMicDevice && !options.some(o => o.value === shellMicDevice)) options.push(new Option("Selected microphone unavailable", shellMicDevice));
+        select.replaceChildren(...options);
+        select.value = shellMicDevice;
+    } catch (_) { /* Keep the current selection when devices cannot be listed. */ }
+}
+function stopShellMicrophone(message = "Microphone off") {
+    stopShellTransmit();
+    ++shellMicGeneration;
+    shellMicStarting = false;
+    const mic = shellMic;
+    shellMic = null;
+    if (mic) {
+        mic.stream.getTracks().forEach(track => track.stop());
+        try { mic.source.disconnect(); mic.analyser.disconnect(); } catch (_) {}
+        mic.context.close().catch(() => {});
+    }
+    Object.assign(rigpiShell.microphone, { status: "off", label: "", rms: -60, peak: -60 });
+    for (const name of ["Rms", "Peak"]) {
+        document.getElementById("rigpiShellMicrophone" + name).value = -60;
+        document.getElementById("rigpiShellMicrophone" + name + "Value").value = "— dBFS";
+    }
+    setShellMicrophoneStatus(message);
+    console.log("RigPi shell microphone:", message);
+}
+async function startShellMicrophone() {
+    if (shellMic || shellMicStarting) return;
+    const owner = rigpiAudioHost.contentWindow;
+    if (!owner.isSecureContext || !owner.navigator.mediaDevices?.getUserMedia) {
+        setShellMicrophoneStatus("Microphone access requires a secure browser connection.");
+        return;
+    }
+    const generation = ++shellMicGeneration;
+    shellMicStarting = true;
+    rigpiShell.microphone.status = "requesting";
+    setShellMicrophoneStatus("Waiting for microphone access…");
+    let stream = null, context = null;
+    try {
+        const audio = { channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: false };
+        if (shellMicDevice) audio.deviceId = { exact: shellMicDevice };
+        stream = await owner.navigator.mediaDevices.getUserMedia({ audio, video: false });
+        if (generation !== shellMicGeneration) { stream.getTracks().forEach(t => t.stop()); return; }
+        const AudioContext = owner.AudioContext || owner.webkitAudioContext;
+        context = new AudioContext();
+        await context.resume();
+        if (generation !== shellMicGeneration) { stream.getTracks().forEach(t => t.stop()); await context.close(); return; }
+        const source = context.createMediaStreamSource(stream);
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+        shellMic = { stream, context, source, analyser, samples: new Float32Array(analyser.fftSize), generation };
+        shellMicStarting = false;
+        const track = stream.getAudioTracks()[0];
+        track.addEventListener("ended", () => { if (shellMic?.generation === generation) stopShellMicrophone("Microphone disconnected"); });
+        Object.assign(rigpiShell.microphone, { status: "checking", label: track.label, started: Date.now() });
+        setShellMicrophoneStatus("Checking — " + (track.label || "Microphone"));
+        refreshShellMicrophones();
+        console.log("RigPi shell microphone:", "checking", track.label);
+    } catch (error) {
+        stream?.getTracks().forEach(t => t.stop());
+        if (context && context.state !== "closed") context.close().catch(() => {});
+        if (generation !== shellMicGeneration) return;
+        shellMicStarting = false;
+        rigpiShell.microphone.status = "error";
+        const message = error.name === "NotAllowedError" ? "Microphone permission was not granted." : error.name === "NotFoundError" || error.name === "OverconstrainedError" ? "Selected microphone is unavailable. Choose another microphone." : "Microphone could not start: " + error.message;
+        setShellMicrophoneStatus(message);
+        console.warn("RigPi shell microphone:", error.name, error.message);
+    }
+}
+document.getElementById("rigpiShellMicrophoneCheck").addEventListener("click", () => {
+    if (shellMic || shellMicStarting) stopShellMicrophone(); else startShellMicrophone();
+});
+document.getElementById("rigpiShellMicrophoneInput").addEventListener("change", event => {
+    shellMicDevice = event.target.value;
+    try { localStorage.setItem("rigpi_shell_microphone", shellMicDevice); } catch (_) {}
+});
+document.getElementById("rigpiShellLogout").addEventListener("click", () => stopShellMicrophone());
+window.addEventListener("pagehide", () => stopShellMicrophone());
+setInterval(() => {
+    if (!shellMic) return;
+    try {
+        if (/login|logout/i.test(document.getElementById("rigpiContent").contentWindow.location.pathname)) { stopShellMicrophone(); return; }
+    } catch (_) { stopShellMicrophone(); return; }
+    const mic = shellMic;
+    mic.analyser.getFloatTimeDomainData(mic.samples);
+    let sum = 0, peak = 0;
+    for (const sample of mic.samples) { sum += sample * sample; peak = Math.max(peak, Math.abs(sample)); }
+    const rmsDb = Math.max(-60, Math.min(0, 20 * Math.log10(Math.max(0.000001, Math.sqrt(sum / mic.samples.length)))));
+    const peakDb = Math.max(-60, Math.min(0, 20 * Math.log10(Math.max(0.000001, peak))));
+    Object.assign(rigpiShell.microphone, { rms: rmsDb, peak: peakDb });
+    for (const [name, value] of [["Rms", rmsDb], ["Peak", peakDb]]) {
+        document.getElementById("rigpiShellMicrophone" + name).value = value;
+        document.getElementById("rigpiShellMicrophone" + name + "Value").value = value.toFixed(1) + " dBFS";
+    }
+}, 100);
+</script>
+<script>
+let shellTx = null;
+let shellTxGeneration = 0;
+let shellTxDevice = null;
+try { shellTxDevice = localStorage.getItem("rigpi_shell_tx_device"); } catch (_) {}
+window.rigpiShell.transmit = { status: "disconnected", muted: true };
+function refreshShellTransmitControls() {
+    const select = document.getElementById("rigpiShellTransmitDevice");
+    if (shellTx) return;
+    try {
+        const doc = document.getElementById("rigpiContent").contentDocument;
+        const source = doc.querySelector("#sdrIframe, #elmerSdrFrame")?.contentDocument.getElementById("txDevice");
+        if (!source?.options.length) return;
+        const options = [new Option("Select radio output", "")];
+        for (const option of source.options) if (/^\d+$/.test(option.value)) options.push(new Option(option.text, option.value));
+        if (shellTxDevice === null) shellTxDevice = source.value;
+        if (shellTxDevice && !options.some(o => o.value === shellTxDevice)) options.push(new Option("Selected radio output unavailable", shellTxDevice));
+        select.replaceChildren(...options);
+        select.value = shellTxDevice || "";
+    } catch (_) {}
+}
+function setShellTransmitStatus(status, message, muted = true) {
+    rigpiShell.transmit.status = status;
+    rigpiShell.transmit.muted = muted;
+    const button = document.getElementById("rigpiShellTransmitConnect");
+    button.textContent = shellTx ? "Disconnect TX audio" : "Connect TX audio";
+    button.setAttribute("aria-pressed", String(!!shellTx));
+    document.getElementById("rigpiShellTransmitDevice").disabled = !!shellTx;
+    document.getElementById("rigpiShellTransmitStatus").textContent = message;
+    console.log("RigPi shell transmit:", status, message);
+}
+function stopShellTransmit(message = "Disconnected") {
+    ++shellTxGeneration;
+    const tx = shellTx;
+    shellTx = null;
+    updateShellPttReceiveMute(false);
+    if (tx) {
+        clearTimeout(tx.timeout);
+        tx.abort.abort();
+        tx.gain.gain.value = 0;
+        tx.pc.close();
+        try { tx.gain.disconnect(); shellMic?.source.disconnect(tx.gain); } catch (_) {}
+        tx.destination.stream.getTracks().forEach(track => track.stop());
+        fetch(tx.base + "/api/audio/tx_gate", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({source_id: tx.id, active: false}), keepalive: true}).catch(() => {});
+    }
+    setShellTransmitStatus("disconnected", message);
+}
+async function connectShellTransmit() {
+    if (shellTx) return;
+    const selected = document.getElementById("rigpiShellTransmitDevice").value;
+    if (!/^\d+$/.test(selected)) { setShellTransmitStatus("error", "Select the radio USB output first."); return; }
+    const doc = document.getElementById("rigpiContent").contentDocument;
+    const panel = doc.querySelector("#sdrIframe, #elmerSdrFrame")?.contentWindow;
+    const base = panel?._sdrBase;
+    if (!base || new URL(base, location.href).origin !== location.origin) { setShellTransmitStatus("error", "Open Tuner to read the radio audio connection."); return; }
+    const generation = ++shellTxGeneration;
+    if (!shellMic) await startShellMicrophone();
+    if (!shellMic || generation !== shellTxGeneration) return;
+    const owner = rigpiAudioHost.contentWindow;
+    const gain = shellMic.context.createGain();
+    gain.gain.value = 0;
+    const destination = shellMic.context.createMediaStreamDestination();
+    shellMic.source.connect(gain);
+    gain.connect(destination);
+    let iceServers = [];
+    try { iceServers = panel.eval("iceServers"); } catch (_) {}
+    const pc = new owner.RTCPeerConnection({iceServers});
+    const tx = {pc, gain, destination, base, id: "shell-" + Date.now() + "-" + Math.random().toString(36).slice(2), abort: new AbortController(), timeout: null};
+    shellTx = tx;
+    tx.timeout = setTimeout(() => { if (shellTx === tx) stopShellTransmit("Connection timed out. Connect again to retry."); }, 25000);
+    pc.addTransceiver(destination.stream.getAudioTracks()[0], {direction: "sendonly", streams: [destination.stream]});
+    pc.onconnectionstatechange = () => {
+        if (shellTx !== tx) return;
+        if (pc.connectionState === "connected") {
+            clearTimeout(tx.timeout);
+            setShellTransmitStatus("connected", "Connected — microphone muted");
+        } else if (["failed", "closed", "disconnected"].includes(pc.connectionState)) stopShellTransmit("Connection lost. Connect again to retry.");
+    };
+    setShellTransmitStatus("connecting", "Connecting — microphone muted");
+    try {
+        await pc.setLocalDescription(await pc.createOffer());
+        if (pc.iceGatheringState !== "complete") await new Promise((resolve, reject) => {
+            const check = () => { if (pc.iceGatheringState === "complete") { pc.removeEventListener("icegatheringstatechange", check); resolve(); } };
+            pc.addEventListener("icegatheringstatechange", check);
+            tx.abort.signal.addEventListener("abort", () => { pc.removeEventListener("icegatheringstatechange", check); reject(new Error("Connection cancelled")); }, {once: true});
+            check();
+        });
+        if (shellTx !== tx || generation !== shellTxGeneration) return;
+        const response = await fetch(base + "/api/audio/tx_offer", {method: "POST", headers: {"Content-Type": "application/json"}, signal: tx.abort.signal, body: JSON.stringify({sdp: pc.localDescription.sdp, type: pc.localDescription.type, tx_device: Number(selected), source_id: tx.id, mic_source: shellMicDevice, mic_label: rigpiShell.microphone.label})});
+        if (!response.ok) throw new Error("Audio service returned " + response.status);
+        const answer = await response.json();
+        if (shellTx !== tx) return;
+        await pc.setRemoteDescription(answer);
+        const gate = await fetch(base + "/api/audio/tx_gate", {method: "POST", headers: {"Content-Type": "application/json"}, signal: tx.abort.signal, body: JSON.stringify({source_id: tx.id, active: false})});
+        if (!gate.ok) throw new Error("Could not confirm microphone mute");
+    } catch (error) {
+        if (shellTx === tx) stopShellTransmit("TX audio failed: " + error.message);
+    }
+}
+document.getElementById("rigpiShellTransmitConnect").addEventListener("click", () => {
+    if (shellTx) stopShellTransmit(); else connectShellTransmit();
+});
+document.getElementById("rigpiShellTransmitDevice").addEventListener("change", event => {
+    shellTxDevice = event.target.value;
+    try { localStorage.setItem("rigpi_shell_tx_device", shellTxDevice); } catch (_) {}
+});
+</script>
+<script>
+function updateShellPttReceiveMute(active) {
+    rigpiShell.transmit.pttRequested = !!active;
+    if (shellRx) {
+        shellRx.gain.gain.cancelScheduledValues(shellRx.context.currentTime);
+        shellRx.gain.gain.value = active ? 0 : shellReceiveVolume / 100;
+    }
+}
+function setShellTransmitGate(active, owner) {
+    const tx = shellTx;
+    active = !!active && !document.hidden && owner === document.getElementById("rigpiContent").contentWindow;
+    if (!tx) {
+        if (active) setShellTransmitStatus("disconnected", "Connect TX audio in Audio Settings first.");
+        return Promise.resolve();
+    }
+    if (active && (tx.pc.connectionState !== "connected" || !shellMic || shellMic.stream.getAudioTracks()[0]?.readyState !== "live")) active = false;
+    tx.pttWanted = active;
+    const sequence = tx.gateSequence = (tx.gateSequence || 0) + 1;
+    updateShellPttReceiveMute(active);
+    // Close locally before waiting for the service; a delayed reply cannot reopen a released PTT.
+    if (!active) {
+        tx.gain.gain.cancelScheduledValues(shellMic?.context.currentTime || 0);
+        tx.gain.gain.value = 0;
+        if (tx.pc.connectionState === "connected") setShellTransmitStatus("connected", "Connected — microphone muted");
+    }
+    tx.gateQueue = (tx.gateQueue || Promise.resolve()).then(async () => {
+        if (shellTx !== tx) return;
+        if (active && (!tx.pttWanted || sequence !== tx.gateSequence)) return;
+        const response = await fetch(tx.base + "/api/audio/tx_gate", {
+            method: "POST", headers: {"Content-Type": "application/json"},
+            signal: AbortSignal.timeout(3000),
+            body: JSON.stringify({source_id: tx.id, active})
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok || (active && result.active_source !== tx.id)) throw new Error("Microphone gate was not confirmed");
+        if (shellTx !== tx) return;
+        const open = active && tx.pttWanted && sequence === tx.gateSequence && !document.hidden && owner === document.getElementById("rigpiContent").contentWindow && tx.pc.connectionState === "connected";
+        if (open) {
+            tx.gain.gain.value = 1;
+            setShellTransmitStatus("connected", "PTT — microphone live", false);
+        }
+        console.log("RigPi shell PTT microphone:", open ? "open" : "muted", "sequence", sequence);
+    }).catch(error => {
+        if (shellTx === tx) stopShellTransmit("Microphone muted: " + error.message);
+    });
+    return tx.gateQueue;
+}
+function bindShellKnobPtt(owner) {
+    const widget = owner.pknob;
+    if (!widget || widget.shellPttLayoutBound) return;
+    const elements = [widget.elements?.PTT, widget.elements?.PTTOn];
+    if (!elements.every(element => Array.isArray(element?.handlers) && element.handlers.some(handler => handler.name === "knobPttClicked"))) return;
+    let lastClick = 0;
+    function shellKnobPttClicked() {
+        const now = Date.now();
+        if (now - lastClick < 500) return;
+        lastClick = now;
+        const active = !(owner.xmit === true || owner.tKnobPTT === 1);
+        owner.setLocalBrowserMicGate(active);
+        owner.setPTT(active ? 1 : 0, 0);
+        owner.tKnobPTT = active ? 1 : 0;
+    }
+    // The shell hides the legacy header, so the old top-of-page exclusion is invalid.
+    // Keep the widget's pointer, keyboard, momentary release and latch behavior.
+    elements.forEach(element => {
+        element.handlers = element.handlers.map(handler => handler.name === "knobPttClicked" ? shellKnobPttClicked : handler);
+    });
+    widget.shellPttLayoutBound = true;
+    console.log("RigPi shell PTT layout bound");
+}
+function bindShellTunerPtt() {
+    try {
+        const frame = document.getElementById("rigpiContent");
+        const owner = frame.contentWindow, page = frame.contentDocument;
+        if (owner.location.pathname !== "/tuner.php" || typeof owner.setLocalBrowserMicGate !== "function") return;
+        bindShellKnobPtt(owner);
+        if (page.documentElement.dataset.shellPttBound) return;
+        page.documentElement.dataset.shellPttBound = "true";
+        // Bind only the prototype's Tuner document. Existing radio PTT routing stays in the Tuner.
+        owner.setLocalBrowserMicGate = function(active, force) {
+            active = Boolean(active) && owner.tDisconnected == 0 && owner.tAccessLevel < 4 && !page.hidden;
+            if (!force && owner.localBrowserMicGateState === active) return;
+            owner.localBrowserMicGateState = active;
+            return setShellTransmitGate(active, owner);
+        };
+        owner.addEventListener("pagehide", () => setShellTransmitGate(false, owner), true);
+        page.addEventListener("visibilitychange", () => { if (page.hidden) setShellTransmitGate(false, owner); });
+        console.log("RigPi shell Tuner PTT bound");
+    } catch (_) {}
+}
+document.getElementById("rigpiContent").addEventListener("load", () => {
+    if (shellTx?.pttWanted) setShellTransmitGate(false);
+    bindShellTunerPtt();
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) setShellTransmitGate(false); });
+setInterval(bindShellTunerPtt, 500);
+bindShellTunerPtt();
+</script>
+
+<script>
+const shellLoopback = {endpoint: null, running: false, busy: false, known: false};
+window.rigpiShell.loopback = shellLoopback;
+function renderShellLoopback(message) {
+    const select = document.getElementById("rigpiShellLoopbackDevice");
+    const button = document.getElementById("rigpiShellLoopbackToggle");
+    button.textContent = shellLoopback.running ? "Stop loopback" : "Start loopback";
+    button.setAttribute("aria-pressed", String(shellLoopback.running));
+    button.disabled = shellLoopback.busy || !shellLoopback.known || (!shellLoopback.running && !select.value);
+    select.disabled = shellLoopback.busy || shellLoopback.running;
+    document.getElementById("rigpiShellLoopbackStatus").textContent = message || (shellLoopback.running ? "Running — " + (select.selectedOptions[0]?.textContent || "loopback output") : "Stopped");
+}
+async function refreshShellLoopback() {
+    if (shellLoopback.busy) return;
+    shellLoopback.busy = true;
+    renderShellLoopback();
+    try {
+        let config;
+        try { config = readShellAudioConfig(); } catch (_) {}
+        config = config || shellAudioConfig;
+        if (config?.url) {
+            const url = new URL(config.url);
+            url.protocol = location.protocol;
+            url.pathname = url.pathname.replace(/\/ws\/spectrum$/, "/api/audio/loopback");
+            url.search = "";
+            if (url.origin !== location.origin || !url.pathname.endsWith("/api/audio/loopback")) throw new Error("Loopback service unavailable");
+            shellLoopback.endpoint = url.href;
+        }
+        if (!shellLoopback.endpoint) throw new Error("Open the Tuner to find the audio service");
+        const response = await fetch(shellLoopback.endpoint, {cache:"no-store", signal:AbortSignal.timeout(5000)});
+        if (!response.ok) throw new Error("Loopback status unavailable");
+        const data = await response.json();
+        if (typeof data.running !== "boolean" || !Array.isArray(data.devices)) throw new Error("Invalid loopback status");
+        const select = document.getElementById("rigpiShellLoopbackDevice");
+        const saved = select.value || localStorage.getItem("rigpi_shell_loopback_device") || localStorage.getItem("loopbackDevice");
+        const devices = data.devices.filter(device => /loopback/i.test(device.name) && Number.isInteger(device.index));
+        select.replaceChildren(new Option("Select loopback output", ""));
+        devices.forEach(device => select.add(new Option(device.name, String(device.index))));
+        const chosen = data.running ? String(data.device) : saved;
+        if (chosen && devices.some(device => String(device.index) === chosen)) select.value = chosen;
+        else if (!data.running && !saved && devices.length) select.value = String(devices[0].index);
+        else if (data.running) select.add(new Option("Active output " + data.device, String(data.device), true, true));
+        shellLoopback.running = data.running;
+        shellLoopback.known = true;
+        shellLoopback.busy = false;
+        renderShellLoopback(!devices.length && !data.running ? "No loopback output available on the RigPi" : undefined);
+    } catch (error) {
+        shellLoopback.busy = false;
+        shellLoopback.known = false;
+        renderShellLoopback(error.message);
+    }
+}
+document.getElementById("rigpiShellLoopbackDevice").addEventListener("change", event => {
+    localStorage.setItem("rigpi_shell_loopback_device", event.target.value);
+    renderShellLoopback();
+});
+document.getElementById("rigpiShellLoopbackToggle").addEventListener("click", async () => {
+    if (shellLoopback.busy || !shellLoopback.known) return;
+    const select = document.getElementById("rigpiShellLoopbackDevice");
+    const action = shellLoopback.running ? "stop" : "start";
+    if (action === "start" && !select.value) return;
+    shellLoopback.busy = true;
+    renderShellLoopback(action === "start" ? "Starting loopback" : "Stopping loopback");
+    let requestError = "";
+    try {
+        const response = await fetch(shellLoopback.endpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({action, device:Number(select.value)}), signal:AbortSignal.timeout(5000)});
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.error || "Loopback request failed");
+        console.log("RigPi shell loopback:", action);
+    } catch (error) {
+        console.warn("RigPi shell loopback:", error.message);
+        requestError = error.message;
+    } finally {
+        shellLoopback.busy = false;
+        await refreshShellLoopback();
+        if (requestError) renderShellLoopback(requestError);
+    }
+});
+setInterval(() => {
+    if (!document.getElementById("rigpiShellAudioSettings").hidden) refreshShellLoopback();
+}, 5000);
+</script>
+<script>
+
+// Shell-owned receive recording survives navigation of the content iframe.
+const shellRecording = {take:null, pending:null, saving:false, starting:false, loading:false, listEndpoint:null, localUrl:null};
+rigpiShell.recording = shellRecording;
+const recEl = id => document.getElementById("shellRecord" + id);
+function shellRecordingEndpoint(config) {
+    const current = config || shellRx?.config || shellAudioConfig || readShellAudioConfig();
+    if (!current?.url) throw new Error("Open the Tuner to find the audio service");
+    const url = new URL(current.url);
+    url.protocol = location.protocol;
+    url.pathname = url.pathname.replace(/\/ws\/spectrum$/, "/api/audio/recordings");
+    url.search = ""; url.hash = "";
+    if (url.origin !== location.origin || !url.pathname.endsWith("/api/audio/recordings")) throw new Error("Recording service unavailable");
+    return url.href;
+}
+function renderShellRecording(message) {
+    const take = shellRecording.take;
+    const active = !!take && !take.stopping;
+    recEl("Start").disabled = !!take || shellRecording.starting || shellRecording.saving || !!shellRecording.pending;
+    recEl("Pause").disabled = !active;
+    recEl("Pause").textContent = take?.recorder.state === "paused" ? "Resume" : "Pause";
+    recEl("Stop").disabled = !active;
+    recEl("Start").setAttribute("aria-pressed", String(active));
+    recEl("Retry").hidden = !shellRecording.pending || shellRecording.saving;
+    if (message) recEl("Status").textContent = message;
+    if (take) {
+        const ms = take.elapsed + (take.recorder.state === "recording" ? performance.now() - take.segment : 0);
+        const secs = Math.floor(ms / 1000);
+        recEl("Timer").textContent = String(Math.floor(secs / 60)).padStart(2,"0") + ":" + String(secs % 60).padStart(2,"0");
+    }
+}
+function downloadShellRecording() {
+    const button = recEl("Download");
+    if (button.hidden || !button.dataset.url) return;
+    const link = document.createElement("a");
+    link.href = button.dataset.url;
+    link.download = button.dataset.filename;
+    link.hidden = true;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+function selectShellRecording() {
+    const select = recEl("Files"), player = recEl("Player"), link = recEl("Download");
+    player.pause();
+    if (select.value && shellRecording.listEndpoint) {
+        const url = shellRecording.listEndpoint + "/" + encodeURIComponent(select.value);
+        player.src = url; link.dataset.url = url; link.dataset.filename = select.value; link.hidden = false;
+    } else { player.removeAttribute("src"); player.load(); link.hidden = true; }
+}
+async function refreshShellRecordings(preferred) {
+    if (shellRecording.loading) return;
+    shellRecording.loading = true; recEl("Refresh").disabled = true;
+    try {
+        const endpoint = shellRecordingEndpoint();
+        const response = await fetch(endpoint, {cache:"no-store",signal:AbortSignal.timeout(10000)});
+        if (!response.ok) throw new Error("Recording list unavailable (" + response.status + ")");
+        const data = await response.json();
+        if (!Array.isArray(data.files)) throw new Error("Invalid recording list");
+        const select = recEl("Files"), old = select.value;
+        shellRecording.listEndpoint = endpoint;
+        select.replaceChildren();
+        for (const file of data.files) {
+            const name = typeof file === "string" ? file : file.name;
+            if (typeof name !== "string" || !name) continue;
+            const option = document.createElement("option"); option.value = name; option.textContent = name; select.append(option);
+        }
+        if (!select.options.length) select.add(new Option("No recordings", ""));
+        const wanted = preferred || old;
+        if ([...select.options].some(option => option.value === wanted)) select.value = wanted;
+        if (preferred || select.value !== old || !recEl("Player").getAttribute("src")) selectShellRecording();
+    } catch (error) { renderShellRecording(error.message); }
+    finally { shellRecording.loading = false; recEl("Refresh").disabled = false; }
+}
+async function saveShellRecording() {
+    const pending = shellRecording.pending;
+    if (!pending || shellRecording.saving) return;
+    shellRecording.saving = true; renderShellRecording("Saving on RigPi…");
+    try {
+        const form = new FormData(); form.append("file", pending.blob, pending.name);
+        const response = await fetch(pending.endpoint, {method:"POST",body:form,signal:AbortSignal.timeout(120000)});
+        if (!response.ok) throw new Error("Save failed (" + response.status + ")");
+        const data = await response.json();
+        if (data.ok === false || typeof data.name !== "string") throw new Error(data.error || "Recording was not saved");
+        shellRecording.pending = null;
+        recEl("Local").hidden = true;
+        if (shellRecording.localUrl) URL.revokeObjectURL(shellRecording.localUrl);
+        shellRecording.localUrl = null;
+        renderShellRecording("Saved: " + data.name);
+        await refreshShellRecordings(data.name);
+    } catch (error) {
+        renderShellRecording(error.message + ". Retry save or download the unsaved recording before leaving this page.");
+    } finally { shellRecording.saving = false; renderShellRecording(); }
+}
+function stopShellRecording() {
+    const take = window.rigpiShell?.recording?.take;
+    if (!take || take.stopping) return;
+    renderShellRecording();
+    if (take.recorder.state === "recording") take.elapsed += performance.now() - take.segment;
+    take.stopping = true; clearInterval(take.timer);
+    try { take.session.analyser.disconnect(take.destination); } catch (_) {}
+    if (take.recorder.state !== "inactive") take.recorder.stop();
+    renderShellRecording("Finishing recording…");
+}
+async function startShellRecording() {
+    if (shellRecording.take || shellRecording.starting || shellRecording.saving || shellRecording.pending) return;
+    shellRecording.starting = true; renderShellRecording();
+    let destination, session;
+    try {
+        session = shellRx;
+        if (!session || session.context.state === "closed" || !session.lastPacket) throw new Error("Start receive audio before recording");
+        const owner = rigpiAudioHost.contentWindow;
+        if (!owner.MediaRecorder) throw new Error("Recording is unavailable in this browser");
+        const endpoint = shellRecordingEndpoint(session.config);
+        await session.context.resume();
+        if (shellRx !== session) throw new Error("Receive source changed; try recording again");
+        destination = session.context.createMediaStreamDestination();
+        const mime = ["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"].find(type => owner.MediaRecorder.isTypeSupported(type));
+        const recorder = new owner.MediaRecorder(destination.stream, mime ? {mimeType:mime} : {});
+        const extension = recorder.mimeType.includes("mp4") ? "m4a" : recorder.mimeType.includes("ogg") ? "ogg" : "webm";
+        const take = {session,destination,recorder,endpoint,chunks:[],bytes:0,elapsed:0,segment:performance.now(),stopping:false,name:"RigPi_RX_" + new Date().toISOString().replace(/[:.]/g,"-") + "." + extension};
+        recorder.ondataavailable = event => {
+            if (event.data.size) { take.chunks.push(event.data); take.bytes += event.data.size; }
+            if (take.bytes > 128 * 1024 * 1024) stopShellRecording();
+        };
+        recorder.onerror = event => { renderShellRecording(event.error?.message || "Recording failed"); stopShellRecording(); };
+        recorder.onstop = () => {
+            clearInterval(take.timer);
+            try { session.analyser.disconnect(destination); } catch (_) {}
+            destination.stream.getTracks().forEach(track => track.stop());
+            if (shellRecording.take !== take) return;
+            shellRecording.take = null;
+            const blob = new Blob(take.chunks, {type:recorder.mimeType}); take.chunks = [];
+            if (!blob.size) { renderShellRecording("No audio was recorded"); return; }
+            shellRecording.pending = {blob,name:take.name,endpoint};
+            if (shellRecording.localUrl) URL.revokeObjectURL(shellRecording.localUrl);
+            shellRecording.localUrl = URL.createObjectURL(blob);
+            const link = recEl("Local"); link.href = shellRecording.localUrl; link.download = take.name; link.hidden = false;
+            saveShellRecording();
+        };
+        session.analyser.connect(destination);
+        shellRecording.take = take;
+        recorder.start(1000);
+        recEl("Player").pause();
+        take.timer = setInterval(() => {
+            renderShellRecording();
+            if (take.elapsed + (recorder.state === "recording" ? performance.now() - take.segment : 0) >= 3600000) stopShellRecording();
+        }, 250);
+        renderShellRecording("Recording receive audio");
+    } catch (error) {
+        if (destination) { try { session.analyser.disconnect(destination); } catch (_) {} destination.stream.getTracks().forEach(track => track.stop()); }
+        if (shellRecording.take?.destination === destination) shellRecording.take = null;
+        renderShellRecording(error.message);
+    } finally { shellRecording.starting = false; renderShellRecording(); }
+}
+recEl("Start").addEventListener("click", startShellRecording);
+recEl("Stop").addEventListener("click", stopShellRecording);
+recEl("Pause").addEventListener("click", () => {
+    const take = shellRecording.take;
+    if (!take || take.stopping) return;
+    if (take.recorder.state === "recording") {
+        take.elapsed += performance.now() - take.segment; take.recorder.pause(); renderShellRecording("Recording paused");
+    } else if (take.recorder.state === "paused") {
+        take.segment = performance.now(); take.recorder.resume(); renderShellRecording("Recording receive audio");
+    }
+});
+recEl("Retry").addEventListener("click", saveShellRecording);
+recEl("Refresh").addEventListener("click", () => refreshShellRecordings());
+recEl("Files").addEventListener("change", selectShellRecording);
+window.addEventListener("beforeunload", event => {
+    if (shellRecording.take || shellRecording.pending || shellRecording.saving) { event.preventDefault(); event.returnValue = ""; }
+});
+renderShellRecording();
+
+</script>
+
+<script>
+// Startup includes asynchronous saved settings and the receiver's own iframe.
+let shellStartupTimer = null;
+let shellStartupSignature = "";
+let shellStartupChangedAt = performance.now();
+const shellStartupDeadline = performance.now() + 8000;
+window.rigpiShell.startup = {phase: "loading", checks: 0};
+function setShellStartupProgress(value) {
+    const bar = document.getElementById("rigpiShellProgress");
+    if (!bar) return;
+    const progress = Math.max(Number(bar.getAttribute("aria-valuenow")), value);
+    bar.setAttribute("aria-valuenow", String(progress));
+    bar.setAttribute("aria-valuetext", Math.round(progress / 20) + " of 5 startup checks complete");
+    document.getElementById("rigpiShellProgressFill").style.width = progress + "%";
+    window.rigpiShell.startup.progress = progress;
+}
+
+function revealShellStartup() {
+    if (!document.documentElement.classList.contains("shell-starting")) return;
+    clearTimeout(shellStartupTimer);
+    const frame = document.getElementById("rigpiContent");
+    let ready = false;
+    let signature = "";
+    let waiting = "page";
+    const steps = {page: false, receiver: false, settings: false, fonts: false};
+    try {
+        const doc = frame.contentDocument;
+        const owner = frame.contentWindow;
+        if (doc?.body && doc.readyState === "complete" && owner.location.href !== "about:blank") {
+            ready = true;
+            steps.page = true;
+            steps.receiver = true;
+            const docs = [doc];
+            const receiver = doc.getElementById("sdrIframe");
+            if (receiver && !shellHideSdr && owner.getComputedStyle(receiver).display !== "none") {
+                const src = receiver.getAttribute("src");
+                const rxDoc = receiver.contentDocument;
+                if (!src || !rxDoc || rxDoc.readyState !== "complete" ||
+                    receiver.contentWindow.location.href !== new URL(src, doc.baseURI).href) {
+                    ready = false;
+                    waiting = "receiver page";
+                    steps.receiver = false;
+                } else docs.push(rxDoc);
+            }
+            steps.settings = !(owner.jQuery?.active > 0);
+            steps.fonts = !docs.some(page => page.fonts?.status === "loading");
+            if (owner.jQuery?.active > 0) { ready = false; waiting = "saved settings"; }
+            if (docs.some(page => page.fonts?.status === "loading")) { ready = false; waiting = "fonts"; }
+            hideShellLegacyAudio();
+            signature = JSON.stringify(docs.map(page => ({
+                height: page.body?.scrollHeight,
+                width: page.body?.scrollWidth,
+                buttons: Array.from(page.querySelectorAll("button")).map(el => el.textContent.trim()),
+                frames: Array.from(page.querySelectorAll("iframe")).map(el => [el.getAttribute("src"), el.offsetWidth, el.offsetHeight]),
+                panels: Array.from(page.body?.children || []).map(el => [el.offsetTop, el.offsetWidth, el.offsetHeight])
+            })));
+        }
+    } catch (_) { waiting = "page"; }
+    const now = performance.now();
+    if (!ready || signature !== shellStartupSignature) {
+        shellStartupSignature = signature;
+        shellStartupChangedAt = now;
+    }
+    setShellStartupProgress(Object.values(steps).filter(Boolean).length * 20);
+    const timedOut = now >= shellStartupDeadline;
+    window.rigpiShell.startup.checks += 1;
+    window.rigpiShell.startup.phase = ready ? "settling layout" : waiting;
+    if ((!ready || now - shellStartupChangedAt < 400) && !timedOut) {
+        shellStartupTimer = setTimeout(revealShellStartup, 80);
+        return;
+    }
+    if (!timedOut) setShellStartupProgress(100);
+    // Re-sync the master controls after the asynchronous child settings have arrived.
+    hideEmbeddedHeader(frame);
+    syncShellMenus(frame);
+    applyShellSdrVisibility(frame);
+    requestAnimationFrame(() => {
+        if (!document.documentElement.classList.contains("shell-starting")) return;
+        document.documentElement.classList.remove("shell-starting");
+        window.rigpiShell.startupReadyAt = Date.now();
+        window.rigpiShell.startup.phase = timedOut ? "timeout" : "ready";
+        console.log("RigPi shell ready:", new Date().toISOString(), window.rigpiShell.startup.phase);
+    });
+}
+document.getElementById("rigpiContent").addEventListener("load", revealShellStartup);
+window.addEventListener("load", revealShellStartup, {once: true});
+revealShellStartup();
+</script>
+
+<script src="/rigpi-health-monitor.js?v=1"></script>
+</body>
 </html>

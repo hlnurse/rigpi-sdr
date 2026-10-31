@@ -227,9 +227,23 @@ class ZoomSpectrumProcessor:
             self._reduced_buffer = reduced.copy()
             return None
 
-        chunk = reduced[-self.fft_size:].copy()
+        # resample_poly filters each submitted display block independently.
+        # Average several FFT windows across the clean interior. One short
+        # snapshot could miss narrow RX888 signals for several display frames.
+        spare = max(0, reduced.size - self.fft_size)
+        guard = min(32, spare // 4)
+        first = guard
+        last = max(first, reduced.size - self.fft_size - guard)
+        segment_count = min(4, max(1, 1 + (last - first) // max(1, self.fft_size // 2)))
+        starts = np.linspace(first, last, segment_count, dtype=np.int64)
+        power = None
+        for segment_start in starts:
+            chunk = reduced[segment_start : segment_start + self.fft_size]
+            transformed = np.fft.fftshift(np.fft.fft(chunk * self._window))
+            segment_power = np.abs(transformed) ** 2
+            power = segment_power if power is None else power + segment_power
+        spectrum = np.sqrt(power / float(segment_count))
         self._reduced_buffer = np.empty(0, dtype=np.complex64)
-        spectrum = np.fft.fftshift(np.fft.fft(chunk * self._window))
 
         requested_span = min(requested_span, float(output_rate))
         keep_bins = self.fft_size
@@ -239,7 +253,7 @@ class ZoomSpectrumProcessor:
             spectrum = spectrum[start_bin : start_bin + keep_bins]
 
         coherent_gain = max(float(np.sum(self._window)), 1.0)
-        mags = (20.0 * np.log10(np.abs(spectrum) / coherent_gain + 1e-12)).astype(
+        mags = (20.0 * np.log10(spectrum / coherent_gain + 1e-12)).astype(
             np.float32
         )
         represented_span = float(output_rate) * float(len(mags)) / float(self.fft_size)

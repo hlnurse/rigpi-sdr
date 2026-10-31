@@ -23,7 +23,7 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 	  <td class='text-left'><b>Spots</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Alt+A</td>
+		<td class='text-right'>Alt+C</td>
 		<td class='text-left'><b>Calendar</b></td>
 		<td class='text-right'>Alt+W</td>
   		<td class='text-left'><b>Web</b></td>
@@ -45,13 +45,16 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 		<td class='text-left'><b>Shortcut List</b></td>
 	</tr>
 		
-  </tbody>
+  <tr><td class='text-right'>Alt+M</td><td>Elmer</td><td class='text-right'>Alt+A</td><td>Ask Elmer</td></tr>
+<tr><td class='text-right'>Alt+R</td><td>SDR4</td><td class='text-right'>Alt+O</td><td>Look up Call</td></tr>
+<tr><td class='text-right'>Alt+Shift+M</td><td>Start/Finish Elmer PTT</td><td class='text-right'>Alt+Shift+Q</td><td>Silence Elmer</td></tr>
+<tr><td class='text-right'>Alt+I</td><td>Toggle Split</td><td class='text-right'>/</td><td>Focus callsign field</td></tr></tbody>
 </table>
 <text style='font-size:20px'><strong>Control</strong></text>\n
 <table class='table table-borderless table-striped'>
   <tbody>
 	<tr>
-	  <td class='text-right'>Alt+C</td>
+	  <td class='text-right'>Alt+Shift+C</td>
 	  <td class='text-left'><b>Connect Radio</b></td>
 	  <td class='text-right'>Alt+D</td>
 	  <td class='text-left'><b>Disconn Radio</b></td>
@@ -95,9 +98,9 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 	</tr>
 	<tr>
 	  <td class='text-right'>[</td>
-	  <td class='text-left'><b>Band Down</b></td>
-	  <td class='text-right'>]</td>
 	  <td class='text-left'><b>Band Up</b></td>
+	  <td class='text-right'>]</td>
+	  <td class='text-left'><b>Band Down</b></td>
 	</tr>
   </tbody>
 </table>
@@ -105,49 +108,49 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 <table class='table table-borderless table-striped'>
   <tbody>
 	<tr>
-	  <td class='text-right'>Ctl+1</td>
+	  <td class='text-right'>Ctrl+1</td>
 	  <td class='text-left'><b>160</b></td>
-	  <td class='text-right'>Ctl+2</td>
+	  <td class='text-right'>Ctrl+2</td>
 	  <td class='text-left'><b>80</b></td>
 	</tr>
 	<tr>
-	  <td class='text-right'>Ctl+3</td>
+	  <td class='text-right'>Ctrl+3</td>
 	  <td class='text-left'><b>60</b></td>
-	  <td class='text-right'>Ctl+4</td>
+	  <td class='text-right'>Ctrl+4</td>
 	  <td class='text-left'><b>40</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Ctl+5</td>
+		<td class='text-right'>Ctrl+5</td>
 		  <td class='text-left'><b>30</b></td>
-		  <td class='text-right'>Ctl+6</td>
+		  <td class='text-right'>Ctrl+6</td>
 		  <td class='text-left'><b>20</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Ctl+7</td>
+		<td class='text-right'>Ctrl+7</td>
 		  <td class='text-left'><b>17</b></td>
-		  <td class='text-right'>Ctl+8</td>
+		  <td class='text-right'>Ctrl+8</td>
 		  <td class='text-left'><b>15</b></td>
 	</tr>
 	<tr>
-		  <td class='text-right'>Ctl+9</td>
+		  <td class='text-right'>Ctrl+9</td>
 		  <td class='text-left'><b>12</b></td>
-		  <td class='text-right'>Ctl+A</td>
+		  <td class='text-right'>Ctrl+A</td>
 		  <td class='text-left'><b>10</b></td>
 	</tr>
 	<tr>
-		  <td class='text-right'>Ctl+B</td>
+		  <td class='text-right'>Ctrl+B</td>
 		  <td class='text-left'><b>6</b></td>
-		  <td class='text-right'>CTL+C</td>
+		  <td class='text-right'>Ctrl+C</td>
 		  <td class='text-left'><b></b>2</td>
 	</tr>
 	<tr>
-		  <td class='text-right'>Ctl+D</td>
+		  <td class='text-right'>Ctrl+D</td>
 		  <td class='text-left'><b>1.25</b></td>
-		  <td class='text-right'>Ctl+E</td>
+		  <td class='text-right'>Ctrl+E</td>
 		  <td class='text-left'><b>70</b></td>
 	</tr>
 	<tr>
-		  <td class='text-right'>Ctl+F</td>
+		  <td class='text-right'>Ctrl+G</td>
 		  <td class='text-left'><b>23</b></td>
 		  <td class='text-right'></td>
 		  <td class='text-left'><b></b></td>
@@ -158,31 +161,31 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 <table class='table table-borderless table-striped'>
   <tbody>
 	<tr>
-	  <td class='text-right'>Ctl+L</td>
+	  <td class='text-right'>Ctrl+L</td>
 	  <td class='text-left'><b>LSB</b></td>
-	  <td class='text-right'>Ctl+U</td>
+	  <td class='text-right'>Ctrl+U</td>
 	  <td class='text-left'><b>USB</b></td>
 	</tr>
 	<tr>
-	  <td class='text-right'>Ctl+S</td>
+	  <td class='text-right'>Ctrl+S</td>
 	  <td class='text-left'><b>USB-D</b></td>
-	  <td class='text-right'>Ctl+W</td>
+	  <td class='text-right'>Ctrl+W</td>
 	  <td class='text-left'><b>CW</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Ctl+R</td>
+		<td class='text-right'>Ctrl+R</td>
 		  <td class='text-left'><b>CWR</b></td>
-		  <td class='text-right'>Ctl+T</td>
+		  <td class='text-right'>Ctrl+T</td>
 		  <td class='text-left'><b>RTTY</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Ctl+F</td>
+		<td class='text-right'>Ctrl+F</td>
 		  <td class='text-left'><b>FM</b></td>
-		  <td class='text-right'>Ctl+M</td>
+		  <td class='text-right'>Ctrl+M</td>
 		  <td class='text-left'><b>AM</b></td>
 	</tr>
 	<tr>
-		  <td class='text-right'>Ctl+Y</td>
+		  <td class='text-right'>Ctrl+Y</td>
 		  <td class='text-left'><b>RTTYR</b></td>
 		  <td class='text-right'></td>
 		  <td class='text-left'><b></b></td>

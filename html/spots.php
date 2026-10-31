@@ -832,7 +832,7 @@ if (e.key === "ArrowDown") {
 						window.open(win, "_self");
 						break;
 					case 84: // t
-						var win="/index.php?x="+tUserName+"&c="+tMyCall;
+						var win="/tuner.php?x="+tUserName+"&c="+tMyCall;
 						window.open(win, "_self");
 						break;
 					case 87: // w

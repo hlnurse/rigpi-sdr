@@ -1,13 +1,15 @@
 <?php
 /*
  * RigPi - Account Request Page
- * Creates account with Access_Level=9 (pending) and notifies admin via Pushover.
+ * Creates account with Access_Level=9 (pending) and notifies admin through configured email and Pushover.
  * No session required — accessible from login page.
  */
 
 $dRoot = "/var/www/html";
 require_once $dRoot . "/classes/MysqliDb.php";
 require $dRoot . "/programs/sqldata.php";
+require_once $dRoot . "/programs/RigPiMailer.php";
+require_once $dRoot . "/programs/SdrInstanceFunc.php";
 
 $db = new MysqliDb(
     "localhost",
@@ -20,6 +22,32 @@ $db = new MysqliDb(
 $db->where("uID", 1);
 $adminRow = $db->getOne("Users");
 $adminCall = $adminRow["MyCall"] ?? "RigPi";
+
+// Read readiness only: visiting the public form must not create mail settings.
+$emailWarning = "";
+$mailReady = false;
+try {
+    $mail = [];
+    if ($db->tableExists("EmailSettings")) {
+        $db->where("SettingID", 1);
+        $mail = $db->getOne("EmailSettings") ?: [];
+    }
+    $host = trim((string)($mail["SMTPHost"] ?? ""));
+    $mailUser = trim((string)($mail["SMTPUsername"] ?? ""));
+    $mailPassword = (string)($mail["SMTPPassword"] ?? "");
+    $port = (int)($mail["SMTPPort"] ?? 0);
+    $mailReady = preg_match('/^[A-Za-z0-9][A-Za-z0-9.-]{0,252}$/', $host)
+        && $port >= 1 && $port <= 65535
+        && in_array($mail["SMTPEncryption"] ?? "", ["none", "starttls", "tls"], true)
+        && filter_var($mail["FromEmail"] ?? "", FILTER_VALIDATE_EMAIL)
+        && $mailUser !== "" && $mailPassword !== "";
+    if (!$mailReady) {
+        $emailWarning = "Outgoing email is not configured or its SMTP credentials are incomplete. Ask the RigPi administrator to configure Email Notifications in User Settings. Account requests can still be reviewed in Account Settings.";
+    }
+} catch (Throwable $error) {
+    error_log("RigPi account request: unable to read outgoing email readiness.");
+    $emailWarning = "RigPi could not check outgoing email settings. Ask the administrator to check Email Notifications in User Settings.";
+}
 
 $message = "";
 $messageType = "";
@@ -55,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
     }
     if (!$email) {
         $errors[] = "Email address is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Enter a valid email address.";
     }
     if (!$password) {
         $errors[] = "Password is required.";
@@ -74,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
     }
 
     if ($errors) {
-        $message = implode("<br>", $errors);
+        $message = implode("<br>", array_map(static fn($value) => htmlspecialchars($value, ENT_QUOTES, "UTF-8"), $errors));
         $messageType = "danger";
     } else {
         // Get next available uID
@@ -108,12 +138,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
             "MyCounty" => "",
             "qrzUser" => "",
             "qrzPWD" => "",
+            "hamqthUser" => "",
+            "hamqthPWD" => "",
+            "GoogleAPIKey" => "",
             "WSJTXPort" => 2333,
             "PushoverToken" => "",
             "PushoverUser" => "",
             "PushoverNotify" => "none",
             "PushoverDelay" => 60,
-            "SDRHost" => "http://" . gethostname() . ".local/sdr" . $newUID,
+            "SDRHost" => sdrUrlFor(1),
             "SDRHostRemote" => "",
             "SDRPort" => 8001,
             "SDRPosition" => "none",
@@ -133,7 +166,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
             "Inactivity" => 0,
         ];
 
-        if ($db->insert("Users", $data)) {
+        $accountSaved = false;
+        try {
+            $accountSaved = (bool)$db->insert("Users", $data);
+        } catch (Throwable $error) {
+            error_log("RigPi account request: unable to save the pending account.");
+        }
+        if ($accountSaved) {
             // Send Pushover to admin
             $tsZ = gmdate("Y-m-d H:i") . "Z";
             $pushMsg = "Account Request at $tsZ\n";
@@ -151,11 +190,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
             }
             $pushMsg .= "Set Access Level to 2 to approve.";
 
+            // Notify only the saved station administrator, never a posted recipient.
+            $emailSent = false;
+            if ($mailReady) {
+                try {
+                    rigpiSendEmail(
+                        $mail,
+                        trim((string)($adminRow["My_Email"] ?? "")),
+                        "RigPi Account Request: " . $call,
+                        $pushMsg . "\n\nReview pending accounts in RigPi Account Settings."
+                    );
+                    $emailSent = true;
+                } catch (Throwable $error) {
+                    // Do not expose SMTP account details on the public request page.
+                    error_log("RigPi account request " . $newUID . ": administrator email notification failed.");
+                }
+            }
+
             $token = trim($adminRow["PushoverToken"] ?? "");
             $userKey = trim($adminRow["PushoverUser"] ?? "");
             $pushSent = false;
 
-            if ($token && $userKey) {
+            if ($token && $userKey && function_exists("curl_init")) {
                 $ch = curl_init("https://api.pushover.net/1/messages.json");
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt(
@@ -177,10 +233,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
             }
 
             $submitted = true;
-            $message = "Your account request has been submitted. The administrator will review it and contact you at $email when approved.";
-            $messageType = "success";
+            $safeEmail = htmlspecialchars($email, ENT_QUOTES, "UTF-8");
+            $message = "Your account request has been submitted. ";
+            if ($emailSent) {
+                $message .= "An email notification was sent to the administrator. ";
+            } elseif ($mailReady) {
+                $message .= "Your request was saved, but RigPi could not send the administrator's email notification. Please contact the administrator directly. ";
+            } else {
+                $message .= "The administrator was not notified by email because outgoing email is not configured. ";
+            }
+            if ($pushSent) $message .= "A Pushover notification was sent to the administrator. ";
+            $message .= "The administrator can review your request in Account Settings and contact you at $safeEmail when approved.";
+            $messageType = $emailSent ? "success" : "warning";
         } else {
-            $message = "Username '$username' is already taken. Please choose another.";
+            $message = "RigPi could not save your account request. Please contact the administrator or try again later.";
             $messageType = "danger";
         }
     }
@@ -222,6 +288,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["requestAccount"])) {
         </div>
         <div class="col-6 col-md-4"></div>
     </div>
+
+    <?php if ($emailWarning): ?>
+    <div class="row"><div class="col-12">
+        <div class="alert alert-warning" role="alert">
+            <?php echo htmlspecialchars($emailWarning, ENT_QUOTES, "UTF-8"); ?>
+        </div>
+    </div></div>
+    <?php endif; ?>
 
     <?php if ($message): ?>
     <div class="row">

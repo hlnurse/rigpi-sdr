@@ -16,6 +16,8 @@ from urllib.request import Request,urlopen
 
 from answer_knowledge import DEFAULT_MODEL,normalize_user_image,stream_openai_answer
 from live_connectors import normalize_live_context
+from system_network import requested_network_status, collect_network_status
+from system_wan import requested_wan_status, collect_wan_status
 from question_knowledge import make_packet
 from resolve_reference import resolve
 
@@ -105,7 +107,7 @@ def initialize_feedback_db(path):
 def store_feedback(path,username,rating,comment,question,answer,model):
     if not 1<=rating<=10:
         raise ValueError('Rating must be from 1 through 10.')
-    if len(username)>100 or len(comment)>2000 or len(question)>1000 or len(answer)>50000:
+    if len(username)>100 or len(comment)>2000 or len(question)>50000 or len(answer)>50000:
         raise ValueError('Feedback is too long.')
     with sqlite3.connect(path,timeout=10) as db:
         cursor=db.execute('''INSERT INTO feedback
@@ -354,10 +356,10 @@ class ElmerHandler(BaseHTTPRequestHandler):
                 return
             try:
                 length=int(self.headers.get('Content-Length','0'))
-                if length<1 or length>8192: raise ValueError('invalid request size')
+                if length<1 or length>524288: raise ValueError('Question request is too large.')
                 request=json.loads(self.rfile.read(length))
                 question=str(request.get('question','')).strip()
-                if not question or len(question)>600: raise ValueError('Please enter a question of 1–600 characters.')
+                if not question or len(question)>50000: raise ValueError('Please enter a question of 1–600 characters.')
                 upstream=cloud_request(urljoin(self.server.cloud_url,'api/v1/elmer/plans'),
                                        self.server.station_credential,{'question':question},60)
                 with upstream: response=json.load(upstream)
@@ -379,12 +381,17 @@ class ElmerHandler(BaseHTTPRequestHandler):
             user_image=normalize_user_image(request.get('image'))
             live_context=normalize_live_context(request.get('live_context'))
             query_plan=request.get('query_plan') if isinstance(request.get('query_plan'),dict) else None
-            maximum=600 if self.server.mode=='cloud' else 1000
+            maximum=50000
             if not question or len(question)>maximum:
                 raise ValueError(f'Please enter a question of 1–{maximum} characters.')
         except (ValueError,json.JSONDecodeError) as exc:
             self.send_json(400,{'error':str(exc)})
             return
+
+        if requested_network_status(question):
+            live_context={**(live_context or {}), 'network_status':collect_network_status()}
+        if requested_wan_status(question):
+            live_context={**(live_context or {}), 'wan_status':collect_wan_status()}
 
         if self.server.mode=='cloud':
             try:

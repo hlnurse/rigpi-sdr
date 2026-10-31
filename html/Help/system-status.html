@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Settings &gt; System Status</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="Open Settings &gt; System Status, directly below System Settings, for a read-only overview of your RigPi. This page is available to administrators (access levels 1 and 2)." />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height:auto; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { background: #2C5D88; min-height: 59px }             
+      #idheader h1 span { color: #FFF }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_grey.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_white.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_orange.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; font-size: 80%; text-decoration: none }      
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #FFF; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #FFF; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #FFF; }
+      .sync-toc a:hover { text-decoration: underline; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em }	  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "system-status.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1"><span class="f_Heading1">System Status</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:bottom">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?system-status.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="settings.html">Settings</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1"><span class="f_Heading1">System Status</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="system.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="settings.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="chapter-2.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Open </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Settings &gt; System Status</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, directly below System Settings, for a read-only overview of your RigPi. This page is available to administrators (access levels 1 and 2).</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The readings refresh every </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">10 seconds</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> while the page is visible. Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Refresh</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> for a new reading. Navigating to or from this page preserves the master shell uptime and audio session.</span></p>
+<h2 style="margin: 13px 0 0 0;"><a id="station-health" class="hmanchor"></a></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Station Health summary highlights readings that need attention and offers practical next steps. Colored bullets appear beside the related readings: </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">green — Normal</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">yellow — Attention</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">red — Problem</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">, and </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">gray — Unknown or observing</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. The words accompany each color. Click a finding to jump to its reading, or expand </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Show normal checks</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to review the checks that passed.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Checks cover temperature, fan, power and throttling, CPU use and load, memory, root disk space, and local services. Recommendations are advice only; RigPi does not automatically restart services, reboot, or change settings. A running service does not by itself confirm attached hardware or an external connection.</span></p>
+<p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Temperature:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> attention at 75°C sustained for 30 seconds, immediate attention at 80°C, and a problem at 85°C.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CPU and memory:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> CPU attention at 85% and problem at 97%; memory attention at 90% and problem at 97%. These conditions must persist for 30 seconds. Load attention begins at one task per core over the last minute.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Storage:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> attention at 90% root disk use and a problem at 97%.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cooling:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> a fan reporting zero RPM while cooling is requested or the Pi is hot receives attention after 30 seconds. A stopped fan on a cool Pi can be normal. Missing fan sensors remain unknown.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Power:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> current undervoltage is a problem. A historical undervoltage flag receives attention and is clearly identified as a past event. Supply advice follows the Pi model; Pi 5 guidance recommends the official 27W supply or a compatible 5V/5A supply.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Services:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> a failed service is a problem immediately. A stopped required service, or an SDR service assigned to an account marked active, receives attention after 20 seconds. Stopped optional services remain unknown and may be intentionally unused. No SDR selected does not imply hardware failure.</span></p><p class="p_Normal" style="margin: 9px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Unknown is not a normal result.</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> Missing readings, optional stopped services, and conditions still being observed are listed separately. Observation timing runs while this page receives fresh readings and resets when the page is reopened or readings are interrupted. Failed refreshes turn the summary and reading indicators gray; details then represent the last successful snapshot. The diagnostic summary includes health findings for remote support.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Background health notifications</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The master shell checks Station Health approximately every five minutes while an administrator (access level 1 or 2) is logged in. It starts shortly after the shell opens and continues across Tuner, Keyer and other page navigation. A new yellow or red condition is checked again about 30 seconds later before a toast appears. A brief condition that clears is not announced.</span></p>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Each toast includes the condition, a recommendation and a </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">View System Status</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> button. Yellow attention notices disappear after about 20 seconds; red problem notices remain until dismissed or a later reading clears them. Hovering over a yellow notice or using its controls keeps it visible. Dismissed or expired notices do not repeat unless the condition worsens, or is observed to return to normal and then occurs again. Reloading the master shell starts a new monitoring session.</span></p>
+<p class="p_Normal">&nbsp;</p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Missing readings, intentionally unused optional services and failed health requests do not generate problem toasts. Monitoring pauses when the RigPi browser tab is hidden and resumes when it is visible; browser sleep or suspension can delay checks. This is browser-based monitoring while RigPi is open, not a server alarm service. Notifications offer advice only and never restart services, reboot, transmit or change settings.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Installed version and files</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Shows the installed RigPi version, Raspberry Pi model and hardware revision, operating system and kernel. Key file dates identify the last modification of the installed shell, Tuner, Keyer, menu, System Status and SDR files. Local edits change these dates; a file date is not a release number or an online update check.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">System health</span></h2>
+<p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Uptime:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> time since the Raspberry Pi booted.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CPU use:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> sampled use of total CPU capacity across all cores. Load averages cover the last 1, 5 and 15 minutes and are shown alongside the core count.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">CPU temperature:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> the current sensor reading in degrees Celsius.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Cooling fan:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> running or stopped, measured speed in RPM, fan drive percentage and cooling level when sensors are available. Fan drive is the control setting, not a percentage of measured maximum RPM. Readings are informational; this page does not change fan control.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Memory:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> RAM in use and total usable RAM. The usable total can be slightly below the advertised capacity.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Swap:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> swap space in use and total configured swap. A zero used value means swap is available but currently unused.</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Root disk:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> used and total space on the root filesystem.</span></p><h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Power and throttling</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Shows undervoltage, CPU frequency capping, CPU throttling and the soft temperature limit. Each line separates the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">current condition</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> from events </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">recorded since boot</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">. An earlier event can remain recorded after the condition clears. Normal with None since boot means neither a current condition nor a recorded event was reported.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The firmware reading includes its timestamp. If collection fails or the reading is more than 30 seconds old, the status is marked unavailable. Missing readings are never treated as normal.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Highest CPU consumers</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Lists the five processes using the most CPU during a half-second sample, with process name, process ID (PID) and percentage. Percentages use the total capacity of all CPU cores, matching CPU use in System health. Short decoding bursts can change the ranking between refreshes.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Network IP addresses</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Lists the RigPi's Ethernet, Wi-Fi and other interface addresses. No IP address means that interface has no assigned address. IPv6 link-local addresses and container addresses are labeled separately.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connection IP</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> is the address seen by the web server. A local proxy can appear as 127.0.0.1. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Reported client IP</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> is supplied in a proxy header and is labeled as reported. It is diagnostic information, not proof of a client's identity.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Current browser</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">The Network IP addresses section identifies the current browser and reported version, its device type, and whether that device is external to the Raspberry Pi. Mac, Windows, iOS and Android browsers are labeled External device. Linux browsers may run on the Pi or another computer, so they are marked as uncertain when the browser identification cannot distinguish them. These readings describe the browser viewing System Status, not every account. A proxy address of 127.0.0.1 does not mean the browser runs on the Pi.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connection URL</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> shows the address used by the browser to open RigPi. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Connection security</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> identifies HTTPS (encrypted using TLS/SSL) or HTTP (not encrypted). This describes the browser connection, including connections through a remote proxy. The URL omits query parameters and fragments.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Accounts marked active</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Shows saved account activity flags, callsigns, available IP information, assigned radios, receiver ports and last visit times. These flags can remain after a browser closes. Last visit is not a live connection heartbeat. Visits older than 24 hours are identified, and missing saved addresses show Not recorded. The current viewer's request can supply an address even when its saved account address is empty.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radios, receivers and audio</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Radios</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> shows configured or assigned radios, available CAT frequency and mode, saved PTT state and serial device detection. A detected USB serial device does not by itself mean the radio is connected. Disconnected or no frequency means no current frequency is available.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Receivers and audio</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> lists receiver engines, selected sources, device state, frequency, sample rate, TX audio and receive loopback. An available engine is separate from the browser's audio play/pause state. No SDR with an idle device can be a normal configuration.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Detected devices</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> lists USB equipment and ALSA audio cards. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Services</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> confirms that the web server and database responded to the status request.</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Copy diagnostic summary</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Click </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold;">Copy diagnostic summary</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;"> to copy a formatted HTML snapshot of the displayed readings for troubleshooting. Email and document editors can retain headings, tables and colored health indicators. Plain-text destinations receive a readable text version. The button confirms Copied with formatting (or Copied as text when formatting is unavailable). The summary includes account names, callsigns, IP addresses and device details shown on the page. Review it before sharing.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">If a refresh fails, the last successful snapshot remains visible with an explanatory message. Check the reading timestamp before relying on it.</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">For configuration changes, see <a href="https://sdr.rigpi.org/Help/system.html" class="weblink">System Settings</a> or <a href="https://sdr.rigpi.org/Help/rigpi-audio.html" class="weblink">Audio</a>.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Connections and services: Elmer, Cloudflare and DuckDNS show local service or updater state. QRZ, HamQTH and Pushover show saved credential completeness for the signed-in account. Configured does not mean a remote connection has been tested. Elmer pairing is checked in Elmer settings. The overview does not send notifications or change service settings.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Keyers shows each configured keying method, serial device availability, and saved speed where available. Rotors shows configured models, ports, and last reported bearings. Saved readings may be stale. Device detection does not verify keying or rotor control. These checks do not transmit or move the antenna.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">SDR by account lists every account, current access level, receiver port, saved position (None, Top or Bottom) and pages (None, Tuner, Keyer or both). These are display preferences, separate from receiver engine status. Rotors also lists </span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Hamlib Dummy slots as simulated devices. CAT keyers show Keying connection: Not tested; a missing radio frequency is not a keyer connection test.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Access level is read from the current account settings and appears in both Accounts marked active and SDR by account. </span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">All accounts are included under SDR by account, including inactive accounts. This overview only displays access levels; it does not change account permissions.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Services lists the SDR service instances on ports 8001 through 8005, showing Running, Stopped, Failed or another current service state. Service state is separate from receiver hardware selection and browser audio. A running service can have No SDR selected.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Service CPU percentages include worker processes and use total Raspberry Pi CPU capacity: one fully busy core on a four-core Pi is about 25%. Measurements cover approximately half a second at each refresh and can fluctuate. Missing counters show Unavailable. Stopped services show 0.0%. CPU is shown for the web server, PHP, database, SDR services, </span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Cloudflare, Elmer and the DuckDNS updater. The DuckDNS timer schedules updates; its updater service performs the work. Remote services such as QRZ, HamQTH and Pushover have no separate local CPU measurement.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Reboot RigPi at the top of System Status restarts the Raspberry Pi after confirmation. It disconnects all users and interrupts radio, SDR and audio services. Wait for the Pi to restart, then open the login page to reconnect. The overview is read-only except for this confirmed administrator action.</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">Ask Elmer</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">&nbsp;</span><br />
+<span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif;">You can easily get a health summary by using Ask Elmer. &nbsp;Here is an example:</span></p>
+<p><span style="color: #000000;">&nbsp;</span></p>
+<p class="p_Normal"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Question:</span></p>
+<p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">system status</span></p>
+<p class="p_Normal" style="margin: 11px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Answer:</span></p>
+<h2 style="margin: 13px 0 0 0;"><span style="font-size: 19px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">System status</span></h2>
+<p class="p_Normal" style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Assessment at 2026-10-28 22:38:09 UTC:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> The Pi’s reported health checks are green for temperature, fan, power, CPU limits, CPU/load, memory, disk, web/PHP/database, Cloudflare, Elmer, and SDR services. </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">DuckDNS updater is unknown</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">, because it is stopped; the status explicitly does not infer a fault or confirm that it is intentionally unused. [Live System 1]</span></p>
+<p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Hardware / load:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> Raspberry Pi 5, RigPi 5.00, with CPU at </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">7.1%</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">, load </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">1.14 / 0.73 / 0.60</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> across four cores, temperature </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">57.3 °C</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">, and fan running at </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">2,064 RPM</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Power / limits:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> No undervoltage, frequency capping, throttling, or soft temperature-limit events have been reported since boot. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Resources:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> Memory use is </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">2,677 / 16,215 MB</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">; swap is unused. Root disk use is </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">21.2 / 27.8 GB (76.4%)</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">—currently green, but it is the resource worth watching as it has about </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">6.6 GB</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> free. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Network:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> Ethernet has LAN IPv4 address </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">192.168.1.17</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">. Wi‑Fi has no IP address. The browser is identified as an external Windows PC; its proxy-reported client IP is not the Pi’s LAN address. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Radio / SDR:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> Radio 1, the </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">IC-7300</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">, has CAT data available at </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">28.400001 MHz USB</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> and PTT released. Receivers 8001 (Hermes Lite 2) and 8002 (AirSpy HF+) both show open devices at 192 kHz. Receiver 8003 has </span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">No SDR</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> selected; that is an observed configuration, not necessarily a fault. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Services:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> Web server, PHP, database, all listed SDR services, Elmer, and the Cloudflare Tunnel service are running. This confirms local service state only; it does not prove attached hardware, browser audio, or external tunnel reachability. [Live System 1]</span></p><p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">Accounts:</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;"> admin and guest1 are marked active, but saved active flags and last-visit times are not live connection heartbeats. [Live System 1]</span></p><h3 style="margin: 13px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #202830;">References</span></h3>
+<p style="text-indent: 0; padding-left: 18px; margin: 0 0 0 9px;"><span class="f_Normal" style="font-size:15px; font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';color:#202830;display:inline-block;width:18px;margin-left:-18px">&#8226;</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #202830;">[Live System 1] RigPi System Status, retrieved 2026-10-28T22:38:09.000Z.</span></p><p><span style="color: #000000;">&nbsp;</span><br />
+<span style="color: #000000;">&nbsp;</span><br />
+<span style="color: #000000;">&nbsp;</span></p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $(window).bind('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+	$('.hmanchor').css('padding-top', y+20);
+      }
+    });
+    
+    $(window).resize(); //trigger event for initially small displays
+  });
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

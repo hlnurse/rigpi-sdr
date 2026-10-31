@@ -18,7 +18,7 @@
 
   const canRecord = Boolean(window.isSecureContext && navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
   const canBrowserSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-  const canSpeak = typeof window.Audio === 'function' || canBrowserSpeak;
+  const canSpeak = typeof window.Audio === 'function' || Boolean(window.AudioContext || window.webkitAudioContext);
   let recorder = null;
   let microphoneStream = null;
   let recordingChunks = [];
@@ -38,7 +38,7 @@
   let voiceOrbSpeaking = false;
   let generatedSpeechVoice = 'marin';
 
-  fetch('/programs/ElmerPreferences.php', {
+  const speechPreferencesReady = fetch('/programs/ElmerPreferences.php', {
     method: 'POST', credentials: 'same-origin',
     headers: {'Content-Type': 'application/json', 'X-Elmer-Action': 'preferences'},
     body: JSON.stringify({action: 'status'})
@@ -46,8 +46,8 @@
     .then(data => { generatedSpeechVoice = String(data.voice || 'marin').trim().toLowerCase() || 'marin'; })
     .catch(() => {});
 
-  function speechPayload(payload) {
-    return generatedSpeechVoice ? {...payload, voice: generatedSpeechVoice} : payload;
+  function speechPayload(payload, voice = generatedSpeechVoice) {
+    return voice ? {...payload, voice} : payload;
   }
 
   if (wakeButton) wakeButton.hidden = true;
@@ -227,7 +227,7 @@
       {label: 'Device', value: device, state: 'ready'},
       {label: 'Microphone', value: microphone, state: microphoneState},
       {label: 'Voice recognition', value: canRecord ? 'ChatGPT Transcribe recording is supported' : 'Microphone recording is unavailable', state: canRecord ? 'ready' : 'unavailable'},
-      {label: 'Spoken answers', value: canSpeak ? 'Speech synthesis is available' : 'Speech synthesis is unavailable', state: canSpeak ? 'ready' : 'unavailable'},
+      {label: 'Spoken answers', value: canSpeak ? 'Elmer voice playback is available' : 'Elmer voice playback is unavailable', state: canSpeak ? 'ready' : 'unavailable'},
       {label: 'Voice language', value: languageSelect.value
         ? `${languageSelect.options[languageSelect.selectedIndex].textContent} (${voiceLanguage()})`
         : 'Automatic detection', state: 'ready'}
@@ -432,7 +432,13 @@
       if (current) chunks.push(current);
       current = '';
       const words = part.split(/\s+/);
-      for (const word of words) {
+      for (let word of words) {
+        if (word.length > limit() && current) { chunks.push(current); current = ''; }
+        while (word.length > limit()) {
+          let cut = limit();
+          if (/[\uD800-\uDBFF]/.test(word.charAt(cut - 1))) cut -= 1;
+          chunks.push(word.slice(0, cut)); word = word.slice(cut);
+        }
         const next = current ? `${current} ${word}` : word;
         if (next.length > limit() && current) { chunks.push(current); current = word; }
         else current = next;
@@ -441,25 +447,6 @@
     sentences.map(sentence => sentence.trim()).filter(Boolean).forEach(append);
     if (current) chunks.push(current);
     return chunks;
-  }
-
-  function browserSpeechFallback(text, sequence) {
-    if (!canBrowserSpeak || sequence !== speechSequence || !speakToggle.checked || !text) {
-      finishSpeech();
-      return;
-    }
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = voiceLanguage();
-    const voices = speechSynthesis.getVoices();
-    const wanted = utterance.lang.toLowerCase();
-    utterance.voice = voices.find(voice => voice.lang.toLowerCase() === wanted) ||
-      voices.find(voice => voice.lang.toLowerCase().startsWith(wanted.split('-')[0])) || null;
-    utterance.rate = 1;
-    utterance.onend = () => { if (sequence === speechSequence) finishSpeech(); };
-    utterance.onerror = () => { if (sequence === speechSequence) finishSpeech(); };
-    voiceOrbSpeaking = true;
-    refreshVoiceOrb();
-    speechSynthesis.speak(utterance);
   }
 
   let askSpeechContext = null;
@@ -477,13 +464,13 @@
   voiceButton.addEventListener('click', unlockAskSpeech);
   speakToggle.addEventListener('change', unlockAskSpeech);
 
-  async function streamAskOpening(text, sequence, controller) {
+  async function streamAskOpening(text, sequence, controller, voice) {
     const context = askSpeechContext;
     if (!context || context.state !== 'running') throw new Error('Audio needs a user gesture.');
     const response = await fetch('/elmer-api/speech', {
       method: 'POST', credentials: 'same-origin', signal: controller.signal,
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(speechPayload({text, stream: true}))
+      body: JSON.stringify(speechPayload({text, stream: true}, voice))
     });
     if (!response.ok || !response.body || !(response.headers.get('Content-Type') || '').includes('audio/pcm'))
       throw new Error('Streaming speech is unavailable.');
@@ -518,78 +505,125 @@
       while (active() && context.currentTime < nextStart) await new Promise(resolve => setTimeout(resolve, 40));
     } catch (error) {
       // Do not repeat words already played if the connection fails mid-sentence.
-      error.openingStarted = received > 16800;
+      error.openingStarted = received > 0;
       throw error;
     } finally {
       try { await reader.cancel(); } catch (_) {}
     }
   }
 
-  function speakAnswer(text) {
+  async function playAskSpeechBlob(blob, sequence, controller) {
+    const active = () => sequence === speechSequence && !controller.signal.aborted && speakToggle.checked;
+    if (!active()) return;
+    if (askSpeechContext) {
+      if (askSpeechContext.state !== 'running') await askSpeechContext.resume();
+      if (askSpeechContext.state !== 'running') throw new Error('Tap Read answers aloud to enable audio, then try again.');
+      const buffer = await askSpeechContext.decodeAudioData(await blob.arrayBuffer());
+      if (!active()) return;
+      await new Promise((resolve, reject) => {
+        const source = askSpeechContext.createBufferSource();
+        source.buffer = buffer; source.connect(askSpeechContext.destination);
+        const cleanup = () => {
+          controller.signal.removeEventListener('abort', cancel);
+          askSpeechSources.delete(source); source.onended = null;
+          try { source.disconnect(); } catch (_) {}
+        };
+        const cancel = () => { cleanup(); reject(new DOMException('Speech stopped.', 'AbortError')); };
+        source.onended = () => { cleanup(); resolve(); };
+        controller.signal.addEventListener('abort', cancel, {once: true});
+        askSpeechSources.add(source);
+        voiceOrbSpeaking = true; refreshVoiceOrb();
+        try { source.start(); } catch (error) { cleanup(); reject(error); }
+      });
+      return;
+    }
+    if (!speechAudio) throw new Error('Generated audio playback is unavailable in this browser.');
+    if (speechAudioUrl) URL.revokeObjectURL(speechAudioUrl);
+    speechAudioUrl = URL.createObjectURL(blob);
+    speechAudio.src = speechAudioUrl; speechAudio.preload = 'auto'; speechAudio.playsInline = true;
+    await new Promise((resolve, reject) => {
+      const cleanup = () => { controller.signal.removeEventListener('abort', cancel); speechAudio.onended = null; speechAudio.onerror = null; };
+      const cancel = () => { cleanup(); reject(new DOMException('Speech stopped.', 'AbortError')); };
+      speechAudio.onended = () => { cleanup(); resolve(); };
+      speechAudio.onerror = () => { cleanup(); reject(new Error('Generated audio playback was interrupted.')); };
+      controller.signal.addEventListener('abort', cancel, {once: true});
+      voiceOrbSpeaking = true; refreshVoiceOrb();
+      Promise.resolve(speechAudio.play()).catch(error => { cleanup(); reject(error); });
+    });
+  }
+
+  async function speakAnswer(text) {
     if (!canSpeak || !speakToggle.checked || !text) return;
     stopAnswerSpeech();
     const sequence = ++speechSequence;
-    const chunks = speechChunks(text);
-    const loaded = new Map();
     const controller = new AbortController();
     speechRequest = controller;
-    const loadChunk = index => {
-      if (index >= chunks.length) return null;
-      if (!loaded.has(index)) loaded.set(index, fetch('/elmer-api/speech', {
-        method: 'POST', credentials: 'same-origin', signal: controller.signal,
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(speechPayload({text: chunks[index], lead_silence_ms: index === 0 ? 350 : 100}))
-      }).then(response => {
-        if (!response.ok) throw new Error('Generated speech is unavailable.');
-        return response.blob();
-      }));
-      return loaded.get(index);
-    };
-    const playChunk = async index => {
-      if (sequence !== speechSequence || !speakToggle.checked) return;
-      if (index >= chunks.length) { speechRequest = null; finishSpeech(); return; }
-      try {
-        if (index === 0 && askSpeechContext?.state === 'running') {
-          try {
-            await streamAskOpening(chunks[0], sequence, controller);
-            if (sequence === speechSequence && speakToggle.checked) playChunk(1);
-            return;
-          } catch (error) {
-            if (controller.signal.aborted || sequence !== speechSequence) return;
-            askSpeechSources.forEach(source => { try { source.stop(); } catch (_) {} });
-            askSpeechSources.clear();
-            if (error.openingStarted) {
-              stopAnswerSpeech(); finishSpeech();
-              setStatus('Speech was interrupted. Please ask again.');
-              return;
-            }
-          }
-        }
-        const blob = await loadChunk(index);
-        if (sequence !== speechSequence || !speakToggle.checked) return;
-        loadChunk(index + 1)?.catch(() => {});
-        if (!speechAudio) throw new Error('Audio playback is unavailable.');
-        if (speechAudioUrl) URL.revokeObjectURL(speechAudioUrl);
-        speechAudioUrl = URL.createObjectURL(blob);
-        speechAudio.src = speechAudioUrl;
-        speechAudio.preload = 'auto';
-        speechAudio.playsInline = true;
-        speechAudio.onended = () => playChunk(index + 1);
-        speechAudio.onerror = () => browserSpeechFallback(chunks.slice(index).join(' '), sequence);
-        voiceOrbSpeaking = true;
-        refreshVoiceOrb();
-        await speechAudio.play();
-      } catch (error) {
-        if (error?.name !== 'AbortError' && sequence === speechSequence) {
-          browserSpeechFallback(chunks.slice(index).join(' '), sequence);
-        }
-      }
-    };
+    const active = () => sequence === speechSequence && !controller.signal.aborted && speakToggle.checked;
     stopButton.hidden = false;
     setStatus('Elmer is reading the answer aloud.');
-    if (askSpeechContext?.state !== 'running') loadChunk(0)?.catch(() => {});
-    loadChunk(1)?.catch(() => {});
-    playChunk(0);
+    try {
+      await speechPreferencesReady;
+      if (!active()) return;
+      const voice = generatedSpeechVoice; // Keep the chosen voice for the entire answer.
+      const chunks = speechChunks(text);
+      const loaded = new Map();
+      const loadChunk = index => {
+        if (index >= chunks.length) return null;
+        if (!loaded.has(index)) loaded.set(index, (async () => {
+          for (let attempt = 0; attempt < 2; attempt += 1) {
+            if (!active()) throw new DOMException('Speech stopped.', 'AbortError');
+            try {
+              const response = await fetch('/elmer-api/speech', {
+                method: 'POST', credentials: 'same-origin', signal: controller.signal,
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(speechPayload({text: chunks[index], lead_silence_ms: index === 0 ? 350 : 100}, voice))
+              });
+              if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                const error = new Error(data.error || 'Generated speech is temporarily unavailable.');
+                error.retryable = response.status === 408 || response.status === 429 || response.status >= 500;
+                throw error;
+              }
+              const blob = await response.blob();
+              if (!blob.size) throw new Error('Generated speech returned empty audio.');
+              return blob;
+            } catch (error) {
+              if (!active() || error?.name === 'AbortError' || error.retryable === false || attempt === 1) throw error;
+              await new Promise(resolve => setTimeout(resolve, 400));
+            }
+          }
+        })());
+        return loaded.get(index);
+      };
+      loadChunk(1)?.catch(() => {});
+      for (let index = 0; index < chunks.length && active(); index += 1) {
+        let openingPlayed = false;
+        if (index === 0 && askSpeechContext?.state === 'running') {
+          try {
+            await streamAskOpening(chunks[0], sequence, controller, voice);
+            openingPlayed = true;
+          } catch (error) {
+            if (!active()) return;
+            askSpeechSources.forEach(source => { try { source.stop(); } catch (_) {} });
+            askSpeechSources.clear();
+            if (error.openingStarted) throw new Error('The selected voice was interrupted. The answer remains on screen.');
+          }
+        }
+        if (!openingPlayed && active()) {
+          const blob = await loadChunk(index);
+          if (!active()) return;
+          loadChunk(index + 1)?.catch(() => {});
+          await playAskSpeechBlob(blob, sequence, controller);
+        }
+        loaded.delete(index);
+      }
+      if (active()) { speechRequest = null; finishSpeech(); }
+    } catch (error) {
+      if (error?.name !== 'AbortError' && sequence === speechSequence) {
+        stopAnswerSpeech(); finishSpeech();
+        setStatus('Selected voice could not continue: ' + (error.message || 'Please try again.'));
+      }
+    }
   }
 
   voiceButton.addEventListener('click', event => {

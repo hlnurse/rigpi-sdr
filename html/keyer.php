@@ -22,7 +22,7 @@ $db = new MysqliDb(
     "localhost",
     $sql_radio_username,
     $sql_radio_password,
-    $sql_radio_database
+    $sql_radio_database,
 );
 $db->where("Username", $tUserName);
 $row = $db->getOne("Users");
@@ -42,7 +42,7 @@ if ($row) {
     $sdrPosition = isset($row["SDRPosition"]) ? $row["SDRPosition"] : "none";
     $sdrPage = isset($row["SDRPage"]) ? $row["SDRPage"] : "none";
 }
-// Detect LAN vs remote connection (same logic as index.php)
+// Detect LAN vs remote connection (same logic as tuner.php)
 $clientIP =
     $_SERVER["HTTP_CF_CONNECTING_IP"] ??
     ($_SERVER["HTTP_X_FORWARDED_FOR"] ??
@@ -54,6 +54,11 @@ $isLAN =
     strpos($clientIP, "172.") === 0 ||
     $clientIP === "127.0.0.1";
 $sdrHost = $isLAN || !$sdrHostRemote ? $sdrHostLAN : $sdrHostRemote;
+require_once $dRoot . "/programs/SdrInstanceFunc.php";
+if (!sdrHostValid($sdrHost)) {
+    $sdrHost = "";
+}
+$sdrFrameHost = $sdrHost ? (parse_url($sdrHost, PHP_URL_PATH) ?: "") : "";
 if ($sdrPage !== "keyer" && $sdrPage !== "both") {
     $sdrPosition = "none";
 }
@@ -84,6 +89,15 @@ if ($sdrPage !== "keyer" && $sdrPage !== "both") {
 	<link href="/awe/css/solid.css" rel="stylesheet">
 	<link rel="stylesheet" href="/Bootstrap/jquery-ui.css">
 	<link rel="stylesheet" href="/css/elmer_control.css?v=20260903-1">
+        <link rel="stylesheet" href="/css/keyer-accessibility.css?v=20261029-1">
+    <style>
+        #catSidetoneButton.btn-success{background-color:#28a745!important;border-color:#28a745!important;color:#fff!important;}
+        .keyer-speed-control{position:relative;top:-6px;width:100%;padding:0 7px;box-sizing:border-box;}
+        #myKeyerSpeedVal{display:block;text-align:center;line-height:18px;}
+        #containerSpeed.keyer-speed-row:not(.d-none){display:flex!important;align-items:center;width:100%;padding:0 8px;box-sizing:border-box;}
+        #containerSpeed #sliderSpeed{flex:1 1 auto;width:auto!important;min-width:0;box-sizing:border-box;}
+        #containerSpeed #sliderSpeed .ui-slider-handle{width:16px!important;height:17px!important;top:-2px!important;margin-left:-8px!important;}
+    </style>
 
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -118,6 +132,7 @@ if ($sdrPage !== "keyer" && $sdrPage !== "both") {
 		var trXmit=false;
 		var tMyRotorRadio=1; //ve9gj
 		var tRadioModel="";
+var tRigFreqHz=0;
 		var tRotateButton;
 		var tCurBeam=0, tPost, tPost1, tPost2, tAData=[], tBandWidth;
 		var waitRefresh=0, tTuneOn=0, catTuneTimer=null;
@@ -303,6 +318,7 @@ if ($sdrPage !== "keyer" && $sdrPage !== "both") {
 				});
 				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeed', table: 'Keyer'}, function(response){
 										  tSpeed=response;
+										  if(catKeyerSelected())sendLiveCwSpeed(response);
 				//						  updateButtons();
 									  });
 				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeedOriginal', table: 'Keyer'}, function(response){
@@ -354,6 +370,7 @@ if ($sdrPage !== "keyer" && $sdrPage !== "both") {
 					$.post('./programs/GetSetting.php',{radio: tMyRadio, field: 'Keyer', table: 'MySettings'}, function(response)
 					{
 						tMyKeyer=response;
+						if(catKeyerSelected() && parseInt(Array.isArray(tSpeed)?tSpeed[1]:tSpeed,10))sendLiveCwSpeed(currentCatSidetoneWpm());
 						$.post('/programs/GetSetting.php',{radio:tMyRadio,field:'KeyerPort',table:'MySettings'},function(port){
  remoteKeyerSidetone=!catKeyerSelected() && /^[^:]+:[0-9]+$/.test(String(port).trim());
  updateCatSidetoneButton();
@@ -605,6 +622,7 @@ updateCatSidetoneButton();
 								waitRefresh=2;
 //									if (tSliderStartVal<tSliderVal){
 									tVal=$('#sliderSpeed').slider('value');
+                            sendLiveCwSpeed(tVal);
 									tSpeedOriginal=tVal;
 									if (tVal<tMinSpeed){
 //											tVal=tMinSpeed;
@@ -647,7 +665,8 @@ updateCatSidetoneButton();
 								waitRefresh=2
 //									$("#mySpeed").text(tVal+' WPM');
 								if (speedPotEnable==0){
-									tVal=$('#sliderSpeed').slider('value');
+                            tVal=ui.value;
+                            sendLiveCwSpeed(tVal);
 									outputSpeed.innerHTML='<H3b>'+tVal+" WPM</H3b>";
 									tSliderVal=tVal;
 									$("#sliderSpeed").slider('value',tVal);
@@ -718,6 +737,7 @@ updateCatSidetoneButton();
 						var tKeyerIn="";
 						if (response=="via CAT"){
 							tKeyerOut="CW via CAT"
+                                                        $("#cwo").attr("title", "CAT text paced at the selected CW speed; timing is estimated because the radio does not return character-by-character confirmation.");
 							tKeyerIn="CW to be Sent"
 							clearLeft();
 						}else if(tKeyer=="RigPi Keyer"){
@@ -1003,7 +1023,7 @@ updateCatSidetoneButton();
 							window.open(win, "_self");
 							break;
 						case 84: // t
-							var win="/index.php?x="+tUserName+"&c="+tCall;
+							var win="/tuner.php?x="+tUserName+"&c="+tCall;
 							window.open(win, "_self");
 							break;
 						case 87: // w
@@ -1090,6 +1110,9 @@ updateCatSidetoneButton();
 				}
 				if (e.keyCode == 27)
 				{ // escape key maps to keycode `27`
+					cancelCatManualCwBuffer();
+                                        cancelCatCwCue();
+                                        stopCatEcho();
 					stopCatSidetone();
 					holdText='';
 					tTuneOn=0;
@@ -1142,48 +1165,47 @@ updateCatSidetoneButton();
 			});
 			$(document).on('click', '#btButton', function() {
 				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					playCatSidetone('BT');
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text BT", table: "RadioInterface"});
+					sendCatCwNow('BT');
 				}else{
-					sendCWMessage("=");
+                        sendCWMessage("<1b>BT");
 				}
 				document.getElementById("cwi").focus();
 			});
 			$(document).on('click', '#arButton', function() {
 				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					playCatSidetone('AR');
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text AR", table: "RadioInterface"});
+					sendCatCwNow('AR');
 				}else{
-					sendCWMessage("<");
+                        sendCWMessage("<1b>AR");
 				}
 				document.getElementById("cwi").focus();
 			});
 			$(document).on('click', '#skButton', function() {
 				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					playCatSidetone('SK');
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text SK", table: "RadioInterface"});
+					sendCatCwNow('SK');
 				}else{
-					sendCWMessage(">");
+                        sendCWMessage("<1b>SK");
 				}
 				document.getElementById("cwi").focus();
 			});
 			$(document).on('click', '#knButton', function() {
 				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					playCatSidetone('KN');
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text KN", table: "RadioInterface"});
+					sendCatCwNow('KN');
 				}else{
-					sendCWMessage("(");
+                        sendCWMessage("<1b>KN");
 				}
 				document.getElementById("cwi").focus();
 			});
-			$(document).on('click', '#atButton', function() {
-				sendCWMessage("@");
-				document.getElementById("cwi").focus();
-			});
+        $(document).on("click", "#atButton", function() {
+                if (tMyKeyer=="cat" || tMyKeyer=="via CAT"){
+                        sendCatCwNow("@");
+                }else{
+                        sendCWMessage("<1b>AC");
+                }
+                document.getElementById("cwi").focus();
+        });
 			$(document).on('click', '#rrButton', function() {
 				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
-					playCatSidetone('BK');
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text BK", table: "RadioInterface"});
+					sendCatCwNow('BK');
 				}else{
 					sendCWMessage("<1b>BK");
 				}
@@ -1193,20 +1215,34 @@ updateCatSidetoneButton();
 			$(document).on('click', '#holdButton', function() {
 				if (holdCW==false){
 					holdCW=true;
+					if(catKeyerSelected()){
+						if(catManualCwTimer)clearTimeout(catManualCwTimer);
+						catManualCwTimer=0;
+						catManualLastKeyAt=0;
+						catManualKeyInterval=0;
+						holdText+=catManualCwBuffer;
+						catManualCwBuffer='';
+					}
 					$("#myHold").text('HOLD'+'\xa0');
 					toggleHoldButton(1);
 					$.post("/programs/SetSettings.php", {field: "CWOutCk", radio: tMyRadio, data: "1", table: "RadioInterface"});
 				}else{
 					holdCW=false;
+					var stagedCatText=holdText;
+					holdText='';
 					$.post("/programs/SetSettings.php", {field: "CWOutCk", radio: tMyRadio, data: "0", table: "RadioInterface"});
 					$("#myHold").text('');
 					toggleHoldButton(0);
+					if(catKeyerSelected() && stagedCatText){
+						sendCatCwNow(stagedCatText);
+					}
 				}
 				document.getElementById("cwi").focus();
 			});
 
 			function toggleHoldButton(hold)
 			{
+                                document.getElementById("holdButton").setAttribute("aria-pressed", hold==1 ? "true" : "false");
 				if (hold==1)
 				{
 					$('#holdButton').removeClass('btn-color');
@@ -1224,11 +1260,11 @@ updateCatSidetoneButton();
 			$(document).on('click', '#repeatButton', function() {
 				var input = document.getElementById("cwi");
 				var tText=input.value;
-				playCatSidetone(tText);
 				if (catKeyerSelected()){
-					$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text "+tText, table: "RadioInterface"});
+					sendCatCwNow(tText);
 				}else{
-					$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tText, table: "RadioInterface"});
+					playCatSidetone(tText);
+					sendCWMessage(tText);
 				}
 					document.getElementById("cwi").focus();
 			});
@@ -1651,6 +1687,7 @@ updateCatSidetoneButton();
 
 		function clearLeft()
 		{
+                        stopCatEcho();
 			clearingLeft=1;
 			$.post("/programs/SetSettings.php", {field: "CWOut", radio: tMyRadio, data: "", table: "RadioInterface"}, function(response){
 				var input = document.getElementById("cwo");
@@ -1815,8 +1852,9 @@ updateCatSidetoneButton();
 			setTimeout(function(){ $("#myModalAlert").modal('hide'); },4000);
 		}
 
-		var remoteKeyerSidetone=false, remoteEchoPrevious=null;
+		var remoteKeyerSidetone=false, hermesSidetoneAvailable=false, remoteEchoPrevious=null;
         function browserToneSelected(){return catKeyerSelected() || remoteKeyerSidetone;}
+function sidetoneControlAvailable(){return true;}
         function catKeyerSelected(){
 			return tMyKeyer==='cat' || tMyKeyer==='via CAT';
 		}
@@ -1824,26 +1862,256 @@ updateCatSidetoneButton();
 		function currentCatSidetoneWpm(){
 			var value=Array.isArray(tSpeed)?tSpeed[1]:tSpeed;
 			value=parseInt(value,10);
-			return Number.isFinite(value) && value>=5 && value<=80?value:20;
+			value=Number.isFinite(value) && value>=5 && value<=80?value:20;
+			// Hamlib keyer speeds are whole WPM values, while WebAudio can use
+			// fractional timing. Keep CAT and the UI at the selected speed and
+			// trim only the browser sidetone to match measured radio timing.
+			return catKeyerSelected()?value*0.985:value;
 		}
 
 		function postCatSidetone(data){
-			if(!browserToneSelected())return;
-			var frame=document.getElementById('sdrIframe');
-			if(!frame || !frame.contentWindow)return;
-			frame.contentWindow.postMessage(Object.assign({
-				type:'rigpi-cat-sidetone',enabled:catSidetoneEnabled,
-				wpm:currentCatSidetoneWpm()
-			},data||{}),location.origin);
-		}
+        data=data||{};
+        if(data.action==='play')playCatSidetone(data.text);
+        else if(data.action==='continuous')setLocalKeyerContinuous(!!data.on);
+        else if(data.action==='stop')stopCatSidetone();
+    }
 
-		function playCatSidetone(text){
-			if(catSidetoneEnabled)postCatSidetone({action:'play',text:String(text||'')});
-		}
+    var catEchoGeneration=0;
+    var catEchoQueue=[], catEchoTimer=null, catEchoCharacterTimer=null, catEchoPauseTimer=null;
+    function stopCatEcho(){
+        catEchoGeneration++;
+        if(catEchoTimer!==null)clearTimeout(catEchoTimer);
+        if(catEchoCharacterTimer!==null)clearTimeout(catEchoCharacterTimer);
+        if(catEchoPauseTimer!==null)clearTimeout(catEchoPauseTimer);
+        catEchoPauseTimer=null;
+        catEchoTimer=null; catEchoCharacterTimer=null; catEchoQueue=[];
+    }
+    function queueCatEcho(text){
+        if(catEchoPauseTimer!==null)clearTimeout(catEchoPauseTimer);
+        catEchoPauseTimer=null;
+        // Use Morse element lengths, not a fixed characters-per-second rate.
+        var chars=String(text).toUpperCase().replace(/[^ -~]/g,'').split('');
+        Array.prototype.push.apply(catEchoQueue,chars);
+        if(catEchoTimer===null && catEchoCharacterTimer===null)pumpCatEcho();
+    }
+    function appendCatPauseSpace(input){
+        if(!input || !input.value || /\s$/.test(input.value))return;
+        var length=input.value.length;
+        var start=input.selectionStart, end=input.selectionEnd;
+        input.value+=' ';
+        // Keep the typing cursor at the new end, or preserve an editing selection.
+        if(typeof start==='number' && typeof input.setSelectionRange==='function'){
+            if(start===length && end===length)start=end=length+1;
+            input.setSelectionRange(start,end);
+        }
+        input.scrollTop=input.scrollHeight;
+    }
+    function pumpCatEcho(){
+        catEchoTimer=null;
+        if(!catKeyerSelected()){stopCatEcho();return;}
+        if(!catEchoQueue.length){
+            // The character gap already elapsed. Four more dots make a word
+            // pause. Add one visual separator without sending anything to CAT.
+            var pauseGeneration=catEchoGeneration;
+            catEchoPauseTimer=setTimeout(function(){
+                catEchoPauseTimer=null;
+                if(pauseGeneration!==catEchoGeneration || !catKeyerSelected())return;
+                appendCatPauseSpace(document.getElementById('cwo'));
+                // Do not alter text still being typed or staged under Hold.
+                if(!holdCW && !catManualCwBuffer){
+                    appendCatPauseSpace(document.getElementById('cwi'));
+                }
+            },4*1200/currentCatSidetoneWpm());
+            return;
+        }
+        var character=catEchoQueue.shift();
+        var dot=1200/currentCatSidetoneWpm();
+        var pattern=keyerMorse[character]||'';
+        var elements=0;
+        for(var i=0;i<pattern.length;i++)elements+=pattern[i]==='-'?3:1;
+        var signal=elements+Math.max(0,pattern.length-1);
+        var gap=/\s/.test(character)?7:3;
+        var generation=catEchoGeneration;
+        // Reveal a character when its Morse elements have finished.
+        catEchoCharacterTimer=setTimeout(function(){
+            catEchoCharacterTimer=null;
+            if(generation!==catEchoGeneration || !catKeyerSelected())return;
+            var output=document.getElementById('cwo');
+            if(output){output.value+=character;output.scrollTop=output.scrollHeight;}
+        },signal*dot);
+        // Keep the final gap reserved even if the next batch arrives later.
+        catEchoTimer=setTimeout(pumpCatEcho,(signal+gap)*dot);
+    }
+    window.addEventListener('pagehide',stopCatEcho);
+    window.addEventListener('pagehide',cancelCatCwCue);
 
-		function stopCatSidetone(){
-			postCatSidetone({action:'stop'});
-		}
+var catCwCuePending=[],catCwCueTimer=null,catCwCueRequest=null,catCwCueGeneration=0;
+    function cancelCatCwCue(){
+        catCwCueGeneration++;
+        if(catCwCueTimer!==null)clearTimeout(catCwCueTimer);
+        catCwCueTimer=null;catCwCuePending=[];
+        if(catCwCueRequest)catCwCueRequest.abort();
+        catCwCueRequest=null;
+    }
+    function pollCatCwCue(){
+        catCwCueTimer=null;
+        if(!catCwCuePending.length || !catCwCuePending[0].ready || catCwCueRequest)return;
+        var generation=catCwCueGeneration;
+        catCwCueRequest=$.ajax({url:'/programs/ElmerPttStatus.php',method:'POST',
+            headers:{'X-Elmer-Action':'rig-control'},contentType:'application/json',
+            data:JSON.stringify({radio:parseInt(tMyRadio,10)})
+        }).done(function(status){
+            if(generation!==catCwCueGeneration)return;
+            catCwCueRequest=null;
+            if(status && status.transmitting===true){
+                while(catCwCuePending.length && catCwCuePending[0].ready){
+                    var cue=catCwCuePending.shift();
+                    if(cue.echoGeneration===catEchoGeneration)queueCatEcho(cue.text);
+                    if(catSidetoneEnabled)playCatSidetone(cue.text);
+                }
+            }
+            scheduleCatCwCue();
+        }).fail(function(){
+            if(generation!==catCwCueGeneration)return;
+            catCwCueRequest=null;
+            scheduleCatCwCue();
+        });
+    }
+    function scheduleCatCwCue(){
+        if(!catCwCuePending.length || !catCwCuePending[0].ready)return;
+        if(Date.now()>catCwCuePending[0].expires){
+            console.warn('CW sidetone: radio transmit start was not confirmed.');
+            cancelCatCwCue();return;
+        }
+        if(catCwCueTimer===null)catCwCueTimer=setTimeout(pollCatCwCue,80);
+    }
+    function submitKeyerCatCw(text,echoGeneration){
+        clearTimeout(liveCwSpeedTimer); liveCwSpeedTimer=0;
+        var speed=Array.isArray(tSpeed)?tSpeed[1]:tSpeed;
+        speed=parseInt(speed,10);
+        if(!Number.isFinite(speed)||speed<5||speed>80)speed=20;
+        var generation=catCwCueGeneration;
+        if(catSidetoneEnabled)ensureKeyerToneContext();
+        var cue={text:String(text),ready:false,expires:Date.now()+15000,echoGeneration:echoGeneration};
+        catCwCuePending.push(cue);
+        var command='*\\rigpi_cw_speed '+speed+'*\\rigpi_cw_text '+text;
+        $.post('/programs/SetSettings.php',{field:'CommandOut',radio:tMyRadio,data:command,table:'RadioInterface'},function(){
+            if(!cue||generation!==catCwCueGeneration)return;
+            cue.ready=true;pollCatCwCue();
+        }).fail(function(){
+            if(!cue||generation!==catCwCueGeneration)return;
+            catCwCuePending=catCwCuePending.filter(function(item){return item!==cue;});
+            pollCatCwCue();
+        });
+    }
+
+        
+    function sendCatCwNow(text){
+        text=String(text==null?'':text);
+        if(!text)return;
+        if(holdCW){
+            holdText+=text;
+            return;
+        }
+        submitKeyerCatCw(text,catEchoGeneration);
+    }
+
+    var keyerToneContext=null;
+    var keyerToneNextTime=0;
+    var keyerToneNodes=new Set();
+    var keyerToneContinuous=null;
+    var keyerToneQueue=[];
+    var keyerToneTimer=null;
+    var keyerMorse={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','.':'.-.-.-',',':'--..--','?':'..--..','/':'-..-.','=':'-...-','+':'.-.-.','-':'-....-','@':'.--.-.'};
+
+    function ensureKeyerToneContext(){
+        var AudioCtor=window.AudioContext||window.webkitAudioContext;
+        if(!AudioCtor)return null;
+        if(!keyerToneContext)keyerToneContext=new AudioCtor();
+        if(keyerToneContext.state==='suspended')keyerToneContext.resume();
+        return keyerToneContext;
+    }
+
+    function scheduleKeyerTone(ctx,start,duration){
+        var oscillator=ctx.createOscillator();
+        var gain=ctx.createGain();
+        var end=start+duration;
+        oscillator.type='sine';
+        oscillator.frequency.setValueAtTime(650,start);
+        gain.gain.setValueAtTime(0,start);
+        gain.gain.linearRampToValueAtTime(0.12,start+0.005);
+        gain.gain.setValueAtTime(0.12,Math.max(start+0.005,end-0.005));
+        gain.gain.linearRampToValueAtTime(0,end);
+        oscillator.connect(gain); gain.connect(ctx.destination);
+        keyerToneNodes.add(oscillator);
+        oscillator.onended=function(){keyerToneNodes.delete(oscillator);};
+        oscillator.start(start); oscillator.stop(end+0.01);
+    }
+
+    function pumpKeyerSidetone(){
+        keyerToneTimer=null;
+        if(!catSidetoneEnabled||!keyerToneQueue.length)return;
+        var ctx=ensureKeyerToneContext();
+        if(!ctx)return;
+        var token=keyerToneQueue.shift();
+        var dot=1.2/currentCatSidetoneWpm();
+        var cursor=Math.max(ctx.currentTime+0.025,keyerToneNextTime);
+        if(/\s/.test(token)){
+            // IC-7300 CAT CW applies its space after the normal character gap.
+            // Match that radio behavior for CAT sidetone; other keyers retain
+            // the standard seven-dot total word gap.
+            cursor+=(catKeyerSelected()?7:4)*dot;
+        }else{
+            var prosign=token.indexOf('<1B>')===0?token.slice(4):'';
+            var character=prosign||token;
+            var pattern=prosign?(keyerMorse[prosign.charAt(0)]||'')+(keyerMorse[prosign.charAt(1)]||''):keyerMorse[character];
+            if(pattern){
+                for(var i=0;i<pattern.length;i++){
+                    var duration=pattern.charAt(i)==='-'?3*dot:dot;
+                    scheduleKeyerTone(ctx,cursor,duration);
+                    cursor+=duration+dot;
+                }
+                cursor+=2*dot;
+            }
+        }
+        keyerToneNextTime=cursor;
+        if(keyerToneQueue.length){
+            keyerToneTimer=setTimeout(pumpKeyerSidetone,Math.max(0,(cursor-ctx.currentTime-0.02)*1000));
+        }
+    }
+
+    function playCatSidetone(text){
+        if(!catSidetoneEnabled)return;
+        var tokens=String(text||'').toUpperCase().match(/<1B>[A-Z]{2}|./g)||[];
+        Array.prototype.push.apply(keyerToneQueue,tokens);
+        if(!keyerToneTimer)pumpKeyerSidetone();
+    }
+
+    function setLocalKeyerContinuous(on){
+        if(keyerToneContinuous){try{keyerToneContinuous.stop();}catch(ignore){} keyerToneContinuous=null;}
+        if(!on||!catSidetoneEnabled)return;
+        var ctx=ensureKeyerToneContext();
+        if(!ctx)return;
+        var oscillator=ctx.createOscillator();
+        var gain=ctx.createGain();
+        oscillator.type='sine'; oscillator.frequency.value=650; gain.gain.value=0.12;
+        oscillator.connect(gain); gain.connect(ctx.destination); oscillator.start();
+        keyerToneContinuous=oscillator;
+    }
+
+    function postHermesSidetone(data,force){
+        if(!force&&!catSidetoneEnabled)return;
+        postCatSidetone(data);
+    }
+    function playHermesSidetone(text){playCatSidetone(text);}
+
+    function stopCatSidetone(){
+        if(keyerToneTimer){clearTimeout(keyerToneTimer);keyerToneTimer=null;}
+        keyerToneQueue=[];
+        keyerToneNodes.forEach(function(node){try{node.stop();}catch(ignore){}});
+        keyerToneNodes.clear(); keyerToneNextTime=0;
+        if(keyerToneContinuous){try{keyerToneContinuous.stop();}catch(ignore){} keyerToneContinuous=null;}
+    }
 
 		window.addEventListener('message',function(event){
 			var frame=document.getElementById('sdrIframe');
@@ -1859,17 +2127,18 @@ var output=document.getElementById('cwo');
 		function updateCatSidetoneButton(){
 			var button=document.getElementById('catSidetoneButton');
 			if(!button)return;
-			button.disabled=!browserToneSelected();
-			button.textContent=browserToneSelected()?(catSidetoneEnabled?'TONE ON':'TONE OFF'):'TONE CAT';
-			button.classList.toggle('btn-success',browserToneSelected() && catSidetoneEnabled);
-			button.classList.toggle('btn-primary',!browserToneSelected() || !catSidetoneEnabled);
+			button.disabled=!sidetoneControlAvailable();
+			button.textContent='SIDETONE';
+                        button.setAttribute('aria-pressed',sidetoneControlAvailable() && catSidetoneEnabled ? 'true' : 'false');
+			button.classList.toggle('btn-success',sidetoneControlAvailable() && catSidetoneEnabled);
+			button.classList.toggle('btn-primary',!sidetoneControlAvailable() || !catSidetoneEnabled);
 		}
 
 		$(document).on('click','#catSidetoneButton',function(){
-			if(!browserToneSelected())return;
+			if(!sidetoneControlAvailable())return;
 			catSidetoneEnabled=!catSidetoneEnabled;
 			localStorage.setItem('rigpiCatSidetone',catSidetoneEnabled?'1':'0');
-			if(catSidetoneEnabled)playCatSidetone('E'); else stopCatSidetone();
+			if(catSidetoneEnabled){ if(hermesSidetoneAvailable && !browserToneSelected())playHermesSidetone('E'); else playCatSidetone('E'); } else { stopCatSidetone(); postHermesSidetone({action:'stop'},true); }
 			updateCatSidetoneButton();
 			document.getElementById('cwi').focus();
 		});
@@ -1922,7 +2191,7 @@ var output=document.getElementById('cwo');
 			catch(error){showVoiceKeyerError(error.message);return false;}
 			var frame=document.getElementById('sdrIframe');
 			if(!frame || !frame.contentWindow){
-				showVoiceKeyerError('The SDR audio panel is not ready.');
+				showVoiceKeyerError('In User Settings, set SDR Page to keyer or both and SDR Position to top, middle, or bottom. Then start SDR Audio.');
 				return false;
 			}
 			var requestId='voice-keyer-'+Date.now()+'-'+Math.random().toString(16).slice(2);
@@ -1975,9 +2244,71 @@ var output=document.getElementById('cwo');
 			setPTT(0);
 		});
 
-		function processCommand(which, btn)
+		function swapKeyerVfos()
 		{
-			if (tDisconnected==1  && (which !== "*PS1;" && which !== "*PS0;")){
+			if (tDisconnected==1){
+				showConnectAlert();
+				return false;
+			}
+			if (tSplitOn!=1){
+				$(".modalA-body").html("<br>Split must be on before swapping VFOs.<br><br>");
+				$(".modalA-title").html("VFO Swap");
+				$("#myModalAlert").modal('show');
+				return false;
+			}
+			$.post('/programs/GetInterface.php',{radio:tMyRadio,field:'MainIn'},function(response){
+				var tA=response;
+				$.post('/programs/GetInterface.php',{radio:tMyRadio,field:'SubIn'},function(response){
+					var tB=response;
+					$.post('/programs/SetSettings.php',{field:'B',radio:tMyRadio,data:tA,table:'RadioInterface'},function(){
+						$.post('/programs/SetSettings.php',{field:'A',radio:tMyRadio,data:tB,table:'RadioInterface'},function(){
+							$.post('/programs/SetSettings.php',{field:'MainOut',radio:tMyRadio,data:tB,table:'RadioInterface'},function(){
+								var tries=0;
+								(function setSubWhenMainSettled(){
+									$.post('/programs/GetInterface.php',{radio:tMyRadio,field:'MainOutCk'},function(flag){
+										if(String(flag).trim()=='0' || tries++>=40){
+											$.post('/programs/SetSettings.php',{field:'SubOut',radio:tMyRadio,data:tA,table:'RadioInterface'});
+											return;
+										}
+										setTimeout(setSubWhenMainSettled,50);
+									});
+								})();
+							});
+						});
+					});
+				});
+			});
+			return false;
+		}
+
+		        function applyCwMacroSpeed(wpm){
+        if(!Number.isFinite(wpm) || wpm<5 || wpm>80)return;
+        tSpeed=wpm;
+        speedLock=wpm!==parseInt(tSpeedOriginal,10)?1:0;
+        updateButtonLabels('/OLD',tSpeedOriginal);
+        $.post('/programs/SetSettings.php',{field:'WKSpeed',radio:tMyRadio,data:wpm,table:'Keyer'});
+        if(catKeyerSelected())sendLiveCwSpeed(wpm);
+    }
+
+function showCwMacroInput(text){
+        // Show expanded text, omitting WinKeyer settings and prosign prefixes.
+        var visible=String(text).replace(/<02>\s*<?\d+>?/ig,'')
+            .replace(/<[0-9a-f]{2}>/ig,'').replace(/[^\x20-\x7E]/g,'');
+        if(!visible || visible.indexOf('<')!==-1)return;
+        var input=document.getElementById('cwi');
+        if(!input)return;
+        var start=input.selectionStart,end=input.selectionEnd,length=input.value.length;
+        input.value+=visible.toUpperCase();
+        if(typeof start==='number' && typeof input.setSelectionRange==='function'){
+            if(start===length && end===length)start=end=input.value.length;
+            input.setSelectionRange(start,end);
+        }
+        input.scrollTop=input.scrollHeight;
+    }
+
+function processCommand(which, btn)
+		{
+            if (tDisconnected==1 && (which !== "*PS1," && which !== "*PS0,")){
 				showConnectAlert();
 				return false;
 			}
@@ -2129,35 +2460,23 @@ var output=document.getElementById('cwo');
 				window.open(tPost, '_blank');
 			}
 			if (tPre=='$'){
-				if (tPost.indexOf('<02>')>-1){
-					tSpeed=tPost.split(">");
-					if (tSpeed[1]==0){
-						$.post('./programs/GetSetting.php',{radio: tMyRadio, field: 'WKSpeedOriginal', table: 'Keyer'}, function(response)
-						{
-							tSpeedOriginal=response;
-							updateButtonLabels('/OLD', tSpeedOriginal);
-							tPost="<02><"+parseInt(tSpeedOriginal)+">";
-							$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed[1], table: "Keyer"});
-								if (tSpeed[1]!==tSpeedOriginal){
-									speedLock=1;
-								}else{
-									speedLock=0;
-								}
-							});
-					}else{
-						tPost="<02><"+parseInt(tSpeed[1])+">";
-						updateButtonLabels("/OLD", tSpeedOriginal)
-						$.post("/programs/SetSettings.php", {field: "WKSpeed", radio: tMyRadio, data: tSpeed[1], table: "Keyer"});
-						$.post("/programs/SetSettings.php", {field: "WKSpeedOriginal", radio: tMyRadio, data: tSpeedOriginal, table: "Keyer"});
-						if (tSpeed[1]!==tSpeedOriginal){
-							speedLock=1;
-						}else{
-							speedLock=0;
-						}
-					};
-				};
+				if (/<02>/i.test(tPost)){
+                                        // Speed commands must never reach the CW text sender.
+                                        var speedMatch=tPost.trim().match(/^<02>\s*<?(\d+)>?$/i);
+                                        if(speedMatch){
+                                            var requestedSpeed=parseInt(speedMatch[1],10);
+                                            if(requestedSpeed===0){
+                                                $.post('./programs/GetSetting.php',{radio:tMyRadio,field:'WKSpeedOriginal',table:'Keyer'},function(response){
+                                                    applyCwMacroSpeed(parseInt(response,10));
+                                                });
+                                            }else{
+                                                applyCwMacroSpeed(requestedSpeed);
+                                            }
+                                        }
+                                        return false;
+                                }
 
-				if (tPost.indexOf('<03>')>-1){
+                                if (tPost.indexOf('<03>')>-1){
 					$.post("/programs/SetSettings.php", {field: "WKSpeedPotEnable", radio: tMyRadio, data: 1, table: "Keyer"});
 					speedPotEnable=1;
 					return false;
@@ -2167,19 +2486,17 @@ var output=document.getElementById('cwo');
 					speedPotEnable=0;
 					return false;
 				}
-				if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
+				showCwMacroInput(tPost);
+                                if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
 					// <1b> is RigPi's Winkeyer prosign prefix. CAT radios
 					// should receive the visible letters normally (BK -> B K).
 					var catCWText=tPost.replace(/<1b>/ig,'');
 					if (catCWText.indexOf('<')===-1){
-						playCatSidetone(catCWText);
-						$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text "+catCWText, table: "RadioInterface"});
+						sendCatCwNow(catCWText);
 						return false;
 					}
 				}
-					$.post("/programs/ConcatSettings.php", {field: "CWIn", radio: tMyRadio, data: tPost, table: "RadioInterface"}, function(response)
-				{
-				});
+					sendCWMessage(tPost);
 
 				return false;
 			}
@@ -2304,6 +2621,8 @@ var output=document.getElementById('cwo');
 					break;
 				case '!':	//special command
 					if (tPost=='ESC'){
+                                                cancelCatCwCue();
+                                                stopCatEcho();
 						stopCatSidetone();
 						tTuneOn=0;
 						clearTimeout(catTuneTimer);
@@ -2314,7 +2633,10 @@ var output=document.getElementById('cwo');
 						var tNum=String.fromCharCode(10);
 						$.post("/programs/SetSettings.php", {field: "CWIn", radio: tMyRadio, data: tNum, table: "RadioInterface"});
 //						$.post("./programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\stop_morse", table: "RadioInterface"});
+					}else if (tPost=='AB' || tPost=='SWAP'){
+						return swapKeyerVfos();
 					}else if (tPost=='TUNE'){
+            sendHermesKeyDown();
 						if (tMyKeyer=='cat' || tMyKeyer=='via CAT'){
 							if (tTuneOn==1){
 								stopCatSidetone();
@@ -2472,21 +2794,128 @@ $(document).on('click', '.mypassband', function() {
 				};
 			});
 
-		function sendCWMessage(what){
-			if (tDisconnected==1){
-				showConnectAlert();
-				return false;
-			}
-			if (catKeyerSelected() && what==='!')return false;
-			playCatSidetone(what);
-			if (catKeyerSelected()){
-				$.post("/programs/SetSettings.php", {field: "CommandOut", radio: tMyRadio, data: "*\\rigpi_cw_text "+what, table: "RadioInterface"});
-				return false;
-			}
-			$.post("/programs/ConcatSettings.php", {field: "CWIn", radio: tMyRadio, data: what, table: "RadioInterface"},function(response){
-				var tQ=response;
-			});
-		}
+    function sendLegacyCWMessage(what){
+        if (tDisconnected==1){
+            showConnectAlert();
+            return false;
+        }
+        if (catKeyerSelected() && what==='!')return false;
+        if (catKeyerSelected()){
+            // A typed blank is already represented by the operator's pause and
+            // the browser sidetone. Do not turn it into an empty CAT command.
+            if(/^\s+$/.test(String(what)))return false;
+            sendCatCwNow(what);
+            return false;
+        }
+        $.post("/programs/ConcatSettings.php", {field: "CWIn", radio: tMyRadio, data: what, table: "RadioInterface"});
+        return false;
+    }
+
+    var hermesKeyDownToneOn=false; function sendHermesKeyDown(){ return $.ajax({url:"/programs/HackRFTx.php",method:"POST",headers:{"X-RigPi-Action":"hackrf-tx"},contentType:"application/json",data:JSON.stringify({action:"cw",text:"<1b>HH",wpm:20,frequency_hz:tRigFreqHz,mode:String(tMode || "").toUpperCase()})}).done(function(response){ if(response && response.handled === true){ if(!hermesSidetoneAvailable){hermesSidetoneAvailable=true;updateCatSidetoneButton();} hermesKeyDownToneOn=!hermesKeyDownToneOn; postHermesSidetone({action:"continuous",on:hermesKeyDownToneOn}); } }); }
+var liveCwSpeedTimer=0;
+    function sendLiveCwSpeed(wpm){
+        tSpeed=parseInt(wpm,10)||20;
+        clearTimeout(liveCwSpeedTimer);
+        liveCwSpeedTimer=setTimeout(function(){
+            if(catKeyerSelected()){
+                $.post('/programs/SetSettings.php', {
+                    field:'CommandOut', radio:tMyRadio,
+                    data:'*\\rigpi_cw_speed '+tSpeed,
+                    table:'RadioInterface'
+                });
+            }
+            $.ajax({
+                url:'/programs/HackRFTx.php', method:'POST',
+                headers:{'X-RigPi-Action':'hackrf-tx'},
+                contentType:'application/json',
+                data:JSON.stringify({action:'cw_speed',wpm:parseInt(wpm,10)||20})
+            });
+        },80);
+    }
+    var catManualCwBuffer='';
+    var catManualCwTimer=0;
+    var catManualLastKeyAt=0;
+    var catManualKeyInterval=0;
+    function flushCatManualCwBuffer(){
+        catManualCwTimer=0;
+        var text=catManualCwBuffer;
+        catManualCwBuffer='';
+        catManualLastKeyAt=0;
+        catManualKeyInterval=0;
+        if(!text || /^\s+$/.test(text))return;
+        sendCatCwNow(text);
+    }
+    function queueCatManualCw(what){
+        var text=String(what==null?'':what);
+        if(!text)return;
+        if(holdCW){
+            if(text==='!')holdText=holdText.slice(0,-1);
+            else holdText+=text;
+            return;
+        }
+        if(text==='!')return;
+        var now=(window.performance&&performance.now)?performance.now():Date.now();
+        if(catManualLastKeyAt){
+            var interval=now-catManualLastKeyAt;
+            if(interval>=25 && interval<=600){
+                catManualKeyInterval=catManualKeyInterval
+                    ? catManualKeyInterval*0.65+interval*0.35
+                    : interval;
+            }
+        }
+        catManualLastKeyAt=now;
+        catManualCwBuffer+=text;
+        if(catManualCwTimer)clearTimeout(catManualCwTimer);
+        // Send one complete radio-timed buffer. Adapt the end-of-typing pause
+        // to the operator's cadence, with extra grace after a word space, so
+        // fast DX typing starts promptly without splitting the text into CAT
+        // fragments that the IC-7300 spaces unevenly.
+        var delay=320;
+        if(catManualCwBuffer.length>=3 && catManualKeyInterval){
+            delay=Math.max(180,Math.min(320,Math.round(catManualKeyInterval*2.2)));
+        }
+        if(/\s$/.test(catManualCwBuffer))delay=Math.max(delay,340);
+        catManualCwTimer=setTimeout(flushCatManualCwBuffer,delay);
+    }
+    function cancelCatManualCwBuffer(){
+        if(catManualCwTimer)clearTimeout(catManualCwTimer);
+        catManualCwTimer=0;
+        catManualLastKeyAt=0;
+        catManualKeyInterval=0;
+        catManualCwBuffer='';
+    }
+
+        function sendCWMessage(what){
+        if(catKeyerSelected()){
+            queueCatManualCw(what);
+            return;
+        }
+        var legacyKeyer = !catKeyerSelected(); if (legacyKeyer) sendLegacyCWMessage(what);
+        var sidetonePlayed=catSidetoneEnabled; if(sidetonePlayed)playCatSidetone(what);
+        var speedValue = Array.isArray(tSpeed) ? tSpeed[1] : tSpeed;
+        var cwSpeed = parseInt(speedValue,10) || 20;
+        $.ajax({
+            url: "/programs/HackRFTx.php",
+            method: "POST",
+            headers: {"X-RigPi-Action": "hackrf-tx"},
+            contentType: "application/json",
+            data: JSON.stringify({
+                action: "cw",
+                text: String(what),
+                wpm: cwSpeed,
+                frequency_hz: tRigFreqHz,
+                mode: String(tMode || "").toUpperCase()
+            })
+        }).done(function(response){
+                if (response && response.handled === true){ if(!hermesSidetoneAvailable){hermesSidetoneAvailable=true;updateCatSidetoneButton();} if(!sidetonePlayed)playHermesSidetone(what); }
+            if (!legacyKeyer && (!response || response.handled !== true))sendLegacyCWMessage(what);
+        }).fail(function(xhr){
+            var response=xhr.responseJSON || {};
+            if (response.handled === true)console.warn(response.error || "Hermes CW failed.");
+            else if (!legacyKeyer) sendLegacyCWMessage(what);
+        });
+        return false;
+    }
 
 		var tUpdate = setInterval(bearingTimer,1000)
 
@@ -2603,6 +3032,7 @@ $(document).on('click', '.mypassband', function() {
 					tAData[3] = "";
 					tAData[2] = "00000000";
 				  }
+				  tRigFreqHz = parseInt(tAData[0],10) || 0;
 				  var cFreq2m = ("0000000000" + tAData[0]).slice(-10);
 				  var tF = addPeriods(cFreq2m);
 				  var tSplit = tAData[1];
@@ -2756,9 +3186,10 @@ $(document).on('click', '.mypassband', function() {
 				tMain=tAData[0];
 			});
 
-			if (clearingLeft=="0" && tKeyerMode!=1){
+			if (clearingLeft=="0" && tKeyerMode!=1 && !catKeyerSelected()){
 				var output = document.getElementById("cwo");
 				$.post('/programs/GetSetting.php',{radio: tMyRadio, field: 'CWOut', table: "RadioInterface"}, function(response) {
+                                        if(catKeyerSelected())return;
 					var tCW=response;
  if(remoteKeyerSidetone){
   if(remoteEchoPrevious!==null && tCW.startsWith(remoteEchoPrevious)){
@@ -3023,14 +3454,14 @@ $(document).on('click', '.mypassband', function() {
  ): ?>
 	<div id="sdrPanel" style="width:100%; height:450px;">
 		<iframe src="<?php echo htmlspecialchars(
-      $sdrHost
+      $sdrFrameHost,
   ); ?>?user=<?php echo urlencode(
-    $tUserName
+    $tUserName,
 ); ?>&radio=<?php echo (int) $tMyRadio; ?>&call=<?php echo urlencode(
-    $_SESSION["myCall"] ?? ""
+    $_SESSION["myCall"] ?? "",
 ); ?>"
 			id="sdrIframe" style="width:100%; height:450px; border:none; display:block;"
-			allow="autoplay" title="RigPi SDR"></iframe>
+			allow="autoplay; microphone" title="RigPi SDR"></iframe>
 	</div>
 	<hr>
 	<?php endif; ?>
@@ -3042,7 +3473,7 @@ $(document).on('click', '.mypassband', function() {
 				<div class="form-group">
 					<label class="wlbl" id="myOut">RigPi</label>
 					<label class="wlbl" style="float:right;" id="mySpeed"></label>
-				  <textarea class="form-control text-uppercase" rows="10" id="cwo" disabled="YES"></textarea>
+				  <textarea class="form-control text-uppercase" rows="10" id="cwo" disabled="YES" aria-label="CW sent output" title="Text returned by the keyer."></textarea>
 <!-- 				NOTE: this is text coming FROM (CWO) keyer -->
 				</div>
 			</div>
@@ -3055,7 +3486,7 @@ $(document).on('click', '.mypassband', function() {
 						</span>
 					</button>
 					<label class="wlbl" style="float:left;" id="myHold"></label>
-					<textarea class="form-control text-uppercase cwi" rows="10" id="cwi"></textarea>
+					<textarea class="form-control text-uppercase cwi" rows="10" id="cwi" aria-label="CW text to send" title="Type CW text here. Hold stages text; releasing Hold can send it."></textarea>
 					<!-- 				NOTE: this is text going TO (CWI) keyer -->
 <!-- 				NOTE: conversion to upper case seems to confuse iPhone Siri dictate unless you say "All caps on" -->
 				</div>
@@ -3068,68 +3499,67 @@ $(document).on('click', '.mypassband', function() {
 					<table class="table-smxx table-dark" id="macroTable" >
 					<tr>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="holdButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="holdButton" type="button" aria-pressed="false" aria-label="Hold CW" title="Hold stages outgoing CW. Turning Hold off can send staged text.">
 								H<u>O</u>LD
 							</button>
 						</td>
 						<td width=16.6% >
-						<button class="btn btn-color btn-primary btn-sm btn-block" id="repeatButton" type="button">
+						<button class="btn btn-color btn-primary btn-sm btn-block" id="repeatButton" type="button" aria-label="Repeat CW" title="Send the CW input text again.">
 							<u>R</u>EPEAT
 						</button>
 						</td>
 						<td width=16.6% >
-						<button class="btn btn-color btn-primary btn-sm btn-block" id="clearLeftButton" type="button">
+						<button class="btn btn-color btn-primary btn-sm btn-block" id="clearLeftButton" type="button" aria-label="Clear sent output" title="Clear the left-hand CW output area.">
 							CLEAR LE<u>F</u>T
 						</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="clearRightButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="clearRightButton" type="button" aria-label="Clear CW input" title="Clear the right-hand CW input area.">
 								CLEAR RI<u>G</u>HT
 							</button>
 						</td>
 						<td width=16.6%>
-							<row>
-							<span class="btn-small-color" style="height: 15px; margin-top: 0px;" id="myKeyerSpeedVal" >
-							</span>
-								<div  title='Keyer Speed Adjust' id="containerSpeed" class="d-none slidecontainerSpeed">
-									<div class="d-none" id="sliderSpeed" style="height: 15px; margin-top: 4px; background: black;"></div>
+							<div class="keyer-speed-control">
+								<span class="btn-small-color" id="myKeyerSpeedVal"></span>
+								<div title="Keyer Speed Adjust" id="containerSpeed" class="d-none keyer-speed-row">
+									<div class="d-none" id="sliderSpeed" style="height:15px;background:black;"></div>
 								</div>
-							</row>
+							</div>
 						</td>
 						<td width=16.6%>
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="catSidetoneButton" type="button" title="Browser sidetone for CAT or confirmed remote CW">
-								TONE CAT
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="catSidetoneButton" type="button" aria-pressed="false" aria-label="CW sidetone" title="Toggle the available CW sidetone.">
+								SIDETONE
 							</button>
 						</td>
 					</tr>
 					<tr>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="skButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="skButton" type="button" aria-label="S K prosign" title="End of contact prosign.">
 								<h8 style="color:gray;"><u>1</u>:</h8> SK
 							</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="knButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="knButton" type="button" aria-label="K N prosign" title="Invitation for the named station to transmit.">
 								<h8 style="color:gray;"><u>2</u>:</h8> KN
 							</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="arButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="arButton" type="button" aria-label="A R prosign" title="End of message prosign.">
 								<h8 style="color:gray;"><u>3</u>:</h8> AR
 							</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="btButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="btButton" type="button" aria-label="B T prosign" title="CW separator prosign.">
 								<h8 style="color:gray;"><u>4</u>:</h8> BT
 							</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="rrButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="rrButton" type="button" aria-label="B K prosign" title="Break prosign.">
 								<h8 style="color:gray;"><u>5</u>:</h8> BK
 							</button>
 						</td>
 						<td width=16.6% >
-							<button class="btn btn-color btn-primary btn-sm btn-block" id="atButton" type="button">
+							<button class="btn btn-color btn-primary btn-sm btn-block" id="atButton" type="button" aria-label="At sign" title="CW at sign.">
 								<h8 style="color:gray;"><u>6</u>:</h8> @
 							</button>
 						</td>
@@ -3146,14 +3576,14 @@ $(document).on('click', '.mypassband', function() {
 		<hr style="margin:4px 0;">
 		<div id="sdrPanel" style="width:100%; height:450px; margin-top:0;">
 			<iframe src="<?php echo htmlspecialchars(
-       $sdrHost
+       $sdrFrameHost,
    ); ?>?user=<?php echo urlencode(
-    $tUserName
+    $tUserName,
 ); ?>&radio=<?php echo (int) $tMyRadio; ?>&call=<?php echo urlencode(
-    $_SESSION["myCall"] ?? ""
+    $_SESSION["myCall"] ?? "",
 ); ?>"
 				id="sdrIframe" style="width:100%; height:450px; border:none; display:block;"
-				allow="autoplay" title="RigPi SDR"></iframe>
+				allow="autoplay; microphone" title="RigPi SDR"></iframe>
 		</div>
 		<?php endif; ?>
 		<hr>
@@ -3189,4 +3619,5 @@ $(document).on('click', '.mypassband', function() {
 	<script src="/js/nav-active.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<script src="/js/summernote-case-converter.js"></script>
+<script src="/js/keyer-accessibility.js?v=20261029-2"></script>
 </html>

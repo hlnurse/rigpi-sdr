@@ -18,7 +18,7 @@ $tUserName = (string) $_SESSION["myUsername"];
 $tCall = (string) ($_SESSION["myCall"] ?? "");
 $accessLevel = getUserField($_SESSION["myUsername"], "Access_Level");
 if ($accessLevel != 1) {
-    header("Location: /index.php");
+    header("Location: /tuner.php");
     exit();
 }
 

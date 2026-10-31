@@ -65,6 +65,7 @@ require $dRoot . "/programs/GetMyRadioFunc.php";
  require $dRoot . "/programs/timeDateFunc.php";
  require $dRoot . "/programs/GetSettingsFunc.php";
  require_once $dRoot . "/classes/MysqliDb.php";
+ require_once $dRoot . "/programs/SdrInstanceFunc.php";
  $id = $_GET["id"];
  $tMyRadio = $id;
  $main1 = "0";
@@ -196,7 +197,7 @@ require $dRoot . "/programs/GetMyRadioFunc.php";
      $theme = "0";
      $deadman = 10;
      $inactivity = 0;
-     $sdrHost = gethostname() . ".local";
+     $sdrHost = sdrUrlFor(1);
      $sdrHostRemote = "";
      $pushoverToken = "";
      $pushoverUser = "";
@@ -1514,7 +1515,7 @@ function updateNotifyDisplay() {
      ); ?>"
 						onfocus="this.select();" id="sdrHostValue"
 						placeholder="<?php echo gethostname(); ?>.local or IP address"
-						title="SDR server hostname or IP address. Your SDR is accessed at this host + /sdrN where N is your user ID. Example: http://rigpi5.local/sdr2">
+						title="URL of an existing SDR receiver, independent of account ID. Example: http://rigpi5.local/sdr2/ (port 8002). Multiple accounts may share a receiver.">
 				</div>
 			</div>
 			<div class="col-md-4 text-spacer">
@@ -2369,7 +2370,9 @@ function updateNotifyDisplay() {
 			headers: {'Content-Type': 'application/json', 'X-RigPi-Action': 'cloudflare-service'},
 			body: JSON.stringify({action: action, token: action === 'connect' ? token.value.trim() : ''})
 		});
-		const data = await response.json().catch(() => ({}));
+		let data;
+                try { data = await response.json(); }
+                catch (_) { throw new Error('RigPi email service returned an unreadable response (HTTP ' + response.status + '). Please try again.'); }
 		if (!response.ok) throw new Error(data.error || 'RigPi could not manage Cloudflare Tunnel.');
 		return data;
 	}

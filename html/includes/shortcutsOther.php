@@ -15,7 +15,7 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 	  <td class='text-left'><b>Spots</b></td>
 	</tr>
 	<tr>
-		<td class='text-right'>Alt+A</td>
+		<td class='text-right'>Alt+C</td>
 		<td class='text-left'><b>Calendar</b></td>
 		<td class='text-right'>Alt+W</td>
 		  <td class='text-left'><b>Web</b></td>
@@ -38,6 +38,9 @@ tSh=`<text style='font-size:20px'><strong>Toolbar</strong></text>\n
 	</tr>
 		
 	
-  </tbody>
+  <tr><td class='text-right'>Alt+M</td><td>Elmer</td><td class='text-right'>Alt+A</td><td>Ask Elmer</td></tr>
+<tr><td class='text-right'>Alt+R</td><td>SDR4</td><td class='text-right'>Alt+O</td><td>Look up Call</td></tr>
+<tr><td class='text-right'>Alt+Shift+M</td><td>Start/Finish Elmer PTT</td><td class='text-right'>Alt+Shift+Q</td><td>Silence Elmer</td></tr>
+</tbody>
 </table>
 `;

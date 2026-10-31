@@ -22,7 +22,7 @@ require_once $dRoot . "/programs/GetMyRadioFunc.php";
 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title><?php echo $tCall; ?> Express Radio Settings</title>
+	<title><?php echo $tCall; ?> Express Hamlib Radio Settings</title>
 	<meta name="RigPi Settings" content="">
 	<meta name="author" content="Howard Nurse, W6HN">
 
@@ -440,7 +440,7 @@ require_once $dRoot . "/programs/GetMyRadioFunc.php";
 				  tMyCWPort=$("#curKeyerPort").val();
 				  $.post("/programs/SetSettings.php", {field:"powerOut", data:$("#curPwr").val(), radio:tMyRadio, table:"RadioInterface"}, function(response){
 					  if (nBypassAlert==3) {
-					window.open("/index.php","_self");
+					  window.open("/wizardSdr.php","_self");
 				}
 
 				});
@@ -597,7 +597,7 @@ require_once $dRoot . "/programs/GetMyRadioFunc.php";
 			<div class="col-12  col-lg-4 btn-padding">
 			</div>
 			<div class="col-12 col-lg-4 text-center">
-				<span class="label label-success text-white" style="margin-top:10px;">Express Radio Settings</span>
+				<span class="label label-success text-white" style="margin-top:10px;">Express Hamlib Radio Settings</span><br><span class="text-white-small">Step 2 of 3</span>
 			</div>
 			<div class="col-12 col-lg-4 btn-padding">
 				<button class='btn btn-color' id="userCancel" type='button'>
@@ -618,7 +618,7 @@ require_once $dRoot . "/programs/GetMyRadioFunc.php";
 			<div class="col-12 col-lg-8 text-spacer text-white">
 				<div class="row">
 					<div class="col text-center">
-						Please enter or edit the information in the boxes below. Click REVIEW to confirm the changes, then click NEXT to continue.
+						This window configures a radio controlled through Hamlib. SDR radios are configured on the next page.<br>Please enter or edit the information below, click REVIEW to confirm the changes, then click NEXT to continue.
 					</div>
 				</div>
 				<div class="row">

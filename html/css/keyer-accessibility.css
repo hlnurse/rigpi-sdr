@@ -1,0 +1,12 @@
+/* Keyer mouse and keyboard targeting; no layout or hit-area changes. */
+@media (any-hover:hover) {
+  body#keyer :is(button, input, textarea, select, .ui-slider-handle):hover {
+    outline:3px solid #5de4ff!important;outline-offset:-3px;
+    box-shadow:inset 0 0 0 1px #071b24!important;
+  }
+  body#keyer .ui-slider:hover {box-shadow:0 0 0 3px #5de4ff;}
+}
+body#keyer :is(button, input, textarea, select, .ui-slider-handle):focus-visible {
+  outline:3px solid #fff!important;outline-offset:2px;
+  box-shadow:0 0 0 5px #135a94!important;
+}

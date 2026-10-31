@@ -57,8 +57,25 @@ UDP_SAMPLE_RATE = 48000
 _D_PAT = re.compile(
     r'^D:\s+(\d+)\s+([-\d]+)\s+([\d.]+)\s+(\d+)\s+[~+]\s+(.+)$'
 )
-_GRID_PAT = re.compile(r'\b[A-R]{2}\d{2}[a-x]{0,2}\b')
-_CALL_PAT = re.compile(r'\b[A-Z0-9]{3,}(/[A-Z0-9]+)?\b')
+_GRID_PAT = re.compile(r'^[A-R]{2}\d{2}[A-X]{0,2}$', re.I)
+_CALL_PAT = re.compile(
+    r'^(?=[A-Z0-9/]{3,}$)(?=.*[A-Z])(?=.*\d)'
+    r'[A-Z0-9]{3,}(?:/[A-Z0-9]+)?$'
+)
+_NON_CALL_TOKENS = {'CQ', 'QRZ', 'DE', 'RR73', 'RRR', '73', 'FT8', 'FT4', 'TU'}
+
+def _is_grid(token):
+    value = str(token or '').strip().upper()
+    return value not in _NON_CALL_TOKENS and bool(_GRID_PAT.fullmatch(value))
+
+def _is_callsign(token):
+    # Accept actual callsigns, never FT8 acknowledgements, grids or fragments.
+    value = str(token or '').strip().upper()
+    return bool(
+        value not in _NON_CALL_TOKENS
+        and not _is_grid(value)
+        and _CALL_PAT.fullmatch(value)
+    )
 
 DB_CFG = dict(host="localhost", user="ham", password="7388",
               database="station", connect_timeout=3,
@@ -199,7 +216,7 @@ class FT8Manager:
 
     def _run(self, mode):
         # Use -e flag for unique temp folder per instance
-        cmd = ['ft8modem', '-r', str(UDP_SAMPLE_RATE),
+        cmd = ['taskset', '-c', '0-2', 'nice', '-n', '10', 'ft8modem', '-r', str(UDP_SAMPLE_RATE),
                mode, f'udp:{self._udp_port}']
         logger.info("[FT8MGR] cmd: %s", ' '.join(cmd))
         try:
@@ -243,20 +260,22 @@ class FT8Manager:
         if not m:
             return None
         unix_t, snr, dt, audio_hz, msg = m.groups()
-        parts = msg.strip().split()
+        parts = msg.strip().upper().split()
         dx_call = de_call = grid = None
-        if parts[0] == 'CQ':
-            for p in parts[1:]:
-                if _GRID_PAT.match(p):
-                    grid = p
-                elif _CALL_PAT.match(p) and not dx_call:
-                    dx_call = p
-        elif len(parts) >= 2:
-            de_call = parts[0]
-            dx_call = parts[1]
-            for p in parts[2:]:
-                if _GRID_PAT.match(p):
-                    grid = p; break
+        grid = next((p for p in parts if _is_grid(p)), None)
+        calls = [p for p in parts if _is_callsign(p)]
+        if parts and parts[0] == 'CQ':
+            if calls:
+                dx_call = calls[0]
+        elif len(calls) >= 2:
+            # Standard directed message: sender, recipient, then report/ack.
+            # Searching validated calls also survives a concatenated decoder line
+            # such as "KX9DX RR73; ND4P <...> +00" without storing RR73.
+            de_call, dx_call = calls[:2]
+        elif calls:
+            dx_call = calls[0]
+        if not dx_call:
+            return None
         return {
             'time': int(unix_t), 'snr': int(snr), 'dt': float(dt),
             'audio_hz': int(audio_hz),

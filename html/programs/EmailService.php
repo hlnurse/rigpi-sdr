@@ -143,7 +143,8 @@ try {
     );
     echo json_encode(['status' => 'connected', 'message' => 'Test email sent successfully.']);
 } catch (Throwable $error) {
-    http_response_code(502);
-    echo json_encode(['error' => $error->getMessage()]);
+    // SMTP rejection is an application error, not a broken web gateway.
+    http_response_code(422);
+    echo json_encode(['error' => $error->getMessage()], JSON_INVALID_UTF8_SUBSTITUTE);
 }
 

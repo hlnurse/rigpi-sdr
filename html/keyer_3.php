@@ -904,7 +904,7 @@ if ($row) {
 							window.open(win, "_self");
 							break;
 						case 84: // t
-							var win="/index.php?x="+tUserName+"&c="+tCall;
+							var win="/tuner.php?x="+tUserName+"&c="+tCall;
 							window.open(win, "_self");
 							break;
 						case 87: // w

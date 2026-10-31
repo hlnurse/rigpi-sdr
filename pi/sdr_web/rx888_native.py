@@ -264,7 +264,7 @@ class RX888NativeSource:
                 )
             offset += received
 
-        return np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0
+        return np.frombuffer(raw, dtype="<i2")
 
     def stop(self):
         with self.lock:

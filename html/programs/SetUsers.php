@@ -11,6 +11,7 @@ ini_set("error_reporting", E_ALL);
 ini_set("display_errors", 1);
 require "/var/www/html/programs/sqldata.php";
 require_once "/var/www/html/classes/MysqliDb.php";
+require_once "/var/www/html/programs/SdrInstanceFunc.php";
 //require_once "/var/www/html/programs/provision_sdr_user.php";
 
 $db = new MysqliDb(
@@ -24,14 +25,16 @@ if (!$db) {
 }
 $refID = $_POST["refID"];
 $defaultSdrHost = static function ($uid) {
-    return "http://" . gethostname() . ".local/sdr" . max(1, (int) $uid);
+    return sdrUrlFor(1);
 };
 $tPWD = $_POST["Password"];
 $tCall = strtoupper($_POST["MyCall"]);
 // Safe defaults for fields not always sent by all forms
 $_POST["GoogleAPIKey"] = $_POST["GoogleAPIKey"] ?? "";
 $_POST["SDRHostRemote"] = $_POST["SDRHostRemote"] ?? "";
-$_POST["SDRPort"] = $_POST["SDRPort"] ?? 8001;
+// A user ID is never a receiver instance. Use a valid stored URL or receiver 1.
+if (!sdrHostValid($_POST["SDRHost"] ?? "")) $_POST["SDRHost"] = sdrUrlFor(1);
+$_POST["SDRPort"] = sdrPortFor(sdrInstanceOf($_POST["SDRHost"]));
 $_POST["SDRPosition"] = $_POST["SDRPosition"] ?? "none";
 $_POST["SDRPage"] = $_POST["SDRPage"] ?? "none";
 $Fl = $_POST["LogFldigi"];

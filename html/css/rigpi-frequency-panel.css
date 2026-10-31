@@ -1,0 +1,49 @@
+/* Copyright (c) 2026 Howard Nurse, W6HN. MIT License. */
+#dPanel.rigpi-frequency-host{display:block!important;width:100%;max-width:340px;min-width:0;height:auto;container-type:inline-size;box-sizing:border-box;}
+#dPanel.rigpi-frequency-host.d-none{display:none!important;}
+.rigpi-frequency-host .rp-panel-bezel{width:100%;padding:7px;border-radius:18px;background:linear-gradient(var(--rp-bezel1),var(--rp-bezel2));box-shadow:0 2px 5px #0006;box-sizing:border-box;}
+.rigpi-frequency-host .rp-panel-face{padding:8px 10px 6px;border:1px solid #e8ebed;border-radius:12px;background:linear-gradient(var(--rp-face1),var(--rp-face2));color:var(--rp-ink);box-shadow:inset 0 1px 2px #fff3;box-sizing:border-box;}
+.rigpi-frequency-host .rp-panel-labels{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px;align-items:center;font:700 11px/1.2 Arial,Helvetica,sans-serif;font-size:clamp(10px,3.4cqw,12px);margin:0;}
+.rigpi-frequency-host .rp-panel-labels span,.rigpi-frequency-host .rp-panel-labels b{color:var(--rp-ink)!important;background:transparent!important;}
+.rigpi-frequency-host [data-field="Band1"],.rigpi-frequency-host [data-field="Band2"]{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;}
+.rigpi-frequency-host .rp-clock,.rigpi-frequency-host .rp-mode{white-space:nowrap;}
+.rigpi-frequency-host .rp-frequency{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) .22fr repeat(3,minmax(0,1fr)) .22fr repeat(3,minmax(0,1fr));gap:1px;margin:8px 0 9px;touch-action:manipulation;}
+.rigpi-frequency-host .rp-digit{position:relative;min-width:0;aspect-ratio:34/56;}
+.rigpi-frequency-host .rp-digit svg{display:block;width:100%;height:100%;pointer-events:none;transform:skewX(-6deg);transform-origin:center;}
+.rigpi-frequency-host .rp-digit polygon{fill:var(--rp-ink);stroke:var(--rp-ink);stroke-width:.75;stroke-linejoin:round;opacity:.045;}
+.rigpi-frequency-host .rp-digit polygon.rp-lit{opacity:1;}
+.rigpi-frequency-host .rp-frequency-inactive .rp-digit polygon.rp-lit{opacity:.32;}
+.rigpi-frequency-host .rp-frequency-dot{align-self:end;color:var(--rp-ink)!important;background:transparent!important;font:700 24px/1 Arial,Helvetica,sans-serif;padding-bottom:2px;}
+.rigpi-frequency-host button{font-family:Arial,Helvetica,sans-serif;box-sizing:border-box;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+.rigpi-frequency-host .rp-digit-hit{position:absolute;left:0;width:100%;height:50%;border:0;border-radius:0;background:transparent!important;padding:0;z-index:1;}
+.rigpi-frequency-host .rp-digit-up{top:0;}.rigpi-frequency-host .rp-digit-dn{bottom:0;}
+.rigpi-frequency-host .rp-digit-selection{position:absolute;left:12%;right:12%;height:2px;display:block;background:var(--rp-ink)!important;border:0;border-radius:0;padding:0;margin:0;line-height:0;pointer-events:none;z-index:2;}
+.rigpi-frequency-host .rp-digit-selection-u{top:-6px;}.rigpi-frequency-host .rp-digit-selection-d{bottom:-6px;}
+.rigpi-frequency-host [hidden]{display:none!important;}
+.rigpi-frequency-host .rp-panel-footer{min-height:28px;}
+.rigpi-frequency-host .rp-number-keys{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;}
+.rigpi-frequency-host .rp-number-keys button,.rigpi-frequency-host .rp-keypad button{border:1px solid var(--rp-ink);border-radius:3px;background:transparent!important;color:var(--rp-ink)!important;-webkit-text-fill-color:var(--rp-ink);font-weight:700;font-size:14px;padding:3px 0;line-height:1.2;min-height:28px;}
+.rigpi-frequency-host .rp-mobile-tools{display:grid;grid-template-columns:28% minmax(0,1fr);gap:12px;align-items:end;padding-bottom:1px;}
+.rigpi-frequency-host .rp-keypad button{font-size:clamp(10px,3.2cqw,12px);width:100%;border-radius:18px;}
+.rigpi-frequency-host .rp-linear-meter{min-width:0;padding:0 4px 2px;}
+.rigpi-frequency-host .rp-meter-scale{position:relative;height:18px;font:700 9px/1 Arial,Helvetica,sans-serif;}
+.rigpi-frequency-host .rp-meter-scale span{position:absolute;transform:translateX(-50%);color:var(--rp-ink)!important;background:transparent!important;white-space:nowrap;}
+.rigpi-frequency-host .rp-meter-scale span:first-child{transform:none;}.rigpi-frequency-host .rp-meter-scale span:last-child{transform:translateX(-100%);}
+.rigpi-frequency-host .rp-meter-scale span.rp-meter-plus{color:var(--rp-accent)!important;}
+.rigpi-frequency-host .rp-meter-track{position:relative;height:10px;border:1px solid var(--rp-ink);box-sizing:border-box;overflow:hidden;}
+.rigpi-frequency-host .rp-meter-fill{height:100%;background:var(--rp-ink);width:0;}
+.rigpi-frequency-host.rp-tx-meter .rp-meter-fill{background:var(--rp-accent);}
+.rigpi-frequency-host.rp-tx-meter .rp-meter-scale{display:none;}
+.rigpi-frequency-host button:focus-visible{outline:2px solid var(--rp-accent);outline-offset:1px;z-index:3;}
+.rigpi-frequency-host button:active{box-shadow:inset 0 0 0 2px var(--rp-accent);}
+
+.rigpi-frequency-host .rp-meter-function{display:none;height:13px;text-align:center;font:700 9px/1 Arial,Helvetica,sans-serif;color:var(--rp-ink)!important;background:transparent!important;}
+.rigpi-frequency-host.rp-tx-meter .rp-meter-function{display:block;}
+.rigpi-frequency-host .rp-frequency-inactive .rp-frequency-dot{opacity:.32;}
+
+/* The site assigns every span a 20px font; meter labels must opt out. */
+#dPanel.rigpi-frequency-host .rp-meter-scale span{font:700 9px/1 Arial,Helvetica,sans-serif!important;padding:0!important;margin:0!important;border:0;border-radius:0;top:0;letter-spacing:0;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+#dPanel.rigpi-frequency-host .rp-meter-function{font:700 9px/1 Arial,Helvetica,sans-serif!important;padding:0!important;margin:0!important;letter-spacing:0;}
+
+/* Fixed fourteen-division grid, with contrast over empty and filled areas. */
+.rigpi-frequency-host .rp-meter-track::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to right,transparent 0,transparent calc(100% / 14 - 2px),var(--rp-face1) calc(100% / 14 - 2px),var(--rp-face1) calc(100% / 14 - 1px),var(--rp-ink) calc(100% / 14 - 1px),var(--rp-ink) calc(100% / 14));}

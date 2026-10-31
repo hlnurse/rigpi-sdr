@@ -1,3 +1,9 @@
+<style>
+#myModal .modal-header #dxcall{flex:1 1 auto;min-width:0;margin-bottom:0;}
+#myModal #dxLookupSpeak{flex:0 0 36px!important;width:36px!important;height:36px!important;padding:6px!important;margin:0 8px 0 auto!important;border:0!important;background:transparent!important;box-shadow:none!important;color:inherit;font-size:20px!important;line-height:1!important;align-self:center;}
+#myModal #dxLookupSpeak:not(.d-none){display:inline-flex!important;align-items:center;justify-content:center;}
+#myModal #dxLookupSpeak[aria-pressed="true"]{color:#1470c0!important;}
+</style>
 <div class="modal fade" id="myModal" tabindex="0">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -5,6 +11,10 @@
 
       <div class="modal-header">
         <h1 class="modal-title" id="dxcall"></h1>
+        <button type="button" class="btn btn-link d-none" id="dxLookupSpeak" hidden disabled
+          aria-label="Read DX call lookup results aloud" aria-pressed="false" title="Read lookup results aloud">
+          <i class="fas fa-volume-up" aria-hidden="true"></i>
+        </button>
         <button
           type="button"
           class="close"

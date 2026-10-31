@@ -191,7 +191,7 @@ $membership->confirm_Member($tUsername);
 					window.open(win, "_self");
 					break;
 				case 84: // t
-					var win="/index.php?x="+tUserName+"&c="+tMyCall;
+					var win="/tuner.php?x="+tUserName+"&c="+tMyCall;
 					window.open(win, "_self");
 					break;
 				case 87: // w
@@ -519,7 +519,7 @@ $("input").bind("keydown", function(event)
 			<div class="col-12  col-lg-4 btn-padding">
 			</div>
 			<div class="col-12 col-lg-4 text-center">
-				<span class="label label-success text-white pageLabel" style="margin-top:10px;">Express User Settings</span>
+				<span class="label label-success text-white pageLabel" style="margin-top:10px;">Express User Settings</span><br><span class="text-white-small">Step 1 of 3</span>
 			</div>
 			<div class="col-12 col-lg-4 btn-padding">
 				<button class='btn btn-color' id="userCancel" type='button'>
@@ -545,7 +545,7 @@ $("input").bind("keydown", function(event)
 				</div>
 				<div class="row">
 					<div class="col-12 col-lg-12 text-spacer text-white-small">
-						Express Setup helps you enter your amateur call and location, select a radio, and get started rapidly.<br><br>
+							Express Setup helps you enter your amateur call and location, configure a Hamlib radio, then choose the SDR you want to start with.<br><br>
 						Express Setup appears when you log into RigPi with the Call set to ADMIN, below.<br><br>
 						<div class="row>">
 						<ol>

@@ -52,6 +52,8 @@
   const speechSources = new Set();
   const prefetchedSpeech = new Map();
   let generatedSpeechVoice = 'marin';
+  let lastSpokenResult = '';
+  let pendingGeneratedPlayback = null;
   const cancellationAcknowledgement = 'Okay. Cancelled. Nothing was changed.';
   let lastCancellationAcknowledgement = 0;
   let shortwaveScanActive = false;
@@ -59,7 +61,7 @@
   const commandHistoryKey = 'elmerControlCommandHistory';
   let commandHistory = [];
 
-  fetch('/programs/ElmerPreferences.php', {
+  const speechPreferencesReady = fetch('/programs/ElmerPreferences.php', {
     method: 'POST', credentials: 'same-origin',
     headers: {'Content-Type': 'application/json', 'X-Elmer-Action': 'preferences'},
     body: JSON.stringify({action: 'status'})
@@ -68,7 +70,9 @@
     .catch(() => {});
 
   function speechPayload(payload) {
-    return generatedSpeechVoice ? {...payload, voice: generatedSpeechVoice} : payload;
+    // Speech spelling only; keep the original spelling in labels and results.
+    const spoken = {...payload, text: String(payload.text || '').replace(/\bhamlib\b/gi, 'ham-libe')};
+    return generatedSpeechVoice ? {...spoken, voice: generatedSpeechVoice} : spoken;
   }
   try {
     const saved = JSON.parse(localStorage.getItem(commandHistoryKey) || '[]');
@@ -226,17 +230,31 @@
   }
 
   function ensureSpeechContext() {
-    if (speechContext) return speechContext;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (speechContext && speechContext.state !== 'closed') return speechContext;
+    // Own the player in the persistent RigPi window, so iframe navigation
+    // retains the browser audio activation granted by an operator gesture.
+    let owner = window;
+    try { if (window.top.document) owner = window.top; } catch (_) {}
+    const shared = owner.rigpiElmerSpeechContext;
+    if (shared && shared.state !== 'closed') { speechContext = shared; return shared; }
+    const AudioContext = owner.AudioContext || owner.webkitAudioContext;
     if (!AudioContext) return null;
     try { speechContext = new AudioContext({sampleRate: 24000}); } catch (_) { speechContext = new AudioContext(); }
+    owner.rigpiElmerSpeechContext = speechContext;
     return speechContext;
   }
 
   function unlockSpeechPlayback() {
     const context = ensureSpeechContext();
-    if (!context) return;
-    context.resume().catch(() => {});
+    if (!context || (context.state === 'running' && !pendingGeneratedPlayback)) return;
+    context.resume().then(() => {
+      const waiting = pendingGeneratedPlayback;
+      pendingGeneratedPlayback = null;
+      if (waiting && waiting.sequence === speechSequence && speak.classList.contains('active')) {
+        playGeneratedSpeechBlob(waiting.blob, waiting.text, waiting.sequence, waiting.finish)
+          .catch(() => browserSpeechFallback(waiting.text, waiting.sequence, waiting.finish));
+      }
+    }).catch(() => {});
     try {
       const source = context.createBufferSource();
       source.buffer = context.createBuffer(1, 1, context.sampleRate);
@@ -244,6 +262,48 @@
       source.start();
     } catch (_) {}
   }
+
+  async function playGeneratedSpeechBlob(blob, text, sequence, finish) {
+    if (sequence !== speechSequence || !speak.classList.contains('active')) return;
+    const context = ensureSpeechContext();
+    if (context) {
+      if (context.state !== 'running') {
+        // Browser activation is pending, not a reason to change voices.
+        pendingGeneratedPlayback = {blob, text, sequence, finish};
+        voiceOrbSpeaking = true;
+        setStatus('Speech is ready. Tap Elmer PTT or press a key to enable audio.');
+        return;
+      }
+      const buffer = await context.decodeAudioData(await blob.arrayBuffer());
+      if (sequence !== speechSequence || !speak.classList.contains('active')) return;
+      if (commandRecordingStarting || commandRecorder || commandStream || transcriptionPending) { finish(); return; }
+      const source = context.createBufferSource();
+      source.buffer = buffer;
+      source.connect(context.destination);
+      speechSources.add(source);
+      source.onended = () => {
+        speechSources.delete(source);
+        if (sequence === speechSequence) finish();
+      };
+      voiceOrbSpeaking = true;
+      refreshVoiceOrb();
+      setStatus('');
+      source.start();
+      return;
+    }
+    // Older browsers without Web Audio retain the existing audio-element path.
+    if (!speechAudio) throw new Error('Generated audio playback is unavailable.');
+    speechAudioUrl = URL.createObjectURL(blob);
+    speechAudio.src = speechAudioUrl;
+    speechAudio.preload = 'auto';
+    speechAudio.playsInline = true;
+    speechAudio.onended = finish;
+    speechAudio.onerror = () => browserSpeechFallback(text, sequence, finish);
+    await speechAudio.play();
+  }
+
+  document.addEventListener('pointerdown', unlockSpeechPlayback, {capture: true, passive: true});
+  document.addEventListener('keydown', unlockSpeechPlayback, {capture: true});
 
   function stopStreamedSpeech() {
     window.clearTimeout(speechStreamEndTimer);
@@ -253,6 +313,7 @@
   }
 
   function stopSpokenPlayback() {
+    pendingGeneratedPlayback = null;
     if (speechRequest) speechRequest.abort();
     speechRequest = null;
     if (speechAudio) {
@@ -292,10 +353,11 @@
     speechCueAudio.play().catch(finish);
   }
 
-  function prefetchSpeech(text) {
+  async function prefetchSpeech(text) {
     if (!speechAudio || !text || prefetchedSpeech.has(text)) return;
     const entry = {blob: null, failed: false};
     prefetchedSpeech.set(text, entry);
+    await speechPreferencesReady;
     fetch('/elmer-api/speech', {
       method: 'POST', credentials: 'same-origin',
       headers: {'Content-Type': 'application/json'},
@@ -309,29 +371,20 @@
   function playPrefetchedSpeech(text) {
     const entry = prefetchedSpeech.get(text);
     if (!speechAudio || !entry?.blob || !speak.classList.contains('active')) return false;
+    lastSpokenResult = String(text).replace(/^Okay\.\s*/i, '');
     prefetchedSpeech.delete(text);
     window.clearTimeout(speechStartTimer);
     speechSequence += 1;
     const sequence = speechSequence;
     stopSpokenPlayback();
-    speechAudioUrl = URL.createObjectURL(entry.blob);
-    speechAudio.src = speechAudioUrl;
-    speechAudio.preload = 'auto';
-    speechAudio.playsInline = true;
-    speechAudio.onended = () => {
-      if (speechAudioUrl) URL.revokeObjectURL(speechAudioUrl);
-      speechAudioUrl = '';
+    const finish = () => {
       voiceOrbSpeaking = false;
       refreshVoiceOrb();
       scheduleWake();
     };
     playSpeechCue(sequence, () => {
-      if (sequence !== speechSequence || !speak.classList.contains('active')) return;
-      speechAudio.play().catch(() => {
-        voiceOrbSpeaking = false;
-        refreshVoiceOrb();
-        scheduleWake();
-      });
+      playGeneratedSpeechBlob(entry.blob, text, sequence, finish)
+        .catch(() => browserSpeechFallback(text, sequence, finish));
     });
     return true;
   }
@@ -342,6 +395,7 @@
   }
 
   async function streamGeneratedSpeech(text, sequence, finish) {
+    await speechPreferencesReady;
     const context = ensureSpeechContext();
     if (!context || !window.ReadableStream) throw new Error('Streaming audio is unavailable.');
     await context.resume();
@@ -420,11 +474,19 @@
   }
 
   function browserSpeechFallback(text, sequence, finish) {
+    // Lookup readings keep the selected generated voice, including on failure.
+    if (dxLookupSpeech?.sequence === sequence) {
+      stopDxLookupSpeech();
+      finish();
+      setStatus('Marin speech is temporarily unavailable. Please try the lookup speaker again.');
+      return;
+    }
+
     if (!canBrowserSpeak || sequence !== speechSequence || !speak.classList.contains('active')) {
       finish();
       return;
     }
-    const utterance = new SpeechSynthesisUtterance(`Okay. ${text}`);
+    const utterance = new SpeechSynthesisUtterance('Okay. ' + String(text).replace(/\bhamlib\b/gi, 'ham-libe'));
     utterance.lang = localStorage.getItem('elmerVoiceLanguage') || navigator.language || 'en-US';
     utterance.onend = finish;
     utterance.onerror = finish;
@@ -432,17 +494,19 @@
     speechSynthesis.speak(utterance);
   }
 
-  function speakResult(text, onFinished = null, initialDelayMs = 0) {
+  function speakResult(text, onFinished = null, initialDelayMs = 0, withLeadIn = true) {
     if (!canSpeak || !speak.classList.contains('active') || !text
         || commandRecordingStarting || commandRecorder || commandStream || transcriptionPending) return false;
+    lastSpokenResult = String(text);
     window.clearTimeout(speechStartTimer);
     speechStartTimer = 0;
     speechSequence += 1;
     const sequence = speechSequence;
     stopSpokenPlayback();
     stopRecognition();
-    speechStartTimer = window.setTimeout(() => {
+    speechStartTimer = window.setTimeout(async () => {
       speechStartTimer = 0;
+      await speechPreferencesReady;
       if (sequence !== speechSequence || !speak.classList.contains('active')) return;
       let finished = false;
       const finish = () => {
@@ -465,22 +529,16 @@
       fetch('/elmer-api/speech', {
         method: 'POST', credentials: 'same-origin', signal: controller.signal,
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(speechPayload({text: `Okay. ${text}`, lead_silence_ms: 350}))
+        body: JSON.stringify(speechPayload({text: withLeadIn ? `Okay. ${text}` : text, lead_silence_ms: withLeadIn ? 350 : 100}))
       }).then(response => {
         if (!response.ok) throw new Error('Generated speech is unavailable.');
         return response.blob();
       }).then(blob => {
         if (sequence !== speechSequence || !speak.classList.contains('active')) return;
-        speechAudioUrl = URL.createObjectURL(blob);
-        speechAudio.src = speechAudioUrl;
-        speechAudio.preload = 'auto';
-        speechAudio.playsInline = true;
-        speechAudio.onended = finish;
-        speechAudio.onerror = () => browserSpeechFallback(text, sequence, finish);
-        playSpeechCue(sequence, () => {
-          if (sequence !== speechSequence || !speak.classList.contains('active')) return;
-          speechAudio.play().catch(() => browserSpeechFallback(text, sequence, finish));
-        });
+        const play = () => playGeneratedSpeechBlob(blob, text, sequence, finish)
+          .catch(() => browserSpeechFallback(text, sequence, finish));
+        if (withLeadIn) playSpeechCue(sequence, play);
+        else play();
       }).catch(error => {
         if (error?.name !== 'AbortError' && sequence === speechSequence) {
           playSpeechCue(sequence, () => browserSpeechFallback(text, sequence, finish));
@@ -510,6 +568,8 @@
   }
 
   function handleVoiceConfirmation(text) {
+    const utility = parseSpeechUtility(text);
+    if (pendingVoiceConfirmation && utility) { runSpeechUtility(utility); return true; }
     if (!pendingVoiceConfirmation) return false;
     const answer = String(text || '').trim().toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -710,6 +770,24 @@
     return NaN;
   }
 
+  function parseSpeechUtility(text) {
+    const clean = String(text || '').trim().replace(/[.?!]+$/, '').toLowerCase();
+    if (/^(?:repeat(?:\s+(?:that|it|the\s+last\s+(?:message|answer|result)))?|say\s+that\s+again)$/.test(clean)) return 'speech.repeat';
+    if (/^(?:stop\s+(?:speaking|talking)(?:\s+now)?|mute\s+elmer|voice\s+off)$/.test(clean)) return 'speech.stop';
+    if (/^(?:voice\s+on|unmute\s+elmer|start\s+speaking)$/.test(clean)) return 'speech.resume';
+    if (/^(?:what\s+can\s+i\s+say|voice\s+help|(?:list|read|speak)\s+(?:the\s+)?(?:voice\s+)?commands)$/.test(clean)) return 'speech.help';
+    if (/^(?:what(?:['’]s|\s+is)\s+being\s+announced|what\s+are\s+you\s+announcing|(?:read|speak)\s+announcement\s+settings|announcement\s+status)$/.test(clean)) return 'speech.announcement_status';
+    if (/^(?:where\s+am\s+i|(?:read|speak)\s+(?:my\s+)?orientation)$/.test(clean)) return 'speech.orientation';
+    if (/^(?:keyboard\s+)?shortcuts\s+on$/.test(clean)) return 'speech.shortcuts_on';
+    if (/^(?:keyboard\s+)?shortcuts\s+off$/.test(clean)) return 'speech.shortcuts_off';
+    if (/^(?:keyboard\s+shortcuts|what\s+are\s+the\s+(?:keyboard\s+)?shortcuts)$/.test(clean)) return 'speech.shortcuts_help';
+    if (/^(?:what(?:['’]s|\s+is)\s+focused|(?:read|speak)\s+(?:the\s+)?focused\s+control)$/.test(clean)) return 'speech.focused';
+    if (/^(?:explain\s+(?:this|the\s+focused)\s+control|read\s+(?:the\s+)?tooltip|read\s+(?:the\s+)?control\s+description)$/.test(clean)) return 'speech.explain_control';
+    if (/^(?:focus\s+announcements\s+on|(?:always\s+)?speak\s+(?:button\s+labels|focused\s+controls))$/.test(clean)) return 'speech.focus_on';
+    if (/^(?:focus\s+announcements\s+off|stop\s+speaking\s+(?:button\s+labels|focused\s+controls))$/.test(clean)) return 'speech.focus_off';
+    return '';
+  }
+
   function deterministicControlPlan(text) {
     const clean = String(text || '').trim().replace(/[.?!]+$/, '')
       .replace(/([0-9])\s*%/g, '$1 %')
@@ -717,6 +795,47 @@
       .replace(/\b(one\s+hundred(?:\s+and)?\s+sixty|eighty|sixty|forty|thirty|twenty|seventeen|fifteen|twelve|ten|six|two)\s+(?=m(?:eters?|etres?)?\b)/ig,
         word => ({'one hundred sixty': '160', 'one hundred and sixty': '160', eighty: '80', sixty: '60', forty: '40', thirty: '30', twenty: '20', seventeen: '17', fifteen: '15', twelve: '12', ten: '10', six: '6', two: '2'}[word.toLowerCase().replace(/\s+/g, ' ').trim()] || word))
       .replace(/\b(change|set)(\s+the)?\s+mood\s+to\b/ig, '$1$2 mode to');
+    if (/^(?:(?:what(?:'s|\s+is)|read|say|show|check)(?:\s+me)?\s+)?(?:the\s+)?d[\s.-]*x[\s.-]+call(?:\s*sign)?$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.dx_call', radio: 0}};
+    }
+    if (/^(?:always\s+(?:speak|say|read)|(?:turn|switch)\s+on\s+(?:spoken|automatic))\s+(?:the\s+)?d[\s.-]*x[\s.-]+call(?:\s*sign)?(?:\s+(?:changes|announcements))?$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.dx_call_announce', announce: true, radio: 0}};
+    }
+    if (/^(?:stop\s+(?:speaking|saying|reading)|(?:turn|switch)\s+off\s+(?:(?:spoken|automatic)\s+)?)\s*(?:the\s+)?d[\s.-]*x[\s.-]+call(?:\s*sign)?(?:\s+(?:changes|announcements))?$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.dx_call_announce', announce: false, radio: 0}};
+    }
+    const stateAlertSetting = clean.match(/^(?:(?:turn|switch)\s+(on|off)\s+(?:the\s+)?state\s+alerts|(?:(?:turn|switch)\s+)?state\s+alerts\s+(on|off)|(always\s+(?:speak|announce)|stop\s+(?:speaking|announcing))\s+state\s+alerts)$/i);
+    if (stateAlertSetting) {
+      const enabled = String(stateAlertSetting[1] || stateAlertSetting[2] || '').toLowerCase() === 'on'
+        || /^always/i.test(stateAlertSetting[3] || '');
+      return {rig_control: {enabled: true, action: 'receiver.state_alerts', announce: enabled, radio: 0}};
+    }
+    const utility = parseSpeechUtility(clean);
+    if (utility) return {rig_control: {enabled: true, action: utility, radio: 0}};
+    if (/^(?:(?:speak|read|show|check)(?:\s+the)?\s+|what(?:'s|\s+is)\s+(?:the\s+)?)?(?:current\s+)?(?:station|radio)\s+status$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.voice_readback', readback: 'station_status', radio: 0}};
+    }
+    if (/^(?:(?:speak|read|show|check)(?:\s+the)?\s+|what(?:'s|\s+is)\s+(?:(?:the|my)\s+)?)?(?:current\s+)?(?:signal\s+strength|s[\s-]*meter)(?:\s+(?:reading|level))?$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.voice_readback', readback: 'signal_strength', radio: 0}};
+    }
+    if (/^(?:(?:speak|read|show|check)(?:\s+the)?\s+|what(?:'s|\s+is)\s+(?:(?:the|my)\s+)?)?(?:current\s+)?(?:(?:radio|receiver)\s+)?volume(?:\s+level)?$/i.test(clean)) {
+      return {rig_control: {enabled: true, action: 'receiver.voice_readback', readback: 'volume', radio: 0}};
+    }
+    const stationReadback = clean.match(/^(?:please\s+)?(?:speak|say|read|tell\s+me|what(?:'s|\s+(?:is|are)))\s+(?:(?:the|my)\s+)?(?:current\s+)?(frequency|freq|mode)(?:\s+(?:and|&)\s+(?:the\s+)?(?:current\s+)?(frequency|freq|mode))?$/i);
+    const readBoth = /^(?:please\s+)?(?:speak|say|read)\s+(?:both|current\s+frequency\s+and\s+mode)$/i.test(clean);
+    if (stationReadback || readBoth) {
+      const fields = readBoth ? ['frequency', 'mode']
+        : [...new Set([stationReadback[1], stationReadback[2]].filter(Boolean)
+          .map(value => value.toLowerCase() === 'mode' ? 'mode' : 'frequency'))];
+      return {rig_control: {enabled: true, action: 'receiver.station_readback', fields, radio: 0}};
+    }
+    const stationAnnouncement = clean.match(/^(?:please\s+)?(always\s+(?:speak|say|read)|stop\s+(?:speaking|saying|reading))\s+(?:the\s+)?(frequency|freq|mode)(?:\s+(?:and|&)\s+(?:the\s+)?(frequency|freq|mode))?(?:\s+(?:changes|announcements))?$/i);
+    if (stationAnnouncement) {
+      const fields = [...new Set([stationAnnouncement[2], stationAnnouncement[3]].filter(Boolean)
+        .map(value => value.toLowerCase() === 'mode' ? 'mode' : 'frequency'))];
+      return {rig_control: {enabled: true, action: 'receiver.station_announce',
+        announce: /^always/i.test(stationAnnouncement[1]), fields, radio: 0}};
+    }
     const bandFirstActivityTune = clean.match(/^(?:(?:please\s+)?(?:tune|set|switch|select|go)(?:\s+(?:radio|receiver)\s*([1-4]))?(?:\s+to)?\s+|to\s+)?(?:the\s+)?(160|80|60|40|30|20|17|15|12|10|6|2)\s*(?:m|meters?|metres?)(?:\s+band)?\s*(ft\s*-?\s*8|ft\s*-?\s*4)$/i);
     if (bandFirstActivityTune) {
       return {rig_control: {
@@ -791,12 +910,18 @@
         radio: Number(radioConnection[2]) || 0, frequency_hz: 0, mode: '', bandwidth_hz: 0
       }};
     }
-    const radioPower = clean.match(/^(?:(?:please|would\s+you|can\s+you)\s+)?(?:(?:turn|switch|power)\s+(?:the\s+)?(?:radio|rig)\s+(on|off)|(?:turn|switch)\s+(on|off)\s+(?:the\s+)?(?:radio|rig)|(?:radio|rig)\s+power\s+(on|off))(?:\s+(?:on|for)\s+(?:radio|receiver)\s*([1-4]))?$/i);
+    const radioPower = clean.match(/^(?:(?:please|would\s+you|can\s+you)\s+)?(?:(?:turn|switch|power)\s+(?:the\s+)?(?:radio|rig)(?:\s*(1|2|3|4|one|two|three|four))?\s+(on|off)|(?:turn|switch)\s+(on|off)\s+(?:the\s+)?(?:radio|rig)(?:\s*(1|2|3|4|one|two|three|four))?|(?:radio|rig)(?:\s*(1|2|3|4|one|two|three|four))?\s+power\s+(on|off))(?:\s+(?:on|for)\s+(?:radio|receiver)\s*(1|2|3|4|one|two|three|four))?$/i);
     if (radioPower) {
-      const state = String(radioPower[1] || radioPower[2] || radioPower[3] || '').toLowerCase();
+      const state = String(radioPower[2] || radioPower[3] || radioPower[6] || '').toLowerCase();
+      const number = value => ({one: 1, two: 2, three: 3, four: 4}[String(value || '').toLowerCase()] || Number(value) || 0);
+      const inlineRadio = number(radioPower[1] || radioPower[4] || radioPower[5]);
+      const trailingRadio = number(radioPower[7]);
+      if (inlineRadio && trailingRadio && inlineRadio !== trailingRadio) {
+        throw new Error('Name only one radio number when changing radio power.');
+      }
       return {rig_control: {
         enabled: true, action: state === 'on' ? 'station.power_on' : 'station.power_off',
-        radio: Number(radioPower[4]) || 0, frequency_hz: 0, mode: '', bandwidth_hz: 0
+        radio: inlineRadio || trailingRadio, frequency_hz: 0, mode: '', bandwidth_hz: 0
       }};
     }
     const logContact = clean.match(/^(?:(?:please|would\s+you|can\s+you)\s+)?(?:log(?:\s+(?:this|the|a))?(?:\s+(?:contact|qso))?|record(?:\s+(?:this|the|a))?\s+(?:contact|qso))(?:\s+with)?(?:\s+([a-z0-9/]{3,15}))?$/i);
@@ -1140,6 +1265,896 @@
   function normalizedContactCall(value) {
     const call = String(value || '').trim().toUpperCase().replace(/\s+/g, '');
     return /^(?=.{3,15}$)(?=.*[A-Z])(?=.*\d)[A-Z0-9]+(?:\/[A-Z0-9]+)*$/.test(call) ? call : '';
+  }
+
+  function currentDxCall() {
+    const field = document.getElementById('searchText');
+    return normalizedContactCall(field ? field.value : (window.tDX || ''));
+  }
+
+  function dxCallSpeech(call) {
+    return 'The DX call is ' + Array.from(call, character => character === '/' ? 'slash' : character).join(', ') + '.';
+  }
+
+  let dxLookupSpeech = null;
+
+  function dxLookupReadback(modal) {
+    const call = normalizedContactCall(modal.querySelector('#dxcall')?.textContent || '');
+    const body = modal.querySelector('.modal-body');
+    const details = String(body?.innerText || body?.textContent || '')
+      .replace(/\r/g, '').replace(/[ \t]*\n+[ \t]*/g, '. ').replace(/\s+/g, ' ').replace(/\bdeg\b/gi, 'degrees').replace(/\bSilent Key\s*\(SK\)/gi, 'Silent Key').trim();
+    if (!call || !details) return '';
+    const source = details.match(/\bSource:\s*(.+)$/i);
+    if (!source) return dxCallSpeech(call) + ' Lookup results. ' + details.slice(0, 6000);
+    const main = details.slice(0, source.index).replace(/[.\s]+$/, '').slice(0, 6000);
+    const sourceText = source[1].replace(/[.\s]+$/, '').replace(/\bQRZ\b/gi, 'Q R zed').replace(/\bFCC\b/gi, 'F C C').slice(0, 600);
+    return dxCallSpeech(call) + ' Lookup results. ' + main + '. The lookup source is ' + sourceText + '.';
+  }
+
+  function dxLookupSpeechChunks(text, limit = 200) {
+    const chunks = [];
+    let remaining = String(text || '').replace(/\s+/g, ' ').trim();
+    while (remaining.length > limit) {
+      let end = remaining.lastIndexOf('. ', limit);
+      if (end > limit / 3) end += 1;
+      else end = remaining.lastIndexOf(' ', limit);
+      if (end < 1) end = limit;
+      chunks.push(remaining.slice(0, end).trim());
+      remaining = remaining.slice(end).trim();
+    }
+    if (remaining) chunks.push(remaining);
+    return chunks;
+  }
+
+  function speakDxLookupResult(text) {
+    if (!canSpeak || !speak.classList.contains('active')) return;
+    const source = String(text || '').match(/(?:^|\s)(The lookup source is .+)$/);
+    const parts = source ? [text.slice(0, source.index), source[1]] : [text];
+    const chunks = parts.flatMap(part => dxLookupSpeechChunks(part));
+    if (!chunks.length) return;
+    window.clearTimeout(speechStartTimer); speechStartTimer = 0;
+    speechSequence += 1;
+    stopSpokenPlayback();
+    stopRecognition();
+    const sequence = speechSequence, controllers = new Set(), prepared = new Map();
+    const reading = {sequence, abort() { for (const controller of controllers) controller.abort(); }};
+    dxLookupSpeech = reading;
+    speechRequest = reading;
+    voiceOrbSpeaking = true;
+    refreshVoiceOrb();
+    setDxLookupSpeechButton(true);
+    const active = () => dxLookupSpeech === reading && speechSequence === sequence && speak.classList.contains('active');
+    const fail = error => {
+      if (!active()) return;
+      stopDxLookupSpeech();
+      if (error?.name !== 'AbortError') setStatus('Marin speech is temporarily unavailable. Please try the lookup speaker again.');
+    };
+    const prepare = index => {
+      if (index >= chunks.length) return;
+      if (prepared.has(index)) return prepared.get(index);
+      const promise = (async () => {
+        await speechPreferencesReady;
+        if (!active()) throw new DOMException('Lookup reading stopped.', 'AbortError');
+        const controller = new AbortController();
+        controllers.add(controller);
+        try {
+          const response = await fetch('/elmer-api/speech', {
+            method: 'POST', credentials: 'same-origin', signal: controller.signal,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(speechPayload({text: (index === 0 ? 'Okay. ' : '') + chunks[index], lead_silence_ms: index === 0 ? 350 : 100}))
+          });
+          if (!response.ok) throw new Error('Generated lookup speech is unavailable.');
+          return await response.blob();
+        } finally { controllers.delete(controller); }
+      })();
+      // A prepared section may reject before it is its turn to play.
+      promise.catch(() => {});
+      prepared.set(index, promise);
+      return promise;
+    };
+    const next = async index => {
+      if (!active()) return;
+      if (index >= chunks.length) {
+        dxLookupSpeech = null;
+        speechRequest = null;
+        voiceOrbSpeaking = false;
+        setDxLookupSpeechButton(false);
+        refreshVoiceOrb();
+        scheduleWake();
+        return;
+      }
+      const current = prepare(index);
+      prepare(index + 1);
+      try {
+        const blob = await current;
+        if (!active()) return;
+        prepared.delete(index);
+        lastSpokenResult = chunks[index];
+        const play = () => playGeneratedSpeechBlob(blob, chunks[index], sequence, () => next(index + 1)).catch(fail);
+        if (index === 0) playSpeechCue(sequence, play);
+        else play();
+      } catch (error) { fail(error); }
+    };
+    next(0);
+  }
+
+  function setDxLookupSpeechButton(reading) {
+    const button = document.getElementById('dxLookupSpeak');
+    if (!button) return;
+    button.setAttribute('aria-pressed', reading ? 'true' : 'false');
+    button.setAttribute('aria-label', reading ? 'Stop reading DX call lookup results' : 'Read DX call lookup results aloud');
+    button.title = reading ? 'Stop reading lookup results' : 'Read lookup results aloud';
+    const label = button.querySelector('[data-lookup-speech-label]');
+    if (label) label.textContent = reading ? 'Stop reading' : 'Speak';
+  }
+
+  function updateDxLookupSpeechState() {
+    if (dxLookupSpeech && dxLookupSpeech.sequence !== speechSequence) {
+      dxLookupSpeech = null;
+      setDxLookupSpeechButton(false);
+    }
+  }
+
+  function stopDxLookupSpeech() {
+    if (dxLookupSpeech?.sequence === speechSequence) {
+      window.clearTimeout(speechStartTimer); speechStartTimer = 0;
+      speechSequence += 1;
+      stopSpokenPlayback();
+    }
+    dxLookupSpeech = null;
+    setDxLookupSpeechButton(false);
+  }
+
+  function installDxLookupSpeech() {
+    const modal = document.getElementById('myModal');
+    const button = document.getElementById('dxLookupSpeak');
+    if (!modal || !button || button.dataset.speechInstalled) return;
+    button.dataset.speechInstalled = '1';
+    let lastReadback = '';
+    const refresh = () => {
+      const text = dxLookupReadback(modal);
+      if (text !== lastReadback) stopDxLookupSpeech();
+      lastReadback = text;
+      button.hidden = !canSpeak || !text;
+      button.classList.toggle('d-none', button.hidden);
+      button.disabled = button.hidden;
+    };
+    button.addEventListener('click', () => {
+      unlockSpeechPlayback();
+      updateDxLookupSpeechState();
+      if (dxLookupSpeech) { stopDxLookupSpeech(); return; }
+      const text = dxLookupReadback(modal);
+      if (!text) return;
+      enableVoiceForReadback();
+      speakDxLookupResult(text);
+    });
+    const observer = new MutationObserver(refresh);
+    for (const element of [modal.querySelector('#dxcall'), modal.querySelector('.modal-body')]) {
+      if (element) observer.observe(element, {childList: true, characterData: true, subtree: true});
+    }
+    if (window.jQuery) window.jQuery(modal).on('show.bs.modal', refresh).on('hide.bs.modal', stopDxLookupSpeech);
+    refresh();
+  }
+
+  const dxCallAnnouncementState = {
+    enabled: localStorage.getItem('elmerControlDxCallSpeak') === '1',
+    observed: currentDxCall(), initialized: Boolean(currentDxCall()), pending: '', changedAt: 0
+  };
+
+  function setDxCallAnnouncements(enabled) {
+    if (enabled && !canSpeak) throw new Error('Spoken results are unavailable in this browser.');
+    dxCallAnnouncementState.enabled = Boolean(enabled);
+    dxCallAnnouncementState.observed = currentDxCall();
+    dxCallAnnouncementState.initialized = true;
+    dxCallAnnouncementState.pending = '';
+    localStorage.setItem('elmerControlDxCallSpeak', enabled ? '1' : '0');
+    if (enabled) {
+      speak.classList.add('active');
+      speak.setAttribute('aria-pressed', 'true');
+      speak.title = 'Turn off spoken Elmer results';
+      localStorage.setItem('elmerControlSpeak', '1');
+    }
+    const message = enabled
+      ? 'DX call announcements are on. I will speak when the DX call changes.'
+      : 'DX call announcements are off.';
+    showResult(message, 'success');
+    speakResult(message);
+    setStatus('');
+  }
+
+  function pollDxCallAnnouncements() {
+    updateDxLookupSpeechState();
+    const watch = dxCallAnnouncementState;
+    if (!watch.enabled) return;
+    const call = currentDxCall();
+    // A restored preference must not announce the page's initial AJAX fill.
+    // Wait for its first loaded call, then announce only subsequent changes.
+    if (!watch.initialized) {
+      watch.observed = call;
+      watch.pending = '';
+      if (call) watch.initialized = true;
+      return;
+    }
+
+    if (call !== watch.observed) {
+      watch.observed = call;
+      watch.pending = call;
+      watch.changedAt = performance.now();
+    }
+    // Respect mute; never replay changes collected while spoken results were off.
+    if (!speak.classList.contains('active')) {
+      watch.pending = '';
+      return;
+    }
+    if (!watch.pending || performance.now() - watch.changedAt < 900) return;
+    if (run.disabled || pendingVoiceConfirmation || commandRecordingStarting || commandRecorder || commandStream
+        || transcriptionPending || awaitingCommand || recognitionMode === 'command'
+        || voiceOrbSpeaking || speechRequest || speechStartTimer) return;
+    const spokenCall = watch.pending;
+    if (speakResult(dxCallSpeech(spokenCall)) !== false) watch.pending = '';
+  }
+
+  function currentStationReadback() {
+    const frequency = Number(String(window.tMain || '').replace(/\D/g, ''));
+    const rawMode = String(window.tMode || '').trim().toUpperCase();
+    const aliases = {PKTUSB: 'USB-D', PKTLSB: 'LSB-D'};
+    return {
+      frequency: Number.isFinite(frequency) && frequency >= 1000 && frequency <= 6000000000 ? frequency : 0,
+      mode: /^[A-Z0-9-]{1,16}$/.test(rawMode) ? (aliases[rawMode] || rawMode) : ''
+    };
+  }
+
+  function modeForAnnouncement(mode) {
+    const names = {USB: 'upper sideband', LSB: 'lower sideband',
+      'USB-D': 'upper sideband data', 'LSB-D': 'lower sideband data',
+      PKTUSB: 'upper sideband data', PKTLSB: 'lower sideband data',
+      CW: 'C W', CWR: 'C W reverse', AM: 'A M', FM: 'F M',
+      WFM: 'wide F M', NFM: 'narrow F M', RTTY: 'R T T Y'};
+    return names[mode] || mode;
+  }
+
+  const stationAnnouncementState = {
+    frequency: localStorage.getItem('elmerControlFrequencySpeak') === '1',
+    mode: localStorage.getItem('elmerControlModeSpeak') === '1',
+    observed: currentStationReadback(), pending: false, changedAt: 0
+  };
+
+  function setStationAnnouncements(fields, enabled) {
+    if (enabled && !canSpeak) throw new Error('Spoken results are unavailable in this browser.');
+    const selected = [...new Set(fields)].filter(field => field === 'frequency' || field === 'mode');
+    if (!selected.length) throw new Error('Choose frequency, mode, or frequency and mode.');
+    const watch = stationAnnouncementState;
+    for (const field of selected) {
+      watch[field] = Boolean(enabled);
+      localStorage.setItem(field === 'frequency' ? 'elmerControlFrequencySpeak' : 'elmerControlModeSpeak', enabled ? '1' : '0');
+    }
+    watch.observed = currentStationReadback();
+    watch.pending = false;
+    if (enabled) {
+      speak.classList.add('active');
+      speak.setAttribute('aria-pressed', 'true');
+      speak.title = 'Turn off spoken Elmer results';
+      localStorage.setItem('elmerControlSpeak', '1');
+    }
+    const label = selected.includes('frequency') && selected.includes('mode') ? 'Frequency and mode'
+      : selected[0] === 'frequency' ? 'Frequency' : 'Mode';
+    const message = label + ' announcements are ' + (enabled ? 'on.' : 'off.');
+    showResult(message, 'success');
+    speakResult(message);
+    setStatus('');
+  }
+
+  function enableVoiceForReadback() {
+    if (!canSpeak) throw new Error('Spoken results are unavailable in this browser.');
+    speak.classList.add('active');
+    speak.setAttribute('aria-pressed', 'true');
+    speak.title = 'Turn off spoken Elmer results';
+    localStorage.setItem('elmerControlSpeak', '1');
+  }
+
+  function presentVoiceReadback(message) {
+    // Keep approval buttons intact when repeating or asking for voice help.
+    if (!pendingVoiceConfirmation) showResult(escapeHtml(message), 'success');
+    speakResult(message);
+    if (!pendingVoiceConfirmation) setStatus('');
+  }
+
+  function runSpeechUtility(action) {
+    if (action === 'speech.stop') {
+      window.clearTimeout(speechStartTimer);
+      speechStartTimer = 0;
+      speechSequence += 1;
+      stopSpokenPlayback();
+      speak.classList.remove('active');
+      speak.setAttribute('aria-pressed', 'false');
+      speak.title = 'Read Elmer results aloud';
+      localStorage.setItem('elmerControlSpeak', '0');
+      dxCallAnnouncementState.pending = '';
+      stationAnnouncementState.pending = false;
+      stateAlertWatch.pending.clear();
+      focusVoiceWatch.pending = null;
+      if (pendingVoiceConfirmation && !pendingVoiceConfirmation.timer) {
+        pendingVoiceConfirmation.timer = window.setTimeout(() => settleOperatorConfirmation(false, 'expired'), 20000);
+      }
+      if (!pendingVoiceConfirmation) showResult('Spoken results are muted. Say “Voice on” or ask for a readback to resume.', 'success');
+      setStatus(pendingVoiceConfirmation ? 'Speech muted. Approval is still required.' : 'Spoken results are muted.');
+      return;
+    }
+    enableVoiceForReadback();
+    if (action === 'speech.repeat') {
+      presentVoiceReadback(lastSpokenResult || 'There is no previous spoken result to repeat.');
+    } else if (action === 'speech.resume') {
+      presentVoiceReadback('Spoken results are on.');
+    } else if (action === 'speech.announcement_status') {
+      presentVoiceReadback(announcementSettingsReadback());
+    } else if (action === 'speech.orientation') {
+      presentVoiceReadback(orientationReadback());
+    } else if (action === 'speech.focused' || action === 'speech.explain_control') {
+      readVoiceControlExplanation(action === 'speech.explain_control');
+    } else if (action === 'speech.focus_on' || action === 'speech.focus_off') {
+      setFocusVoiceAnnouncements(action === 'speech.focus_on');
+    } else if (action === 'speech.shortcuts_on' || action === 'speech.shortcuts_off') {
+      voiceShortcutsEnabled = action === 'speech.shortcuts_on';
+      voiceShortcutHeldKeys.clear();
+      localStorage.setItem('elmerControlShortcuts', voiceShortcutsEnabled ? '1' : '0');
+      updateVoiceShortcutLabels();
+      presentVoiceReadback('Keyboard shortcuts are ' + (voiceShortcutsEnabled ? 'on.' : 'off.'));
+    } else if (action === 'speech.shortcuts_help') {
+      presentVoiceReadback('Keyboard shortcuts are ' + (voiceShortcutsEnabled ? 'on. ' : 'off. ') + 'Alt Shift M starts or finishes Elmer push to talk. Alt Shift Q silences Elmer. Alt is Option on a Mac.');
+    } else {
+      presentVoiceReadback('You can say: speak current frequency, speak current mode, speak both, DX call, station status, speak signal strength, or speak volume. Say always speak frequency, mode, frequency and mode, or DX call for automatic readbacks. Say what is being announced, or where am I. Say what is focused, or explain this control. Focus announcements on reads labels and states when you hover over controls or move with the keyboard; focus announcements off stops them. State alerts on or off controls state-change alerts. Rising tones mean transmit; the reversed two tones mean receive. Alt Shift M starts or finishes Elmer push to talk; Alt Shift Q silences Elmer. Alt is Option on a Mac. Say keyboard shortcuts off if needed. Say repeat that, stop speaking now, or voice on.');
+    }
+  }
+
+  function formatLiveVoiceReadback(data, kind) {
+    const radio = Number(data.radio);
+    if (kind === 'signal_strength') {
+      const db = data.strength_db_relative_s9;
+      if (typeof db !== 'number' || !Number.isFinite(db)) return 'Radio ' + radio + ' signal strength is unavailable.';
+      return 'Radio ' + radio + ' signal strength is ' + (db === 0 ? 'S 9' : db > 0 ? 'S 9 plus ' + db + ' decibels' : Math.abs(db) + ' decibels below S 9') + '.';
+    }
+    if (kind === 'volume') {
+      const level = data.volume_percent;
+      return 'Radio ' + radio + ' receiver volume is ' + (typeof level === 'number' && Number.isFinite(level) && level >= 0 && level <= 100 ? Math.round(level) + ' percent.' : 'unavailable.');
+    }
+    const receiver = data.receiver || {}, split = data.split || {};
+    const words = ['Radio ' + radio];
+    const freq = receiver.frequency_hz;
+    words.push(typeof freq === 'number' && freq >= 1000 && freq <= 6000000000 ? 'Frequency ' + frequencyForSpeech(freq) + ' megahertz' : 'Frequency readback unavailable');
+    words.push(receiver.mode ? 'Mode ' + modeForAnnouncement(String(receiver.mode).toUpperCase()) : 'Mode readback unavailable');
+    words.push(typeof receiver.bandwidth_hz === 'number' && receiver.bandwidth_hz > 0 ? 'Bandwidth ' + receiver.bandwidth_hz + ' hertz' : 'Bandwidth readback unavailable');
+    words.push(data.radio_transmitting === true ? 'Radio is transmitting' : data.radio_transmitting === false ? 'Radio is receiving' : 'Radio transmit state unavailable');
+    if (split.split_on === false) words.push('Split is off');
+    else if (split.split_on === true) {
+      words.push('Split is on');
+      words.push(split.split_frequency_readback === true && typeof split.split_frequency_hz === 'number' && split.split_frequency_hz >= 1000 ? 'Transmit frequency ' + frequencyForSpeech(split.split_frequency_hz) + ' megahertz' : 'Split transmit frequency readback unavailable');
+    } else words.push('Split status unavailable');
+    const call = currentDxCall();
+    words.push(call ? dxCallSpeech(call).replace(/\.$/, '') : 'No DX call is selected');
+    return words.join('. ') + '.';
+  }
+
+  async function readLiveVoiceStatus(kind) {
+    enableVoiceForReadback();
+    const radio = Number(window.tMyRadio) || 1;
+    setStatus('Reading the selected radio…');
+    try {
+      const response = await fetch('/programs/ElmerRigControl.php', {
+        method: 'POST', credentials: 'same-origin',
+        headers: {'Content-Type': 'application/json', 'X-Elmer-Action': 'rig-control'},
+        body: JSON.stringify({phase: 'voice_readback', readback: kind, radio})
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'The radio readback is unavailable.');
+      if (Number(data.radio) !== radio || data.readback !== kind || (Number(window.tMyRadio) || 1) !== radio) {
+        throw new Error('The selected radio changed. Please ask again.');
+      }
+      presentVoiceReadback(formatLiveVoiceReadback(data, kind));
+    } catch (error) {
+      presentVoiceReadback('Radio readback unavailable. ' + String(error.message || 'Please check the radio connection.'));
+    }
+  }
+
+  const stateAlertWatch = {
+    enabled: localStorage.getItem('elmerControlStateAlerts') === '1',
+    lastRadio: 0, known: {}, pending: new Map(), connectionFailures: 0,
+    transmitting: null, loading: false, nextRead: 0
+  };
+  const fastPttWatch = {loading: false, nextRead: 0, authoritativeRadio: 0, generation: 0};
+  let voiceShortcutsEnabled = localStorage.getItem('elmerControlShortcuts') !== '0';
+  let voiceShortcutController = null;
+  const voiceShortcutHeldKeys = new Set();
+  let lastVoiceControlLabel = '';
+
+  function voiceAnnouncementBusy() {
+    return run.disabled || pendingVoiceConfirmation || commandRecordingStarting || commandRecorder || commandStream
+      || transcriptionPending || awaitingCommand || recognitionMode === 'command'
+      || voiceOrbSpeaking || speechRequest || speechStartTimer;
+  }
+
+  function stateAlertStatus(text) {
+    const region = panel.querySelector('#elmerControlStateAlerts');
+    if (region && region.textContent !== text) region.textContent = text;
+  }
+
+  function setStateAlerts(enabled) {
+    stateAlertWatch.enabled = Boolean(enabled);
+    stateAlertWatch.lastRadio = 0;
+    stateAlertWatch.known = {};
+    stateAlertWatch.pending.clear();
+    stateAlertWatch.connectionFailures = 0;
+    stateAlertWatch.transmitting = null;
+    stateAlertWatch.nextRead = 0;
+    fastPttWatch.authoritativeRadio = 0;
+    fastPttWatch.nextRead = 0;
+    fastPttWatch.generation += 1;
+    localStorage.setItem('elmerControlStateAlerts', enabled ? '1' : '0');
+    enableVoiceForReadback();
+    const message = enabled ? 'State alerts are on. Rising tones mean transmit; the reversed two tones mean receive.' : 'State alerts are off.';
+    stateAlertStatus(message);
+    presentVoiceReadback(message);
+  }
+
+  function playStateAlertTone(transmitting) {
+    if (!speak.classList.contains('active') || commandRecordingStarting || commandRecorder || commandStream || transcriptionPending) return;
+    const context = ensureSpeechContext();
+    if (!context || context.state !== 'running') return;
+    const pitches = transmitting ? [650, 950] : [950, 650];
+    pitches.forEach((pitch, index) => {
+      const oscillator = context.createOscillator(), gain = context.createGain();
+      const start = context.currentTime + index * 0.11;
+      oscillator.frequency.value = pitch;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.035, start + 0.01);
+      gain.gain.linearRampToValueAtTime(0, start + 0.075);
+      oscillator.connect(gain); gain.connect(context.destination);
+      speechSources.add(oscillator);
+      oscillator.onended = () => speechSources.delete(oscillator);
+      oscillator.start(start); oscillator.stop(start + 0.08);
+    });
+  }
+
+  function resetStateAlertRadio(radio) {
+    const watch = stateAlertWatch;
+    if (watch.lastRadio === radio) return;
+    watch.lastRadio = radio; watch.known = {}; watch.pending.clear(); watch.connectionFailures = 0;
+    fastPttWatch.authoritativeRadio = 0;
+    stateAlertStatus('Monitoring Radio ' + radio + '. State alerts are on.');
+  }
+
+  function consumeFastPttSnapshot(data) {
+    const watch = stateAlertWatch, radio = Number(data.radio);
+    if (!watch.enabled || radio !== (Number(window.tMyRadio) || 1)) return;
+    resetStateAlertRadio(radio);
+    fastPttWatch.authoritativeRadio = radio;
+    if (typeof data.transmitting !== 'boolean') { watch.transmitting = null; watch.pending.delete('transmitting'); return; }
+    const previous = watch.known.transmitting;
+    watch.transmitting = data.transmitting;
+    watch.known.transmitting = data.transmitting;
+    watch.pending.delete('transmitting');
+    if (typeof previous !== 'boolean' || previous === data.transmitting) return;
+    stateAlertStatus('Radio ' + radio + (data.transmitting ? ' is transmitting.' : ' is receiving.'));
+    playStateAlertTone(data.transmitting);
+  }
+
+  async function pollFastPttAlerts() {
+    const watch = stateAlertWatch, fast = fastPttWatch;
+    if (!watch.enabled || fast.loading || Date.now() < fast.nextRead) return;
+    const radio = Number(window.tMyRadio) || 1, generation = fast.generation;
+    if (radio < 1 || radio > 4) return;
+    fast.loading = true;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 800);
+    try {
+      const response = await fetch('/programs/ElmerPttStatus.php', {
+        method: 'POST', credentials: 'same-origin', signal: controller.signal,
+        headers: {'Content-Type': 'application/json', 'X-Elmer-Action': 'rig-control'},
+        body: JSON.stringify({radio})
+      });
+      const data = await response.json();
+      if (!response.ok || Number(data.radio) !== radio) throw new Error('PTT status unavailable');
+      if (!watch.enabled || generation !== fast.generation || radio !== (Number(window.tMyRadio) || 1)) return;
+      consumeFastPttSnapshot(data);
+      fast.nextRead = Date.now() + (typeof data.transmitting === 'boolean' ? 0 : 1000);
+    } catch (_) {
+      if (generation === fast.generation && radio === (Number(window.tMyRadio) || 1)) {
+        watch.transmitting = null;
+        watch.pending.delete('transmitting');
+        fast.nextRead = Date.now() + 1000;
+      }
+    } finally { window.clearTimeout(timeout); fast.loading = false; }
+  }
+
+  function consumeStateAlertSnapshot(data) {
+    const watch = stateAlertWatch, radio = Number(data.radio);
+    if (!watch.enabled || radio !== (Number(window.tMyRadio) || 1)) return;
+    resetStateAlertRadio(radio);
+    const responding = typeof data.frequency_hz === 'number' && data.frequency_hz >= 1000;
+    watch.connectionFailures = responding ? 0 : watch.connectionFailures + 1;
+    const useSlowPtt = fastPttWatch.authoritativeRadio !== radio;
+    if (useSlowPtt) watch.transmitting = typeof data.radio_transmitting === 'boolean' ? data.radio_transmitting : null;
+    const values = {
+      connected: responding ? true : watch.connectionFailures >= 2 ? false : null,
+      split: typeof data.split?.split_on === 'boolean' ? data.split.split_on : null,
+      hold: typeof data.cw_hold === 'boolean' ? data.cw_hold : null
+    };
+    if (useSlowPtt) values.transmitting = watch.transmitting;
+    const messages = [];
+    for (const [field, value] of Object.entries(values)) {
+      if (typeof value !== 'boolean') { watch.pending.delete(field); continue; }
+      const previous = watch.known[field];
+      watch.known[field] = value;
+      if (typeof previous !== 'boolean' || previous === value) continue;
+      const message = field === 'connected' ? (value ? 'Radio ' + radio + ' control is responding again.' : 'Radio ' + radio + ' control is not responding.')
+        : field === 'transmitting' ? 'Radio ' + radio + (value ? ' is transmitting.' : ' is receiving.')
+        : field === 'split' ? 'Radio ' + radio + ' split is ' + (value ? 'on.' : 'off.')
+        : 'Radio ' + radio + ' C W Hold is ' + (value ? 'on.' : 'off.');
+      messages.push(message);
+      if (field === 'transmitting') {
+        playStateAlertTone(value);
+        watch.pending.delete(field);
+      } else watch.pending.set(field, message);
+    }
+    if (messages.length) stateAlertStatus(messages.join(' '));
+  }
+
+  async function pollStateAlerts() {
+    const watch = stateAlertWatch;
+    if (!watch.enabled || watch.loading || Date.now() < watch.nextRead || run.disabled || pendingVoiceConfirmation) return;
+    const radio = Number(window.tMyRadio) || 1;
+    if (radio < 1 || radio > 4) return;
+    watch.loading = true;
+    try {
+      const response = await fetch('/programs/ElmerRigControl.php', {
+        method: 'POST', credentials: 'same-origin',
+        headers: {'Content-Type': 'application/json', 'X-Elmer-Action': 'rig-control'},
+        body: JSON.stringify({phase: 'voice_readback', readback: 'state_alerts', radio})
+      });
+      const data = await response.json();
+      if (!response.ok || data.readback !== 'state_alerts' || Number(data.radio) !== radio) throw new Error('State monitoring unavailable');
+      consumeStateAlertSnapshot(data);
+    } catch (_) {
+      watch.nextRead = Date.now() + 10000;
+      stateAlertStatus('State monitoring is temporarily unavailable. Radio state is unknown.');
+    } finally { watch.loading = false; }
+  }
+
+  function flushStateAlerts() {
+    const watch = stateAlertWatch;
+    if (!watch.enabled) { watch.pending.clear(); return; }
+    if (!speak.classList.contains('active')) { watch.pending.clear(); return; }
+    if (!watch.pending.size || watch.transmitting === true || voiceAnnouncementBusy()) return;
+    if (speakResult([...watch.pending.values()].join(' ')) !== false) watch.pending.clear();
+  }
+
+  function announcementSettingsReadback() {
+    return 'Automatic announcements: D X call ' + (dxCallAnnouncementState.enabled ? 'on' : 'off')
+      + '. Frequency ' + (stationAnnouncementState.frequency ? 'on' : 'off')
+      + '. Mode ' + (stationAnnouncementState.mode ? 'on' : 'off')
+      + '. State alerts ' + (stateAlertWatch.enabled ? 'on' : 'off')
+      + '. Focus announcements ' + (focusVoiceWatch.enabled ? 'on' : 'off')
+      + '. Keyboard shortcuts ' + (voiceShortcutsEnabled ? 'on.' : 'off.');
+  }
+
+  const focusVoiceWatch = {
+    enabled: localStorage.getItem('elmerControlFocusSpeak') === '1',
+    hovered: null, keyboardUntil: 0, pending: null, inspected: null, lastFocused: null,
+    lastSpoken: null, lastText: '', lastSpokenAt: 0
+  };
+
+  function voicePlainText(value, limit = 400) {
+    return String(value || '').replace(/<[^>]*>/g, ' ').replace(/[\uE000-\uF8FF]/g, '')
+      .replace(/\s+/g, ' ').trim().slice(0, limit);
+  }
+
+  function voiceReferenceText(element, attribute) {
+    const ids = String(element.getAttribute?.(attribute) || '').trim().split(/\s+/).filter(Boolean);
+    return voicePlainText(ids.map(id => element.ownerDocument?.getElementById(id)?.textContent || '').join(' '));
+  }
+
+  function voiceControlLabel(element) {
+    const referenced = voiceReferenceText(element, 'aria-labelledby');
+    const explicit = voicePlainText(element.getAttribute?.('aria-label'), 120);
+    const labelled = voicePlainText(Array.from(element.labels || []).map(label => label.textContent).join(' '), 120);
+    const visible = /^(BUTTON|A|SUMMARY)$/.test(element.tagName) ? voicePlainText(element.textContent, 120) : '';
+    const inputLabel = element.tagName === 'INPUT' && /^(button|submit|reset)$/i.test(element.type || '')
+      ? voicePlainText(element.value, 120) : '';
+    const title = voicePlainText(element.getAttribute?.('title') || element.getAttribute?.('data-original-title') || element.getAttribute?.('data-bs-original-title'), 120);
+    return (referenced || explicit || labelled || (/[\p{L}\p{N}]/u.test(visible) ? visible : '') || inputLabel || title
+      || voicePlainText(element.getAttribute?.('placeholder'), 120) || 'Unlabelled control').slice(0, 120);
+  }
+
+  function voiceControlRole(element) {
+    const explicit = String(element.getAttribute?.('role') || '').toLowerCase();
+    if (explicit) return ({combobox: 'combo box', textbox: 'text field', listbox: 'list box', radiobutton: 'radio button', spinbutton: 'tuning dial'})[explicit] || explicit;
+    const tag = String(element.tagName || '').toUpperCase(), type = String(element.type || '').toLowerCase();
+    if (tag === 'BUTTON' || tag === 'SUMMARY' || (tag === 'INPUT' && /^(button|submit|reset)$/.test(type))) {
+      return element.getAttribute?.('aria-pressed') !== null && element.getAttribute?.('aria-pressed') !== undefined ? 'toggle button' : 'button';
+    }
+    if (tag === 'A') return 'link';
+    if (tag === 'SELECT') return element.multiple ? 'list box' : 'combo box';
+    if (type === 'range') return 'slider';
+    if (type === 'checkbox') return 'checkbox';
+    if (type === 'radio') return 'radio button';
+    if (type === 'password') return 'password field';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return 'text field';
+    return 'control';
+  }
+
+  function describeVoiceControl(element) {
+    const parts = [voiceControlLabel(element), voiceControlRole(element)];
+    const get = name => element.getAttribute?.(name);
+    const pressed = get('aria-pressed');
+    if (pressed === 'true' || pressed === 'false') parts.push(pressed === 'true' ? 'on' : 'off');
+    else if (pressed === 'mixed') parts.push('mixed state');
+    const checked = get('aria-checked');
+    if (checked === 'true' || checked === 'false' || checked === 'mixed') parts.push(checked === 'mixed' ? 'mixed state' : checked === 'true' ? 'checked' : 'not checked');
+    else if (/^(checkbox|radio)$/i.test(element.type || '')) parts.push(element.checked ? 'checked' : 'not checked');
+    const expanded = get('aria-expanded');
+    if (expanded === 'true' || expanded === 'false') parts.push(expanded === 'true' ? 'expanded' : 'collapsed');
+    else if (element.tagName === 'SUMMARY' && element.parentElement?.tagName === 'DETAILS') parts.push(element.parentElement.open ? 'expanded' : 'collapsed');
+    if (element.disabled || get('aria-disabled') === 'true') parts.push('unavailable');
+    if (get('aria-selected') === 'true') parts.push('selected');
+    if (get('aria-current') && get('aria-current') !== 'false') parts.push('current');
+    if (element.tagName === 'SELECT') {
+      const selected = voicePlainText(Array.from(element.selectedOptions || []).map(option => option.textContent).join(', '), 120);
+      if (selected) parts.push(selected);
+    }
+    if (String(element.type).toLowerCase() === 'range' || get('role') === 'slider') {
+      const value = voicePlainText(get('aria-valuetext') || get('aria-valuenow') || element.value, 80);
+      if (value) parts.push(value);
+    }
+    // Text/password field values are deliberately excluded from automatic speech.
+    return parts.join(', ') + '.';
+  }
+
+  function voiceControlDescription(element) {
+    return voiceReferenceText(element, 'aria-describedby') || voicePlainText(element.getAttribute?.('title')
+      || element.getAttribute?.('data-original-title') || element.getAttribute?.('data-bs-original-title'));
+  }
+
+  function voiceCommandInput(element) {
+    return ['elmerControlCommand', 'elmerControlRun', 'elmerControlMic'].includes(element?.id);
+  }
+
+  function voiceInspectionTarget() {
+    let active = document.activeElement;
+    try {
+      const top = window.top.document.activeElement;
+      if (top && !/^(BODY|HTML)$/.test(top.tagName)) active = top;
+      while (active?.tagName === 'IFRAME') active = active.contentDocument.activeElement;
+    } catch (_) {}
+    if (active && !/^(BODY|HTML|IFRAME)$/.test(active.tagName) && !voiceCommandInput(active)) return active;
+    if (focusVoiceWatch.inspected?.isConnected) return focusVoiceWatch.inspected;
+    if (active && !/^(BODY|HTML|IFRAME)$/.test(active.tagName)) return active;
+    return null;
+  }
+
+  function readVoiceControlExplanation(explain) {
+    focusVoiceWatch.pending = null;
+    const element = voiceInspectionTarget();
+    if (!element) { presentVoiceReadback('No control is selected. Focus a control with Tab, then ask again.'); return; }
+    let text = describeVoiceControl(element);
+    if (explain) {
+      const description = voiceControlDescription(element);
+      text += description && description.toLowerCase() !== voiceControlLabel(element).toLowerCase()
+        ? ' ' + description : ' No additional description is available.';
+    }
+    presentVoiceReadback(text);
+  }
+
+  function setFocusVoiceAnnouncements(enabled) {
+    focusVoiceWatch.enabled = Boolean(enabled);
+    focusVoiceWatch.pending = null;
+    focusVoiceWatch.keyboardUntil = 0;
+    localStorage.setItem('elmerControlFocusSpeak', enabled ? '1' : '0');
+    presentVoiceReadback(enabled ? 'Focus announcements are on. Pausing the mouse over a control or moving keyboard focus will read its label and state; ask Explain this control for details.'
+      : 'Focus announcements are off. Your screen reader can read labels without a second voice.');
+  }
+
+  function noteVoiceFocusInput(event) {
+    if (event.type === 'pointerdown') { focusVoiceWatch.keyboardUntil = 0; focusVoiceWatch.pending = null; return; }
+    if (event.type !== 'keydown') return;
+    if (!event.ctrlKey && !event.altKey && !event.metaKey && !event.isComposing
+        && /^(Tab|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Home|End|PageUp|PageDown)$/.test(event.key)) {
+      focusVoiceWatch.keyboardUntil = performance.now() + 1500;
+      unlockSpeechPlayback();
+    } else if (!/^(Shift|Control|Alt|Meta)$/.test(event.key)) {
+      focusVoiceWatch.keyboardUntil = 0; focusVoiceWatch.pending = null;
+    }
+  }
+
+  function hoveredVoiceControl(target) {
+    return target?.closest?.('button, a, input, select, textarea, summary, [role="button"], [role="slider"], [role="checkbox"], [role="switch"], [tabindex], [onclick], [title], [data-original-title], [data-bs-original-title]') || null;
+  }
+
+  function trackVoiceControlHover(event) {
+    if (event.pointerType && event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+    const element = hoveredVoiceControl(event.target);
+    const related = hoveredVoiceControl(event.relatedTarget);
+    if (event.type === 'pointerout' || event.type === 'mouseout') {
+      if (element === related) return;
+      if (focusVoiceWatch.hovered === element) {
+        focusVoiceWatch.hovered = null;
+        if (focusVoiceWatch.pending?.hover) focusVoiceWatch.pending = null;
+      }
+      return;
+    }
+    if (!element) {
+      focusVoiceWatch.hovered = null;
+      if (focusVoiceWatch.pending?.hover) focusVoiceWatch.pending = null;
+      return;
+    }
+    if (element === related || element === focusVoiceWatch.hovered) return;
+    focusVoiceWatch.hovered = element;
+    if (!voiceCommandInput(element)) focusVoiceWatch.inspected = element;
+    focusVoiceWatch.pending = focusVoiceWatch.enabled
+      ? {element, changedAt: performance.now(), hover: true} : null;
+  }
+
+  function rememberVoiceControl(event) {
+    const element = event.target?.closest?.('input, textarea, select, button, a, summary, [tabindex], [role="button"], [role="slider"]') || event.target;
+    if (!element || /^(BODY|HTML|IFRAME)$/.test(element.tagName)) { focusVoiceWatch.pending = null; return; }
+    lastVoiceControlLabel = voiceControlLabel(element);
+    const keyboardFocus = event.type === 'focusin' && performance.now() <= focusVoiceWatch.keyboardUntil && focusVoiceWatch.keyboardUntil > 0;
+    if (!voiceCommandInput(element) || keyboardFocus) focusVoiceWatch.inspected = element;
+    if (event.type !== 'focusin') return;
+    focusVoiceWatch.lastFocused = element;
+    focusVoiceWatch.pending = focusVoiceWatch.enabled && keyboardFocus
+      ? {element, changedAt: performance.now()} : null;
+  }
+
+  function flushFocusVoiceAnnouncement() {
+    const watch = focusVoiceWatch, pending = watch.pending;
+    if (!pending) return;
+    if (!watch.enabled || !speak.classList.contains('active') || !pending.element.isConnected
+        || (pending.hover ? pending.element !== watch.hovered : pending.element !== watch.lastFocused) || (!pending.hover && performance.now() - pending.changedAt > 2000)) {
+      watch.pending = null; return;
+    }
+    if (performance.now() - pending.changedAt < (pending.hover ? 650 : 130) || voiceAnnouncementBusy() || stateAlertWatch.transmitting === true) return;
+    const text = describeVoiceControl(pending.element);
+    if (watch.lastSpoken === pending.element && watch.lastText === text && performance.now() - watch.lastSpokenAt < 500) { watch.pending = null; return; }
+    if (speakResult(text) !== false) {
+      watch.lastSpoken = pending.element; watch.lastText = text; watch.lastSpokenAt = performance.now(); watch.pending = null;
+    }
+  }
+
+  function focusedVoiceControlLabel() {
+    let element = document.activeElement;
+    try {
+      const topElement = window.top.document.activeElement;
+      if (topElement && !/^(BODY|HTML)$/.test(topElement.tagName)) element = topElement;
+      while (element?.tagName === 'IFRAME') element = element.contentDocument.activeElement;
+    } catch (_) {}
+    if (!element || /^(BODY|HTML|IFRAME)$/.test(element.tagName)) return lastVoiceControlLabel ? 'page content. Last control was ' + lastVoiceControlLabel : 'page content';
+    return voiceControlLabel(element);
+  }
+
+  function orientationReadback() {
+    const current = currentStationReadback(), radio = Number(window.tMyRadio) || 1;
+    const parts = ['Radio ' + radio];
+    parts.push(current.frequency ? 'Main frequency display ' + frequencyForSpeech(current.frequency) + ' megahertz' : 'Main frequency display unavailable');
+    parts.push(current.mode ? 'Mode ' + modeForAnnouncement(current.mode) : 'Mode unavailable');
+    parts.push('Focus is on ' + focusedVoiceControlLabel());
+    return parts.join('. ') + '.';
+  }
+
+  function updateVoiceShortcutLabels() {
+    if (voiceShortcutsEnabled) {
+      mic.setAttribute('aria-keyshortcuts', 'Alt+Shift+M');
+    } else {
+      mic.removeAttribute('aria-keyshortcuts');
+    }
+    mic.title = 'Tap to start or finish an Elmer voice command' + (voiceShortcutsEnabled ? ' (Alt+Shift+M)' : '');
+  }
+
+  function toggleElmerMicrophoneShortcut() {
+    if (transcriptionPending || mic.disabled) return;
+    setCollapsed(false);
+    window.elmerControlKeyboardActive = true;
+    mic.focus({preventScroll: true});
+    commandStartedOnPointerDown = false;
+    if (commandRecordingStarting) { commandRecordingCancelRequested = true; return; }
+    if (commandRecorder && commandRecorder.state !== 'inactive') stopCommandRecording();
+    else startCommandRecording();
+  }
+
+  function handleElmerVoiceShortcut(event) {
+    const code = event.code || (/^[mq]$/i.test(event.key || '') ? 'Key' + event.key.toUpperCase() : '');
+    const chord = voiceShortcutsEnabled && event.altKey && event.shiftKey && !event.ctrlKey && !event.metaKey
+      && !event.isComposing && !event.getModifierState?.('AltGraph') && (code === 'KeyM' || code === 'KeyQ');
+    if (!chord && !voiceShortcutHeldKeys.has(code)) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    if (event.type === 'keyup') { voiceShortcutHeldKeys.delete(code); return; }
+    if (event.type !== 'keydown' || event.repeat) return;
+    voiceShortcutHeldKeys.add(code);
+    unlockSpeechPlayback();
+    if (code === 'KeyM') toggleElmerMicrophoneShortcut();
+    else runSpeechUtility('speech.stop');
+  }
+
+  function installElmerVoiceShortcuts() {
+    if (voiceShortcutController && !voiceShortcutController.signal.aborted) return;
+    voiceShortcutController = new AbortController();
+    const signal = voiceShortcutController.signal, documents = new Set();
+    const attach = doc => {
+      if (!doc || documents.has(doc)) return;
+      documents.add(doc);
+      doc.addEventListener('pointerdown', unlockSpeechPlayback, {capture: true, passive: true, signal});
+      doc.addEventListener('keydown', unlockSpeechPlayback, {capture: true, signal});
+      for (const type of ['keydown', 'pointerdown']) doc.addEventListener(type, noteVoiceFocusInput, {capture: true, signal});
+      for (const type of ['keydown', 'keypress', 'keyup']) doc.addEventListener(type, handleElmerVoiceShortcut, {capture: true, signal});
+      for (const type of ['pointerover', 'pointerout', 'mouseover', 'mouseout', 'mousemove']) doc.addEventListener(type, trackVoiceControlHover, {capture: true, signal});
+      for (const type of ['focusin', 'pointerdown', 'click']) doc.addEventListener(type, rememberVoiceControl, {capture: true, signal});
+      doc.addEventListener('load', event => {
+        if (event.target?.tagName === 'IFRAME') { try { attach(event.target.contentDocument); } catch (_) {} }
+      }, {capture: true, signal});
+      for (const frame of doc.querySelectorAll('iframe')) { try { attach(frame.contentDocument); } catch (_) {} }
+    };
+    try { attach(window.top.document); } catch (_) {}
+    attach(document);
+  }
+
+  function readCurrentStation(fields) {
+    if (!canSpeak) throw new Error('Spoken results are unavailable in this browser.');
+    const current = currentStationReadback();
+    const words = [], displayed = [];
+    if (fields.includes('frequency')) {
+      words.push(current.frequency ? 'Frequency ' + frequencyForSpeech(current.frequency) + ' megahertz'
+        : 'The current frequency is unavailable');
+      displayed.push(current.frequency ? '<strong>Frequency:</strong> ' + escapeHtml(frequencyForDisplay(current.frequency)) + ' MHz'
+        : 'The current frequency is unavailable.');
+    }
+    if (fields.includes('mode')) {
+      words.push(current.mode ? 'mode ' + modeForAnnouncement(current.mode) : 'The current mode is unavailable');
+      displayed.push(current.mode ? '<strong>Mode:</strong> ' + escapeHtml(current.mode) : 'The current mode is unavailable.');
+    }
+    // An explicit spoken readback also makes voice available without finding the speaker button.
+    speak.classList.add('active');
+    speak.setAttribute('aria-pressed', 'true');
+    speak.title = 'Turn off spoken Elmer results';
+    localStorage.setItem('elmerControlSpeak', '1');
+    showResult(displayed.join('<br>'), 'success');
+    speakResult(words.join(', ') + '.');
+    setStatus('');
+  }
+
+  function pollStationAnnouncements() {
+    const watch = stationAnnouncementState;
+    if (!watch.frequency && !watch.mode) return;
+    const current = currentStationReadback();
+    const changed = (watch.frequency && current.frequency && current.frequency !== watch.observed.frequency)
+      || (watch.mode && current.mode && current.mode !== watch.observed.mode);
+    watch.observed = current;
+    if (changed) {
+      watch.pending = true;
+      watch.changedAt = performance.now();
+    }
+    if (!speak.classList.contains('active')) {
+      watch.pending = false;
+      return;
+    }
+    if (!watch.pending || performance.now() - watch.changedAt < 900) return;
+    if (run.disabled || pendingVoiceConfirmation || commandRecordingStarting || commandRecorder || commandStream
+        || transcriptionPending || awaitingCommand || recognitionMode === 'command'
+        || voiceOrbSpeaking || speechRequest || speechStartTimer) return;
+    const parts = [];
+    if (watch.frequency && current.frequency) parts.push('Frequency ' + frequencyForSpeech(current.frequency) + ' megahertz');
+    if (watch.mode && current.mode) parts.push('mode ' + modeForAnnouncement(current.mode));
+    if (!parts.length) { watch.pending = false; return; }
+    if (speakResult(parts.join(', ') + '.') !== false) watch.pending = false;
+  }
+
+  function readCurrentDxCall() {
+    const call = currentDxCall();
+    if (!call) {
+      showResult('No DX call is selected.', 'warning');
+      speakResult('No DX call is selected.');
+    } else {
+      showResult('<strong>DX call:</strong> ' + escapeHtml(call), 'success');
+      speakResult(dxCallSpeech(call));
+    }
+    setStatus('');
   }
 
   async function prepareLogContact(action) {
@@ -1960,7 +2975,21 @@ Split will be turned on if needed.`))) {
       const plannedLanguage = String(plan.response_locale || '').trim().toLowerCase().split('-')[0];
       if (/^[a-z]{2,3}$/.test(plannedLanguage)) commandLanguageHint = plannedLanguage;
       const action = plan.rig_control || {};
-      if (action.action === 'receiver.activity_tune') {
+      if (action.action === 'receiver.state_alerts') {
+        setStateAlerts(action.announce);
+      } else if (/^speech\./.test(action.action)) {
+        runSpeechUtility(action.action);
+      } else if (action.action === 'receiver.voice_readback') {
+        await readLiveVoiceStatus(action.readback);
+      } else if (action.action === 'receiver.station_readback') {
+        readCurrentStation(action.fields);
+      } else if (action.action === 'receiver.station_announce') {
+        setStationAnnouncements(action.fields, action.announce);
+      } else if (action.action === 'receiver.dx_call_announce') {
+        setDxCallAnnouncements(action.announce);
+      } else if (action.action === 'receiver.dx_call') {
+        readCurrentDxCall();
+      } else if (action.action === 'receiver.activity_tune') {
         const outcome = await tuneActivityOnBand(action);
         renderOutcome(outcome);
         await loadHistory(false);
@@ -2433,6 +3462,21 @@ Split will be turned on if needed.`))) {
     }
   });
   speak.classList.toggle('active', canSpeak && localStorage.getItem('elmerControlSpeak') === '1');
+  speak.setAttribute('aria-pressed', speak.classList.contains('active') ? 'true' : 'false');
+  speak.title = speak.classList.contains('active') ? 'Turn off spoken Elmer results' : 'Read Elmer results aloud';
+  window.setInterval(pollDxCallAnnouncements, 300);
+  window.setInterval(pollStationAnnouncements, 300);
+  window.setInterval(pollStateAlerts, 2500);
+  window.setInterval(pollFastPttAlerts, 250);
+  window.setInterval(flushStateAlerts, 300);
+  window.setInterval(flushFocusVoiceAnnouncement, 150);
+  stateAlertStatus(stateAlertWatch.enabled ? 'State alerts are on.' : 'State alerts are off.');
+  updateVoiceShortcutLabels();
+  installElmerVoiceShortcuts();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installDxLookupSpeech, {once: true});
+  else installDxLookupSpeech();
+  window.addEventListener('pagehide', () => { voiceShortcutController?.abort(); voiceShortcutHeldKeys.clear(); speechSequence += 1; stopSpokenPlayback(); });
+  window.addEventListener('pageshow', installElmerVoiceShortcuts);
   speak.disabled = !canSpeak;
   mic.disabled = !navigator.mediaDevices?.getUserMedia || !window.MediaRecorder;
   if (wake) wake.disabled = !Recognition;

@@ -76,6 +76,36 @@ function elmerRigFrequency(int $port): int {
     throw new RuntimeException('RigPi could not read the radio frequency.');
 }
 
+function elmerVoiceReadbackSnapshot(int $port, string $kind): array {
+    if (!in_array($kind, ['station_status', 'signal_strength', 'volume', 'state_alerts'], true)) {
+        throw new InvalidArgumentException('The requested spoken readback is invalid.');
+    }
+    $out = [];
+    $read = static function (string $field, callable $callback) use (&$out): void {
+        try { $out[$field] = $callback(); }
+        catch (Throwable $ignored) { $out[$field] = null; }
+    };
+    if ($kind === 'station_status') {
+        $read('receiver', static fn() => elmerReceiverState($port));
+        $read('radio_transmitting', static fn() => elmerRigPttActive($port));
+        // No /api/state fallback: a status read must not restore SDR settings.
+        $read('split', static fn() => elmerRigSplitState($port, false));
+    } elseif ($kind === 'state_alerts') {
+        $read('frequency_hz', static fn() => elmerRigFrequency($port));
+        $out['radio_transmitting'] = null;
+        $out['split'] = null;
+        if (is_int($out['frequency_hz']) && $out['frequency_hz'] >= 1000) {
+            $read('radio_transmitting', static fn() => elmerRigPttActive($port));
+            $read('split', static fn() => elmerRigSplitState($port, false));
+        }
+    } elseif ($kind === 'signal_strength') {
+        $read('strength_db_relative_s9', static fn() => elmerRigStrength($port));
+    } else {
+        $read('volume_percent', static fn() => elmerLevelPercentForOperator('AF', elmerRigLevel($port, 'AF')));
+    }
+    return $out;
+}
+
 function elmerRigModeState(int $port): array {
     $mode = '';
     $bandwidth = null;
@@ -1015,6 +1045,8 @@ try {
     $phase = (string)($request['phase'] ?? '');
     $username = (string)$_SESSION['myUsername'];
     $sessionRadio = (int)($_SESSION['myRadio'] ?? 0);
+    // Read-only snapshots must not hold the session lock during radio I/O.
+    if ($phase === 'voice_readback') session_write_close();
     $db = new mysqli('localhost', $sql_radio_username, $sql_radio_password, $sql_radio_database);
     if ($db->connect_errno) throw new RuntimeException('The RigPi database is unavailable.');
     $db->set_charset('utf8mb4');
@@ -1100,6 +1132,29 @@ try {
             }
         }
         echo json_encode($cw + ['radio' => $radio, 'cw_text' => $text]);
+        exit;
+    }
+
+    if ($phase === 'voice_readback') {
+        if (!in_array($accessLevel, [1, 2, 3, 4], true)) {
+            throw new UnexpectedValueException('Your RigPi account cannot read radio status.');
+        }
+        $radio = array_key_exists('radio', $request) && $request['radio'] !== null
+            ? elmerIntegerParameter($request['radio'], 'radio number', 1, 4) : $sessionRadio;
+        if ($radio !== $sessionRadio || $radio < 1 || $radio > 4) {
+            throw new InvalidArgumentException('Select that radio in RigPi before reading its status.');
+        }
+        $kind = (string)($request['readback'] ?? '');
+        $snapshot = elmerVoiceReadbackSnapshot(4530 + 2 * $radio, $kind);
+        if ($kind === 'state_alerts') {
+            $snapshot['cw_hold'] = null;
+            // Retain the existing administrator-only keyer-status boundary.
+            if ($accessLevel === 1) {
+                try { $snapshot['cw_hold'] = elmerCwState($db, $radio)['cw_hold']; }
+                catch (Throwable $ignored) {}
+            }
+        }
+        echo json_encode(['status' => 'complete', 'radio' => $radio, 'readback' => $kind] + $snapshot);
         exit;
     }
 

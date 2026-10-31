@@ -11,8 +11,38 @@ require_once "/var/www/html/programs/doGPIOPTTFunc.php";
 require_once "/var/www/html/programs/GetBand.php";
 require_once "/var/www/html" . "/classes/MysqliDb.php";
 
+require_once __DIR__ . '/RigPiCatCwOffset.php';
+
 class RigServer
 {
+    private $catCwOffsetController = null;
+    private function catCwOffset(): RigPiCatCwOffset {
+        if($this->catCwOffsetController===null){
+            $target=$this->config['ip'].':'.$this->config['port'];
+            $this->catCwOffsetController=new RigPiCatCwOffset(
+                function($command){$this->sendRigMessage($command);return $this->getRigMessage(128);},
+                function()use($target){
+                    return proc_open(['rigctl','-m','2','-r',$target,'\\wait_morse'],
+                        [0=>['file','/dev/null','r'],1=>['file','/dev/null','w'],2=>['file','/dev/null','w']],$pipes);
+                },
+                static function($process){
+                    $status=proc_get_status($process);
+                    return $status && $status['running']?null:($status && $status['exitcode']===0);
+                },
+                static function($process){
+                    $status=proc_get_status($process);
+                    if($status && $status['running'])proc_terminate($process);
+                    proc_close($process);
+                }
+            );
+        }
+        return $this->catCwOffsetController;
+    }
+    private function catCwOffsetError(Throwable $error): void {
+        $this->doLog('CW passband offset: '.$error->getMessage());
+        $this->setRigInterface($this->config['radio'],'RadioData','CW passband offset: '.$error->getMessage());
+    }
+
     protected $cDB;
     protected $config;
     protected $rigID;
@@ -167,7 +197,7 @@ class RigServer
             $result = socket_connect(
                 $this->sock1,
                 $this->config["ip"],
-                $this->config["port"]
+                $this->config["port"],
             );
             if (!$result) {
                 echo "ERROR: " .
@@ -201,7 +231,7 @@ class RigServer
             error_log(
                 date("Y-m-d H:i:s", time()) . " " . $what,
                 3,
-                "/var/log/rigpi-radio.log"
+                "/var/log/rigpi-radio.log",
             );
             system("stty -F " . $sport . " -//.echo");
             system("stty -F " . $sport . " raw");
@@ -233,7 +263,7 @@ class RigServer
             error_log(
                 date("Y-m-d H:i:s", time()) . " " . $what,
                 3,
-                "/var/log/rigpi-radio.log"
+                "/var/log/rigpi-radio.log",
             );
         }
     }
@@ -245,7 +275,7 @@ class RigServer
         error_log(
             date("Y-m-d H:i:s", time()) . " " . $what,
             3,
-            "/var/log/rigpi-radio.log"
+            "/var/log/rigpi-radio.log",
         );
         //        }
     }
@@ -307,6 +337,9 @@ class RigServer
 
     public function loop_once()
     {
+        if($this->catCwOffsetController!==null){
+            try{$this->catCwOffsetController->tick();}catch(Throwable $error){$this->catCwOffsetError($error);}
+        }
         $tRadio = $this->config["radio"];
         $dataIn = GetOut($tRadio);
         $data = explode("`", $dataIn);
@@ -456,7 +489,7 @@ class RigServer
                             } else {
                                 if ($this->config["PTTMode"] != 2) {
                                     $toSend =
-                                        "T" . $this->config["VFOA"] . " 3\n";
+                                        "T 3\n";
                                     $this->sendRigMessage($toSend);
                                     $trig = $this->getRigMessage(11);
                                 }
@@ -484,7 +517,7 @@ class RigServer
                             } else {
                                 if ($this->config["PTTMode"] != 2) {
                                     $toSend =
-                                        "T" . $this->config["VFOA"] . " 3\n";
+                                        "T 3\n";
                                     $this->sendRigMessage($toSend);
                                     $trig = $this->getRigMessage(11);
                                 }
@@ -496,7 +529,7 @@ class RigServer
                     $this->setRigInterface($tRadio, "Transmit", "0");
                     $this->config["PTTWasOn"] = 0;
                     $this->SetPTT("off");
-                    $this->sendRigMessage("T" . $this->config["VFOA"] . " 0\n");
+                    $this->sendRigMessage("T 0\n");
                     $trig = $this->getRigMessage(11);
                     $this->config["inTransmit"] = "off";
                     $this->config["pttWait"] = $this->config["pttWaitDefault"];
@@ -537,13 +570,13 @@ class RigServer
                 ) {
                     $this->config["xLockOut"] = 1;
                     $this->setPTT("off");
-                    $toSend = "T" . $this->config["VFOA"] . " 0\n";
+                    $toSend = "T 0\n";
                     $this->sendRigMessage($toSend);
                     $trig = $this->getRigMessage(11);
                     $this->setRigInterface(
                         $tRadio,
                         "RadioData",
-                        "Transmit time longer than Deadman timer, restart radio to clear."
+                        "Transmit time longer than Deadman timer, restart radio to clear.",
                     );
                 }
             }
@@ -569,14 +602,14 @@ class RigServer
             $trig = str_replace("\n", "", (string) $trig);
             //            $this->config["freq"] = $trig;
 
-            $tField = "MainOut";
+            $tField = "MainIn"; // Radio poll result; never feed it back as an outbound tune command
             //			//.echo $command . " " .$trig . "\n";
             $this->doLog(
                 "Read freq: " .
                     $trig .
                     " length: " .
                     strlen((string) ($trig ?? "")) .
-                    "\n"
+                    "\n",
             );
             $tData = $trig;
             $tMain = $trig;
@@ -681,7 +714,7 @@ class RigServer
             //				//.echo $this->config["disableSplit"]."\n";
             $tData = "";
             if (0 == 0) {
-                $command = "s " . $this->config["VFOA"]; //get split status and split vfo
+                $command = "s"; // Poll current VFO so memory mode is preserved
                 //					$command="s";	//get split status and split vfo
                 //         //.echo "get split status\n";
                 $this->sendRigMessage($command . "\n");
@@ -740,7 +773,7 @@ class RigServer
             //get signal strength
             if ($this->config["xmitMtrCount"] == 0) {
                 $this->config["xmitMtrCount"] = 2;
-                $command = "l" . $this->config["VFOA"] . " STRENGTH";
+                $command = "l STRENGTH"; // Poll current VFO so memory mode is preserved
                 $this->sendRigMessage($command . "\n");
                 $trig = $this->getRigMessage(11);
                 $trig = str_replace("\n", "", (string) $trig);
@@ -755,7 +788,7 @@ class RigServer
             if ($this->loop_CheckOnce() == false) {
                 return true;
             }
-            $command = "m" . $this->config["VFOA"];
+            $command = "m"; // Poll current VFO so memory mode is preserved
             $this->sendRigMessage($command . "\n");
             $trig = $this->getRigMessage(24);
             //         echo "triggy " . $trig;
@@ -874,7 +907,7 @@ class RigServer
                                 $this->setRigInterface(
                                     $tRadio,
                                     $tField,
-                                    $tData
+                                    $tData,
                                 );
                             }
                         }
@@ -1009,6 +1042,10 @@ class RigServer
                     //         $this->config["disconnect"] = false;
                     //          return true;
                 } elseif (strtolower($tComm) == "q") {
+                    if($this->catCwOffsetController!==null && $this->catCwOffsetController->isActive()){
+                        $this->sendRigMessage("\\stop_morse\n");$this->getRigMessage(64);
+                        try{$this->catCwOffsetController->cancel();}catch(Throwable $error){$this->catCwOffsetError($error);}
+                    }
                     $this->setRigInterface($tRadio, "MainIn", "OFF");
                     //shutdown rigctl
                     $tosend = $tComm . "\n";
@@ -1084,156 +1121,198 @@ class RigServer
                     $this->setRigInterface($tRadio, "Slave", $dec2);
                     //              } elseif (strpos($tComm, "*") !== false) {
                 } elseif (strpos($tComm, "*") !== false) {
-                    $this->doLog("huh");
-                    //     //direct (radio dependent) 'w' commands, 0w=skip read, 1w= no skip.level
-                    //     $skipRead = false;
-                    //     $this->doLog($tComm);
-                    //     echo "\nXXXXXX $tComm";
                     $bunch = explode("*", $tComm);
-                    echo "\nXXXXXX $bunch[1]";
-                    //     $this->doLog("\nXXXXXX $bunch[1]");
-                    //     $i = 1;
-                    //     //                    for ($i = 1; $i < count($bunch); $i++) {
-                    //     echo "running bunch with $i";
-                    //                     if (strpos($bunch[$i], "w ") !== false) {
-                    //                         if (substr($bunch[$i], 0, 1) == 1) {
-                    //                             $skipRead = false;
-                    //                         } else {
-                    //                             $skipRead = true;
-                    //                         }
-                    //                         $tComm = substr($bunch[$i], 0);
-                    //                         $tosend = $tComm . "\n";
-                    //                         echo "tosend: $tosend \n";
-                    //
-                    //                         $this->sendRigMessage($tosend);
-                    //                         sleep(1);
-                    //                         if ($skipRead == false) {
-                    //                             $trig = $this->getRigMessage(2000);
-                    //                         } else {
-                    //                             $trig = ""; //$tComm;
-                    //                         }
-                    //                         if (
-                    //                             strstr((string) ($trig ?? ""), "RPRT -1") ||
-                    //                             ($skipRead == false &&
-                    //                                 strlen((string) ($trig ?? "")) == 0)
-                    //                         ) {
-                    //                             $oops = "<br>There is a problem with the w macro $tComm.
-                    //                     Confirm that it adheres to the Hamlib rigctld api for w and the desired radio command.<br><br>";
-                    //                             $this->setRigInterface($tRadio, "RadioData", $oops);
-                    //                             sleep(1); //when rigctld gets a bad command, it blasts several throusand characters of text...
-                    //                         } else {
-                    //                             if (strlen((string) ($trig ?? "")) > 0) {
-                    //                                 $oops = "<br>Radio says: " . $trig . "<br><br>";
-                    //                                 //										$this->setRigInterface($tRadio,"RadioData",$oops);
-                    //                                 $trig = $this->getRigMessage(10000);
-                    //                             }
-                    //                         }
-                    //                  } else {
-                    $i = 1;
-                    $tosend = $bunch[$i] . "\n";
-                    echo "sendto: $tosend\n";
-                    $directCommand = trim((string) $bunch[$i]);
-                    if (str_starts_with($directCommand, "\\rigpi_cw_text ")) {
-                        // Keep CAT CW on this already-open rigctld session. A
-                        // second short-lived rigctl client can lose the send
-                        // while the radio worker is polling the same daemon.
-                        $cwText = substr(
-                            $directCommand,
-                            strlen("\\rigpi_cw_text ")
-                        );
-                        $this->sendRigMessage("M CW -1\n");
-                        $this->getRigMessage(64);
-                        if ($cwText !== "") {
-                            // The browser Keyer slider stores the operator's
-                            // selected speed in the Keyer table. Apply it on
-                            // this same rigctld session immediately before
-                            // sending so CAT CW and local sidetone stay aligned.
-                            $cwSpeed = (int) GetField($tRadio, "WKSpeed", "Keyer");
+                    for ($i = 1; $i < count($bunch); $i++) {
+                        $directCommand = trim((string) $bunch[$i]);
+                        if ($directCommand === "") {
+                            continue;
+                        }
+
+                        $this->doLog("Stack command: [" . $directCommand . "]");
+
+                        // 0w/1w are RigPi prefixes for Hamlib's raw `w`
+                        // command. 0w sends without reading a reply; 1w reads
+                        // exactly one reply. Do not perform the old second read,
+                        // which can block this worker and prevent the remaining
+                        // stacked commands from running.
+                        if (
+                            preg_match(
+                                '/^([01])w(?:\s|$)/',
+                                $directCommand,
+                                $writeCommand,
+                            )
+                        ) {
+                            $skipRead = $writeCommand[1] === "0";
+                            $wireCommand = substr($directCommand, 1);
+                            $this->sendRigMessage($wireCommand . "\n");
+
+                            $trig = $skipRead ? "" : $this->getRigMessage(2000);
+                            if (
+                                strstr((string) ($trig ?? ""), "RPRT -1") ||
+                                (!$skipRead &&
+                                    strlen((string) ($trig ?? "")) === 0)
+                            ) {
+                                $oops = "<br>There is a problem with the w macro $directCommand.
+                    Confirm that it adheres to the Hamlib rigctld api for w and the desired radio command.<br><br>";
+                                $this->setRigInterface(
+                                    $tRadio,
+                                    "RadioData",
+                                    $oops,
+                                );
+                                sleep(1);
+                            }
+                            continue;
+                        }
+
+                        if (
+                            str_starts_with($directCommand, "\\rigpi_cw_speed ")
+                        ) {
+                            // Apply slider changes on the radio worker's existing
+                            // rigctld session so CAT speed can change while CW is
+                            // already being sent.
+                            $cwSpeed = (int) trim(
+                                substr(
+                                    $directCommand,
+                                    strlen("\\rigpi_cw_speed "),
+                                ),
+                            );
                             if ($cwSpeed >= 5 && $cwSpeed <= 80) {
-                                $this->sendRigMessage("L KEYSPD " . $cwSpeed . "\n");
+                                $this->sendRigMessage(
+                                    "L KEYSPD " . $cwSpeed . "\n",
+                                );
                                 $this->getRigMessage(64);
                             }
-                            $this->sendRigMessage("\\send_morse " . $cwText . "\n");
-                            $this->getRigMessage(64);
+                            continue;
                         }
-                        return true;
-                    }
-                    if ($directCommand === "\\rigpi_tune_on") {
-                        // Hamlib has no portable continuous-key command.  Use a
-                        // bounded train of dashes at the radio's minimum speed.
-                        // Save the operator's speed so key-up can restore it.
-                        $this->sendRigMessage("M CW -1\n");
-                        $this->getRigMessage(64);
-                        // The RigPi Keyer setting is the operator-selected
-                        // speed. Save that value; CAT readback can be stale
-                        // while a previous Morse command is completing.
-                        $selectedSpeed =
-                            (int) GetField($tRadio, "WKSpeed", "Keyer");
-                        $this->config["catTuneKeySpeed"] =
-                            $selectedSpeed > 0 ? $selectedSpeed : null;
-                        $this->sendRigMessage("L KEYSPD 6\n");
-                        $this->getRigMessage(64);
-                        $this->sendRigMessage(
-                            "\\send_morse TTTTTTTTTTTTTTTTTTTT\n"
-                        );
-                        $this->getRigMessage(64);
-                        return true;
-                    }
-                    if (
-                        $directCommand === "\\rigpi_tune_off" ||
-                        $directCommand === "\\rigpi_cw_stop"
-                    ) {
-                        $this->sendRigMessage("\\stop_morse\n");
-                        $this->getRigMessage(64);
-                        $savedSpeed = $this->config["catTuneKeySpeed"];
-                        if (is_int($savedSpeed) && $savedSpeed > 0) {
+
+                        if(str_starts_with($directCommand,"\\rigpi_cw_text_offset ")){
+                            try{
+                                if(!preg_match('/^\\\\rigpi_cw_text_offset (-?700) (.+)$/D',$directCommand,$offsetText)){
+                                    throw new RuntimeException('Invalid CW offset command.');
+                                }
+                                $this->catCwOffset()->send($offsetText[2],(int)$offsetText[1]);
+                            }catch(Throwable $error){$this->catCwOffsetError($error);}
+                            continue;
+                        }
+
+                        if ($directCommand === "\\rigpi_cw_text") {
+                            // A browser space can be trimmed down to the command
+                            // prefix. It is a word gap, not a raw Hamlib command.
+                            continue;
+                        }
+
+                        if (
+                            str_starts_with($directCommand, "\\rigpi_cw_text ")
+                        ) {
+                            if($this->catCwOffsetController!==null && $this->catCwOffsetController->isActive()){
+                                $this->catCwOffsetError(new RuntimeException('Offset CW is still sending; finish or cancel before sending unshifted CW.'));
+                                continue;
+                            }
+                            // Keep CAT CW on this already-open rigctld session. A
+                            // second short-lived rigctl client can lose the send
+                            // while the radio worker is polling the same daemon.
+                            $cwText = substr(
+                                $directCommand,
+                                strlen("\\rigpi_cw_text "),
+                            );
+                            if ($cwText !== "") {
+                                // Some CAT keyers acknowledge a one-character
+                                // buffer but do not start sending it. A trailing
+                                // blank makes it a sendable buffer without adding
+                                // another keyed character.
+                                $wireCwText =
+                                    strlen($cwText) === 1
+                                        ? $cwText . " "
+                                        : $cwText;
+                                // Mode is selected by the RigPi mode control and
+                                // speed changes are sent immediately by
+                                // \rigpi_cw_speed. Repeating both synchronous CAT
+                                // operations here delayed every text batch by about
+                                // one character relative to the browser sidetone.
+                                $this->sendRigMessage(
+                                    "\\send_morse " . $wireCwText . "\n",
+                                );
+                                $this->getRigMessage(64);
+                            }
+                            continue;
+                        }
+                        if ($directCommand === "\\rigpi_tune_on") {
+                            // Hamlib has no portable continuous-key command. Use a
+                            // bounded train of dashes at the radio's minimum speed.
+                            // Save the operator's speed so key-up can restore it.
+                            $this->sendRigMessage("M CW -1\n");
+                            $this->getRigMessage(64);
+                            // The RigPi Keyer setting is the operator-selected
+                            // speed. Save that value; CAT readback can be stale
+                            // while a previous Morse command is completing.
+                            $selectedSpeed = (int) GetField(
+                                $tRadio,
+                                "WKSpeed",
+                                "Keyer",
+                            );
+                            $this->config["catTuneKeySpeed"] =
+                                $selectedSpeed > 0 ? $selectedSpeed : null;
+                            $this->sendRigMessage("L KEYSPD 6\n");
+                            $this->getRigMessage(64);
                             $this->sendRigMessage(
-                                "L KEYSPD " . $savedSpeed . "\n"
+                                "\\send_morse TTTTTTTTTTTTTTTTTTTT\n",
                             );
                             $this->getRigMessage(64);
+                            continue;
                         }
-                        $this->config["catTuneKeySpeed"] = null;
-                        return true;
-                    }
-                    // Only a direct Hamlib frequency command belongs in MainIn.
-                    // Long commands such as \send_morse and \stop_morse are not
-                    // frequencies and can exceed the field width, killing this
-                    // radio worker and leaving all subsequent controls pending.
-                    if (
-                        preg_match(
-                            '/^[Ff]\s+([0-9]+)$/',
-                            trim((string) $bunch[$i]),
-                            $frequencyCommand
-                        )
-                    ) {
-                        $this->setRigInterface(
-                            $tRadio,
-                            "MainIn",
-                            $frequencyCommand[1]
-                        );
-                    }
-
-                    //                    sleep(1);
-
-                    $this->sendRigMessage($tosend);
-                    $trig = $this->getRigMessage(10000);
-                    if (strstr((string) ($trig ?? ""), "RPRT -1")) {
-                        $oops = "<br>There is a problem with the custom macro $tComm.
-                  Confirm that it adheres to the Hamlib rigctld api.<br><br>";
-                        $this->setRigInterface($tRadio, "RadioData", $oops);
-                        sleep(1); //when rigctld gets a bad command, it blasts several throusand characters of text...
-                    } else {
                         if (
+                            $directCommand === "\\rigpi_tune_off" ||
+                            $directCommand === "\\rigpi_cw_stop"
+                        ) {
+                            $this->sendRigMessage("\\stop_morse\n");
+                            $this->getRigMessage(64);
+                            if($this->catCwOffsetController!==null){
+                                try{$this->catCwOffsetController->cancel();}catch(Throwable $error){$this->catCwOffsetError($error);}
+                            }
+                            $savedSpeed = $this->config["catTuneKeySpeed"];
+                            if (is_int($savedSpeed) && $savedSpeed > 0) {
+                                $this->sendRigMessage(
+                                    "L KEYSPD " . $savedSpeed . "\n",
+                                );
+                                $this->getRigMessage(64);
+                            }
+                            $this->config["catTuneKeySpeed"] = null;
+                            continue;
+                        }
+                        // Only a direct Hamlib frequency command belongs in MainIn.
+                        // Long commands such as \send_morse and \stop_morse are not
+                        // frequencies and can exceed the field width, killing this
+                        // radio worker and leaving all subsequent controls pending.
+                        if (
+                            preg_match(
+                                '/^[Ff]\s+([0-9]+)$/',
+                                $directCommand,
+                                $frequencyCommand,
+                            )
+                        ) {
+                            $this->setRigInterface(
+                                $tRadio,
+                                "MainIn",
+                                $frequencyCommand[1],
+                            );
+                        }
+
+                        $this->sendRigMessage($directCommand . "\n");
+                        $trig = $this->getRigMessage(10000);
+                        if (strstr((string) ($trig ?? ""), "RPRT -1")) {
+                            $oops = "<br>There is a problem with the custom macro $directCommand.
+                  Confirm that it adheres to the Hamlib rigctld api.<br><br>";
+                            $this->setRigInterface($tRadio, "RadioData", $oops);
+                            sleep(1); //when rigctld gets a bad command, it blasts several thousand characters of text...
+                        } elseif (
                             strlen((string) ($trig ?? "")) > 0 &&
-                            !$trig == "RPRT 0" &&
+                            trim((string) $trig) !== "RPRT 0" &&
                             $this->config["radioResponse"] == 1
                         ) {
                             $oops = "<br>Radio says: " . $trig . "<br><br>";
                             $this->setRigInterface($tRadio, "RadioData", $oops);
                         }
                     }
-                    //                   }
-                    //                    }
                     return true;
                 }
             }
@@ -1296,11 +1375,11 @@ class RigServer
         if ($tFCk == 1) {
             $tFCk = 0;
             //main frequency has been updated by RSS Tuner not radio, "OUT to radio"
-            if (1 == 1) {
+                $this->setRigInterface($tRadio, "MainOutCk", "0");
+                if ((string) $this->config["freq"] !== (string) $tF) {
                 //($this->config["tOld"] != $tF) {
                 $this->config["tOld"] = $tF;
 
-                $this->setRigInterface($tRadio, "MainOutCk", "0");
                 //           if ($this->config["freq"] !== $tF) {
                 $this->config["freq"] = $tF;
                 //////

@@ -1,0 +1,40 @@
+/* Copyright (c) 2026 Howard Nurse, W6HN. MIT License. */
+#dKnob.rigpi-knob-host{display:block;width:100%;max-width:340px;min-width:0;margin:0 auto!important;}
+#dKnob.rigpi-knob-host.d-none{display:none!important;}
+.rigpi-knob-shell{position:relative;aspect-ratio:4/3;width:100%;background:#858585;border:1px solid #eee;border-radius:18px;box-sizing:border-box;isolation:isolate;}
+.rigpi-knob-shell button{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
+.rigpi-knob-dial{position:absolute;left:5%;top:4%;width:68%;aspect-ratio:1;border:0;border-radius:50%;background:transparent;padding:0;touch-action:none;cursor:grab;z-index:2;clip-path:circle(50%);}
+.rigpi-knob-dial:active{cursor:grabbing;}
+.rigpi-knob-dial svg{width:100%;height:100%;display:block;pointer-events:none;}
+.rigpi-knob-rotor{will-change:transform;}
+.rigpi-knob-step{position:absolute;left:1%;width:24%;height:32%;border:0;border-radius:50%;background:radial-gradient(circle at 35% 35%,#4a4a4a,#080808);color:#fff;font-size:clamp(22px,3vw,32px);font-weight:700;touch-action:none;z-index:1;}
+.rigpi-knob-plus{top:3%;}.rigpi-knob-minus{bottom:3%;}
+.rigpi-knob-ptt{position:absolute;right:2%;top:3%;width:21%;height:94%;border:1px solid #666;border-radius:15px;background:linear-gradient(135deg,#080808,#353535 50%,#0b0b0b);color:#fff;font-size:clamp(16px,2vw,22px);font-weight:700;touch-action:none;z-index:4;}
+.rigpi-knob-lock{position:absolute;left:64%;bottom:2.5%;width:11%;height:14.6667%;border:1px solid #dbc7a0;border-radius:50%;background:#000;color:#fff;font-size:clamp(16px,2vw,20px);line-height:1;padding:0;z-index:3;touch-action:manipulation;}
+.rigpi-knob-shell button:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #135a94;}
+.rigpi-knob-shell .rigpi-knob-step:active{background:#555;}
+.rigpi-knob-locked .rigpi-knob-dial{cursor:not-allowed;opacity:.72;}
+.rigpi-knob-transmitting .rigpi-knob-ptt{background:linear-gradient(135deg,#821818,#d03333 50%,#8c1010);border-color:#ffb7b7;}
+@media(max-width:360px){.rigpi-knob-shell{border-radius:12px;}.rigpi-knob-ptt{border-radius:10px;}}
+@media(prefers-reduced-motion:reduce){.rigpi-knob-rotor{will-change:auto;}}
+
+/* Exposed crescents remain clickable; the circular dial covers the rest. */
+.rigpi-knob-step span{position:absolute;left:36%;top:38%;transform:translate(-50%,-50%);text-align:center;line-height:1;}
+.rigpi-knob-lock svg{display:block;width:68%;height:68%;margin:auto;pointer-events:none;}
+
+.rigpi-knob-minus span{top:62%;}
+
+/* Labels are white, with no label background, regardless of page-wide span rules. */
+#dKnob.rigpi-knob-host .rigpi-knob-step span{color:#fff!important;-webkit-text-fill-color:#fff!important;background:transparent!important;background-image:none!important;text-shadow:none;}
+
+/* Make mouse targeting visible without changing the controls' hit areas. */
+@media (any-hover:hover) {
+  #dKnob .rigpi-knob-shell button:hover {
+    box-shadow:inset 0 0 0 3px #5de4ff;
+    filter:brightness(1.2);
+  }
+  #dKnob .rigpi-knob-dial:hover::after {
+    content:"";position:absolute;inset:1px;border:3px solid #5de4ff;
+    border-radius:50%;pointer-events:none;box-sizing:border-box;
+  }
+}

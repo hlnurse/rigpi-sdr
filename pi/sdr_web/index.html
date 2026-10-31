@@ -40,7 +40,7 @@
           -webkit-overflow-scrolling: touch;
           }
           #freqDigits {
-          font-size: 44px;
+          font-size: 36px;
           letter-spacing: 1px;
           display: inline-flex;
           align-items: center;
@@ -71,7 +71,7 @@
           align-items: center;
           gap: 2px;
           font-family: "DSDIGIT", sans-serif;
-          font-size: 44px;
+          font-size: 36px;
           font-weight: normal;
           font-style: normal;
           text-shadow: none;
@@ -79,13 +79,13 @@
           transform-origin: left center;
           letter-spacing: 0.06em;
           height: 54px;
-          width: 320px;        /* fixed width — prevents LED from stretching */
+
           flex-shrink: 0;
           position: relative;
           z-index: 10;
           outline: none;
           user-select: none;
-          width: 330px;
+          width: 300px;
           color: #2c2e2e;
           opacity: 0.92;
           background-color: orange;
@@ -112,12 +112,12 @@
           #freqLED.split-active {
           height: 64px;
           padding: 1px 5px 23px 5px;
-          font-size: 30px;
+          font-size: 26px;
           align-items: center;
           overflow: hidden;
           }
           #freqLED.split-active #freqDigits {
-          font-size: 30px;
+          font-size: 26px;
           margin-left: 20px;
           }
           #freqLED.split-active #freqRight {
@@ -197,8 +197,8 @@
           background: rgba(44,46,46,0.28);
           border-radius: 1px;
           }
-          #freqLED .digit::before { top: 0; }
-          #freqLED .digit::after  { bottom: 0; }
+          #freqLED .digit::before { top: -5px; }
+          #freqLED .digit::after  { bottom: -5px; }
           #freqLED .digit.lead0 {
           opacity: 0.35;
           }
@@ -767,6 +767,17 @@
               box-shadow: none !important;   /* ← removes inner border */
               }
 
+              button.band-pill[aria-disabled="true"],
+              button.mode-pill[aria-disabled="true"],
+              button.band-pill[aria-disabled="true"]:hover,
+              button.mode-pill[aria-disabled="true"]:hover {
+              background: #343a40 !important;
+              color: #7d8790 !important;
+              cursor: not-allowed;
+              opacity: 0.58;
+              }
+              button.band-pill[aria-disabled="true"] .band-dot { opacity: 0.3; }
+
         /* --- Top bar buttons (PANEL, AUDIO) --- */
               #audioBtn {
               padding: 0 10px;
@@ -964,6 +975,7 @@
               display: none;
               white-space: nowrap;
               }
+              #tuneToast.show { display: block !important; }
               #mapModeBtn {
               font-size: 11px;
               font-weight: bold;
@@ -1437,6 +1449,13 @@
                   -webkit-backdrop-filter: blur(10px);
                   backdrop-filter: blur(10px);
               }
+
+          /* Same geometry, lean and stroke as the larger RigPi frequency digits. */
+          #freqLED .digit { height:0.906em; }
+          #freqLED .digit svg { display:block;width:100%;height:100%;pointer-events:none;transform:skewX(-6deg);transform-origin:center; }
+          #freqLED .digit polygon { fill:currentColor;stroke:currentColor;stroke-width:.75;stroke-linejoin:round;opacity:.045; }
+          #freqLED .digit polygon.sdr-segment-lit { opacity:1; }
+          #freqLED .sdr-digit-text { position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
     </style>
     <style>
       #remoteHost,
@@ -1654,6 +1673,166 @@
         color: white;
       }
     </style>
+    <link rel="stylesheet" href="./rigpi-rtty.css?v=20261011-1" />
+    <style id="receiveNrStyles">
+      #tab_rx.active {
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+      }
+      #receiveNrControls input[type="range"] {
+        flex: 1;
+        min-width: 0;
+      }
+    </style>
+    <script src="/programs/rigpi-receive-nr.js?v=20261018-2"></script>
+    <style id="hermesPanelStyles">
+      #tab_hermes.active {
+        overflow-y: scroll;
+        overscroll-behavior-y: contain;
+        scrollbar-gutter: stable;
+        padding-right: 8px;
+        padding-bottom: 16px;
+      }
+      #tab_hermes {
+        scrollbar-width: thin;
+        scrollbar-color: #80978b #26322c;
+      }
+      #tab_hermes::-webkit-scrollbar {
+        width: 10px;
+      }
+      #tab_hermes::-webkit-scrollbar-track {
+        background: #26322c;
+        border-radius: 5px;
+      }
+      #tab_hermes::-webkit-scrollbar-thumb {
+        background: #80978b;
+        border: 2px solid #26322c;
+        border-radius: 5px;
+      }
+      #tab_hermes::-webkit-scrollbar-thumb:hover {
+        background: #acc5b7;
+      }
+
+      #tab_hermes .control-section-label {
+        color: #c5d8cd;
+      }
+      #tab_hermes .hermes-section {
+        padding: 10px 0;
+        border-bottom: 1px solid #34413b;
+      }
+      #tab_hermes .hermes-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 9px 0;
+        font-size: 12px;
+      }
+      #tab_hermes .hermes-row label {
+        flex: 0 0 92px;
+        font-size: 12px;
+      }
+      #tab_hermes .hermes-row select,
+      #tab_hermes .hermes-row input[type="range"] {
+        flex: 1;
+        min-width: 0;
+      }
+      #tab_hermes .hermes-row output {
+        min-width: 43px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-size: 12px;
+      }
+      #tab_hermes fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+      }
+      #tab_hermes fieldset:disabled {
+        opacity: 0.55;
+      }
+      #tab_hermes .hermes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 9px;
+      }
+      #tab_hermes .hermes-card {
+        padding: 9px;
+        background: #14201b;
+        border: 1px solid #344a3e;
+        border-radius: 5px;
+        min-width: 0;
+      }
+      #tab_hermes .hermes-card span {
+        display: block;
+        color: #a8b8af;
+        font-size: 11px;
+      }
+      #tab_hermes .hermes-card strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 17px;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+      #tab_hermes .hermes-button {
+        padding: 5px 9px;
+        border: 1px solid #50655a;
+        background: #263a2f;
+        color: #e2ece6;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      #tab_hermes .hermes-button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      #tab_hermes .hermes-button.primary {
+        background: #275e48;
+        border-color: #488367;
+      }
+      #tab_hermes .hermes-note {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #a8b8af;
+        margin: 8px 0;
+      }
+      #tab_hermes .hermes-badge {
+        font-size: 12px;
+        font-weight: bold;
+        color: #9fddbd;
+        letter-spacing: 0.6px;
+      }
+      #tab_hermes .hermes-badge.tx {
+        color: #ffbc8d;
+      }
+      #tab_hermes #hermesPanelMessage {
+        min-height: 18px;
+        font-size: 12px;
+        line-height: 1.4;
+        margin: 8px 0;
+      }
+      #tab_hermes details {
+        margin-top: 12px;
+        font-size: 11px;
+        color: #a8b8af;
+      }
+      #tab_hermes pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font-size: 10px;
+        max-height: 200px;
+        overflow: auto;
+      }
+      #tab_hermes input[type="range"]:focus-visible,
+      #tab_hermes button:focus-visible,
+      #tab_hermes select:focus-visible {
+        outline: 2px solid #9fddbd;
+        outline-offset: 2px;
+      }
+    </style>
   </head>
 
   <body>
@@ -1708,7 +1887,8 @@
           class="badge badge-pill badge-secondary"
           style="
             font-size: 10px;
-            color: #aaa;
+            color: #fff;
+            background-color: #4b5563;
             text-align: center;
             letter-spacing: 0.5px;
             font-weight: normal;
@@ -1763,7 +1943,7 @@
           white-space: nowrap;
         "
       ></div>
-      <button id="audioBtn" title="Audio">
+      <button id="audioBtn" title="Audio" hidden aria-hidden="true" tabindex="-1" style="display:none!important">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="22"
@@ -1935,7 +2115,12 @@
                         padding: 1px 4px;
                         height: 20px;
                       "
-                      onkeydown="if(event.key==='Enter'){ clearTimeout(window._wiAutoTimer); window._elmrFetchWICall(); }"
+                      onkeydown="
+                        if (event.key === 'Enter') {
+                          clearTimeout(window._wiAutoTimer);
+                          window._elmrFetchWICall();
+                        }
+                      "
                     />
                     <select
                       id="elmrWIBand"
@@ -1948,9 +2133,16 @@
                         padding: 1px 3px;
                       "
                       onchange="
-          var b=this.value.replace('m','');
-          if(typeof rotateBand==='function') rotateBand(b);
-          if(window._elmrWICall){ clearTimeout(window._wiAutoTimer); window._wiAutoTimer=setTimeout(window._elmrFetchWICall,300); }"
+                        var b = this.value.replace('m', '');
+                        if (typeof rotateBand === 'function') rotateBand(b);
+                        if (window._elmrWICall) {
+                          clearTimeout(window._wiAutoTimer);
+                          window._wiAutoTimer = setTimeout(
+                            window._elmrFetchWICall,
+                            300,
+                          );
+                        }
+                      "
                     >
                       <option>160m</option>
                       <option>80m</option>
@@ -1965,7 +2157,10 @@
                       <option>6m</option>
                     </select>
                     <button
-                      onclick="clearTimeout(window._wiAutoTimer); window._elmrFetchWICall();"
+                      onclick="
+                        clearTimeout(window._wiAutoTimer);
+                        window._elmrFetchWICall();
+                      "
                       title="Fetch Workability Index"
                       style="
                         font-size: 12px;
@@ -2115,6 +2310,13 @@
             </button>
             <button
               class="panel-tab"
+              data-panel="hermes"
+              title="Hermes Lite 2 radio controls"
+            >
+              Hermes
+            </button>
+            <button
+              class="panel-tab"
               data-panel="remote"
               title="Connect to remote KiwiSDR or OpenWebRX receivers"
             >
@@ -2141,6 +2343,14 @@
               id="ft8TabBtn"
             >
               FT8
+            </button>
+            <button
+              class="panel-tab"
+              data-panel="rtty"
+              title="RTTY receive text and crossed tuning scope"
+              id="rttyTabBtn"
+            >
+              RTTY
             </button>
             <button
               class="panel-tab"
@@ -2339,6 +2549,63 @@
             </div>
           </div>
           <!-- end adminOnlySection -->
+          <section
+            id="receiveNrControls"
+            aria-label="Receive noise reduction"
+            style="
+              border-top: 1px solid #555;
+              margin-top: 9px;
+              padding-top: 8px;
+            "
+          >
+            <div class="control-section-label">Noise reduction</div>
+            <div class="control-row">
+              <label class="toggle-label"
+                ><input type="checkbox" id="rxNrEnabled" /> Reduce steady hiss
+                (NR)</label
+              >
+            </div>
+            <div class="control-row">
+              <label for="rxNrStrength">Strength</label
+              ><input
+                type="range"
+                class="range-slider"
+                id="rxNrStrength"
+                min="1"
+                max="5"
+                step="1"
+                value="2"
+                disabled
+                aria-describedby="rxNrHelp"
+              /><output
+                id="rxNrValue"
+                for="rxNrStrength"
+                style="min-width: 35px; text-align: right"
+                >2 / 5</output
+              >
+            </div>
+            <p
+              id="rxNrStatus"
+              role="status"
+              style="font-size: 11px; color: #a8c4b6; margin: 5px 0"
+            >
+              Off
+            </p>
+            <p
+              id="rxNrHelp"
+              style="
+                font-size: 10px;
+                color: #aaa;
+                line-height: 1.4;
+                margin: 5px 0;
+              "
+            >
+              Received audio on this browser only. Start at 1 or 2 for speech.
+              Higher levels may soften speech. Does not affect transmit or
+              digital decoders.
+            </p>
+          </section>
+
           <div
             class="statusline"
             id="rxStatus"
@@ -2454,7 +2721,7 @@
 
           <div class="slider-row">
             <label
-              ><span>Smoothing</span><span id="smoothLabel">90%</span></label
+              ><span>Smoothing</span><span id="smoothLabel">10%</span></label
             >
             <!-- RIGHT = more smoothing -->
             <input
@@ -2462,8 +2729,8 @@
               title="Spectrum smoothing (averaging)"
               class="range-slider"
               type="range"
-              min="0.01"
-              max="0.99"
+              min="0"
+              max="1"
               step="0.01"
               value="0.1"
             />
@@ -2985,7 +3252,157 @@
           </div>
         </div>
 
-        <!-- Remote tab -->
+          <!-- Hermes tab -->
+        <div class="tab-page" data-page="hermes" id="tab_hermes">
+          <div class="hermes-section">
+            <div class="control-section-label">Hermes Lite 2</div>
+              <div class="hermes-note" style="margin-bottom:10px;">
+                Select your Hermes Lite, click Connect, then review RX gain.
+                Enable Allow transmit only when you are ready to transmit.
+              </div>
+            <div class="hermes-row" style="justify-content: space-between">
+              <span id="hermesPanelState" class="hermes-badge" role="status"
+                >Waiting for status</span
+              >
+              <button
+                type="button"
+                id="hermesStopTx"
+                class="hermes-button"
+                disabled
+              >
+                Stop TX
+              </button>
+            </div>
+            <div id="hermesDeviceInfo" class="hermes-note">
+              Select a Hermes Lite 2 to view radio status.
+            </div>
+            <fieldset id="hermesDeviceControls" disabled>
+              <div class="hermes-row">
+                <label for="hermesDevice">Device</label
+                ><select
+                  id="hermesDevice"
+                  aria-label="Hermes Lite 2 device"
+                ></select>
+              </div>
+              <div class="hermes-row">
+                <button type="button" id="hermesConnect" class="hermes-button">
+                  Connect
+                </button>
+                <button
+                  type="button"
+                  id="hermesDisconnect"
+                  class="hermes-button"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </fieldset>
+          </div>
+          <div class="hermes-section">
+            <div class="control-section-label">Radio settings</div>
+            <fieldset id="hermesSettings" disabled>
+              <div class="hermes-row">
+                <label for="hermesRxGain">RX gain</label
+                ><input
+                  id="hermesRxGain"
+                  type="range"
+                  min="-12"
+                  max="48"
+                  step="1"
+                  value="20"
+                /><output id="hermesRxGainValue" for="hermesRxGain"
+                  >+20 dB</output
+                >
+              </div>
+              <div class="hermes-row">
+                <label for="hermesTxAllowed">TX permission</label
+                ><input id="hermesTxAllowed" type="checkbox" /><span
+                  style="font-size: 12px"
+                  >Allow transmit</span
+                >
+              </div>
+              <div class="hermes-row">
+                <label for="hermesTxDrive">Voice TX drive</label
+                ><input
+                  id="hermesTxDrive"
+                  type="range"
+                  min="0"
+                  max="15"
+                  step="1"
+                  value="8"
+                /><output id="hermesTxDriveValue" for="hermesTxDrive"
+                  >8 / 15</output
+                >
+              </div>
+              <p class="hermes-note">
+                Voice drive uses 16 hardware steps. CW and FT8 use separate
+                drive settings shown below. The minimum step is not TX off; use
+                TX permission to disable transmission.
+              </p>
+              <button
+                type="button"
+                id="hermesApply"
+                class="hermes-button primary"
+                disabled
+              >
+                Apply settings
+              </button>
+            </fieldset>
+            <p id="hermesAccessNote" class="hermes-note">
+              Checking account permissions…
+            </p>
+            <div id="hermesPanelMessage" role="status" aria-live="polite"></div>
+          </div>
+          <div class="hermes-section">
+            <div class="control-section-label">TX monitoring</div>
+            <label
+              class="hermes-row"
+              style="justify-content: flex-start; gap: 8px"
+              ><input id="hermesTxSpectrumLive" type="checkbox" />Show RX
+              spectrum during TX</label
+            >
+            <p class="hermes-note">
+              Live view from Hermes’s own receiver. Receive gain is reduced
+              during TX. Use an independent receiver to assess the transmitted
+              signal. Receive audio stays muted.
+            </p>
+          </div>
+          <div class="hermes-section">
+            <div class="control-section-label">Radio telemetry</div>
+            <div class="hermes-grid">
+              <div class="hermes-card">
+                <span id="hermesForwardLabel">Forward power</span
+                ><strong id="hermesForward">—</strong>
+              </div>
+              <div class="hermes-card">
+                <span>Reflected power · uncalibrated</span
+                ><strong id="hermesReverse">—</strong>
+              </div>
+              <div class="hermes-card">
+                <span>PA current</span><strong id="hermesCurrent">—</strong>
+              </div>
+              <div class="hermes-card">
+                <span>Temperature</span
+                ><strong id="hermesTemperature">—</strong>
+              </div>
+            </div>
+            <p id="hermesPowerNote" class="hermes-note">
+              Power shows raw sensor counts until calibrated with an RF meter.
+              Current and temperature use nominal sensor conversion.
+            </p>
+            <div id="hermesTxLimit" class="hermes-note"></div>
+            <div id="hermesCwStatus" class="hermes-note" role="status"></div>
+            <div id="hermesFt8Status" class="hermes-note" role="status"></div>
+            <button type="button" id="hermesOpenAudio" class="hermes-button">
+              Open Audio controls
+            </button>
+            <details>
+              <summary>Diagnostics</summary>
+              <pre id="hermesDiagnostics">Waiting for telemetry</pre>
+            </details>
+          </div>
+        </div>
+
         <div class="tab-page" data-page="remote" id="tab_remote">
           <div
             id="soapyRemoteSection"
@@ -3705,6 +4122,95 @@
                 <tbody id="ft8TableBody" style="overflow-y: auto"></tbody>
               </table>
             </div>
+          </div>
+        </div>
+
+        <div class="tab-page" data-page="rtty" id="tab_rtty">
+          <div class="rtty-toolbar">
+            <button id="rttyEnable" type="button">Start RTTY</button>
+            <span id="rttyStatus" role="status">Decoder off</span>
+          </div>
+          <div class="rtty-settings">
+            <label
+              >Baud
+              <select id="rttyBaud">
+                <option value="45.45">45.45</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+              </select></label
+            >
+            <label
+              >Shift
+              <select id="rttyShift">
+                <option value="170">170 Hz</option>
+                <option value="425">425 Hz</option>
+                <option value="850">850 Hz</option>
+              </select></label
+            >
+            <label
+              >Center
+              <input
+                id="rttyCenter"
+                type="number"
+                min="300"
+                max="2300"
+                step="5"
+                value="2210"
+                aria-label="RTTY audio center in Hz"
+              />
+              Hz</label
+            >
+            <label><input id="rttyReverse" type="checkbox" /> Reverse</label>
+            <label><input id="rttyAFC" type="checkbox" /> AFC</label>
+            <label
+              >Squelch
+              <input
+                id="rttySquelch"
+                type="range"
+                min="0"
+                max="80"
+                value="18"
+                aria-label="RTTY squelch"
+            /></label>
+          </div>
+          <div class="rtty-tuning">
+            <canvas
+              id="rttyScope"
+              width="320"
+              height="210"
+              aria-label="RTTY crossed tuning scope"
+            ></canvas>
+            <div class="rtty-tone-info">
+              <b>Crossed tuning</b><span id="rttyOffset">No signal</span
+              ><small>Fine-tune for two narrow arms at right angles.</small
+              ><small
+                >Use USB/LSB with both tones inside the audio passband. Reverse
+                swaps mark and space.</small
+              >
+            </div>
+          </div>
+          <canvas
+            id="rttyAudioSpectrum"
+            width="640"
+            height="100"
+            tabindex="0"
+            aria-label="RTTY audio spectrum. Click to move both tone markers; arrow keys move by five Hz."
+          ></canvas>
+          <div class="rtty-text-tools">
+            <button id="rttyPause" type="button">Pause display</button
+            ><button id="rttyClear" type="button">Clear</button
+            ><button id="rttySave" type="button">Save text</button
+            ><span id="rttyCount">0 characters</span>
+          </div>
+          <pre
+            id="rttyText"
+            role="log"
+            aria-label="RTTY received text"
+            tabindex="0"
+          ></pre>
+          <div class="rtty-footnote">
+            Receive only · 45.45 baud / 170 Hz preset · Settings apply to this
+            SDR receiver for all viewers.
           </div>
         </div>
 
@@ -4675,14 +5181,18 @@
             40
           : true;
         const spots = cqOnly
-        ? _ft8Spots.filter((s) =>
-            /\bCQ\b/i.test(String(s.msg ?? ""))
-          )
-        : _ft8Spots;
+          ? _ft8Spots.filter((s) => /\bCQ\b/i.test(String(s.msg ?? "")))
+          : _ft8Spots;
         const readableTime = (raw) => {
           const digits = String(raw || "").replace(/\D/g, "");
           if (digits.length >= 6)
-            return digits.slice(0, 2) + ":" + digits.slice(2, 4) + ":" + digits.slice(4, 6);
+            return (
+              digits.slice(0, 2) +
+              ":" +
+              digits.slice(2, 4) +
+              ":" +
+              digits.slice(4, 6)
+            );
           if (digits.length >= 4)
             return digits.slice(0, 2) + ":" + digits.slice(2, 4);
           return String(raw || "");
@@ -4705,7 +5215,9 @@
           const dialHz = Number(s.dial_hz) || ft8DialHz(s.band);
           const audioKhz = s.audio_hz ? (s.audio_hz / 1000).toFixed(2) : "";
           const displayTime = readableTime(s.webtime);
-          const isCQ = /(^|[^A-Z0-9])CQ([^A-Z0-9]|$)/i.test(String(s.msg || ""));
+          const isCQ = /(^|[^A-Z0-9])CQ([^A-Z0-9]|$)/i.test(
+            String(s.msg || ""),
+          );
           const displayedDx = isCQ ? "" : s.dx_call || "";
           const displayedDe = isCQ ? s.dx_call || "" : s.de_call || "";
           const tipParts = [
@@ -4774,36 +5286,9 @@
           if (d.spots) {
             _ft8Spots = d.spots;
             _ft8TotalDecodes = d.total_decodes || _ft8Spots.length;
-            // Merge FT8 spots into map (_elmrSpots) using grid->lat/lon
-            if (
-              window._elmrSpots &&
-              typeof window._grid2latlon === "function"
-            ) {
-              const ft8pins = [];
-              for (const s of _ft8Spots) {
-                if (!s.grid || s.grid.length < 4) continue;
-                const ll = window._grid2latlon(s.grid);
-                if (!ll) continue;
-                ft8pins.push({
-                  DX: s.dx_call || "",
-                  Spotter: s.de_call || "",
-                  Frequency: Number(s.freq_hz) || ft8DialHz(s.band) || 0,
-                  DialFrequency: Number(s.dial_hz) || ft8DialHz(s.band) || 0,
-                  Band: s.band || "",
-                  Mode: s.mode || "FT8",
-                  Note: s.msg || "",
-                  Latitude: ll.lat,
-                  Longitude: ll.lon,
-                  Country: "",
-                  Continent: "",
-                  DXCC: "",
-                  _ft8: true,
-                });
-              }
-              window._elmrSpots = window._elmrSpots
-                .filter((s) => !s._ft8)
-                .concat(ft8pins);
-            }
+            // The spectrum overlay is owned by the general /api/spots refresh.
+            // Do not also replace its shared array from this 5-second FT8-panel poll;
+            // the competing 5-second and 10-second writers made label sets alternate.
           }
           // Update status bar
           const dot = document.getElementById("ft8StatusDot");
@@ -4935,7 +5420,16 @@
         });
       });
       function drawSpectrumBins(bins) {
+        if (hermesSpectrumPaused()) return;
         updateWaterfallTuningLine();
+        if (window.RigPiRTTY)
+          window.RigPiRTTY.updateWaterfallMarkers(
+            wfCanvas,
+            state.displayCenter,
+            state.span,
+            currentTunedFrequency(),
+            state.mode,
+          );
         if (!bins || bins.length < 2) return;
 
         const rect = spCanvas.getBoundingClientRect();
@@ -5249,6 +5743,23 @@
             }
           }
         }
+        // RTTY tone markers share the same frequency scale as the spectrum.
+        if (
+          !window._mapModeActive &&
+          window.RigPiRTTY &&
+          state.displayCenter &&
+          state.span
+        ) {
+          window.RigPiRTTY.drawRFMarkers(
+            spCtx,
+            wCss,
+            hCss,
+            state.displayCenter,
+            state.span,
+            currentTunedFrequency(),
+            state.mode,
+          );
+        }
         // ===== FT8 audio offset marker =====
         if (
           !window._mapModeActive &&
@@ -5297,20 +5808,34 @@
 
           // Build list of visible spots with x positions
           _elmrVisible = [];
-          const _spSpots =
+          const _spSpotSource =
             window._mapFilteredSpots && window._mapFilteredSpots.length
               ? window._mapFilteredSpots
               : window._elmrSpots;
+          const _spSeenCalls = new Set();
+          const _spSpots = _spSpotSource.filter((s) => {
+            const key = String(s.DX || "")
+              .trim()
+              .toUpperCase();
+            if (!key || _spSeenCalls.has(key)) return false;
+            _spSeenCalls.add(key);
+            return true;
+          });
           _spSpots.forEach((s) => {
             const x = ((s.Frequency - dc) / sp + 0.5) * wCss;
             if (x < minX || x > maxX) return;
             const label = s.DX + (s.Mode ? " " + s.Mode : "");
             const tw = spCtx.measureText(label).width + tagPad;
-            _elmrVisible.push({ x, label, tw, freq: s.Frequency });
+            const reported = Number(s.Webdate || s.webdate);
+            const recency =
+              Number.isFinite(reported) && reported > 0
+                ? reported
+                : Number(s.id) || 0;
+            _elmrVisible.push({ x, label, tw, freq: s.Frequency, recency });
           });
 
-          // Sort by x position
-          _elmrVisible.sort((a, b) => a.x - b.x);
+          // Give the limited collision-free label rows to the newest reports.
+          _elmrVisible.sort((a, b) => b.recency - a.recency || a.x - b.x);
 
           // Assign vertical slots — check overlap with already-placed tags
           _elmrPlaced = []; // {x1, x2, y}
@@ -5486,7 +6011,16 @@
               // Never clamp when ahead — that causes burst/silence cycling.
               const _isOwrx =
                 window._sdrLastState && window._sdrLastState.owrx_active;
-              const _targetAhead = _isOwrx ? 0.4 : 0.16;
+              const _isRx888 =
+                window._sdrLastState &&
+                window._sdrLastState.device_driver === "rx888";
+              const _targetAhead = _isOwrx ? 0.4 : _isRx888 ? 0.75 : 0.1;
+              const _maxAhead = _isOwrx ? 0.8 : _isRx888 ? 2.0 : 0.25;
+              if (_wsAudioNextTime > now + _maxAhead) {
+                src.disconnect();
+                _wsScheduledSources.delete(src);
+                return;
+              }
               if (_wsAudioNextTime < now + 0.02) {
                 // Behind or uninitialized — resync to target ahead
                 _wsAudioNextTime = now + _targetAhead;
@@ -5509,7 +6043,13 @@
 
           if (!d) return;
 
+          if (d.type === "sdr_tx_mute") {
+            updateReceiveTransmitMute("native", d.muted === true);
+            return;
+          }
           window._sdrLastState = Object.assign(window._sdrLastState || {}, d);
+          updatePanelCapabilities(window._sdrLastState);
+          showRigPiCapabilityToasts(d.rig_capability_rejections);
           renderSplitState(window._sdrLastState);
 
           if (d.type === "audio_reset") {
@@ -5592,12 +6132,8 @@
           if (!d.owrx_out_of_band) window._owrxOobShown = false;
 
           const hwCenter = Number(d.hw_center || d.center);
-          const sampleRate =
-            window._sdrLastState &&
-            window._sdrLastState.sdrconn_active &&
-            window._sdrLastState.sdrconn_sample_rate
-              ? Number(window._sdrLastState.sdrconn_sample_rate)
-              : Number(d.sample_rate);
+          // Spectrum packets describe the displayed span, including IQ zoom.
+          const sampleRate = Number(d.sample_rate);
           const fftSize = Number(d.fft_size);
 
           if (
@@ -5634,6 +6170,14 @@
           // Skip when OWRX active — display locked to OWRX hardware center.
           const _hpb = sampleRate / fftSize;
           const rigFrequency = Number(d.rig_freq);
+          const frequencyCapabilityRejected =
+            Array.isArray(d.rig_capability_rejections) &&
+            d.rig_capability_rejections.some(
+              (rejection) =>
+                rejection &&
+                rejection.kind === "frequency" &&
+                Number(rejection.requested) === rigFrequency,
+            );
           const pendingActive =
             Number.isFinite(pendingTuneHz) &&
             Date.now() - pendingTuneStartedAt <= PENDING_TUNE_TIMEOUT_MS;
@@ -5654,6 +6198,7 @@
 
           if (
             !state.owrx_connected &&
+            !frequencyCapabilityRejected &&
             Number.isFinite(rigFrequency) &&
             !pendingActive &&
             Math.abs(rigFrequency - state.center_freq) > _hpb
@@ -5781,7 +6326,9 @@
             const _ledFreq =
               d.owrx_freq && Number.isFinite(d.owrx_freq)
                 ? d.owrx_freq
-                : d.rig_freq && Number.isFinite(d.rig_freq)
+                : !frequencyCapabilityRejected &&
+                    d.rig_freq &&
+                    Number.isFinite(d.rig_freq)
                   ? d.rig_freq
                   : state.center_freq;
             renderFreqLED(_ledFreq);
@@ -5795,6 +6342,7 @@
           buildSpectrumGrid();
 
           // Slice full FFT bins to display window
+          if (hermesSpectrumPaused()) return;
           const fullMags = d.mags;
           if (Math.random() < 0.05) {
             console.log(
@@ -5972,6 +6520,16 @@
             document.getElementById("tab_audio")?.classList.add("active");
             break;
 
+          case "hermes":
+            document.getElementById("tab_hermes")?.classList.add("active");
+            window._hermesRefreshAccess?.();
+            window.requestAnimationFrame(() =>
+              document
+                .querySelector('.panel-tab[data-panel="hermes"]')
+                ?.scrollIntoView({ block: "nearest", inline: "nearest" }),
+            );
+            break;
+
           case "remote":
             document.getElementById("tab_remote")?.classList.add("active");
             // Auto-load cached KiwiSDR list and enable map
@@ -6047,6 +6605,10 @@
 
           case "memory":
             document.getElementById("tab_memory")?.classList.add("active");
+            break;
+
+          case "rtty":
+            document.getElementById("tab_rtty")?.classList.add("active");
             break;
 
           case "ft8":
@@ -6132,7 +6694,14 @@
             window._sdrCallsign = _savedIdentity.call.toUpperCase();
           }
         }
-        const saved = localStorage.getItem("sdr_active_tab");
+          const requestedSetup = new URLSearchParams(window.location.search).get("setup");
+          const saved = requestedSetup === "hermes"
+            ? "hermes"
+            : requestedSetup === "radio"
+              ? "radio"
+              : requestedSetup === "sdrconnect"
+                ? "sdrconnect"
+                : localStorage.getItem("sdr_active_tab");
         if (saved) {
           const btn = document.querySelector(
             `.panel-tab[data-panel="${saved}"]`,
@@ -6810,6 +7379,8 @@
       // transmitting.  Keep it separate from the listener's own mute choice
       // so RX audio returns exactly as it was when PTT is released.
       let transmitAudioMuted = false;
+      let parentTransmitMute = false;
+      let nativeTransmitMute = false;
       let transmitMuteReleaseTimer = null;
 
       function audioOutputMuted() {
@@ -6840,12 +7411,124 @@
             masterGain.gain.setValueAtTime(gain, now);
           }
         }
+        const postNrOutput = window._sdrPanOutput;
+        if (postNrOutput && postNrOutput !== masterGain) {
+          const param = postNrOutput.gain;
+          const now = postNrOutput.context.currentTime;
+          param.cancelScheduledValues(now);
+          param.setValueAtTime(audioOutputMuted() ? 0 : 1, now);
+        }
         // The hidden media element must never become a second audio path.
         const audioEl = document.getElementById("webrtcAudio");
         if (audioEl) {
           audioEl.muted = true;
           audioEl.volume = 0.0;
         }
+      }
+
+      function applySdrStatusColors(badge, status) {
+        if (!badge?.style) return;
+        badge.style.color = "#fff";
+        badge.style.backgroundColor =
+          status === "QRV"
+            ? "#006b32"
+            : status === "RX paused" || status === "DEMO"
+              ? "#765000"
+              : "#4b5563";
+      }
+      let hermesPausedStatus = null;
+      const hermesTxSpectrumKey =
+        "hermesTxSpectrumLive:" +
+        (window._sdrBase || "") +
+        ":" +
+        (window._sdrUser || "");
+      let hermesTxSpectrumLive = false;
+      try {
+        hermesTxSpectrumLive =
+          localStorage.getItem(hermesTxSpectrumKey) === "true";
+      } catch (_) {}
+      function hermesReceiveTxActive() {
+        return (
+          transmitAudioMuted &&
+          (nativeTransmitMute ||
+            String(window._sdrLastState?.device_driver || "").toLowerCase() ===
+              "hermeslite")
+        );
+      }
+      function hermesSpectrumPaused() {
+        return !hermesTxSpectrumLive && hermesReceiveTxActive();
+      }
+      function updateHermesPausedStatus() {
+        const badge = document.getElementById("sdrStatus");
+        if (!badge) return;
+        const status = hermesReceiveTxActive()
+          ? hermesSpectrumPaused()
+            ? "RX paused"
+            : "RX during TX"
+          : null;
+        if (status) {
+          if (!hermesPausedStatus)
+            hermesPausedStatus = {
+              text: badge.textContent,
+              title: badge.title,
+            };
+          badge.textContent = status;
+          applySdrStatusColors(badge, status);
+          badge.title = hermesSpectrumPaused()
+            ? "Receive spectrum and waterfall paused during Hermes transmit and RX recovery."
+            : "Live Hermes receive spectrum during transmit. Receive audio remains muted.";
+        } else if (hermesPausedStatus) {
+          badge.textContent =
+            window._sdrLastState?.sdr_status || hermesPausedStatus.text;
+          applySdrStatusColors(badge, badge.textContent);
+          badge.title = hermesPausedStatus.title;
+          hermesPausedStatus = null;
+        }
+      }
+      function setHermesTxSpectrumLive(enabled) {
+        hermesTxSpectrumLive = !!enabled;
+        const control = document.getElementById("hermesTxSpectrumLive");
+        if (control) control.checked = hermesTxSpectrumLive;
+        try {
+          localStorage.setItem(
+            hermesTxSpectrumKey,
+            String(hermesTxSpectrumLive),
+          );
+        } catch (_) {}
+        updateHermesPausedStatus();
+      }
+      const hermesTxSpectrumControl = document.getElementById(
+        "hermesTxSpectrumLive",
+      );
+      if (hermesTxSpectrumControl) {
+        hermesTxSpectrumControl.checked = hermesTxSpectrumLive;
+        hermesTxSpectrumControl.addEventListener?.("change", () =>
+          setHermesTxSpectrumLive(hermesTxSpectrumControl.checked),
+        );
+      }
+
+      function updateReceiveTransmitMute(source, muted) {
+        if (source === "native") nativeTransmitMute = !!muted;
+        else parentTransmitMute = !!muted;
+        if (parentTransmitMute || nativeTransmitMute) {
+          clearTimeout(transmitMuteReleaseTimer);
+          transmitMuteReleaseTimer = null;
+          if (!transmitAudioMuted) {
+            transmitAudioMuted = true;
+            flushScheduledWsAudio();
+            applyAudioOutputState();
+            setAudioButtonUI();
+          }
+        } else if (transmitAudioMuted && !transmitMuteReleaseTimer) {
+          transmitMuteReleaseTimer = setTimeout(() => {
+            transmitAudioMuted = false;
+            updateHermesPausedStatus();
+            applyAudioOutputState(true);
+            setAudioButtonUI();
+            transmitMuteReleaseTimer = null;
+          }, 500);
+        }
+        updateHermesPausedStatus();
       }
 
       window.addEventListener("message", (event) => {
@@ -6855,28 +7538,96 @@
           event.data.type !== "rigpi-sdr-transmit-mute"
         )
           return;
-        const muteForTransmit = Boolean(event.data.muted);
-        clearTimeout(transmitMuteReleaseTimer);
-        transmitMuteReleaseTimer = null;
-        if (muteForTransmit) {
-          transmitAudioMuted = true;
-          flushScheduledWsAudio();
-          applyAudioOutputState();
-          setAudioButtonUI();
-        } else if (transmitAudioMuted) {
-          // Let the receiver and its AGC settle after PTT drops, then restore
-          // the listener's previous level gently instead of exposing the
-          // short, loud recovery transient.
-          transmitMuteReleaseTimer = setTimeout(() => {
-            transmitAudioMuted = false;
-            applyAudioOutputState(true);
-            setAudioButtonUI();
-            transmitMuteReleaseTimer = null;
-          }, 500);
-        } else {
-          applyAudioOutputState();
-          setAudioButtonUI();
+        updateReceiveTransmitMute("parent", Boolean(event.data.muted));
+      });
+
+      const browserTxSourceId =
+        sessionStorage.getItem("rigpiTxSourceId") ||
+        ((window.crypto && window.crypto.randomUUID)
+          ? window.crypto.randomUUID()
+          : Date.now() + "-" + Math.random().toString(36).slice(2));
+      sessionStorage.setItem("rigpiTxSourceId", browserTxSourceId);
+
+      let localPttMicOpen = false;
+
+      function notifyBrowserTxMicGate(active) {
+        fetch((window._sdrBase || "") + "/api/audio/tx_gate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            source_id: browserTxSourceId,
+            active: Boolean(active),
+          }),
+          keepalive: !active,
+        }).then((response) => {
+          if (!response.ok && response.status !== 409)
+            console.warn("[TX] browser mic gate rejected:", response.status);
+        }).catch((error) => {
+          console.warn("[TX] browser mic gate update failed:", error);
+        });
+      }
+
+        function browserTxPathIsLive() {
+          const track = window._txStream?.getAudioTracks?.()[0];
+          const pc = window._txPC;
+          return Boolean(
+            track &&
+              track.readyState === "live" &&
+              !track.muted &&
+              pc &&
+              !["failed", "closed", "disconnected"].includes(pc.connectionState),
+          );
         }
+
+        function setBrowserTxMicGate(active) {
+          localPttMicOpen = Boolean(active);
+          if (!localPttMicOpen) {
+            if (window._updateTxVu) window._updateTxVu(0);
+            notifyBrowserTxMicGate(false);
+            return;
+          }
+
+          // Two browser sessions can share one physical microphone only by
+          // handing capture ownership to the session which actually presses PTT.
+          // Reopen a muted, ended, or disconnected capture before selecting it.
+          if (!browserTxPathIsLive()) {
+            startBrowserTxAudio().then(
+              () => {
+                if (localPttMicOpen) notifyBrowserTxMicGate(true);
+              },
+              (error) => showMicrophoneError(error),
+            );
+            return;
+          }
+
+          window._txStream.getAudioTracks().forEach((track) => {
+            track.enabled = true;
+          });
+          notifyBrowserTxMicGate(true);
+        }
+
+        function isTrustedRigPiMessage(event) {
+        if (event.source === window.parent) return true;
+        try {
+          return new URL(event.origin).hostname === window.location.hostname;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      window.addEventListener("message", (event) => {
+        if (
+          !event.data ||
+          event.data.type !== "rigpi-ptt-mic-gate" ||
+          !isTrustedRigPiMessage(event)
+        )
+          return;
+        setBrowserTxMicGate(Boolean(event.data.active));
+      });
+
+      window.addEventListener("pagehide", () => setBrowserTxMicGate(false));
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) setBrowserTxMicGate(false);
       });
 
       function setAudioButtonUI() {
@@ -6945,27 +7696,10 @@
         .getElementById("audioBtn")
         .addEventListener("click", async () => {
           if (!audioRunning) {
-            // Connect audio
-            if (!audioCtx) audioCtx = new AudioContext();
-            if (audioCtx.state !== "running") await audioCtx.resume();
-            await startAudioFromUserGesture();
-            audioRunning = true;
-            sessionStorage.setItem("rigpiAudioKeepRunning", "1");
-            audioMuted = false;
-            setAudioLed(true);
-            requestAnimationFrame(drawScope);
-            // If wsSpectrum wasn't open, retry audio_on after a short delay
-            if (!wsSpectrum || wsSpectrum.readyState !== WebSocket.OPEN) {
-              let _retries = 0;
-              const _retryAudio = setInterval(() => {
-                if (wsSpectrum && wsSpectrum.readyState === WebSocket.OPEN) {
-                  wsSpectrum.send(JSON.stringify({ cmd: "audio_on" }));
-                  console.log("[WS-AUDIO] audio_on sent after retry");
-                  clearInterval(_retryAudio);
-                }
-                if (++_retries > 10) clearInterval(_retryAudio);
-              }, 300);
-            }
+            // One click owns the complete RX + microphone startup. While it is
+            // pending, every other caller joins the same promise.
+            await startAudioSessionFromGesture();
+            return;
           } else {
             // Toggle mute
             audioMuted = !audioMuted;
@@ -7042,23 +7776,31 @@
       }
       function applyAudioPanRouting(val) {
         if (!audioCtx || !masterGain) return;
-
-        if (audioMerger) {
-          try {
-            masterGain.disconnect(audioMerger);
-          } catch (e) {}
-        } else {
+        if (audioMerger && audioMerger.context !== audioCtx) audioMerger = null;
+        if (!audioMerger) {
           audioMerger = audioCtx.createChannelMerger(2);
           audioMerger.connect(audioCtx.destination);
         }
-
-        if (val < 0) {
-          masterGain.connect(audioMerger, 0, 0); // left only
-        } else if (val > 0) {
-          masterGain.connect(audioMerger, 0, 1); // right only
-        } else {
-          masterGain.connect(audioMerger, 0, 0); // center = both
-          masterGain.connect(audioMerger, 0, 1);
+        // One audible path preserves level and pan with NR either on or off.
+        try {
+          masterGain.disconnect(audioCtx.destination);
+        } catch (_) {}
+        try {
+          masterGain.disconnect(audioMerger);
+        } catch (_) {}
+        if (window._sdrPanOutput && window._sdrPanOutput.context === audioCtx) {
+          try {
+            window._sdrPanOutput.disconnect(audioMerger);
+          } catch (_) {}
+        }
+        const output =
+          window.RigPiReceiveNR?.outputFor(audioCtx, masterGain) || masterGain;
+        window._sdrPanOutput = output;
+        if (val < 0) output.connect(audioMerger, 0, 0);
+        else if (val > 0) output.connect(audioMerger, 0, 1);
+        else {
+          output.connect(audioMerger, 0, 0);
+          output.connect(audioMerger, 0, 1);
         }
       }
       let audioPC = null; // outer scope for btnAudioToggle access
@@ -7089,7 +7831,32 @@
           }, 3000);
         });
       }
-      async function startBrowserTxAudio() {
+      let browserTxStartPromise = null;
+      function startBrowserTxAudio() {
+        // Audio startup and device-selection callbacks can overlap. Share one
+        // setup so they cannot stop a microphone another setup just opened.
+        if (!browserTxStartPromise) {
+          browserTxStartPromise = openBrowserTxAudio().finally(() => {
+            browserTxStartPromise = null;
+          });
+        }
+        return browserTxStartPromise;
+      }
+
+      function beginBrowserTxFromGesture() {
+        // Call immediately from the Audio click, before receive-audio awaits.
+        // Handle rejection here so RX startup cannot leave an unhandled promise.
+        return startBrowserTxAudio().then(
+          () => true,
+          (error) => {
+            console.warn("[TX] browser microphone setup failed:", error);
+            showMicrophoneError(error);
+            return false;
+          },
+        );
+      }
+
+      async function openBrowserTxAudio() {
         const srcSel = document.getElementById("audioSource");
         if (!srcSel || !srcSel.value) return;
 
@@ -7134,11 +7901,22 @@
         });
         window._txStream = txStream;
 
-        await connectBrowserTxStream(
-          txStream,
-          selectedSource,
-          txStream.getAudioTracks()[0]?.label || "",
-        );
+        try {
+          await connectBrowserTxStream(
+            txStream,
+            selectedSource,
+            txStream.getAudioTracks()[0]?.label || "",
+          );
+          refreshTxBrowserNotice();
+        } catch (error) {
+          txStream.getTracks().forEach((track) => track.stop());
+          if (window._txStream === txStream) window._txStream = null;
+          if (window._txPC) {
+            window._txPC.close();
+            window._txPC = null;
+          }
+          throw error;
+        }
       }
 
       async function connectBrowserTxStream(txStream, micSource, micLabel) {
@@ -7147,8 +7925,29 @@
           throw new Error("Transmit audio stream has no audio track.");
 
         const txPC = new RTCPeerConnection({ iceServers });
-        txPC.oniceconnectionstatechange = () =>
-          console.log("[TX] ICE:", txPC.iceConnectionState);
+        window._txPC = txPC;
+          txPC.oniceconnectionstatechange = () => {
+            console.log("[TX] ICE:", txPC.iceConnectionState);
+            if (
+              window._txPC === txPC &&
+              ["failed", "closed", "disconnected"].includes(
+                txPC.iceConnectionState,
+              )
+            ) {
+              window._txPC = null;
+            }
+          };
+          txPC.onconnectionstatechange = () => {
+            console.log("[TX] connection:", txPC.connectionState);
+            if (
+              window._txPC === txPC &&
+              ["failed", "closed", "disconnected"].includes(
+                txPC.connectionState,
+              )
+            ) {
+              window._txPC = null;
+            }
+          };
         let txSender = null;
         txStream.getAudioTracks().forEach((track) => {
           txSender = txPC.addTrack(track, txStream);
@@ -7173,6 +7972,7 @@
               sdp: txPC.localDescription.sdp,
               type: txPC.localDescription.type,
               tx_device: txDev,
+                source_id: browserTxSourceId,
               mic_source: micSource || "",
               mic_label: micLabel || "",
             }),
@@ -7314,21 +8114,24 @@
         oscillator.stop(start + duration + 0.01);
       }
 
-      function playCatSidetone(text, wpm) {
+  function playCatSidetone(text, wpm, silentEcho = false) {
         if (!audioCtx || audioCtx.state !== "running") return;
         const unit = 1.2 / Math.max(5, Math.min(80, Number(wpm) || 20));
         let cursor = Math.max(
           audioCtx.currentTime + 0.015,
           catSidetoneNextTime,
         );
-        for (const character of String(text || "").toUpperCase()) {
-          showCatSidetoneCharacter(character, cursor);
+    const sidetoneTokens = String(text || "").toUpperCase().match(/<1B>[A-Z]{2}|./g) || [];
+    for (const token of sidetoneTokens) {
+      const prosign = token.startsWith("<1B>") ? token.slice(4) : "";
+      const character = prosign || token;
+      if (!silentEcho) showCatSidetoneCharacter(character, cursor);
           // A character already leaves a three-unit gap; add four more for a word gap.
-          if (character === " ") {
+          if (token === " ") {
             cursor += 4 * unit;
             continue;
           }
-          const pattern = catMorse[character];
+          const pattern = prosign ? (catMorse[prosign[0]] || "") + (catMorse[prosign[1]] || "") : catMorse[character];
           if (!pattern) continue;
           for (let i = 0; i < pattern.length; i++) {
             const duration = (pattern[i] === "-" ? 3 : 1) * unit;
@@ -7507,7 +8310,7 @@
           else if (event.data.action === "continuous")
             setContinuousCatSidetone(Boolean(event.data.on));
           else if (event.data.action === "play")
-            playCatSidetone(event.data.text, event.data.wpm);
+      playCatSidetone(event.data.text, event.data.wpm, Boolean(event.data.silentEcho));
         } else if (type === "rigpi-voice-keyer-prepare") {
           prepareVoiceKeyer(event.data);
         } else if (type === "rigpi-voice-keyer-play") {
@@ -7520,7 +8323,10 @@
         }
       });
 
-      async function startAudioFromUserGesture() {
+      async function startAudioFromUserGesture(txStartup) {
+        // Receive transport setup is independent of microphone permission.
+        // Callers with a direct click start capture before AudioContext.resume.
+        const microphoneStartup = txStartup || beginBrowserTxFromGesture();
         // Prime the fixed-rate voice-keyer context while this user gesture is
         // active. Safari otherwise may defer a newly created AudioContext.
         // Prerecorded voice macros are decoded on the Pi and sent directly to
@@ -7540,10 +8346,10 @@
             await applySdrAudioSink("");
           } catch (_) {}
         }
-        // On WAN (Cloudflare), skip WebRTC and use WS audio directly
-        if (_isWAN()) {
+        // Start WebSocket receive audio immediately; do not wait for WebRTC timeout
+        if (true) {
           console.log(
-            "[WS-AUDIO] WAN detected — using WebSocket audio directly",
+            "[WS-AUDIO] using immediate WebSocket receive audio",
           );
           // Set up audio graph if not already done
           if (!masterGain) {
@@ -7564,7 +8370,9 @@
             meterGain.gain.value = 3.0; // enough to see noise floor, not so much it saturates
             masterGain.connect(meterGain);
             meterGain.connect(analyser);
-            masterGain.connect(audioCtx.destination);
+            applyAudioPanRouting(
+              parseFloat(localStorage.getItem("sdr_audio_pan") || "0"),
+            );
             console.log(
               "[WS-AUDIO] audio graph ready, gain:",
               masterGain.gain.value,
@@ -7572,7 +8380,9 @@
           }
           _wsAudioEnabled = true;
           localStorage.setItem("wsAudioEnabled", "1");
-          _wsAudioNextTime = masterGain.context.currentTime + 0.1;
+          _wsAudioNextTime =
+            masterGain.context.currentTime +
+            (window._sdrLastState?.device_driver === "rx888" ? 0.3 : 0.1);
           requestAnimationFrame(drawScope);
           updateVU();
           console.log(
@@ -7588,12 +8398,7 @@
               wsSpectrum?.readyState,
             );
           }
-          try {
-            await startBrowserTxAudio();
-          } catch (e) {
-            console.warn("[TX] browser microphone setup failed:", e);
-            showMicrophoneError(e);
-          }
+          await microphoneStartup;
           return;
         }
 
@@ -7644,7 +8449,10 @@
             );
             _wsAudioEnabled = true;
             localStorage.setItem("wsAudioEnabled", "1");
-            _wsAudioNextTime = audioCtx ? audioCtx.currentTime + 0.1 : 0;
+            _wsAudioNextTime = audioCtx
+              ? audioCtx.currentTime +
+                (window._sdrLastState?.device_driver === "rx888" ? 0.3 : 0.1)
+              : 0;
             if (wsSpectrum && wsSpectrum.readyState === WebSocket.OPEN) {
               wsSpectrum.send(JSON.stringify({ cmd: "audio_on" }));
             }
@@ -7685,12 +8493,7 @@
 
         // TX audio uses its own peer connection and is independent of the
         // receive transport (WebRTC or WebSocket).
-        try {
-          await startBrowserTxAudio();
-        } catch (e) {
-          console.warn("[TX] browser microphone setup failed:", e);
-          showMicrophoneError(e);
-        }
+        await microphoneStartup;
         audioPC.ontrack = async (ev) => {
           const stream = ev.streams[0];
 
@@ -7825,6 +8628,60 @@
         }
       }
       let audioRunning = false;
+      let audioSessionStartPromise = null;
+
+      function startAudioSessionFromGesture() {
+        if (audioRunning) return Promise.resolve(true);
+        if (audioSessionStartPromise) return audioSessionStartPromise;
+
+        // Start capture synchronously in the click stack, then share the whole
+        // RX + TX startup so no second caller can replace the new microphone.
+        const txStartup = beginBrowserTxFromGesture();
+        if (!audioCtx) audioCtx = new AudioContext();
+        const resumePromise =
+          audioCtx.state === "running" ? Promise.resolve() : audioCtx.resume();
+        const headerButton = document.getElementById("audioBtn");
+        const panelButton = document.getElementById("btnAudioToggle");
+        if (headerButton) headerButton.disabled = true;
+        if (panelButton) {
+          panelButton.disabled = true;
+          panelButton.textContent = "Starting Audio…";
+        }
+
+        audioSessionStartPromise = (async () => {
+          try {
+            await resumePromise;
+            // RX audio and its button must not wait on microphone negotiation.
+            // The microphone was already started in the click stack and keeps
+            // connecting independently for the next PTT operation.
+            await startAudioFromUserGesture(Promise.resolve(true));
+            txStartup.then((ready) =>
+              console.log("[TX] background microphone ready:", ready),
+            );
+            audioRunning = true;
+            sessionStorage.setItem("rigpiAudioKeepRunning", "1");
+            audioMuted = false;
+            setAudioLed(true);
+            requestAnimationFrame(drawScope);
+            return true;
+          } catch (error) {
+            audioRunning = false;
+            setAudioLed(false);
+            console.warn("[AUDIO] startup failed:", error);
+            return false;
+          } finally {
+            if (headerButton) headerButton.disabled = false;
+            if (panelButton) {
+              panelButton.disabled = false;
+              panelButton.textContent = audioRunning ? "Stop Audio" : "Start Audio";
+            }
+            setAudioButtonUI();
+            audioSessionStartPromise = null;
+          }
+        })();
+        return audioSessionStartPromise;
+      }
+
       let audioNavigationResumeAttempts = 0;
 
       async function resumeAudioAfterRigPiNavigation() {
@@ -7841,17 +8698,8 @@
         }
         try {
           audioNavigationResumeAttempts = 0;
-          if (!audioCtx) audioCtx = new AudioContext();
-          if (audioCtx.state !== "running") await audioCtx.resume();
-          await startAudioFromUserGesture();
-          audioRunning = true;
-          audioMuted = false;
-          setAudioLed(true);
-          const panelButton = document.getElementById("btnAudioToggle");
-          if (panelButton) panelButton.textContent = "Stop Audio";
-          setAudioButtonUI();
-          requestAnimationFrame(drawScope);
-          console.log("[AUDIO] resumed after RigPi page navigation");
+          const resumed = await startAudioSessionFromGesture();
+          if (resumed) console.log("[AUDIO] resumed after RigPi page navigation");
         } catch (error) {
           audioNavigationResumeAttempts = 0;
           console.warn(
@@ -8231,25 +9079,8 @@
           audioViewMode === "scope" ? "SCOPE" : "FFT";
       };
       btnAudioToggle.addEventListener("click", async () => {
-        if (!audioCtx) {
-          audioCtx = new AudioContext();
-        }
-
-        if (audioCtx.state !== "running") {
-          await audioCtx.resume(); // ← user gesture happens here
-        }
-
         if (!audioRunning) {
-          await startAudioFromUserGesture();
-
-          btnAudioToggle.textContent = "Stop Audio";
-          audioRunning = true;
-          sessionStorage.setItem("rigpiAudioKeepRunning", "1");
-          audioMuted = false;
-          setAudioLed(true);
-          setAudioButtonUI();
-
-          requestAnimationFrame(drawScope); // start scope loop
+          await startAudioSessionFromGesture();
         } else {
           sessionStorage.setItem("rigpiAudioKeepRunning", "0");
           await stopAudio();
@@ -8997,9 +9828,26 @@
       // browser supports it. iPhone/iPad use the current iOS system route.
       document
         .getElementById("audioSource")
-        ?.addEventListener("change", function () {
+        ?.addEventListener("change", async function () {
           localStorage.setItem("sdr_audio_source", this.value);
-          if (this.value) refreshTxBrowserNotice();
+          const selectedSource = this.value;
+          if (selectedSource) refreshTxBrowserNotice();
+          // Apply the choice now rather than waiting for the next Audio start.
+          if (browserTxStartPromise)
+            await browserTxStartPromise.catch(() => {});
+          if (!selectedSource) {
+            if (window._txStream) {
+              window._txStream.getTracks().forEach((track) => track.stop());
+              window._txStream = null;
+            }
+            if (window._txPC) {
+              window._txPC.close();
+              window._txPC = null;
+            }
+            if (window._updateTxVu) window._updateTxVu(0);
+            return;
+          }
+          if (audioRunning) await beginBrowserTxFromGesture();
         });
 
       document
@@ -12170,21 +13018,23 @@
           Math.min(4, Number(localStorage.getItem("sdrVideoGain")) || 1),
         ),
         wf_palette: document.getElementById("wfPalette")?.value || "classic",
-        cwLowHz: 200, // CW lower passband edge (below pitch)
-        cwHighHz: 800, // CW upper passband edge (above pitch)
+        cwPitch: 700, // CW sidetone/audio pitch
+        cwLowHz: 250, // CW half-bandwidth below pitch
+        cwHighHz: 250, // CW half-bandwidth above pitch
       });
-      const MODES = [
-        "LSB",
-        "CW",
-        "FM",
-        "USB",
-        "CWR",
-        "WFM",
-        "PKTUSB",
-        "AM",
-        "RTTY",
-        "RTTYR",
+      const MODE_TABLE = [
+        { id: "LSB", label: "LSB", minSampleRate: 6000 },
+        { id: "CW", label: "CW", minSampleRate: 2000 },
+        { id: "FM", label: "FM", minSampleRate: 24000 },
+        { id: "USB", label: "USB", minSampleRate: 6000 },
+        { id: "CWR", label: "CWR", minSampleRate: 2000 },
+        { id: "WFM", label: "WFM", minSampleRate: 240000 },
+        { id: "PKTUSB", label: "USB-D", minSampleRate: 6000 },
+        { id: "AM", label: "AM", minSampleRate: 16000 },
+        { id: "RTTY", label: "RTTY", minSampleRate: 2000 },
+        { id: "RTTYR", label: "RTTYR", minSampleRate: 2000 },
       ];
+      const MODES = MODE_TABLE.map((entry) => entry.id);
       const MODE_DEFAULT_BW = {
         WFM: 200000,
         FM: 12000,
@@ -12214,23 +13064,24 @@
           btn.classList.toggle("active", btn.dataset.mode === state.mode);
         });
       }
-      const BANDS = [
-        "160",
-        "20",
-        "6",
-        "80",
-        "17",
-        "2",
-        "60",
-        "15",
-        "1.25",
-        "40",
-        "12",
-        "70",
-        "30",
-        "10",
-        "23",
+      const BAND_TABLE = [
+        { id: "160", label: "160", unit: "m", centerHz: 1.84e6 },
+        { id: "20", label: "20", unit: "m", centerHz: 14.074e6 },
+        { id: "6", label: "6", unit: "m", centerHz: 50.313e6 },
+        { id: "80", label: "80", unit: "m", centerHz: 3.573e6 },
+        { id: "17", label: "17", unit: "m", centerHz: 18.1e6 },
+        { id: "2", label: "2", unit: "m", centerHz: 144.174e6 },
+        { id: "60", label: "60", unit: "m", centerHz: 5.357e6 },
+        { id: "15", label: "15", unit: "m", centerHz: 21.074e6 },
+        { id: "1.25", label: "1.25", unit: "m", centerHz: 222.1e6 },
+        { id: "40", label: "40", unit: "m", centerHz: 7.074e6 },
+        { id: "12", label: "12", unit: "m", centerHz: 24.915e6 },
+        { id: "70", label: "70", unit: "cm", centerHz: 432.174e6 },
+        { id: "30", label: "30", unit: "m", centerHz: 10.136e6 },
+        { id: "10", label: "10", unit: "m", centerHz: 28.074e6 },
+        { id: "23", label: "23", unit: "cm", centerHz: 1296.174e6 },
       ];
+      const BANDS = BAND_TABLE.map((entry) => entry.id);
       const BAND_MEMORIES = {
         160: [
           [1.84e6, "LSB", 2700],
@@ -12292,7 +13143,174 @@
           [144.1e6, "CW", 500],
           [144.2e6, "USB", 2700],
         ],
+        1.25: [
+          [222.1e6, "PKTUSB", 3000],
+          [222.05e6, "CW", 500],
+          [223.5e6, "FM", 12000],
+        ],
+        70: [
+          [432.174e6, "PKTUSB", 3000],
+          [432.1e6, "CW", 500],
+          [446e6, "FM", 12000],
+        ],
+        23: [
+          [1296.174e6, "PKTUSB", 3000],
+          [1296.1e6, "CW", 500],
+          [1294.5e6, "FM", 12000],
+        ],
       };
+
+      const SDR_PANEL_CAPABILITIES = {
+        hermeslite: {
+          label: "Hermes-Lite",
+          ranges: [[0, 38.4e6]],
+          modes: MODES,
+        },
+        rx888: {
+          label: "RX-888",
+          ranges: [[0, 64e6]],
+          modes: ["LSB", "CW", "USB", "CWR", "PKTUSB", "AM"],
+        },
+        airspyhf: {
+          label: "Airspy HF+",
+          ranges: [
+            [0, 31e6],
+            [60e6, 260e6],
+          ],
+          modes: MODES,
+        },
+        hackrf: { label: "HackRF", ranges: [[1e6, 6e9]], modes: MODES },
+        rtlsdr: { label: "RTL-SDR", ranges: [[24e6, 1766e6]], modes: MODES },
+        kiwi: {
+          label: "KiwiSDR",
+          ranges: [[0, 30e6]],
+          modes: MODES,
+          remote: true,
+        },
+        sdrconnect: {
+          label: "SDRConnect",
+          ranges: null,
+          modes: MODES,
+          remote: true,
+        },
+        owrx: { label: "OpenWebRX", ranges: null, modes: MODES, remote: true },
+        fake: { label: "No SDR", ranges: [], modes: [] },
+      };
+
+      function activePanelCapability(snapshot = {}) {
+        if (snapshot.sdrconn_active) return SDR_PANEL_CAPABILITIES.sdrconnect;
+        if (snapshot.owrx_active) return SDR_PANEL_CAPABILITIES.owrx;
+        if (snapshot.kiwi_ok) return SDR_PANEL_CAPABILITIES.kiwi;
+        const driver = String(snapshot.device_driver || "fake").toLowerCase();
+        return SDR_PANEL_CAPABILITIES[driver] || SDR_PANEL_CAPABILITIES.fake;
+      }
+
+      function frequencySupportedByPanel(capability, frequencyHz) {
+        if (capability.ranges === null) return true;
+        return capability.ranges.some(
+          ([low, high]) => frequencyHz >= low && frequencyHz <= high,
+        );
+      }
+
+      function updatePanelCapabilities(snapshot = window._sdrLastState || {}) {
+        const capability = activePanelCapability(snapshot);
+        document.querySelectorAll(".band-pill").forEach((button) => {
+          const band = BAND_TABLE.find(
+            (entry) => entry.id === button.dataset.band,
+          );
+          const supported = Boolean(
+            band &&
+            BAND_MEMORIES[band.id] &&
+            frequencySupportedByPanel(capability, band.centerHz),
+          );
+          // Remain clickable only to explain why this unavailable choice is blocked.
+          button.disabled = false;
+          button.setAttribute("aria-disabled", String(!supported));
+          button.title = supported
+            ? "Switch to " +
+              band.label +
+              " " +
+              band.unit +
+              " band — click to cycle memory slots"
+            : (band ? band.label + " " + band.unit : button.dataset.band) +
+              " is not supported by " +
+              capability.label;
+        });
+        document.querySelectorAll(".mode-pill").forEach((button) => {
+          const mode = MODE_TABLE.find(
+            (entry) => entry.id === button.dataset.mode,
+          );
+          const sampleRate = Number(snapshot.sample_rate);
+          const enoughBandwidth =
+            capability.remote ||
+            !Number.isFinite(sampleRate) ||
+            sampleRate >= mode.minSampleRate;
+          const supported = Boolean(
+            mode && capability.modes.includes(mode.id) && enoughBandwidth,
+          );
+          // Remain clickable only to explain why this unavailable choice is blocked.
+          button.disabled = false;
+          button.setAttribute("aria-disabled", String(!supported));
+          button.title = supported
+            ? "Demodulate " +
+              mode.label +
+              (mode.id === "PKTUSB" ? " (digital)" : "")
+            : (mode ? mode.label : button.dataset.mode) +
+              " is not supported by " +
+              capability.label;
+        });
+      }
+
+      const lastRigPiCapabilityToastSeq = {};
+
+      function showRigPiCapabilityToasts(rejections) {
+        if (!Array.isArray(rejections)) return;
+        rejections.forEach((rejection) => {
+          if (!rejection || !Number.isFinite(Number(rejection.seq))) return;
+          const kind = String(rejection.kind || "unknown");
+          if (
+            Number(rejection.seq) <=
+            Number(lastRigPiCapabilityToastSeq[kind] || 0)
+          )
+            return;
+          lastRigPiCapabilityToastSeq[kind] = Number(rejection.seq);
+          const toast = document.getElementById("tuneToast");
+          if (!toast) return;
+          const requested =
+            kind === "frequency"
+              ? fmtFreqHz(Number(rejection.requested))
+              : displayModeName(rejection.requested);
+          toast.textContent =
+            String.fromCharCode(0x26a0) +
+            " RigPi selected " +
+            requested +
+            "; " +
+            rejection.device +
+            " " +
+            rejection.reason +
+            ". SDR unchanged.";
+          toast.classList.add("show");
+          clearTimeout(window._rigPiCapabilityToastTimer);
+          window._rigPiCapabilityToastTimer = setTimeout(
+            () => toast.classList.remove("show"),
+            3500,
+          );
+        });
+      }
+
+      function showUnavailableControlToast(message) {
+        const toast = document.getElementById("tuneToast");
+        if (!toast) return;
+        toast.textContent =
+          String.fromCharCode(0x26a0) + " " + message + ". No change made.";
+        toast.classList.add("show");
+        clearTimeout(window._rigPiCapabilityToastTimer);
+        window._rigPiCapabilityToastTimer = setTimeout(
+          () => toast.classList.remove("show"),
+          3500,
+        );
+      }
+
       function buildBandPills() {
         const wrap = document.getElementById("bandPills");
         if (!wrap) return;
@@ -12305,7 +13323,13 @@
           btn.className = "band-pill";
           btn.textContent = b;
           btn.dataset.band = b;
-          btn.title = "Switch to " + b + "m band — click to cycle memory slots";
+          const bandDefinition = BAND_TABLE.find((entry) => entry.id === b);
+          btn.title =
+            "Switch to " +
+            bandDefinition.label +
+            " " +
+            bandDefinition.unit +
+            " band — click to cycle memory slots";
 
           const dots = document.createElement("div");
           dots.className = "band-dots";
@@ -12318,11 +13342,16 @@
 
           // Single click handler — always rotate to next slot and tune
           btn.addEventListener("click", () => {
+            if (btn.getAttribute("aria-disabled") === "true") {
+              showUnavailableControlToast(btn.title);
+              return;
+            }
             rotateBand(b);
           });
 
           wrap.appendChild(btn);
         });
+        updatePanelCapabilities();
       }
 
       function drawWorldMapGrayline(ctx, w, h, qthLat, qthLon, img, zoom) {
@@ -13031,11 +14060,11 @@
             leftHz = -2295;
             rightHz = -2125;
           } else if (mode === "CW") {
-            const cwPitch = state.cwPitch || 600;
+            const cwPitch = state.cwPitch || 700;
             leftHz = cwPitch - (state.cwLowHz || 200);
             rightHz = cwPitch + (state.cwHighHz || 800);
           } else if (mode === "CWR") {
-            const cwPitch = state.cwPitch || 600;
+            const cwPitch = state.cwPitch || 700;
             leftHz = -cwPitch - (state.cwHighHz || 800);
             rightHz = -cwPitch + (state.cwLowHz || 200);
           } else {
@@ -13099,12 +14128,14 @@
           b.type = "button";
           b.className = "mode-pill";
           b.dataset.mode = m;
-          b.title = "Demodulate " + (m === "PKTUSB" ? "USB-D (digital)" : m); // internal value stays PKTUSB
-          b.textContent =
-            m === "PKTUSB"
-              ? "USB-D" // display only
-              : m;
+          const modeDefinition = MODE_TABLE.find((entry) => entry.id === m);
+          b.title = "Demodulate " + modeDefinition.label;
+          b.textContent = modeDefinition.label;
           b.addEventListener("click", () => {
+            if (b.getAttribute("aria-disabled") === "true") {
+              showUnavailableControlToast(b.title);
+              return;
+            }
             modeEditing = true;
             modeBwHoldUntil = Date.now() + 4000;
 
@@ -13131,6 +14162,7 @@
           });
           wrap.appendChild(b);
         });
+        updatePanelCapabilities();
 
         // initial highlight
         /////        setModeUI(state.mode || "FM");
@@ -13380,6 +14412,48 @@
         updateModeBW();
       });
 
+      // Independent seven-segment shapes shared with the RigPi frequency panel.
+      function rigpiFrequencyDigitMarkup(ch) {
+        const segments = {
+          0: "abcdef",
+          1: "bc",
+          2: "abdeg",
+          3: "abcdg",
+          4: "bcfg",
+          5: "acdfg",
+          6: "acdefg",
+          7: "abc",
+          8: "abcdefg",
+          9: "abcdfg",
+        };
+        const points = [
+          "5,1 29,1 25,5 9,5",
+          "30,2 30,25 26,22 26,6",
+          "30,29 30,52 26,48 26,32",
+          "5,53 29,53 25,49 9,49",
+          "4,29 8,32 8,48 4,52",
+          "4,2 8,6 8,22 4,25",
+          "5,27 9,24 25,24 29,27 25,30 9,30",
+        ];
+        const lit = segments[ch] || "";
+        return (
+          '<span class="sdr-digit-text">' +
+          ch +
+          '</span><svg viewBox="0 0 34 56" aria-hidden="true" focusable="false">' +
+          points
+            .map(
+              (p, i) =>
+                '<polygon class="' +
+                (lit.includes("abcdefg"[i]) ? "sdr-segment-lit" : "") +
+                '" points="' +
+                p +
+                '"/>',
+            )
+            .join("") +
+          "</svg>"
+        );
+      }
+
       function renderFreqLED(freqHz) {
         const freqDigits = document.getElementById("freqDigits");
         const str = formatFreqForLED(freqHz); // <-- MISSING LINE
@@ -13399,7 +14473,7 @@
           const sp = document.createElement("span");
           sp.className = "digit";
           sp.dataset.idx = String(di);
-          sp.textContent = ch;
+          sp.innerHTML = rigpiFrequencyDigitMarkup(ch);
 
           // dim leading zeros in the first two digits of the MMM group
           if (mhzDigit < 3) {
@@ -13578,7 +14652,7 @@
           e.preventDefault();
           const digits = freqLED.querySelectorAll(".digit");
           if (!digits[activeDigit]) return;
-          digits[activeDigit].textContent = k;
+          digits[activeDigit].innerHTML = rigpiFrequencyDigitMarkup(k);
           activeDigit = Math.min(activeDigit + 1, digits.length - 1);
           freqEditing = true;
           freqEditHold = Date.now() + 10000; // hold off server updates while typing
@@ -13647,7 +14721,6 @@
           return hslToRgb(hue / 360, 1, 0.5);
         }
         //         }
-
         // ---- CLASSIC (default fallback) ----
         else {
           // classic + any unknown palette
@@ -13794,6 +14867,7 @@
         line.style.height = rect.height + "px";
       }
       function drawWaterfallRow(bins) {
+        if (hermesSpectrumPaused()) return;
         updateWaterfallTuningLine();
         const rect = wfCanvas.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
@@ -14287,6 +15361,13 @@
             }
             throw new Error(`/api/tune -> ${response.status}`);
           }
+          response
+            .clone()
+            .json()
+            .then((result) => {
+              showRigPiCapabilityToasts(result.capability_rejections);
+            })
+            .catch(() => {});
           return response;
         });
       }
@@ -14668,11 +15749,11 @@
         const cx = wCss / 2;
         let leftHz, rightHz;
         if (mode === "CW") {
-          leftHz = (state.cwPitch || 600) - state.cwLowHz;
-          rightHz = (state.cwPitch || 600) + state.cwHighHz;
+          leftHz = (state.cwPitch || 700) - state.cwLowHz;
+          rightHz = (state.cwPitch || 700) + state.cwHighHz;
         } else if (mode === "CWR") {
-          leftHz = -(state.cwPitch || 600) - state.cwHighHz;
-          rightHz = -(state.cwPitch || 600) + state.cwLowHz;
+          leftHz = -(state.cwPitch || 700) - state.cwHighHz;
+          rightHz = -(state.cwPitch || 700) + state.cwLowHz;
         } else {
           const off = computeBwOffsetHz(mode, bw);
           leftHz = off - bw / 2;
@@ -14784,30 +15865,36 @@
             // rightHz = 700 + cwHighHz  →  cwHighHz = dragHz - 700
             state.cwHighHz = Math.max(
               50,
-              Math.round(dragHz - (state.cwPitch || 600)),
+              Math.round(dragHz - (state.cwPitch || 700)),
             );
           } else {
             // leftHz = 700 - cwLowHz  →  cwLowHz = 700 - dragHz
             state.cwLowHz = Math.max(
               50,
-              Math.round((state.cwPitch || 600) - dragHz),
+              Math.round((state.cwPitch || 700) - dragHz),
             );
           }
           // bw = cwLowHz + cwHighHz (total width)
           state.bw = state.cwLowHz + state.cwHighHz;
+          // Keep the displayed CW passband centered on the DSP pitch.
+          state.cwLowHz = state.bw / 2;
+          state.cwHighHz = state.bw / 2;
         } else if (mode === "CWR") {
           if (_bwDragEdge === "right") {
             state.cwLowHz = Math.max(
               50,
-              Math.round(-(state.cwPitch || 600) + dragHz),
+              Math.round(-(state.cwPitch || 700) + dragHz),
             );
           } else {
             state.cwHighHz = Math.max(
               50,
-              Math.round(-dragHz - (state.cwPitch || 600)),
+              Math.round(-dragHz - (state.cwPitch || 700)),
             );
           }
           state.bw = state.cwLowHz + state.cwHighHz;
+          // Keep the displayed CW passband centered on the DSP pitch.
+          state.cwLowHz = state.bw / 2;
+          state.cwHighHz = state.bw / 2;
         } else {
           // Non-CW: anchor the fixed edge, compute new bw
           let newLeftHz, newRightHz;
@@ -14886,6 +15973,18 @@
           .then((d) => {
             if (!d) return;
             window._sdrLastState = d;
+            window.RigPiReceiveNR?.syncReceiver(d);
+            window._hermesRender?.(d);
+            if (typeof d.hackrf_tx?.active === "boolean") {
+              window.parent.postMessage(
+                {
+                  type: "rigpi-sdr-tx-state",
+                  device_driver: d.device_driver,
+                  active: d.hackrf_tx.active,
+                },
+                location.origin,
+              );
+            }
             renderSplitState(d);
 
             const _hpbState = Number(window._displayHzPerBin ?? d.hz_per_bin);
@@ -15086,6 +16185,7 @@
               Boolean(d.sdrconn_connected) ||
               d.device_driver === "sdrconnect";
             const usingHackrf = d.device_driver === "hackrf";
+            const usingHermes = d.device_driver === "hermeslite";
 
             if (usingSdrConnect) {
               // SDRplay uses indexed LNA states, not gain in dB.
@@ -15108,16 +16208,24 @@
               hwGainSlider.step = String(d.hw_gain_step ?? 0.5);
 
               const gain = Number(d.hw_gain ?? 20);
-              hwGainSlider.value = String(gain);
-              hwGainLabel.textContent = gain.toFixed(1) + " dB";
+              if (!(
+                usingHermes &&
+                (window._hermesGainEditing || window._hermesGainPending)
+              )) {
+                hwGainSlider.value = String(gain);
+                hwGainLabel.textContent = gain.toFixed(1) + " dB";
+              }
               hwGainSlider.title = "Hardware RF gain (dB)";
             }
 
-            hwAgcCheck.disabled = usingHackrf;
-            hwAgcCheck.checked = usingHackrf ? false : !!d.hw_agc;
-            hwAgcCheck.title = usingHackrf
-              ? "HackRF Pro does not provide hardware AGC"
-              : "Hardware automatic gain control";
+            hwAgcCheck.disabled = usingHackrf || usingHermes;
+            hwAgcCheck.checked =
+              usingHackrf || usingHermes ? false : !!d.hw_agc;
+            hwAgcCheck.title = usingHermes
+              ? "Hermes RF gain is controlled manually"
+              : usingHackrf
+                ? "HackRF Pro does not provide hardware AGC"
+                : "Hardware automatic gain control";
 
             updateSliderFill(hwGainSlider);
             // Sync hw gain/agc from server whenever device changes
@@ -15245,7 +16353,6 @@
                           if (
                             !v.port &&
                             v.driver === _activeDeviceDriver &&
-                            v.driver !== "fake" &&
                             (v.serial || "") === _activeDeviceSerial
                           ) {
                             opt.selected = true;
@@ -15340,11 +16447,11 @@
                 const sl = document.getElementById("smoothSlider");
                 const lb = document.getElementById("smoothLabel");
                 if (sl) {
-                  sl.value = d.smoothing / 0.95;
+                  sl.value = Math.max(0, Math.min(1, d.smoothing / 0.95));
                   updateSliderFill(sl);
                 }
                 if (lb)
-                  lb.textContent = parseInt((1 - d.smoothing) * 100) + "%";
+                  lb.textContent = Math.round(Math.max(0, Math.min(1, d.smoothing / 0.95)) * 100) + "%";
               }
 
               // span — server now sends full sample_rate as span, don't override user's display span
@@ -15564,7 +16671,7 @@
                 const ser = d.device_serial ? d.device_serial.slice(-8) : "";
                 subtitleEl.textContent = ser ? drv + " " + ser : drv;
               } else {
-                subtitleEl.textContent = "---";
+                subtitleEl.textContent = d.device_driver === "fake" ? "No SDR selected" : "---";
               }
               // Update SDR QRV/QRT indicator
               const simulatedSpectrum =
@@ -15572,9 +16679,13 @@
                 !d.kiwi_ok &&
                 !d.owrx_connected &&
                 !d.sdrconn_active;
-              const displayedSdrStatus = simulatedSpectrum
-                ? "DEMO"
-                : d.sdr_status;
+              const displayedSdrStatus = hermesReceiveTxActive()
+                ? hermesSpectrumPaused()
+                  ? "RX paused"
+                  : "RX during TX"
+                : simulatedSpectrum
+                  ? "DEMO"
+                  : d.sdr_status;
               const sdrStatusEl = document.getElementById("sdrStatus");
 
               if (sdrStatusEl && displayedSdrStatus) {
@@ -15594,12 +16705,7 @@
                 // 2. Use line-height matching the height to keep text vertically centered
                 sdrStatusEl.style.padding = "0"; // Reset padding so it doesn't add to the height
 
-                sdrStatusEl.style.backgroundColor =
-                  displayedSdrStatus === "QRV"
-                    ? "#00b050"
-                    : displayedSdrStatus === "DEMO"
-                      ? "#8a5a00"
-                      : "#fff";
+                applySdrStatusColors(sdrStatusEl, displayedSdrStatus);
                 if (displayedSdrStatus === "QRV") {
                   sdrStatusEl.className = "badge badge-pill badge-success";
                 } else {
@@ -15641,6 +16747,18 @@
       function updateDeviceDropdown(d) {
         const sel = document.getElementById("deviceSelect");
         if (!sel) return;
+        const noSdrSelected =
+          d.device_driver === "fake" &&
+          !d.owrx_active && !d.kiwi_ok && !d.sdrconn_active;
+        if (noSdrSelected) {
+          // No SDR is a real saved choice, not a request to pick hardware.
+          // Ignore an old serial and retain the choice during enumeration.
+          const devices = Array.isArray(d.available_devices) ? d.available_devices : [];
+          d = {...d, device_serial: "", device_remote: "", available_devices: [
+            ...devices.filter((device) => device.driver !== "fake"),
+            {driver: "fake", serial: "", remote: "", label: "No SDR selected"},
+          ]};
+        }
         if (!d.available_devices || !d.available_devices.length) {
           // Don't touch the select on a transient empty list (e.g. mid-restart,
           // before the server has finished enumerating). Returning here used to
@@ -15672,7 +16790,7 @@
 
         // Always sync active device from server state
         // But don't update selection when OWRX/KiwiSDR is active (would select "fake")
-        const _remoteActive = d.owrx_active || d.kiwi_ok;
+        const _remoteActive = d.owrx_active || d.kiwi_ok || d.sdrconn_active;
         if (d.device_driver && !_remoteActive) {
           _activeDeviceDriver = d.device_driver;
           _activeDeviceSerial = d.device_serial || "";
@@ -15724,10 +16842,17 @@
           (window._deviceDropdownBuildGeneration || 0) + 1;
         window._deviceDropdownBuildGeneration = buildGeneration;
         sel.innerHTML = "";
+        if (noSdrSelected) {
+          const none = document.createElement("option");
+          none.value = JSON.stringify({driver: "fake", serial: "", remote: ""});
+          none.textContent = "No SDR selected";
+          none.selected = true;
+          sel.appendChild(none);
+        }
 
         const labelTotals = {};
         d.available_devices.forEach((dev) => {
-          const base = dev.label || dev.driver || "SDR";
+          const base = dev.driver === "fake" ? "No SDR selected" : dev.label || dev.driver || "SDR";
           labelTotals[base] = (labelTotals[base] || 0) + 1;
         });
 
@@ -15778,7 +16903,7 @@
 
             d.available_devices.forEach((dev) => {
               const opt = document.createElement("option");
-              const base = dev.label || dev.driver || "SDR";
+              const base = dev.driver === "fake" ? "No SDR selected" : dev.label || dev.driver || "SDR";
               const takenBy =
                 inUseByOther[
                   dev.serial ? dev.serial : dev.driver.toLowerCase()
@@ -15855,7 +16980,7 @@
               serial: dev.serial || "",
               remote: dev.remote || "",
             });
-            const base = dev.label || dev.driver || "SDR";
+            const base = dev.driver === "fake" ? "No SDR selected" : dev.label || dev.driver || "SDR";
             opt.textContent =
               labelTotals[base] > 1 && dev.serial
                 ? `${base} (${dev.serial})`
@@ -16347,11 +17472,11 @@
                 leftHz = -2295;
                 rightHz = -2125;
               } else if (mode === "CW") {
-                const pitch = state.cwPitch || 600;
+                const pitch = state.cwPitch || 700;
                 leftHz = pitch - (state.cwLowHz || 200);
                 rightHz = pitch + (state.cwHighHz || 800);
               } else if (mode === "CWR") {
-                const pitch = state.cwPitch || 600;
+                const pitch = state.cwPitch || 700;
                 leftHz = -pitch - (state.cwHighHz || 800);
                 rightHz = -pitch + (state.cwLowHz || 200);
               } else {
@@ -16540,10 +17665,9 @@
       smoothSlider.addEventListener("input", () => {
         const raw = parseFloat(smoothSlider.value); // 0..1
         if (!Number.isFinite(raw)) return;
-        const alpha = Math.max(0.0, Math.min(0.95, (1 - raw) * 0.95)); // RIGHT -> less smoothing
+        const alpha = Math.max(0.0, Math.min(0.95, raw * 0.95)); // RIGHT -> more smoothing
         state.smoothing = alpha;
-        smoothLabel.textContent = parseInt((1 - raw) * 100) + "%";
-        //        smoothLabel.textContent = parseInt(1 - alpha) * 100 + "%";
+        smoothLabel.textContent = Math.round((alpha / 0.95) * 100) + "%";
         sendControl({ smoothing: alpha });
         updateSliderFill(smoothSlider);
       });
@@ -16778,10 +17902,13 @@
         (window._sdrBase || "") +
         ":" +
         (window._sdrUser || "admin");
+        const requestedSetupPanel = new URLSearchParams(window.location.search).get("setup");
+        const forceSetupOpen = ["hermes", "radio", "sdrconnect"].includes(requestedSetupPanel);
       try {
+          if (forceSetupOpen) localStorage.setItem(sdrPanelKey, "0");
         document.body.classList.toggle(
           "panel-hidden",
-          localStorage.getItem(sdrPanelKey) === "1",
+            !forceSetupOpen && localStorage.getItem(sdrPanelKey) === "1",
         );
       } catch (_storageError) {}
       const panelInitiallyHidden =
@@ -16937,6 +18064,7 @@
               window.location.href = currentUrl.toString();
               return;
             }
+            payload.user = window._sdrUser || "admin";
             console.log("[DEVICE] switching to", payload);
             // Optimistically update active device and dropdown
             _activeDeviceDriver = payload.driver;
@@ -17024,18 +18152,40 @@
 
         function updateHwGainUI(agc, gain, min, max, step) {
           hwAgcCheck.checked = agc;
-          hwGainRow.style.opacity = agc ? "0.4" : "1";
-          hwGainSlider.disabled = agc;
+          const hermesBlocked =
+            window._sdrLastState?.device_driver === "hermeslite" &&
+            !window._hermesCanAdjustGain;
+          hwGainRow.style.opacity = agc || hermesBlocked ? "0.4" : "1";
+          hwGainSlider.disabled = agc || hermesBlocked;
           hwGainSlider.min = min;
           hwGainSlider.max = max;
           hwGainSlider.step = step;
-          hwGainSlider.value = gain;
-          hwGainLabel.textContent = gain.toFixed(1) + " dB";
+          const keepHermesEdit =
+            window._sdrLastState?.device_driver === "hermeslite" &&
+            (window._hermesGainEditing || window._hermesGainPending);
+          if (!keepHermesEdit) {
+            hwGainSlider.value = gain;
+            hwGainLabel.textContent = gain.toFixed(1) + " dB";
+          }
           updateSliderFill(hwGainSlider);
         }
 
+        hwGainSlider.addEventListener("pointerdown", () => {
+          if (window._sdrLastState?.device_driver === "hermeslite")
+            window._hermesGainEditing = true;
+        });
+        document.addEventListener("pointerup", () => {
+          window._hermesGainEditing = false;
+        });
+        hwGainSlider.addEventListener("pointercancel", () => {
+          window._hermesGainEditing = false;
+        });
+        hwGainSlider.addEventListener("blur", () => {
+          window._hermesGainEditing = false;
+        });
         hwGainSlider.addEventListener("change", () => {
           const v = parseFloat(hwGainSlider.value);
+          window._hermesGainEditing = false;
           if (!Number.isFinite(v)) return;
 
           const usingSdrConnect = window._sdrLastState?.sdrconn_active === true;
@@ -17063,6 +18213,13 @@
             return;
           }
 
+          if (window._sdrLastState?.device_driver === "hermeslite") {
+            window._hermesSetRxGain(Math.round(v)).catch((error) => {
+              console.error("[HERMES GAIN]", error);
+              window.alert(error.message || "Hermes gain change failed.");
+            });
+            return;
+          }
           sendControl({
             hw_gain: v,
             hw_agc: false,
@@ -17073,6 +18230,8 @@
         });
 
         hwGainSlider.addEventListener("input", () => {
+          if (window._sdrLastState?.device_driver === "hermeslite")
+            window._hermesGainEditing = true;
           const v = parseFloat(hwGainSlider.value);
           if (!Number.isFinite(v)) return;
 
@@ -18394,7 +19553,7 @@
           Math.min(700_000, Number(window._sdrSampleRate || 912_000) * 0.68),
         );
         const windows = [];
-        for (let start = 0; start < candidates.length; ) {
+        for (let start = 0; start < candidates.length;) {
           const firstFrequency = Number(candidates[start].action.frequency);
           let stop = start + 1;
           while (
@@ -18430,8 +19589,8 @@
         const generation = ++swScanGeneration;
         const canResume = Boolean(
           resume &&
-            swScanSession?.windows?.length &&
-            swScanSession.index < swScanSession.windows.length,
+          swScanSession?.windows?.length &&
+          swScanSession.index < swScanSession.windows.length,
         );
         setSwScanUi(
           true,
@@ -18831,7 +19990,7 @@
           running: swScanRunning,
           resumable: Boolean(
             swStationSession?.query ||
-              swScanSession?.index < swScanSession?.windows?.length,
+            swScanSession?.index < swScanSession?.windows?.length,
           ),
         }),
       };
@@ -18985,7 +20144,7 @@
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok)
-          throw new Error(data.error || "HackRF transmit failed.");
+          throw new Error(data.error || "SDR transmit failed.");
         return data;
       }
 
@@ -19007,14 +20166,27 @@
         hackrfPttStream = null;
       }
 
+      window._hermesReleaseBrowserTx = async function () {
+        if (hackrfPttHeartbeat) window.clearInterval(hackrfPttHeartbeat);
+        hackrfPttHeartbeat = null;
+        if (hackrfPttPc) {
+          try {
+            await hackrfPttPc.close();
+          } catch (_) {}
+        }
+        hackrfPttPc = null;
+        if (hackrfPttStream)
+          hackrfPttStream.getTracks().forEach((track) => track.stop());
+        hackrfPttStream = null;
+      };
+
       async function startHackrfPtt() {
         const live = window._sdrLastState || {};
-        if (
-          String(
-            live.device_driver || state.device_driver || "",
-          ).toLowerCase() !== "hackrf"
-        ) {
-          throw new Error("The selected SDR is not a HackRF.");
+        const driver = String(
+          live.device_driver || state.device_driver || "",
+        ).toLowerCase();
+        if (!["hackrf", "hermeslite"].includes(driver)) {
+          throw new Error("The selected SDR does not support direct transmit.");
         }
         if (!live.hackrf_tx?.enabled) {
           throw new Error("HackRF transmit is disabled by the administrator.");
@@ -19096,7 +20268,7 @@
               request_id: requestId,
               ok: false,
               state: 0,
-              error: error?.message || "HackRF transmit failed.",
+              error: error?.message || "SDR transmit failed.",
             },
             "*",
           );
@@ -20892,7 +22064,11 @@
           elmrPanel.style.display = elmrVisible ? "" : "none";
           elmrBtn.classList.toggle("active", elmrVisible);
           if (elmrVisible) elmrStart();
-          else elmrStop();
+          else {
+            elmrStop();
+            elmrFetchSpots();
+            elmrSpotsTimer = setInterval(elmrFetchSpots, 10000);
+          }
         });
 
         function fmtF(hz) {
@@ -20919,6 +22095,7 @@
         }
 
         function elmrAnalyze(d) {
+          if (hermesSpectrumPaused()) return;
           const mags = d.mags,
             N = mags.length,
             sr = d.sample_rate,
@@ -21079,6 +22256,62 @@
                 _ft8Normalized: true,
               };
             });
+            // Add the dedicated FT8/FT4 decode list inside this single writer.
+            // /api/spots is capped across all bands, so active digital calls can
+            // otherwise fall off whenever busy cluster traffic reaches that cap.
+            const ft8Pins = [];
+            const ft8Keys = new Set();
+            if (Array.isArray(_ft8Spots)) {
+              for (const spot of _ft8Spots) {
+                const dx = String(spot.dx_call || "")
+                  .trim()
+                  .toUpperCase();
+                const rfHz = Number(spot.freq_hz) || ft8DialHz(spot.band) || 0;
+                if (!dx || !rfHz) continue;
+                const key = `${dx}|${Math.round(rfHz)}`;
+                if (ft8Keys.has(key)) continue;
+                ft8Keys.add(key);
+                const ll =
+                  spot.grid && typeof window._grid2latlon === "function"
+                    ? window._grid2latlon(spot.grid)
+                    : null;
+                ft8Pins.push({
+                  DX: dx,
+                  Spotter: spot.de_call || "",
+                  Frequency: rfHz,
+                  ActualFrequency: rfHz,
+                  DialFrequency:
+                    Number(spot.dial_hz) || ft8DialHz(spot.band) || 0,
+                  Band: spot.band || "",
+                  Mode: spot.mode || "FT8",
+                  Note: spot.msg || "",
+                  Webdate: spot.webdate || "",
+                  Webtime: spot.webtime || "",
+                  Latitude: ll ? ll.lat : null,
+                  Longitude: ll ? ll.lon : null,
+                  Country: "",
+                  Continent: "",
+                  DXCC: "",
+                  _ft8: true,
+                  _ft8Normalized: true,
+                });
+              }
+            }
+            // Prefer the dedicated decode record when the capped general feed also
+            // contains the same signal, then publish the completed set atomically.
+            elmrSpots = elmrSpots
+              .filter((spot) => {
+                const key = `${String(spot.DX || "")
+                  .trim()
+                  .toUpperCase()}|${Math.round(Number(spot.Frequency) || 0)}`;
+                return !ft8Keys.has(key);
+              })
+              .concat(ft8Pins)
+              .sort(
+                (a, b) =>
+                  Number(b.Webdate || b.webdate || b.id || 0) -
+                  Number(a.Webdate || a.webdate || a.id || 0),
+              );
             window._elmrSpots = elmrSpots;
           } catch (e) {}
         }
@@ -22788,6 +24021,10 @@
         }
 
         if (elmrVisible) elmrStart();
+        else {
+          elmrFetchSpots();
+          elmrSpotsTimer = setInterval(elmrFetchSpots, 10000);
+        }
       })();
       // ===== END ELMER =====
     </script>
@@ -23293,7 +24530,7 @@
             ></span>
           </div>
           <span
-            onclick="document.getElementById('wiModal').style.display='none'"
+            onclick="document.getElementById('wiModal').style.display = 'none'"
             style="
               cursor: pointer;
               color: #5a8a5a;
@@ -23306,7 +24543,11 @@
         <!-- Scroll up indicator -->
         <div
           id="wiScrollArrowUp"
-          onclick="document.getElementById('wiScrollable').scrollBy({top:-120,behavior:'smooth'})"
+          onclick="
+            document
+              .getElementById('wiScrollable')
+              .scrollBy({ top: -120, behavior: 'smooth' })
+          "
           style="
             display: none;
             text-align: center;
@@ -23644,7 +24885,11 @@
         <!-- Scroll indicator -->
         <div
           id="wiScrollArrow"
-          onclick="document.getElementById('wiScrollable').scrollBy({top:120,behavior:'smooth'})"
+          onclick="
+            document
+              .getElementById('wiScrollable')
+              .scrollBy({ top: 120, behavior: 'smooth' })
+          "
           style="
             display: none;
             text-align: center;
@@ -23688,7 +24933,9 @@
               &#128196; Copy / View
             </button>
             <button
-              onclick="document.getElementById('wiModal').style.display='none'"
+              onclick="
+                document.getElementById('wiModal').style.display = 'none'
+              "
               style="
                 font-size: 10px;
                 padding: 3px 14px;
@@ -23722,6 +24969,444 @@
       });
       if (window.parent !== window)
         window.parent.postMessage({ type: "rigpiElmerToolbarReady" }, "*");
+    </script>
+    <script src="./rigpi-rtty.js?v=20261011-1"></script>
+    <script id="hermesPanelScript">
+      (function () {
+        "use strict";
+        window._rigpiHermesPanelVersion = "2026-10-17.2";
+        const el = (id) => document.getElementById(id);
+        const panel = el("tab_hermes");
+        if (!panel) return;
+        let latest = null;
+        let access = null;
+        let accessError = "";
+        let accessPending = false;
+        let accessTime = 0;
+        let dirty = false;
+        let busy = false;
+        let deviceSignature = "";
+        function message(text, error) {
+          el("hermesPanelMessage").textContent = text || "";
+          el("hermesPanelMessage").style.color = error ? "#ffb2a5" : "#a9dfbe";
+        }
+        async function bridge(payload) {
+          const response = await fetch("/programs/HermesControl.php", {
+            method: "POST",
+            credentials: "same-origin",
+            cache: "no-store",
+            headers: {
+              "Content-Type": "application/json",
+              "X-RigPi-Action": "hermes-control",
+            },
+            body: JSON.stringify(
+              Object.assign(
+                {},
+                payload,
+                latest?.hermes?.instance_port
+                  ? { instance_port: Number(latest.hermes.instance_port) }
+                  : {},
+              ),
+            ),
+            signal: AbortSignal.timeout(8000),
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok)
+            throw new Error(result.error || "Hermes request failed.");
+          return result;
+        }
+        function matchingAccess(h) {
+          return !!(
+            access &&
+            h &&
+            Number(access.hermes?.instance_port) === Number(h.instance_port)
+          );
+        }
+        function updateLabels() {
+          const gain = Number(el("hermesRxGain").value);
+          el("hermesRxGainValue").textContent =
+            (gain >= 0 ? "+" : "") + gain + " dB";
+          el("hermesTxDriveValue").textContent =
+            el("hermesTxDrive").value + " / 15";
+        }
+        function render(state) {
+          latest = state;
+          const h = state?.hermes;
+          const selected = state?.device_driver === "hermeslite";
+          const connected = !!(selected && h?.connected && state.device_open);
+          const tx = h?.tx || {};
+          const active = !!(tx.active || tx.starting);
+          const matched = matchingAccess(h);
+          const canConfigure = !!(matched && access.can_configure);
+          const canTransmit = !!(matched && access.can_transmit);
+          window._hermesCanAdjustGain = !!(
+            connected &&
+            canConfigure &&
+            !active &&
+            !busy
+          );
+          if (selected) {
+            el("hwAgcCheck").disabled = true;
+            el("hwAgcCheck").checked = false;
+            el("hwGainSlider").disabled = !window._hermesCanAdjustGain;
+            el("hwGainRow").style.opacity = window._hermesCanAdjustGain
+              ? "1"
+              : "0.4";
+          }
+          const badge = el("hermesPanelState");
+          badge.textContent = !h
+            ? selected
+              ? "Waiting for server update"
+              : "HERMES NOT SELECTED"
+            : !connected
+              ? "DISCONNECTED"
+              : tx.starting
+                ? "STARTING TX"
+                : tx.active
+                  ? "TRANSMIT"
+                  : "RECEIVE";
+          badge.classList.toggle("tx", active);
+          el("hermesDeviceInfo").textContent = connected
+            ? h.device_ip +
+              " · " +
+              Math.round((h.sample_rate || 192000) / 1000) +
+              " kHz · firmware " +
+              (h.telemetry?.firmware_version ?? "—")
+            : "Connect a Hermes Lite 2 assigned to this SDR instance.";
+          el("hermesStopTx").disabled =
+            !connected || !(active || tx.cw?.armed) || !canTransmit || busy;
+          el("hermesSettings").disabled =
+            !connected || !canConfigure || active || busy;
+          el("hermesDeviceControls").disabled = !canConfigure || active || busy;
+          el("hermesApply").disabled =
+            !dirty || !connected || !canConfigure || active || busy;
+          el("hermesDisconnect").disabled = !connected || active || busy;
+          el("hermesConnect").disabled =
+            connected || !el("hermesDevice").options.length || active || busy;
+          el("hermesAccessNote").textContent = active
+            ? "Release PTT before changing radio settings."
+            : !h && !selected
+              ? "Open the Hermes SDR instance to change its settings."
+              : !access
+                ? accessPending
+                  ? "Checking account permissions…"
+                  : accessError ||
+                    "Sign in to RigPi to change hardware settings."
+                : !matched
+                  ? "Your account's SDR assignment does not match this instance."
+                  : canConfigure
+                    ? "Administrator settings · changes apply while receiving."
+                    : "Radio settings require an administrator account.";
+          if (h?.settings && !dirty && !busy) {
+            el("hermesRxGain").value = h.settings.rx_gain_db;
+            el("hermesTxAllowed").checked = !!h.settings.tx_enabled;
+            el("hermesTxDrive").value = Math.floor(
+              Number(h.settings.tx_drive) / 16,
+            );
+            updateLabels();
+          }
+          const devices = (state?.available_devices || []).filter(
+            (d) => d.driver === "hermeslite",
+          );
+          if (connected && !devices.some((d) => d.serial === h.device_ip))
+            devices.push({
+              serial: h.device_ip,
+              label: "Hermes Lite 2 [" + h.device_ip + "]",
+            });
+          const signature = JSON.stringify(
+            devices.map((d) => [d.serial, d.label]),
+          );
+          if (signature !== deviceSignature) {
+            const select = el("hermesDevice");
+            const saved = select.value || h?.device_ip;
+            select.replaceChildren();
+            devices.forEach((d) => {
+              const option = document.createElement("option");
+              option.value = d.serial;
+              option.textContent = d.label || d.serial;
+              select.appendChild(option);
+            });
+            if ([...select.options].some((o) => o.value === saved))
+              select.value = saved;
+            deviceSignature = signature;
+            el("hermesConnect").disabled =
+              connected || !devices.length || active || busy;
+          }
+          const telemetry = connected ? h.telemetry || {} : {};
+          const power = h?.forward_power_calibration || {};
+          const watts = h?.forward_power_w;
+          const calibrated =
+            connected && typeof watts === "number" && Number.isFinite(watts);
+          const aboveRange =
+            connected &&
+            power.status === "power_above_range" &&
+            Number.isFinite(power.maximum_watts);
+          el("hermesForwardLabel").textContent = aboveRange
+            ? "Forward power · above range"
+            : calibrated
+              ? "Forward power · estimated"
+              : "Forward power · raw";
+          el("hermesForward").textContent = aboveRange
+            ? "> " + power.maximum_watts.toFixed(2) + " W"
+            : calibrated
+              ? (power.status === "estimated" ? "≈ " : "") +
+                watts.toFixed(2) +
+                " W"
+              : telemetry.forward_power_raw == null
+                ? "—"
+                : telemetry.forward_power_raw + " raw";
+          el("hermesForward").title =
+            telemetry.forward_power_raw == null
+              ? ""
+              : telemetry.forward_power_raw + " raw";
+          const reference = Number.isFinite(power.reference_hz)
+            ? (power.reference_hz / 1000000).toFixed(4) + " MHz ±100 kHz"
+            : "";
+          el("hermesPowerNote").textContent = reference
+            ? "Forward estimate: " +
+              Number(power.minimum_watts).toFixed(2) +
+              "–" +
+              Number(power.maximum_watts).toFixed(2) +
+              " W near " +
+              reference +
+              ". Other readings and reflected power remain raw. Current and temperature use nominal sensor conversion."
+            : "Power shows raw sensor counts until calibrated with an RF meter. Current and temperature use nominal sensor conversion.";
+          el("hermesReverse").textContent =
+            telemetry.reverse_power_raw == null
+              ? "—"
+              : telemetry.reverse_power_raw + " raw";
+          el("hermesCurrent").textContent =
+            connected && Number.isFinite(h.pa_current_a)
+              ? (h.pa_current_a * 1000).toFixed(0) + " mA"
+              : "—";
+          el("hermesTemperature").textContent =
+            connected && Number.isFinite(h.temperature_c)
+              ? h.temperature_c.toFixed(1) + " °C"
+              : "—";
+          const ft8 = h?.ft8 || {};
+          el("hermesFt8Status").textContent = !ft8.enabled
+            ? ""
+            : ft8.error
+              ? "WSJT-X: " + ft8.error
+              : "WSJT-X " +
+                (ft8.active
+                  ? "transmitting"
+                  : ft8.cat_connected &&
+                      ft8.capture_running &&
+                      ft8.receive_running
+                    ? "audio/CAT connected"
+                    : "connecting") +
+                " · FT8 drive " +
+                Math.floor(Number(ft8.drive || 0) / 16) +
+                " / 15 · audio: hermes_ft8";
+          const cw = tx.cw || {};
+          el("hermesCwStatus").textContent = !cw.requested
+            ? ""
+            : cw.blocked
+              ? "External CW stopped. Change mode away from CW and back to re-arm."
+              : cw.armed
+                ? "External WinKeyer CW armed · drive " +
+                  Math.floor(Number(cw.configured_drive || 0) / 16) +
+                  " / 15 (separate from voice drive). Stop TX disarms CW."
+                : "External CW waiting for hardware status.";
+          const limit = cw.requested
+            ? tx.maximum_seconds
+            : active
+              ? tx.maximum_seconds
+              : access?.maximum_seconds;
+          el("hermesTxLimit").textContent = limit
+            ? "TX time limit: " +
+              Math.round(limit) +
+              " seconds" +
+              (active
+                ? " · elapsed " +
+                  Number(tx.seconds || 0).toFixed(1) +
+                  " seconds"
+                : "")
+            : "";
+          el("hermesDiagnostics").textContent = JSON.stringify(
+            {
+              packets: h?.packets,
+              packet_drops: h?.packet_drops,
+              frames: tx.frames,
+              underruns: tx.underruns,
+              error: tx.error,
+              cw: tx.cw,
+              ft8: h?.ft8,
+              telemetry,
+            },
+            null,
+            2,
+          );
+          if (!busy && tx.error) message(tx.error, true);
+          if (h && !access && !accessPending && Date.now() - accessTime > 10000)
+            refreshAccess();
+        }
+        async function refreshAccess() {
+          if (!latest?.hermes) return;
+          if (accessPending || (access && Date.now() - accessTime < 10000))
+            return;
+          accessPending = true;
+          accessTime = Date.now();
+          try {
+            access = await bridge({ action: "status" });
+            accessError = "";
+          } catch (error) {
+            access = null;
+            accessError = error.message;
+            el("hermesAccessNote").textContent = error.message;
+          } finally {
+            accessPending = false;
+            if (latest) render(latest);
+          }
+        }
+        ["hermesRxGain", "hermesTxDrive", "hermesTxAllowed"].forEach((id) => {
+          el(id).addEventListener("input", () => {
+            dirty = true;
+            updateLabels();
+            if (latest) render(latest);
+            message("Unsaved settings");
+          });
+        });
+        el("hermesApply").addEventListener("click", async () => {
+          if (busy) return;
+          busy = true;
+          render(latest);
+          message("Applying settings…");
+          try {
+            const result = await bridge({
+              action: "settings",
+              settings: {
+                rx_gain_db: Number(el("hermesRxGain").value),
+                tx_enabled: el("hermesTxAllowed").checked,
+                tx_drive: Number(el("hermesTxDrive").value) * 16,
+              },
+            });
+            dirty = false;
+            latest = Object.assign({}, latest, { hermes: result.hermes });
+            access = result;
+            message("Settings applied and saved.");
+          } catch (error) {
+            message(error.message, true);
+          } finally {
+            busy = false;
+            render(latest);
+          }
+        });
+        function chooseDevice(driver, serial) {
+          if (
+            !latest ||
+            !matchingAccess(latest.hermes) ||
+            !access.can_configure
+          )
+            return;
+          if (latest.hermes?.tx?.active || latest.hermes?.tx?.starting) {
+            message("Release PTT first.", true);
+            return;
+          }
+          const select = el("deviceSelect");
+          const option =
+            select &&
+            [...select.options].find((o) => {
+              try {
+                const d = JSON.parse(o.value);
+                return (
+                  d.driver === driver &&
+                  (driver === "fake" || d.serial === serial)
+                );
+              } catch (_) {
+                return false;
+              }
+            });
+          if (!option) {
+            message(
+              "Device list is not ready. Select the device in the SDR tab.",
+              true,
+            );
+            return;
+          }
+          busy = true;
+          render(latest);
+          message("Changing device; this SDR instance will restart…");
+          select.value = option.value;
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+          window.setTimeout(() => {
+            busy = false;
+            if (latest) render(latest);
+          }, 15000);
+        }
+        el("hermesConnect").addEventListener("click", () =>
+          chooseDevice("hermeslite", el("hermesDevice").value),
+        );
+        el("hermesDisconnect").addEventListener("click", () =>
+          chooseDevice("fake", ""),
+        );
+        el("hermesStopTx").addEventListener("click", async () => {
+          if (busy) return;
+          busy = true;
+          render(latest);
+          try {
+            const result = await bridge({ action: "stop" });
+            await window._hermesReleaseBrowserTx?.();
+            latest = Object.assign({}, latest, { hermes: result.hermes });
+            access = result;
+            message("TX stopped.");
+          } catch (error) {
+            message(error.message, true);
+          } finally {
+            busy = false;
+            if (latest) render(latest);
+          }
+        });
+        el("hermesOpenAudio").addEventListener("click", () =>
+          document.querySelector('.panel-tab[data-panel="audio"]')?.click(),
+        );
+        window._hermesSetRxGain = async function (gain) {
+          if (!Number.isInteger(gain) || gain < -12 || gain > 48)
+            throw new Error("Hermes gain must be between -12 and +48 dB.");
+          if (!window._hermesCanAdjustGain || busy)
+            throw new Error(
+              "Hermes gain requires an administrator and receiving mode.",
+            );
+          window._hermesGainPending = true;
+          busy = true;
+          render(latest);
+          message("Applying receive gain…");
+          try {
+            const result = await bridge({
+              action: "settings",
+              settings: { rx_gain_db: gain },
+            });
+            access = result;
+            latest = Object.assign({}, latest, {
+              hermes: result.hermes,
+              hw_gain: result.hermes.settings.rx_gain_db,
+              hw_agc: false,
+            });
+            window._sdrLastState = Object.assign(
+              {},
+              window._sdrLastState || {},
+              { hermes: result.hermes, hw_gain: latest.hw_gain, hw_agc: false },
+            );
+            el("hermesRxGain").value = latest.hw_gain;
+            el("hwGainSlider").value = latest.hw_gain;
+            el("hwGainLabel").textContent = latest.hw_gain.toFixed(1) + " dB";
+            updateLabels();
+            message("Receive gain applied and saved.");
+            return result;
+          } catch (error) {
+            message(error.message, true);
+            throw error;
+          } finally {
+            window._hermesGainPending = false;
+            busy = false;
+            if (latest) render(latest);
+          }
+        };
+        window._hermesRender = render;
+        window._hermesRefreshAccess = refreshAccess;
+        if (window._sdrLastState) render(window._sdrLastState);
+      })();
     </script>
   </body>
 </html>

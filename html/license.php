@@ -1,7 +1,7 @@
 <?php
 session_start();
-$tUserName=$_SESSION['myUsername'];
-$tCall=$_SESSION['myCall'];
+$tUserName = $_SESSION["myUsername"];
+$tCall = $_SESSION["myCall"];
 $dRoot = "/var/www/html";
 require_once $dRoot . "/classes/Membership.php";
 $membership = new Membership();
@@ -227,9 +227,9 @@ require_once $dRoot . "/includes/ackStyles.php";
 <p style="text-align: center;">&nbsp;</p>
 		<p style="text-align: center;"><strong>MIT LICENSE </strong></p>
 		<p style="padding-left: 30px;">RigPi software is provided under the MIT License.</p>
-		<p style="padding-left: 30px;">Copyright &copy; 2025 Howard Nurse, W6HN</p>
+		<p style="padding-left: 30px;">Copyright &copy; 2026 Howard Nurse, W6HN</p>
 		<p style="padding-left: 30px;">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &ldquo;Software&rdquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-		<p style="padding-left: 30px;"><strong>**EXCEPTION:**</strong> The graphical user interface in the Tuner window was created using <em>Perfect Widgets</em>&nbsp;by Perpetuum Software and may be subject to separate licensing terms. The Perpetuum Software site has been unavailable since before 7/19/2025, and the application not been updated in many years. The <em>Perfect Widgets</em> application is not covered under the MIT License and may not be copied or redistributed separately.</p>
+
 		<p style="padding-left: 30px;">&ldquo;RigPi&rdquo; is a trademark of Howard Nurse, W6HN. Use of the RigPi name and logo is subject to trademark restrictions. THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 	<?php require dirname(__FILE__) . "/includes/modal.txt"; ?>
 	<div class="row">

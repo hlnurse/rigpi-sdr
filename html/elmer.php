@@ -50,6 +50,7 @@ $level = (int) getUserField($tUserName, 'Access_Level');
     .elmer-code-practice{background:#eef5f8;border:1px solid #b6ccd7;border-left:5px solid #176b99;border-radius:10px;padding:18px}.elmer-code-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.elmer-code-head h2{border:0!important;margin:0!important}.elmer-code-score{color:#52646f;font-weight:750}.elmer-code-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:15px 0}.elmer-code-control{display:grid;gap:4px}.elmer-code-control label{color:#52646f;font-size:.8rem;font-weight:750}.elmer-code-control select{background:#fff;border:1px solid #9fb9c6;border-radius:6px;color:#20313b;padding:7px 9px}.elmer-code-prompt{background:#183b54;border-radius:8px;color:#fff;margin:12px 0;padding:18px;text-align:center}.elmer-code-prompt strong{color:#fff!important;display:block;font-size:1.25rem}.elmer-code-copy{display:flex;gap:8px;margin:12px 0}.elmer-code-copy input{border:2px solid #adc7d4;border-radius:7px;flex:1;font:700 1.15rem system-ui;letter-spacing:.08em;min-width:0;padding:9px 11px;text-transform:uppercase}.elmer-code-feedback{border-radius:7px;font-weight:750;margin-top:10px;padding:10px 12px}.elmer-code-feedback.correct{background:#dff1e5;color:#174d2c}.elmer-code-feedback.incorrect{background:#f8e2e2;color:#6e2020}.elmer-code-note{color:#64717a;font-size:.82rem;margin-top:12px}
     .elmer-wrap{max-width:980px;margin:24px auto;padding:0 16px 45px}.elmer-card{background:#f8f9fa;color:#202830;border-radius:10px;padding:22px;box-shadow:0 4px 18px #0007}.elmer-greeting{display:block;color:#28566f;font-size:1.18rem;margin:.15em 0 .8em}.elmer-attachment-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:9px}.elmer-attachment-tools input{position:absolute;left:-10000px}.elmer-attachment-note{color:#64717a;font-size:.82rem}.elmer-attachment-preview{display:none;align-items:center;gap:10px;background:#e9f2f6;border:1px solid #b8cbd5;border-radius:7px;margin-top:9px;padding:8px 10px}.elmer-attachment-preview.visible{display:flex}.elmer-attachment-preview img{width:86px;height:64px;object-fit:contain;background:#101820;border-radius:5px}.elmer-attachment-meta{min-width:0;flex:1;color:#344b58;font-size:.86rem;overflow-wrap:anywhere}.elmer-result{display:none;margin-top:18px}.elmer-result.visible{display:block}#elmerQuestion{min-height:100px;font-size:18px}#elmerStatus{color:#176b99;font-weight:700;min-height:28px}#elmerAnswer{overflow-wrap:anywhere;font-size:17px;line-height:1.58}#elmerAnswer.streaming{white-space:pre-wrap}#elmerAnswer h2{color:#183b54;font-size:1.45rem;text-align:left;margin:1.25em 0 .45em;border-bottom:1px solid #ccd7dc;padding-bottom:.2em}#elmerAnswer h3{color:#28566f;font-size:1.18rem;margin:1.1em 0 .35em}#elmerAnswer p{margin:.65em 0}#elmerAnswer ul,#elmerAnswer ol{padding-left:1.7em;margin:.55em 0}#elmerAnswer li{margin:.38em 0}#elmerAnswer strong{color:#102f45}#elmerAnswer code{background:#e4eaed;color:#17212b;border-radius:4px;padding:.08em .3em;font-size:.92em}#elmerAnswer a{color:#075f91;text-decoration:underline;text-decoration-thickness:2px}.elmer-metrics{border-top:1px solid #ccd4d8;margin-top:18px;padding-top:9px;color:#64717a;font-size:13px}.elmer-feedback{display:none;border-top:1px solid #ccd4d8;margin-top:18px;padding-top:15px}.elmer-feedback.visible{display:block}.elmer-feedback-note{background:#e9f2f6;border-left:4px solid #176b99;border-radius:4px;color:#344b58;font-size:.9rem;margin:.75em 0;padding:.65em .8em}.elmer-helpfulness,.elmer-reasons{display:flex;flex-wrap:wrap;gap:7px;margin:.6em 0}.elmer-helpfulness label,.elmer-reasons label{margin:0}.elmer-helpfulness input,.elmer-reasons input{position:absolute;opacity:0}.elmer-helpfulness span,.elmer-reasons span{display:block;border:1px solid #6c757d;border-radius:4px;color:#495057;cursor:pointer;padding:.28rem .7rem}.elmer-helpfulness input:focus-visible+span,.elmer-reasons input:focus-visible+span{outline:3px solid #176b9955}.elmer-helpfulness input:checked+span,.elmer-reasons input:checked+span{background:#176b99;border-color:#176b99;color:#fff}.elmer-feedback-reasons{margin-top:12px}.elmer-feedback-reasons[hidden]{display:none}.elmer-feedback-status{color:#176b99;font-weight:700;margin-top:9px}dialog{width:min(780px,92vw);max-height:82vh;border:0;border-radius:10px;padding:0;box-shadow:0 18px 65px #0008}dialog::backdrop{background:#000b}#elmerFeedbackPromptDialog{position:fixed;inset:50% auto auto 50%;transform:translate(-50%,-50%);z-index:1100}.elmer-dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;background:#343a40;color:#fff;padding:12px 18px}.elmer-dialog-body{padding:20px}#elmerReferenceBody{padding:20px;white-space:pre-wrap;font:14px/1.5 monospace}
   #elmerForm.elmer-image-dragover { outline: 3px dashed #79caff; outline-offset: 6px; background-color: rgba(70,160,230,.12); }
+#elmerAnswer table[data-dx-sortable="1"] th,#elmerAnswer table[data-dx-sortable="1"] td{text-align:center}.elmer-dx-sort{background:transparent;border:0;color:inherit;font:inherit;font-weight:700;padding:0;cursor:pointer;text-align:center}.elmer-dx-sort:hover{text-decoration:underline}.elmer-dx-sort:focus-visible{outline:2px solid currentColor;outline-offset:4px}.elmer-dx-sort-arrow{display:inline-block;font-size:.8em;white-space:nowrap;color:#fff;background:#000;border-radius:3px;padding:1px 5px;margin-left:5px;line-height:1.3}
 </style>
 </head>
 <body class="body-black-scroll" id="AskElmer">
@@ -72,7 +73,7 @@ $level = (int) getUserField($tUserName, 'Access_Level');
     <form id="elmerForm">
       <label for="elmerQuestion" id="elmerGreeting" class="elmer-greeting"></label>
       <aside id="elmerIcebreaker" class="elmer-icebreaker" hidden><strong id="elmerQsoIdeasTitle" class="elmer-icebreaker-title">QSO idea</strong><div class="elmer-icebreaker-main"><span id="elmerIcebreakerText" class="elmer-icebreaker-text"></span><span class="elmer-icebreaker-actions"><button id="elmerIcebreakerAnother" class="btn btn-outline-primary btn-sm" type="button">Another</button><button id="elmerIcebreakerKeyer" class="btn btn-outline-primary btn-sm" type="button">To Keyer</button><button id="elmerIcebreakerCopy" class="btn btn-outline-secondary btn-sm" type="button">Copy</button><button id="elmerIcebreakerDismiss" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Dismiss QSO idea">×</button></span></div><div id="elmerIcebreakerSource" class="elmer-icebreaker-source"></div></aside>
-      <textarea class="form-control" id="elmerQuestion" maxlength="600" required placeholder="How do I configure an IC-7300 for remote audio and CAT control?"></textarea>
+      <textarea class="form-control" id="elmerQuestion" maxlength="50000" required placeholder="How do I configure an IC-7300 for remote audio and CAT control?"></textarea>
       <div class="elmer-attachment-tools"><label class="btn btn-outline-primary btn-sm mb-0" for="elmerImage"><i class="fas fa-paperclip" aria-hidden="true"></i> Attach image</label><input id="elmerImage" type="file" accept="image/png,image/jpeg,image/webp"><span class="elmer-attachment-note">or drop an image here or paste a screenshot · PNG, JPEG or WebP · processed for this answer only</span></div>
       <div id="elmerImagePreview" class="elmer-attachment-preview"><img id="elmerImageThumb" alt="Attached image preview"><div id="elmerImageMeta" class="elmer-attachment-meta"></div><button id="elmerImageRemove" class="btn btn-outline-secondary btn-sm" type="button">Remove</button></div>
       <div class="mt-3"><button class="btn btn-primary" id="elmerAsk" type="submit">Ask Elmer</button> <button class="btn btn-outline-secondary ml-2" id="elmerClear" type="button">Clear</button><?php if ($level === 1): ?> <a class="btn btn-outline-secondary ml-2" href="/elmer-stats.php">Elmer Status</a><?php endif; ?> <a class="btn btn-outline-secondary ml-2" href="/?elmer-control=1#elmerControl">Elmer Control</a> <button id="elmerQsoIdeas" class="btn btn-outline-secondary ml-2" type="button">QSO Ideas</button> <small class="text-muted ml-2">Enter asks · Shift+Enter starts a new line</small></div>
@@ -366,6 +367,166 @@ function requestedRepeaterDirectorySearch(text){
 function repeaterFrequency(value){const hz=Number(value);return Number.isFinite(hz)?`${(hz/1e6).toFixed(3)} MHz`:'—'}
 function repeaterOffset(value){const hz=Number(value);if(!Number.isFinite(hz)||hz===0)return 'simplex';return `${hz>0?'+':'−'}${Math.abs(hz/1e6).toFixed(3)} MHz`}
 function repeaterTone(row){const encode=String(row.encode||'').trim(),decode=String(row.decode||'').trim();return [encode&&!/^0(?:\.0+)?$/.test(encode)?`Tx ${encode}`:'',decode&&!/^0(?:\.0+)?$/.test(decode)&&decode!==encode?`Rx ${decode}`:''].filter(Boolean).join(' / ')||'—'}
+
+// Only frequencies from this answer's validated live snapshot may become controls.
+let elmerLatestDxSpots=[],elmerDxTuneBusy=false;
+function dxSpotFrequencyHz(label,defaultUnit='kHz'){
+    const match=String(label||'').trim().match(/^([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)\s*(kHz|MHz)?$/i);
+    if(!match)return null;
+    const unit=String(match[2]||defaultUnit).toLowerCase();
+    if(unit!=='khz'&&unit!=='mhz')return null;
+    const hz=Math.round(Number(match[1].replace(/,/g,''))*(unit==='mhz'?1000000:1000));
+    return Number.isSafeInteger(hz)&&hz>=1800000&&hz<=29700000?hz:null;
+}
+function liveDxSpotForFrequency(hz,row=null){
+    const matches=elmerLatestDxSpots.filter(spot=>Math.round(Number(spot.frequency_khz)*1000)===hz);
+    if(row){
+        const labels=Array.from(row.cells||[],cell=>cell.textContent.trim().toUpperCase());
+        const named=matches.filter(spot=>labels.includes(String(spot.dx_call).toUpperCase()));
+        if(named.length && named.every(spot=>spot.tune_mode===named[0].tune_mode))return named[0];
+    }
+    if(matches.length && matches.every(spot=>spot.tune_mode===matches[0].tune_mode))return matches[0];
+    return null;
+}
+function linkDxSpotFrequencies(){
+    if(!elmerLatestDxSpots.length)return;
+    const walker=document.createTreeWalker(answer,NodeFilter.SHOW_TEXT),nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    for(const node of nodes){
+        if(node.parentElement?.closest('a,button,code,pre'))continue;
+        const cell=node.parentElement?.closest('td');
+        let unit='kHz',pattern=/\b[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?\s*(?:kHz|MHz)\b/gi;
+        if(cell && cell.textContent.trim()===node.data.trim()){
+            const header=cell.closest('table')?.querySelector('thead tr')?.children[cell.cellIndex];
+            const heading=String(header?.textContent||'');
+            if(/\bMHz\b/i.test(heading))unit='MHz';
+            // Bare numbers are accepted only in a frequency-labelled table column.
+            if(/\b(?:frequency|freq|kHz|MHz)\b/i.test(heading))
+                pattern=/^\s*[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?\s*(?:kHz|MHz)?\s*$/gi;
+        }
+        const fragment=document.createDocumentFragment();let offset=0,match,linked=false;
+        while((match=pattern.exec(node.data))){
+            fragment.append(document.createTextNode(node.data.slice(offset,match.index)));
+            const hz=dxSpotFrequencyHz(match[0],unit),spot=liveDxSpotForFrequency(hz,cell?.closest('tr'));
+            if(spot){
+                const control=document.createElement('button');control.type='button';
+                control.className='elmer-repeater-tune elmer-dx-spot-tune';
+                control.dataset.dxSpotFrequency=String(hz);
+                control.dataset.dxSpotIndex=String(elmerLatestDxSpots.indexOf(spot));
+                const spotRow=cell?.closest('tr');if(spotRow)spotRow.dataset.dxSpotTime=spot.time_utc;
+                control.title=`Tune selected radio to ${(hz/1000).toLocaleString('en-US',{maximumFractionDigits:3})} kHz; ${spot.tune_mode?`mode ${spot.mode}${spot.mode_basis==='inferred'?' (inferred)':''} (${spot.tune_mode})`:'keep current mode (spot mode unknown)'}`;
+                control.textContent=match[0];fragment.append(control);linked=true;
+            }else fragment.append(document.createTextNode(match[0]));
+            offset=pattern.lastIndex;
+        }
+        if(linked){fragment.append(document.createTextNode(node.data.slice(offset)));node.replaceWith(fragment);}
+    }
+}
+
+function dxSpotSortKind(label){
+    if(/\b(?:frequency|freq|kHz|MHz)\b/i.test(label))return 'frequency';
+    if(/\b(?:time|UTC)\b/i.test(label))return 'time';
+    return 'text';
+}
+function dxSpotSortValue(row,column,kind,heading){
+    const cell=row.cells[column],text=String(cell?.textContent||'').trim();
+    if(kind==='frequency'){
+        const button=cell?.querySelector('.elmer-dx-spot-tune');
+        return button?Number(button.dataset.dxSpotFrequency):dxSpotFrequencyHz(text,/\bMHz\b/i.test(heading)?'MHz':'kHz');
+    }
+    if(kind==='time'){
+        const stamp=row.dataset.dxSpotTime;
+        if(stamp && Number.isFinite(Date.parse(stamp)))return Date.parse(stamp);
+        const clock=text.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+        if(clock && Number(clock[1])<24 && Number(clock[2])<60 && Number(clock[3]||0)<60)
+        {
+            const seconds=Number(clock[1])*3600+Number(clock[2])*60+Number(clock[3]||0);
+            const stamps=elmerLatestDxSpots.map(spot=>Date.parse(spot.time_utc)).filter(Number.isFinite);
+            if(!stamps.length)return seconds;
+            const newest=Math.max(...stamps),day=Math.floor(newest/86400000)*86400000;
+            const value=day+seconds*1000;
+            return value>newest?value-86400000:value;
+        }
+        return null;
+    }
+    return text;
+}
+function compareDxSpotSortValues(a,b,direction){
+    const missing=value=>value===null||value===undefined||value===''||(typeof value==='number'&&!Number.isFinite(value));
+    if(missing(a)||missing(b))return missing(a)?(missing(b)?0:1):-1;
+    const order=typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:'base'});
+    return direction==='descending'?-order:order;
+}
+function sortDxSpotTable(table,column){
+    const headers=Array.from(table.querySelectorAll('thead th')),header=headers[column],body=table.tBodies[0];
+    if(!header||!body)return;
+    const direction=header.getAttribute('aria-sort')==='ascending'?'descending':'ascending';
+    const label=header.dataset.dxSortLabel,kind=dxSpotSortKind(label);
+    const rows=Array.from(body.rows).map((row,index)=>({row,index,value:dxSpotSortValue(row,column,kind,label)}));
+    rows.sort((a,b)=>compareDxSpotSortValues(a.value,b.value,direction)||a.index-b.index);
+    for(const item of rows)body.appendChild(item.row);
+    for(const item of headers){
+        item.setAttribute('aria-sort',item===header?direction:'none');
+        const arrow=item.querySelector('.elmer-dx-sort-arrow');if(arrow)arrow.textContent=item===header?(direction==='ascending'?' ▲':' ▼'):' ↕';
+    }
+}
+function makeDxSpotTablesSortable(){
+    if(!elmerLatestDxSpots.length)return;
+    for(const table of answer.querySelectorAll('table')){
+        if(table.dataset.dxSortable==='1')continue;
+        const headers=Array.from(table.querySelectorAll('thead th'));
+        if(!headers.some(header=>dxSpotSortKind(header.textContent)==='frequency')||!table.querySelector('.elmer-dx-spot-tune'))continue;
+        table.dataset.dxSortable='1';
+        headers.forEach((header,column)=>{
+            const label=header.textContent.trim(),control=document.createElement('button'),arrow=document.createElement('span');
+            header.dataset.dxSortLabel=label;header.setAttribute('aria-sort','none');
+            control.type='button';control.className='elmer-dx-sort';control.title=`Sort by ${label}; click again to reverse`;
+            control.append(document.createTextNode(label));arrow.className='elmer-dx-sort-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent=' ↕';control.append(arrow);
+            control.addEventListener('click',()=>sortDxSpotTable(table,column));header.replaceChildren(control);
+        });
+    }
+}
+
+async function postDxTuneForm(path,fields){
+    const response=await fetch(path,{method:'POST',credentials:'same-origin',
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+        body:new URLSearchParams(fields).toString()});
+    if(response.status===401||response.status===403){location.href='/login.php';throw new Error('Please sign in to RigPi.');}
+    if(response.redirected && /\/login\.php(?:[?#]|$)/.test(response.url||'')){location.href='/login.php';throw new Error('Please sign in to RigPi.');}
+    const text=await response.text();
+    if(!response.ok || /(?:Fatal error|Warning:|Database update failed)/i.test(text))throw new Error('RigPi could not send the tuning request.');
+    return text.trim();
+}
+async function tuneDxSpotFromElement(element){
+    const hz=Number(element?.dataset.dxSpotFrequency);
+    const index=Number(element?.dataset.dxSpotIndex),spot=Number.isInteger(index)?elmerLatestDxSpots[index]:liveDxSpotForFrequency(hz);
+    if(elmerDxTuneBusy || !Number.isSafeInteger(hz) || !spot || Math.round(Number(spot.frequency_khz)*1000)!==hz)return;
+    const allowedModes=['CW','USB','LSB','FM','AM','RTTY','PKTUSB'];
+    const tuneMode=allowedModes.includes(spot.tune_mode)?spot.tune_mode:'';
+    elmerDxTuneBusy=true;element.disabled=true;
+    try{
+        // Resolve the selection on each click; never fall back to radio 1.
+        const selected=await postDxTuneForm('/programs/GetSelectedRadio.php',{un:rigPiUsername});
+        if(!/^[1-9][0-9]*$/.test(selected))throw new Error('Select a radio in RigPi before tuning a spot.');
+        rigPiRadio=selected;
+        const dxCall=String(spot.dx_call||'').trim().toUpperCase();
+        if(dxCall){
+            $('#searchText').val(dxCall);
+            await postDxTuneForm('/programs/SetSettings.php',{field:'DX',radio:selected,data:dxCall,table:'MySettings'});
+        }
+        statusBox.textContent=`Sending ${(hz/1000).toLocaleString('en-US',{maximumFractionDigits:3})} kHz to radio ${selected}…`;
+        if(tuneMode)await postDxTuneForm('/programs/SetSettings.php',{field:'ModeOut',radio:selected,data:tuneMode,table:'RadioInterface'});
+        await postDxTuneForm('/programs/SetSettings.php',{field:'MainOut',radio:selected,data:String(hz),table:'RadioInterface'});
+        statusBox.textContent=`Tune requested: ${(hz/1000).toLocaleString('en-US',{maximumFractionDigits:3})} kHz on radio ${selected}. ${tuneMode?`Mode ${spot.mode}${spot.mode_basis==='inferred'?' (inferred)':''} (${tuneMode}).`:'Spot mode unknown; current mode retained.'}`;
+    }catch(error){statusBox.textContent=error.message;}
+    finally{elmerDxTuneBusy=false;element.disabled=false;}
+}
+answer.addEventListener('click',event=>{
+    const control=event.target.closest('.elmer-dx-spot-tune');
+    if(!control)return;event.preventDefault();event.stopImmediatePropagation();
+    tuneDxSpotFromElement(control);
+},true);
+
 function tuneRepeaterFromElement(element){const frequency=Number(element?.dataset.repeaterFrequency);if(!Number.isFinite(frequency)||frequency<1000)return;const call=String(element.dataset.repeaterCall||'repeater'),mhz=(frequency/1000000).toFixed(6);localStorage.setItem('elmerPendingControlQuestion',`Tune to ${mhz} MHz FM`);statusBox.textContent=`Opening Elmer Control to tune ${call} on ${repeaterFrequency(frequency)}…`;location.href='/?elmer-control=1#elmerControl'}
 answer.addEventListener('click',event=>{const tune=event.target.closest('.elmer-repeater-tune');if(tune){event.preventDefault();tuneRepeaterFromElement(tune)}});mapCanvas.addEventListener('click',event=>{const tune=event.target.closest('.elmer-repeater-tune');if(tune){event.preventDefault();tuneRepeaterFromElement(tune)}});
 async function showRepeaterDirectory(prompt,request){
@@ -569,7 +730,30 @@ form.addEventListener('submit',event=>{if(!requestedCodePractice(question.value)
 form.addEventListener('submit',event=>{const request=requestedFullExam(question.value);if(!request)return;event.preventDefault();event.stopImmediatePropagation();elmerCodeState=null;loadFullExam(request)},true)
 form.addEventListener('submit',event=>{const request=requestedExamQuestion(question.value);if(!request)return;event.preventDefault();event.stopImmediatePropagation();pendingExamExplanation=null;activeFullExam=null;elmerCodeState=null;loadExamQuestion(request)},true)
 form.addEventListener('submit',event=>{const prompt=question.value.trim(),request=requestedRepeaterDirectorySearch(prompt);if(!request)return;event.preventDefault();event.stopImmediatePropagation();showRepeaterDirectory(prompt,request)},true)
-form.addEventListener('submit',async event=>{event.preventDefault();const q=question.value.trim();if(!q)return;button.disabled=true;result.classList.add('visible');statusBox.textContent='Connecting to Elmer…';answer.classList.add('streaming');answer.textContent='';clearElmerFollowups();metrics.textContent='';feedback.classList.remove('visible');feedback.reset();feedbackReasons.hidden=true;feedbackStatus.textContent='';selectedRating=0;lastRequestId='';closeElmerFeedbackPrompt();clearElmerMap();clearFccBrowser();copyButton.classList.remove('visible');copyButton.textContent='Copy';rateButton.classList.remove('visible');rateButton.disabled=false;rateButton.textContent='Rate this answer';let complete='',buffer='';try{const queryPlan=await queryPlanFor(q);const rigControl=await rigControlFromPlan(queryPlan);if(rigControl&&rigControl.routed)return;let liveContext=await liveContextFromPlan(queryPlan,q);if(rigControl)liveContext={...(liveContext||{}),rig_control:rigControl};const answerRequest=`${q}\n\nUI OUTPUT REQUIREMENT: After the complete answer and its References section, you MUST append the exact marker <!--ELMER_FOLLOWUPS--> followed by one single-line JSON array of exactly three concise questions that naturally follow from the answer. Use the answer language. Do not mention or explain the suggestions in the answer, and do not add citations to them.`,payload={question:answerRequest,query_plan:queryPlan,live_context:liveContext,conversation_context:conversationContext};if(attachedImage)payload.image=attachedImage;else if(pendingExamImage)payload.image=pendingExamImage;const response=await fetch('/elmer-api/answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(response.status===401||response.status===403){location.href='/login.php';return}if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.error||'Unable to ask Elmer')}const reader=response.body.getReader(),decoder=new TextDecoder();while(true){const {value,done}=await reader.read();buffer+=decoder.decode(value||new Uint8Array(),{stream:!done});buffer=parseEvents(buffer,(kind,data)=>{if(kind==='status')statusBox.textContent=data.text;if(kind==='delta'){statusBox.textContent='Elmer is answering…';complete+=data.text;answer.textContent=splitElmerResponse(complete).answer}if(kind==='done'){const responseParts=splitElmerResponse(complete);complete=responseParts.answer;lastRequestId=data.request_id||'';statusBox.textContent='';answer.classList.remove('streaming');answer.innerHTML=renderMarkdown(complete);linkFccCallsigns();linkShortwaveFrequencies();showElmerFollowups(parseElmerFollowups(responseParts.followups),followupGeneration);copyButton.classList.add('visible');rateButton.classList.add('visible');const searched=Number(data.records_searched||0).toLocaleString(),used=Number(data.evidence_used||0).toLocaleString();metrics.textContent=`Searched ${searched} knowledge records · Used ${used} references · First words: ${data.timing.first_text_seconds}s · Complete: ${data.timing.total_seconds}s · Tokens: ${data.usage.total_tokens||'—'}`;lastQuestion=q;lastAnswer=complete;rememberElmerExchange(q,complete);renderElmerMap(lastFccMap);renderFccBrowser();maybePromptForElmerFeedback()}if(kind==='error')throw new Error(data.message)});if(done)break}}catch(error){statusBox.textContent='Elmer could not complete that answer.';answer.textContent=error.message}finally{pendingExamImage=null;button.disabled=false;question.focus()}});
+function requestedSystemStatus(text){
+  const value=String(text||'').trim();
+  if(isRigpiStatusReport(value))return false;
+  if(/\b(?:how|where)\b.*\b(?:open|use|find|access)\b.*\bsystem\s+status\b/i.test(value)&&! /\b(?:check|review|analy[sz]e|inspect)\b/i.test(value))return false;
+  return /^(?:system|station)\s+(?:status|health)[?.!]*$/i.test(value)||/\b(?:check|review|look|show|read|inspect|analy[sz]e|summari[sz]e|get|report|current|what)\b.*\b(?:system|station)\s+(?:status|health)\b/i.test(value)||/\b(?:system|station)\s+(?:status|health)\b.*\b(?:check|review|report|look|show|read|inspect|analy[sz]e|summari[sz]e|current)\b/i.test(value)||/\b(?:is|check)\b.*\b(?:my|our|this)\s+rigpi\b.*\b(?:healthy|running\s+(?:normally|ok)|status|health)\b/i.test(value);
+}
+async function systemStatusForElmer(){
+  statusBox.textContent='Elmer is reading current System Status…';
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
+  try{
+    const response=await fetch('/systemStatus.php?data=1',{credentials:'same-origin',cache:'no-store',signal:controller.signal});
+    if(!response.ok)throw new Error(response.status===401?'Please sign in again to read System Status.':response.status===403?'Your RigPi account does not have permission to view System Status.':'RigPi could not refresh System Status. Please try again.');
+    const data=await response.json();
+    if(!Array.isArray(data.sections)||!data.sections.length||typeof data.time!=='string')throw new Error('RigPi returned an invalid System Status snapshot.');
+    const retrieved=new Date(data.time.replace(' UTC','Z').replace(' ','T'));
+    if(!Number.isFinite(retrieved.getTime())||Date.now()-retrieved.getTime()>300000||retrieved.getTime()-Date.now()>60000)throw new Error('System Status is stale. Please refresh and try again.');
+    const sections=data.sections.map(section=>({title:String(section.title||''),note:String(section.note||''),entries:(section.entries||[]).map(entry=>({title:String(entry.title||''),rows:(entry.rows||[]).map(row=>[String(row[0]??''),String(row[1]??'')])}))}));
+    const health=(Array.isArray(data.health)?data.health:[]).map(check=>({key:String(check.key||''),level:String(check.level||'unknown'),label:String(check.label||''),message:String(check.message||''),section:String(check.section||''),row:String(check.row||''),hold:Number(check.hold||0)}));
+    return {system_status:{schema_version:1,source:'RigPi System Status',retrieved_at:retrieved.toISOString(),sections,health}};
+  }finally{clearTimeout(timer)}
+}
+
+function isRigpiStatusReport(text){return /(?:^|\n)RigPi System Status\s*(?:\n|$)/i.test(text)&&text.includes('System health')&&text.includes('Services');}
+form.addEventListener('submit',async event=>{event.preventDefault();const q=question.value.trim();if(!q)return;button.disabled=true;result.classList.add('visible');statusBox.textContent='Connecting to Elmer…';answer.classList.add('streaming');answer.textContent='';elmerLatestDxSpots=[];clearElmerFollowups();metrics.textContent='';feedback.classList.remove('visible');feedback.reset();feedbackReasons.hidden=true;feedbackStatus.textContent='';selectedRating=0;lastRequestId='';closeElmerFeedbackPrompt();clearElmerMap();clearFccBrowser();copyButton.classList.remove('visible');copyButton.textContent='Copy';rateButton.classList.remove('visible');rateButton.disabled=false;rateButton.textContent='Rate this answer';let complete='',buffer='';try{const statusLookup=requestedSystemStatus(q),statusReport=isRigpiStatusReport(q),queryPlan=(statusReport||statusLookup)?null:await queryPlanFor(q);const rigControl=(statusReport||statusLookup)?null:await rigControlFromPlan(queryPlan);if(rigControl&&rigControl.routed)return;let liveContext=statusLookup?await systemStatusForElmer():statusReport?null:await liveContextFromPlan(queryPlan,q);if(rigControl)liveContext={...(liveContext||{}),rig_control:rigControl};const answerRequest=`${q}\n\nUI OUTPUT REQUIREMENT: After the complete answer and its References section, you MUST append the exact marker <!--ELMER_FOLLOWUPS--> followed by one single-line JSON array of exactly three concise questions that naturally follow from the answer. Use the answer language. Do not mention or explain the suggestions in the answer, and do not add citations to them.`,payload={question:answerRequest,query_plan:queryPlan,live_context:liveContext,conversation_context:conversationContext};if(attachedImage)payload.image=attachedImage;else if(pendingExamImage)payload.image=pendingExamImage;const response=await fetch('/elmer-api/answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(response.status===401||response.status===403){location.href='/login.php';return}if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.error||'Unable to ask Elmer')}const reader=response.body.getReader(),decoder=new TextDecoder();while(true){const {value,done}=await reader.read();buffer+=decoder.decode(value||new Uint8Array(),{stream:!done});buffer=parseEvents(buffer,(kind,data)=>{if(kind==='status')statusBox.textContent=data.text;if(kind==='delta'){statusBox.textContent='Elmer is answering…';complete+=data.text;answer.textContent=splitElmerResponse(complete).answer}if(kind==='done'){const responseParts=splitElmerResponse(complete);complete=responseParts.answer;lastRequestId=data.request_id||'';statusBox.textContent='';answer.classList.remove('streaming');answer.innerHTML=renderMarkdown(complete);linkFccCallsigns();linkShortwaveFrequencies();linkDxSpotFrequencies();makeDxSpotTablesSortable();showElmerFollowups(parseElmerFollowups(responseParts.followups),followupGeneration);copyButton.classList.add('visible');rateButton.classList.add('visible');const searched=Number(data.records_searched||0).toLocaleString(),used=Number(data.evidence_used||0).toLocaleString();metrics.textContent=`Searched ${searched} knowledge records · Used ${used} references · First words: ${data.timing.first_text_seconds}s · Complete: ${data.timing.total_seconds}s · Tokens: ${data.usage.total_tokens||'—'}`;lastQuestion=q;lastAnswer=complete;rememberElmerExchange(q,complete);renderElmerMap(lastFccMap);renderFccBrowser();maybePromptForElmerFeedback()}if(kind==='error')throw new Error(data.message)});if(done)break}}catch(error){statusBox.textContent='Elmer could not complete that answer.';answer.textContent=error.message}finally{pendingExamImage=null;button.disabled=false;question.focus()}});
 const asDataUrl=blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob)});
 async function richAnswerHtml(){const copy=answer.cloneNode(true);await Promise.all([...copy.querySelectorAll('img')].map(async img=>{try{const response=await fetch(img.src,{credentials:'omit'});if(!response.ok)throw new Error('image unavailable');img.src=await asDataUrl(await response.blob())}catch{}}));const q=escapeHtml(lastQuestion||'');return `<div style="font:17px/1.58 system-ui,-apple-system,sans-serif;color:#202830"><div style="margin-bottom:1em"><strong>Question:</strong><br>${q}</div><div><strong>Answer:</strong></div>${copy.innerHTML}</div>`}
 async function copyCompleteAnswer(){const plainText=`Question:\n${lastQuestion}\n\nAnswer:\n${lastAnswer}`;if(navigator.clipboard?.write&&window.ClipboardItem){const html=richAnswerHtml().then(value=>new Blob([value],{type:'text/html'}));const plain=Promise.resolve(new Blob([plainText],{type:'text/plain'}));await navigator.clipboard.write([new ClipboardItem({'text/html':html,'text/plain':plain})]);return}await navigator.clipboard.writeText(plainText)}
@@ -584,9 +768,9 @@ feedback.querySelectorAll('input[name="helpfulness"]').forEach(input=>input.addE
 feedback.addEventListener('submit',async event=>{event.preventDefault();const selected=feedback.querySelector('input[name="helpfulness"]:checked');if(!selected)return;const submit=feedback.querySelector('button[type="submit"]'),reasons=[...feedback.querySelectorAll('input[name="reason"]:checked')].map(reason=>reason.value),labels={yes:'Yes',partly:'Partly',no:'No'},parts=[`Helpfulness: ${labels[selected.value]}`],note=comment.value.trim();if(reasons.length)parts.push(`Reasons: ${reasons.join(', ')}`);if(note)parts.push(note);selectedRating=Number(selected.dataset.rating);submit.disabled=true;feedbackStatus.textContent='Saving your feedback…';let saved=false;try{const response=await fetch('/elmer-api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({request_id:lastRequestId,rating:selectedRating,comment:parts.join('\n').slice(0,2000),question:lastQuestion,answer:lastAnswer})});if(response.status===401||response.status===403){location.href='/login.php';return}const data=await response.json();if(!response.ok)throw new Error(data.error||'Unable to save feedback');saved=true;feedbackStatus.textContent=`73 ${elmerName}, your feedback will help improve RigPi.`;rateButton.textContent='Feedback sent';rateButton.disabled=true}catch(error){feedbackStatus.textContent=error.message}finally{if(!saved)submit.disabled=false}});
 question.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit()}});
 answer.addEventListener('click',async event=>{const link=event.target.closest('[data-ref]');if(!link)return;event.preventDefault();referenceBody.textContent='Opening reference…';dialog.showModal();try{const response=await fetch('/elmer-api/reference?ref='+encodeURIComponent(link.dataset.ref));if(response.status===401||response.status===403){location.href='/login.php';return}const data=await response.json();if(!response.ok)throw new Error(data.error);if(data.kind==='document'&&data.source_id==='official-help'){window.open('/Help/RigPi.html?'+encodeURIComponent(data.document.path),'_blank','noopener');dialog.close();return}referenceBody.textContent=data.kind==='document'?`${data.document.title}\n${data.document.path}\n\n${data.document.body}`:data.messages.map(m=>`${m.selected?'SELECTED':'CONTEXT'} — ${m.subject}\n${m.author||'(unknown)'} · ${m.published_at||''}\n\n${m.body}`).join('\n\n──────────\n\n')}catch(error){referenceBody.textContent=error.message}});
-document.querySelector('#elmerClose').addEventListener('click',()=>dialog.close());
+document.querySelector('#elmerClose')?.addEventListener('click',()=>dialog.close());
 document.querySelector('#logoutButton')?.addEventListener('click',()=>{const f=document.createElement('form');f.method='POST';f.action='/login.php';f.innerHTML=`<input type="hidden" name="status" value="loggedout"><input type="hidden" name="username" value="<?php echo htmlspecialchars($tUserName, ENT_QUOTES); ?>">`;document.body.appendChild(f);f.submit()});
-$.post('/programs/GetSelectedRadio.php',{un:rigPiUsername},response=>{rigPiRadio=response;$.post('/programs/GetSetting.php',{radio:rigPiRadio,field:'DX',table:'MySettings'},value=>$('#searchText').val(value))});
+$.post('/programs/GetSelectedRadio.php',{un:rigPiUsername},response=>{const selected=String(response||'').trim(),radioNumber=Number(selected);if(Number.isSafeInteger(radioNumber)===false||radioNumber<1)return;rigPiRadio=selected;$.post('/programs/GetSetting.php',{radio:selected,field:'DX',table:'MySettings'},value=>$('#searchText').val(String(value||'').trim().toUpperCase()))});
 function runCallsignLookup(){const dx=$('#searchText').val().trim().toUpperCase();if(!dx||dx.includes('*'))return;$('#searchText').val(dx);$.post('/programs/GetUserField.php',{un:rigPiUsername,field:'uID'},user=>{rigPiUser=user;$.post('/programs/GetCallbook.php',{call:dx,what:'QRZData',user:rigPiUser,un:rigPiUsername},response=>{$('.modal-body').html(response);$.post('/programs/GetCallbook.php',{call:dx,what:'QRZpix',user:rigPiUser,un:rigPiUsername},picture=>{const parts=picture.split('|'),height=Number(parts[1]||0),width=Number(parts[2]||0),image=$('.modal-pix');if(height>0){if(parts[3]==='flag'){image.addClass('flag-pix').css({width:'auto','max-width':'150px',margin:'10px auto',display:'block'})}else{const scale=width/400;image.removeClass('flag-pix').attr({height:height/scale,width:width/scale}).css({display:'',margin:''})}image.attr('src',parts[0])}else{image.attr({height:0,width:0,src:'about:blank'})}$('.modal-title').html(dx);$('#myModal').modal({show:true})})});$.post('/programs/SetSettings.php',{field:'DX',radio:rigPiRadio,data:dx,table:'MySettings'})})}
 $('#searchButton').on('click',event=>{event.preventDefault();runCallsignLookup()});
 $('#searchText').on('keydown',event=>{if(event.key==='Enter'){event.preventDefault();runCallsignLookup()}});
@@ -722,7 +906,8 @@ liveContextFromPlan=async function(plan,text){
 
 function requestedPropagationGuidance(value){
     const text=String(value||'');
-    if(!/\b(?:best|good|better|optimum|opening|open|work|reach|contact|propagation|time|when)\b/i.test(text))return null;
+    const wantsSpots=/\bspots?\b/i.test(text) && !/\b(?:how\s+(?:do|can|to)|configure|setup|settings|what\s+(?:is|are))\b/i.test(text);
+    if(!wantsSpots && !/\b(?:best|good|better|optimum|opening|open|work|reach|contact|propagation|time|when)\b/i.test(text))return null;
     const bandWords={
         'one sixty':160,'one hundred sixty':160,'eighty':80,'sixty':60,
         'forty':40,'thirty':30,'twenty':20,'seventeen':17,'fifteen':15,
@@ -737,6 +922,11 @@ function requestedPropagationGuidance(value){
             if(new RegExp(`\\b${word}\\s*(?:m|meter|meters|metre|metres)?\\b`,'i').test(lower)){band=value;break;}
         }
     }
+    if(wantsSpots){
+        if(band && !/\b(?:tomorrow|next|yesterday)\b/i.test(text))
+            return {query_mode:'band_activity',band_meters:band};
+        return null;
+    }
     const regions=[
         ['south_america',/\b(?:south america|latin america)\b/i],
         ['north_america',/\bnorth america\b/i],
@@ -748,13 +938,18 @@ function requestedPropagationGuidance(value){
     const target=regions.find(([,pattern])=>pattern.test(text));
     if(target)return {band_meters:band,target_region:target[0],target_query:'',day_offset:/\btomorrow\b/i.test(text)?1:0};
     const destinationPatterns=[
-        /\b(?:work|reach|contact)\s+(?:with\s+)?(?:stations?\s+(?:in|near)\s+)?(.+?)(?=\s+(?:on|using|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i,
-        /\b(?:best|good|better|optimum)\s+time\s+(?:for|to\s+(?:work|reach|contact))\s+(.+?)(?=\s+(?:on|using|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i,
-        /\bpropagation\s+(?:to|for)\s+(.+?)(?=\s+(?:on|using|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i
+        /\b(?:work|reach|contact)\s+(?:with\s+)?(?:stations?\s+(?:in|near)\s+)?(.+?)(?=\s+(?:on|using|now|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i,
+        /\b(?:best|good|better|optimum)\s+time\s+(?:for|to\s+(?:work|reach|contact))\s+(.+?)(?=\s+(?:on|using|now|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i,
+        /\b(?:open|opening)\s+(?:to|towards|into)\s+(.+?)(?=\s+(?:on|using|now|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i,
+        /\bpropagation\s+(?:to|for)\s+(.+?)(?=\s+(?:on|using|now|tomorrow|today|tonight|this|next|at|from|during)\b|[?.!,;]|$)/i
     ];
     let place='';
     for(const pattern of destinationPatterns){const match=text.match(pattern);if(match){place=String(match[1]||'').trim().replace(/^the\s+/i,'');break;}}
-    if(place.length<2||place.length>100)return null;
+    if(place.length<2||place.length>100){
+        if(band && !/\b(?:tomorrow|next|yesterday)\b/i.test(text))
+            return {query_mode:'band_activity',band_meters:band};
+        return null;
+    }
     return {band_meters:band,target_region:'place',target_query:place,day_offset:/\btomorrow\b/i.test(text)?1:0};
 }
 
@@ -763,7 +958,7 @@ liveContextFromPlan=async function(plan,text){
     const context=await liveContextBeforePropagation(plan,text);
     const request=requestedPropagationGuidance(text)||requestedPropagationGuidance(String(plan?.english_search_query||''));
     if(!request)return context;
-    statusBox.textContent='Elmer is checking station-aware HF propagation guidance…';
+    statusBox.textContent=request.query_mode==='band_activity'?'Elmer is checking recent DX Summit spots…':'Elmer is checking station-aware HF propagation guidance…';
     const response=await fetch('/programs/ElmerPropagation.php',{
         method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},
         body:JSON.stringify(request)
@@ -771,13 +966,14 @@ liveContextFromPlan=async function(plan,text){
     const data=await response.json().catch(()=>({}));
     if(response.status===401||response.status===403){location.href='/login.php';throw new Error('Please sign in to RigPi.');}
     if(!response.ok)throw new Error(data.error||'RigPi could not prepare propagation guidance.');
-    return {...(context||{}),propagation_guidance:data};
+    elmerLatestDxSpots=request.query_mode==='band_activity'&&Array.isArray(data.latest_spots)?data.latest_spots.slice(0,10):[];
+    return {...(context||{}),[request.query_mode==='band_activity'?'band_activity':'propagation_guidance']:data};
 };
 
 const liveContextBeforeExam=liveContextFromPlan;
 liveContextFromPlan=async function(plan,text){const context=await liveContextBeforeExam(plan,text);if(!pendingExamExplanation)return context;const examQuestion={...pendingExamExplanation};delete examQuestion.figure_url;delete examQuestion.figures_only;pendingExamExplanation=null;return {...(context||{}),exam_question:examQuestion}};
 
 </script>
-<script src="/Bootstrap/popper.min.js"></script><script src="/Bootstrap/bootstrap.min.js"></script><script src="/js/nav-active.js"></script><script src="/js/elmer_voice.js?v=20260907-marin6">
+<script src="/Bootstrap/popper.min.js"></script><script src="/Bootstrap/bootstrap.min.js"></script><script src="/js/nav-active.js"></script><script src="/js/elmer_voice.js?v=20261031-consistent-voice1">
 </script>
 </body></html>

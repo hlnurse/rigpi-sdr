@@ -1660,7 +1660,7 @@ class Results
             $sortTableNew = $sortTable;
             // Test to detect if the column name is a standard name
             // Standard name has the table name prefixed to the column name
-            if (str_contains($nameToUseInSort, '.') && ! str_contains($nameToUseInSort, '(')) {
+            if (str_contains($nameToUseInSort, '.') && ! str_contains($nameToUseInSort, '(') && !(str_starts_with($nameToUseInSort, chr(96)) && str_ends_with($nameToUseInSort, chr(96)) && substr_count($nameToUseInSort, chr(96)) === 2)) {
                 $matches = explode('.', $nameToUseInSort);
                 // Matches[0] has the table name
                 // Matches[1] has the column name
@@ -1748,7 +1748,7 @@ class Results
         $indexInExpression = 0;
 
         foreach ($sortExpressionNoDirection as $index => $clause) {
-            if (str_contains($clause, '.')) {
+            if (str_contains($clause, '.') && !(str_starts_with($clause, chr(96)) && str_ends_with($clause, chr(96)) && substr_count($clause, chr(96)) === 2)) {
                 $fragments = explode('.', $clause);
                 $clause2 = $fragments[0] . '.' . str_replace('`', '', $fragments[1]);
             } else {

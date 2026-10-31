@@ -223,14 +223,14 @@
 //			}
     	</script>
 	</head>
-<body class="noScroll" id="help">
+<body class="noScroll" id="rigpiHelpPage">
 	<?php require "./includes/header.php"; ?>
-	<iframe src='./Help/RigPi.html?introduction.html?v=20260913topics' style="width:100%; height:calc(100vh - 80px); border:0; display:block;" allowfullscreen></iframe>
+	<iframe src='/Help/index.html?introduction.html' style="width:100%; height:calc(100vh - 80px); border:0; display:block;" allowfullscreen></iframe>
 <?php require dirname(__FILE__) . "/includes/modal.txt"; ?>
-    <?php require dirname(__FILE__) . "/includes/modal.txt"; ?>
+    
 <?php require dirname(__FILE__) . "/includes/modalCancelOnly.txt"; ?>
 
- 		<script src="Bootstrap/popper.min.js"</script>
+ 		<script src="/Bootstrap/popper.min.js"></script>
 		<link rel="stylesheet" href="Bootstrap/jquery-ui.css">
 		<script src="Bootstrap/jquery-ui.js"></script>
 		<script src="Bootstrap/bootstrap.min.js"></script>

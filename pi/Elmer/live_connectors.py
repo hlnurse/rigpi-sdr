@@ -2,6 +2,7 @@
 """Validation for small, station-supplied live data packets."""
 
 import re
+from system_status import normalize_system_status
 
 
 CALLSIGN_RE=re.compile(
@@ -23,9 +24,11 @@ def normalize_live_context(value):
     """Return a canonical live-context object or raise ValueError."""
     if value in (None,{}):
         return None
-    if not isinstance(value,dict) or set(value)-{'callbook','country_profile','fcc_search','shortwave_search','weather','rig_control','logbook_history','frequency_intelligence','rig_diagnostics','audio_diagnostics','propagation_guidance','exam_question'}:
+    if not isinstance(value,dict) or set(value)-{'callbook','country_profile','fcc_search','shortwave_search','weather','rig_control','logbook_history','frequency_intelligence','rig_diagnostics','audio_diagnostics','propagation_guidance','band_activity','exam_question','system_status'}:
         raise ValueError('Live connector data has an invalid format.')
     result={}
+    if 'system_status' in value:
+        result['system_status']=normalize_system_status(value['system_status'])
     if 'callbook' in value:
         result.update(_normalize_callbook(value['callbook']))
     if 'country_profile' in value:
@@ -48,6 +51,8 @@ def normalize_live_context(value):
         result.update(_normalize_audio_diagnostics(value['audio_diagnostics']))
     if 'propagation_guidance' in value:
         result.update(_normalize_propagation_guidance(value['propagation_guidance']))
+    if 'band_activity' in value:
+        result.update(_normalize_band_activity(value['band_activity']))
     if 'exam_question' in value:
         result.update(_normalize_exam_question(value['exam_question']))
     if not result:
@@ -323,8 +328,8 @@ def _normalize_rig_diagnostics(raw):
         clean_runtime[field]=value
     status=str(runtime.get('status','')).strip()
     if status not in ('connected','disconnected','inconsistent'): raise ValueError('Live rig runtime status is invalid.')
-    expected='connected' if clean_runtime['process_running'] and clean_runtime['listener_active'] else ('disconnected' if not clean_runtime['process_running'] and not clean_runtime['listener_active'] else 'inconsistent')
-    if status != expected: raise ValueError('Live rig runtime status is inconsistent.')
+    expected_status='connected' if clean_runtime['process_running'] and clean_runtime['listener_active'] else ('disconnected' if not clean_runtime['process_running'] and not clean_runtime['listener_active'] else 'inconsistent')
+    if status != expected_status: raise ValueError('Live rig runtime status is inconsistent.')
     clean_runtime['status']=status
     result['runtime']=clean_runtime
 
@@ -562,7 +567,6 @@ def _normalize_frequency_intelligence(raw):
             raise ValueError('Live frequency activity has an invalid format.')
 
         item={}
-
         for field in ('start_hz','end_hz'):
             value=row.get(field)
             if isinstance(value,bool) or not isinstance(value,int):
@@ -603,11 +607,9 @@ def _normalize_frequency_intelligence(raw):
         raise ValueError('Live frequency privileges have an invalid format.')
 
     privileges=[]
-
     for row in rows:
         allowed={
-            'band','start_hz','end_hz',
-            'privilege','privileges',
+            'band','start_hz','end_hz','privilege','privileges',
             'max_power_w','power_basis','notes'
         }
         if not isinstance(row,dict) or set(row)-allowed:
@@ -1146,3 +1148,87 @@ def _normalize_fcc_search(raw):
     result['results']=clean
     result['returned']=len(clean)
     return {'fcc_search':result}
+
+
+def _normalize_band_activity(raw):
+    fields={'schema_version','query_mode','band_meters','scope','provider','reference','retrieved_at',
+            'status','cache_age_seconds','window_minutes','window_start_utc','window_end_utc',
+            'recent_reports','unique_spotters','unique_stations','latest_report_utc','feed_limit_reached','notice'}
+    if not isinstance(raw,dict) or not fields.issubset(raw) or set(raw)-fields-{'latest_spots'}:
+        raise ValueError('Live band activity has an invalid format.')
+    if type(raw['schema_version']) is not int or raw['schema_version']!=1 or raw['query_mode']!='band_activity':
+        raise ValueError('Live band activity has invalid identity fields.')
+    if type(raw['band_meters']) is not int or raw['band_meters'] not in (160,80,60,40,30,20,17,15,12,10):
+        raise ValueError('Live band activity band is invalid.')
+    if raw['scope']!='worldwide' or raw['provider']!='DX Summit' or raw['reference']!='https://www.dxsummit.fi/':
+        raise ValueError('Live band activity source is invalid.')
+    if raw['status'] not in ('live','cached','stale_cache','unavailable'):
+        raise ValueError('Live band activity status is invalid.')
+    from datetime import datetime
+    def stamp(value):
+        if not isinstance(value,str) or not re.fullmatch(r'20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',value):
+            raise ValueError('Live band activity timestamp is invalid.')
+        try: return datetime.fromisoformat(value.replace('Z','+00:00'))
+        except ValueError as exc: raise ValueError('Live band activity timestamp is invalid.') from exc
+    start=stamp(raw['window_start_utc']);end=stamp(raw['window_end_utc']);stamp(raw['retrieved_at'])
+    if type(raw['window_minutes']) is not int or raw['window_minutes']!=60 or (end-start).total_seconds()!=3600:
+        raise ValueError('Live band activity window is invalid.')
+    for field in ('recent_reports','unique_spotters','unique_stations'):
+        if type(raw[field]) is not int or not 0<=raw[field]<=10000:
+            raise ValueError('Live band activity counts are invalid.')
+    count=raw['recent_reports']
+    if raw['unique_spotters']>count or raw['unique_stations']>count:
+        raise ValueError('Live band activity unique counts are invalid.')
+    if raw['latest_report_utc'] is not None:
+        latest=stamp(raw['latest_report_utc'])
+        if not count or not start<=latest<=end:
+            raise ValueError('Live band activity latest report is invalid.')
+    elif count:
+        raise ValueError('Live band activity latest report is missing.')
+    age=raw['cache_age_seconds']
+    if age is not None and (type(age) is not int or not 0<=age<=172800):
+        raise ValueError('Live band activity cache age is invalid.')
+    if type(raw['feed_limit_reached']) is not bool or not isinstance(raw['notice'],str) or not 1<=len(raw['notice'])<=500:
+        raise ValueError('Live band activity notice is invalid.')
+    result=dict(raw)
+    if 'latest_spots' in raw:
+        reports=raw['latest_spots']
+        if not isinstance(reports,list) or len(reports)!=min(10,count):
+            raise ValueError('Live band activity spot list is invalid.')
+        ranges={160:(1800,2000),80:(3500,4000),60:(5000,5500),40:(7000,7300),
+                30:(10100,10150),20:(14000,14350),17:(18068,18168),15:(21000,21450),
+                12:(24890,24990),10:(28000,29700)}
+        low,high=ranges[raw['band_meters']];previous=end;seen=set();clean=[]
+        for report in reports:
+            required={'dx_call','frequency_khz','time_utc','spotter_call'}
+            if not isinstance(report,dict) or not required.issubset(report) or set(report)-required-{'mode','tune_mode','mode_basis'}:
+                raise ValueError('Live band activity spot fields are invalid.')
+            for field in ('dx_call','spotter_call'):
+                if not isinstance(report[field],str) or not re.fullmatch(r'[A-Z0-9/]{3,16}',report[field]):
+                    raise ValueError('Live band activity spot callsign is invalid.')
+            frequency=report['frequency_khz']
+            if type(frequency) not in (int,float) or not low<=frequency<=high:
+                raise ValueError('Live band activity spot frequency is invalid.')
+            when=stamp(report['time_utc'])
+            key=(report['dx_call'],frequency,report['time_utc'],report['spotter_call'])
+            if not start<=when<=previous or key in seen:
+                raise ValueError('Live band activity spot order or timestamp is invalid.')
+            if ('mode' in report) != ('tune_mode' in report):
+                raise ValueError('Live spot mode fields must be supplied together.')
+            if 'mode' in report:
+                expected={'Unknown':'','CW':'CW','USB':'USB','LSB':'LSB','FM':'FM','AM':'AM','RTTY':'RTTY',
+                          'FT8':'PKTUSB','FT4':'PKTUSB','PSK31':'PKTUSB','PSK63':'PKTUSB','PSK125':'PKTUSB',
+                          'SSB':'LSB' if raw['band_meters'] in (160,80,40) else 'USB'}
+                if not isinstance(report['mode'],str) or report['mode'] not in expected or report['tune_mode']!=expected[report['mode']]:
+                    raise ValueError('Live spot mode is invalid.')
+            if 'mode_basis' in report:
+                basis=report['mode_basis']
+                if 'mode' not in report or basis not in ('reported','inferred','unknown'):
+                    raise ValueError('Live spot mode basis is invalid.')
+                if (report['mode']=='Unknown') != (basis=='unknown'):
+                    raise ValueError('Live spot mode basis does not match the mode.')
+            previous=when;seen.add(key);clean.append(dict(report))
+        if reports and reports[0]['time_utc']!=raw['latest_report_utc']:
+            raise ValueError('Live band activity newest spot does not match the summary.')
+        result['latest_spots']=clean
+    return {'band_activity':result}

@@ -130,33 +130,33 @@
 <p style="margin: 4px 0 0 0;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">A small daemon (</span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; color: #222222; background-color: #f4f4f4;">cloudflared</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">) runs on your Raspberry Pi and maintains an outbound connectiion to Cloudflare’s network. When you visit your tunnel URL from anywhere in the world, Cloudflare routes the request through this connection to RigPi — all without any inbound ports open on your router.</span></p>
 <div style="text-align: center; text-indent: 0; padding: 0 0 0 0; margin: 0 0 0 0;"><table style="margin:0 auto; width:430px; border:none; border-spacing:0; border-collapse:collapse;">
 <tr>
-<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Component</span></p>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Component</span></p>
 </td>
-<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Description</span></p>
-</td>
-</tr>
-<tr>
-<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">cloudflared daemon</span></p>
-</td>
-<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Runs on RigPi, maintains tunnel connection to Cloudflare</span></p>
+<td style="vertical-align:middle; background-color:#2C5D88; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; font-weight: bold; color: #ffffff;">Description</span></p>
 </td>
 </tr>
 <tr>
-<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Cloudflare network</span></p>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">cloudflared daemon</span></p>
 </td>
-<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Routes your requests securely to RigPi</span></p>
-</td>
-</tr>
-<tr>
-<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Your custom domain</span></p>
-</td>
-<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">e.g. </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; color: #222222; background-color: #f4f4f4;">sdr.rigpi.org</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;"> — points to your tunnel</span></p>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Runs on RigPi, maintains tunnel connection to Cloudflare</span></p>
 </td>
 </tr>
 <tr>
-<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">HTTPS</span></p>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Cloudflare network</span></p>
 </td>
-<td style="vertical-align:middle; padding:1px; border:solid 2px #a0a0a0;"><p class="p_Normal" style="text-align: center;"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Automatically provided by Cloudflare (free SSL certificate)</span></p>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Routes your requests securely to RigPi</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Your custom domain</span></p>
+</td>
+<td style="vertical-align:middle; background-color:#F0F5FA; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">e.g. </span><span style="font-size: 7px; font-family: 'Courier New',Courier,monospace; color: #222222; background-color: #f4f4f4;">sdr.rigpi.org</span><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;"> — points to your tunnel</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">HTTPS</span></p>
+</td>
+<td style="vertical-align:middle; padding:1px; border:solid thin #a0a0a0;"><p class="p_Normal"><span style="font-size: 15px; font-family: 'Segoe UI',Tahoma,Verdana,Arial,sans-serif; color: #222222;">Automatically provided by Cloudflare (free SSL certificate)</span></p>
 </td>
 </tr>
 </table>

@@ -42,8 +42,10 @@ function sdrPortFor($n)
  */
 function sdrUrlFor($n, $host = null)
 {
-    $host = $host ?: gethostname();
-    return "http://" . $host . ".local/sdr" . (int) $n . "/";
+    $host = rtrim(trim((string)($host ?: gethostname())), ".");
+    $host = preg_replace("/(?:\\.local){2,}$/i", ".local", $host);
+    if (strpos($host, ".") === false && !filter_var($host, FILTER_VALIDATE_IP)) $host .= ".local";
+    return "http://" . $host . "/sdr" . (int) $n . "/";
 }
 
 /**
@@ -68,6 +70,16 @@ function sdrInstanceOf($url)
         return (int) $m[1];
     }
     return 0;
+}
+
+/** Resolve the saved receiver assignment independently of account and radio IDs. */
+function sdrInstanceForUser(array $user)
+{
+    $n = sdrInstanceOf($user["SDRHost"] ?? "");
+    if ($n >= SDR_PROBE_MIN && $n <= SDR_PROBE_MAX) return $n;
+    $port = (int)($user["SDRPort"] ?? 0);
+    $n = $port - SDR_PORT_BASE;
+    return $n >= SDR_PROBE_MIN && $n <= SDR_PROBE_MAX ? $n : 1;
 }
 
 /**

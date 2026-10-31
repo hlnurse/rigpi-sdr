@@ -77,14 +77,14 @@ if ($sdrHost) {
 }
 
 // 3. Redirect via HTML page that sets localStorage and redirects
-$redirect = "/index.php";
+$redirect = "/tuner.php";
 if ($dx) {
-    // Use HTML redirect to set localStorage before going to index.php
+    // Use HTML redirect to set localStorage before going to tuner.php
     echo "<!DOCTYPE html><html><head><script>
 localStorage.setItem('tunetodx', " .
         json_encode($dx) .
         ");
-window.location.replace('/index.php');
+window.location.replace('/tuner.php');
 </script></head><body></body></html>";
     exit();
 }

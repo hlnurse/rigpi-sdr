@@ -172,8 +172,6 @@ try {
     exit("Database update failed");
 }
 
-$id = $db->update($tTable, $data);
-$id = $db->update($tTable, $data);
 if ($elmerRefreshCallbook && $elmerDxSessionId !== "") {
     $payload = json_encode([
         "call" => $elmerDxCall,

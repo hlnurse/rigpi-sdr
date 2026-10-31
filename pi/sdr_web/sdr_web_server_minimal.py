@@ -47,6 +47,7 @@ import queue as _stdlib_queue
 import SoapySDR
 from SoapySDR import SOAPY_SDR_RX, SOAPY_SDR_TX, SOAPY_SDR_CF32, SOAPY_SDR_S16
 from rx888_native import RX888NativeSource
+from hermeslite_native import HermesLiteNativeSource, discover as discover_hermeslite
 from rx888_audio import RX888AudioProcessor
 from spectrum_engine import ZoomSpectrumProcessor
 from shortwave_schedule import ScheduleCache
@@ -59,7 +60,7 @@ DEFAULT_HZ  = 14_074_000.0
 
 def _spectrum_publish_stride(device_driver, zoom_active):
     """Publish every fast Airspy zoom frame; retain throttling elsewhere."""
-    return 1 if device_driver == "airspyhf" and zoom_active else 3
+    return 1 if zoom_active and device_driver in ("airspyhf", "rx888") else 3
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("sdr_web")
@@ -98,6 +99,14 @@ HACKRF_TX_AMPLITUDE = max(
 )
 HACKRF_TX_SECRET_FILE = os.environ.get(
     "RIGPI_HACKRF_TX_SECRET_FILE", "/etc/rigpi/hackrf_tx_secret"
+)
+HERMES_TX_ENABLED = bool(_inst_cfg.get("hermes_tx_enabled", False))
+HERMES_TX_DRIVE = max(0, min(255, int(_inst_cfg.get("hermes_tx_drive", 1))))
+HERMES_TX_AMPLITUDE = max(
+    0.01, min(0.50, float(_inst_cfg.get("hermes_tx_amplitude", 0.20)))
+)
+HERMES_CW_AMPLITUDE = max(
+    0.01, min(0.999, float(_inst_cfg.get("hermes_cw_amplitude", 0.999)))
 )
 if not RIGCTL_PORT or RIGCTL_PORT == 4532:
     RIGCTL_PORT = _inst_cfg.get("rigport", 4532) or 4532
@@ -612,6 +621,16 @@ class OpenWebRXClient:
 
 owrx_client = OpenWebRXClient()
 
+# Independent receive-only RTTY decoder. Missing optional files do not stop SDR audio.
+_rtty_decoder = None
+_rtty_error = ''
+try:
+    from rtty_decoder import RTTYDecoder
+    _rtty_decoder = RTTYDecoder()
+except Exception as _rtty_exc:
+    _rtty_error = str(_rtty_exc)
+    logger.warning('[RTTY] decoder unavailable: %s', _rtty_exc)
+
 # FT8 decoder integration — lazy init on first tune
 # udp_port: 7001 + instance offset — ft8modem listens on this port
 # radio_id: 1 + instance offset — tags MySQL Spots rows
@@ -939,14 +958,40 @@ class SDRConnectClient:
         self._active_antenna = ""
         self._lna = 0
         self._is_connected = False
+        from sdrconnect_spectrum import SDRConnectSpectrum
+        self._spectrum = SDRConnectSpectrum()
+        self._center_hz = self._freq_hz
         self._proc      = None          # SDRConnect_headless subprocess
 
     # ------------------------------------------------------------------
     def connect(self, engine, device_name=None, freq_hz=14074000, mode="USB", sample_rate=2_000_000):
+        tx_check = globals().get("_system_transmit_active")
+        if tx_check is not None and tx_check() is not False:
+            raise RuntimeError("Stop transmission before switching to SDRConnect.")
+        if engine.switching:
+            raise RuntimeError("A receiver change is already in progress.")
         self.disconnect()
+        # A remote receiver must release any old local USB handle, not merely
+        # relabel it fake. Otherwise other instances see a free but locked SDR.
+        engine.switching = True
+        try:
+            engine._close_stream()
+            with engine.lock:
+                engine.device_driver = "fake"
+                engine.device_serial = ""
+                engine._idle_stream_paused = False
+                engine._fail_count_reset = True
+        finally:
+            engine.switching = False
         self._engine   = engine
         self._device   = device_name    # None = auto-select first nRSP-ST
         self._freq_hz  = freq_hz
+        self._center_hz = freq_hz
+        self._spectrum.reset()
+        with engine.lock:
+            engine.center_freq = float(freq_hz)
+            engine.zoom_center_hz = float(freq_hz)
+            engine.tuned_freq_hz = float(freq_hz)
         self._mode     = mode
         self._sample_rate = int(sample_rate)
         self._running  = True
@@ -957,6 +1002,7 @@ class SDRConnectClient:
     def disconnect(self):
         self._running      = False
         self._is_connected = False
+        self._spectrum.reset()
         if self._thread:
             self._thread.join(timeout=3)
             self._thread = None
@@ -1104,6 +1150,14 @@ class SDRConnectClient:
                         "value": self._mode
                     }))
 
+                    self._spectrum.reset()
+                    await ws.send(json.dumps({
+                        "event_type": "iq_stream_enable", "property": "", "value": "true"
+                    }))
+                    await ws.send(json.dumps({
+                        "event_type": "get_property", "property": "device_center_frequency", "value": ""
+                    }))
+                    # Keep the native spectrum as a fallback while IQ fills.
                     # Enable spectrum + audio
                     await ws.send(json.dumps({
                         "event_type": "spectrum_enable",
@@ -1138,7 +1192,13 @@ class SDRConnectClient:
                             msg_type = struct.unpack_from('<H', msg, 0)[0]
                             payload  = msg[2:]
 
-                            if msg_type == 3:
+                            if msg_type == 2:
+                                self._spectrum.push(
+                                    payload, self._sample_rate, self._center_hz,
+                                    smoothing=getattr(self._engine, "smoothing", 0.0),
+                                )
+
+                            elif msg_type == 3:
                                 # Spectrum: 512 uint8 bins — keep native, no resample
                                 bins = np.frombuffer(payload, dtype=np.uint8).astype(np.float32)
                                 # Map 0-255 → dBm range (-130..-10)
@@ -1155,7 +1215,7 @@ class SDRConnectClient:
                                             eng._have_mags = True
                                         eng.center_freq = self._freq_hz
                                         eng.sample_rate = float(self._sample_rate)
-                                        eng.span        = float(self._sample_rate)
+                                        # Preserve the selected display span.
 
                             elif msg_type == 1:
                                 # Audio: signed int16 stereo 48kHz → mono float32
@@ -1179,15 +1239,22 @@ class SDRConnectClient:
                                 prop = d.get('property','')
                                 if prop == 'device_vfo_frequency':
                                     self._freq_hz = int(d.get('value', self._freq_hz))
+                                elif prop == 'device_center_frequency':
+                                    center = float(d.get('value', self._center_hz))
+                                    if center != self._center_hz:
+                                        self._center_hz = center
+                                        self._spectrum.reset()
                                 elif prop == 'device_sample_rate':
                                     new_rate = float(d.get('value', self._sample_rate))
+                                    if new_rate != self._sample_rate:
+                                        self._spectrum.reset()
                                     if not getattr(self, '_rate_lock', False):
                                         self._sample_rate = new_rate
                                     eng = self._engine
                                     if eng:
                                         with eng.lock:
                                             eng.sample_rate = new_rate
-                                            eng.span = new_rate
+                                            eng.span = min(float(eng.span), new_rate)
                                         logger.info("[SDRCONN] sample_rate confirmed: %.0f", new_rate)
                                 elif prop == 'valid_antennas':
                                     self._antennas = [a.strip() for a in d.get('value','').split(',') if a.strip()]
@@ -1331,6 +1398,7 @@ class SdrEngine:
         self.sdr         = None
         self.rx_stream   = None
         self.rx888_source = None
+        self.hermes_source = None
         self.running     = True
         self.switching   = False  # True during device switch
         self._fail_count_reset = False
@@ -1365,7 +1433,7 @@ class SdrEngine:
         # Continuous RX888 audio path. DSP runs in a compiled helper so the
         # 64-MSPS USB stream can be drained without stalling acquisition.
         self.rx888_audio_processor = None
-        self._rx888_audio_queue = _stdlib_queue.Queue(maxsize=2)
+        self._rx888_audio_queue = _stdlib_queue.Queue(maxsize=32)
         self._rx888_audio_thread = None
         self.rx888_audio_active = False
         self.rx888_audio_process_ms = 0.0
@@ -1448,6 +1516,27 @@ class SdrEngine:
                 pass
 
     def _rx888_audio_worker(self):
+        try:
+            audio_cpu = max(0, (os.cpu_count() or 1) - 1)
+            housekeeping_cpus = set(range(audio_cpu)) or {audio_cpu}
+            audio_tid = threading.get_native_id()
+            # Move every existing non-audio thread away before reserving this core.
+            # New threads inherit the affinity of their non-audio parent.
+            for task_name in os.listdir("/proc/self/task"):
+                try:
+                    task_id = int(task_name)
+                    if task_id != audio_tid:
+                        os.sched_setaffinity(task_id, housekeeping_cpus)
+                except (ValueError, FileNotFoundError, OSError):
+                    pass
+            os.sched_setaffinity(audio_tid, {audio_cpu})
+            logger.info(
+                "[RX888 AUDIO] CPU %d reserved; other workers use CPUs %s",
+                audio_cpu,
+                sorted(housekeeping_cpus),
+            )
+        except (AttributeError, OSError) as exc:
+            logger.warning("[RX888 AUDIO] CPU affinity unavailable: %s", exc)
         while self.running:
             try:
                 samples, center_hz, mode = self._rx888_audio_queue.get(timeout=0.25)
@@ -1511,6 +1600,12 @@ class SdrEngine:
 
     def _zoom_worker(self):
         """Process only the newest zoom block so acquisition never stalls."""
+        try:
+            zoom_cpu = max(0, (os.cpu_count() or 1) - 2)
+            os.sched_setaffinity(0, {zoom_cpu})
+            logger.info("[SDR ZOOM] worker pinned to CPU %d", zoom_cpu)
+        except (AttributeError, OSError) as exc:
+            logger.warning("[SDR ZOOM] CPU affinity unavailable: %s", exc)
         while self.running:
             try:
                 samples, center_hz, span_hz, input_center_hz = self._zoom_queue.get(timeout=0.25)
@@ -1594,7 +1689,7 @@ class SdrEngine:
             else 0.0
         )
         item = (
-            samples,
+            samples.astype(np.float32) / 32768.0 if samples.dtype == np.int16 else samples,
             float(self.zoom_center_hz),
             float(self.span),
             input_center_hz,
@@ -1653,13 +1748,55 @@ class SdrEngine:
             16_000_000.0,
             32_000_000.0,
         ]
+        # A 20 ms RX888 block produces at least 1,250 samples after the
+        # narrowest zoom decimation.  Keep the FFT within that one contiguous
+        # block; a 4096-point FFT stitched four throttled blocks together and
+        # produced a false spectrum that changed about every four seconds.
         self.zoom_processor = ZoomSpectrumProcessor(
             input_rate=self.input_sample_rate,
-            fft_size=4096,
+            fft_size=1024,
             max_zoom_span=2_000_000.0,
         )
 
+    def _open_hermeslite_native(self, ip):
+        """Open an explicitly selected Hermes Lite 2 in receive-only mode."""
+        ip = str(ip or "").strip()
+        if not ip:
+            devices = discover_hermeslite(timeout=0.4)
+            if not devices:
+                raise RuntimeError("No idle Hermes Lite 2 found on the local network")
+            ip = devices[0]["ip"]
+
+        source = HermesLiteNativeSource(ip=ip, frequency=self.center_freq)
+        source.set_lna_gain(int(_inst_cfg.get("hermes_rx_gain_db", 20)))
+        try:
+            source.start()
+        except Exception:
+            try:
+                source.stop()
+            except Exception:
+                pass
+            raise
+
+        self.hermes_source = source
+        self.sdr = None
+        self.rx_stream = None
+        self.device_driver = "hermeslite"
+        self.device_serial = ip
+        self.real_adc_stream = False
+        self.input_sample_rate = 192000.0
+        self.sample_rate = 192000.0
+        self.span = 192000.0
+        self.supported_sample_rates = [192000.0]
+        self.zoom_center_hz = self.center_freq
+        self._build_filters()
+        logger.info("[HERMES] native RX opened at %s, 192 kS/s", ip)
+
     def _open_device(self):
+        if DEVICE_DRIVER in ("sdrconnect", "sdrplay"):
+            self.device_driver = "fake"
+            self.device_serial = ""
+            return  # SDRConnect owns its hardware; never auto-open a local SDR.
         drivers = [DEVICE_DRIVER] if DEVICE_DRIVER and DEVICE_DRIVER != "fake" else []
         if not drivers:
             # Check instance config — if explicitly set to fake, don't auto-discover
@@ -1675,6 +1812,9 @@ class SdrEngine:
             drivers = ["rx888", "airspyhf", "hackrf", "rtlsdr"]
         for drv in drivers:
             try:
+                if drv == "hermeslite":
+                    self._open_hermeslite_native(DEVICE_SERIAL)
+                    return
                 if drv == "rx888":
                     self.rx888_source = RX888NativeSource(
                         sample_rate=64_000_000,
@@ -1915,6 +2055,28 @@ class SdrEngine:
 
     def _read(self, n):
         """Read exactly n samples, accumulating driver-sized blocks."""
+        if self.device_driver == "hermeslite":
+            source = getattr(self, "hermes_source", None)
+            if source is None:
+                logger.error("[HERMES] native source is not initialized")
+                return None
+            try:
+                cw_enabled = (
+                    bool(_inst_cfg.get("hermes_external_cw_enabled", False))
+                    and bool(globals().get("HERMES_TX_ENABLED", False))
+                    and self.mode in ("CW", "CWR")
+                    and any(low <= self.tuned_freq_hz <= high for low, high in globals().get("_HACKRF_TX_RANGES_HZ", [])[:11])
+                )
+                source.configure_external_cw(cw_enabled, int(_inst_cfg.get("hermes_cw_drive", 32)), 600.0, self.tuned_freq_hz)
+                return source.read(n)
+            except Exception as e:
+                now = time.monotonic()
+                last_log = getattr(self, "_hermes_last_read_error_log", 0.0)
+                if now - last_log >= 2.0:
+                    self._hermes_last_read_error_log = now
+                    logger.error("[HERMES] native read failed: %s", e)
+                return None
+
         if self.device_driver == "rx888":
             source = getattr(self, "rx888_source", None)
 
@@ -2292,6 +2454,14 @@ class SdrEngine:
                 if zoom_requested:
                     self._submit_zoom_block(samples)
                     zoom_frame = self._latest_zoom_frame()
+                if zoom_frame is not None and self.device_driver == "rx888":
+                    # Consume each slow RX888 worker result only once. Reusing a
+                    # cached frame defeats smoothing and makes the noise floor jump.
+                    frame_id = id(zoom_frame)
+                    if frame_id == getattr(self, "_last_rx888_zoom_frame_id", None):
+                        zoom_frame = None
+                    else:
+                        self._last_rx888_zoom_frame_id = frame_id
 
                 # Keep audio continuous even when a display frame is not ready.
                 if not hasattr(self, '_pi4_spectrum_limit'):
@@ -2336,6 +2506,8 @@ class SdrEngine:
                             np.float32,
                             copy=True,
                         )
+                        if samples.dtype == np.int16:
+                            chunk *= (1.0 / 32768.0)
                         chunk -= np.mean(chunk)
 
                         if (
@@ -2432,9 +2604,8 @@ class SdrEngine:
                                     and len(self.latest_mags) == len(mags)
                                 ):
                                     self.latest_mags = (
-                                        self.smoothing * mags
-                                        + (1.0 - self.smoothing)
-                                        * self.latest_mags
+                                        self.smoothing * self.latest_mags
+                                        + (1.0 - self.smoothing) * mags
                                     )
                                 else:
                                     # First frame at a new center/span seeds the
@@ -2571,6 +2742,11 @@ class SdrEngine:
 
     def get_spectrum(self):
         with self.lock:
+            if sdrconn_client.connected:
+                remote = sdrconn_client._spectrum.frame(self.span, self.zoom_center_hz)
+                if remote is not None:
+                    remote.update(mode=self.mode, bw=int(self.bw))
+                    return remote
             if self.zoom_active:
                 display_center = float(self.zoom_center_hz)
                 display_rate = float(self.zoom_hz_per_bin * len(self.latest_mags))
@@ -2608,6 +2784,7 @@ class SdrEngine:
             return {
                 "hw_center":     state_center,
                 "center_freq":   state_center,
+                "tuned_freq_hz": float(self.tuned_freq_hz),
                 "sample_rate":   state_sample_rate,
                 "span":          state_span,
                 "mode":          self.mode,
@@ -2618,9 +2795,13 @@ class SdrEngine:
                 "device_driver": self.device_driver,
                 "device_serial": self.device_serial,
                 "device_open": bool(
-                    self.rx888_source is not None
-                    if self.device_driver == "rx888"
-                    else self.sdr is not None
+                    self.hermes_source is not None
+                    if self.device_driver == "hermeslite"
+                    else (
+                        self.rx888_source is not None
+                        if self.device_driver == "rx888"
+                        else self.sdr is not None
+                    )
                 ),
                 "available_devices": self._available_devices,
                 "taken_devices": [
@@ -2688,6 +2869,16 @@ class SdrEngine:
                     continue  # skip Docker/SoapyRemote entries
                 devs.append({"driver": d.get("driver",""), "label": d.get("label", d.get("driver","")),
                              "serial": d.get("serial",""), "remote": ""})
+            try:
+                for device in discover_hermeslite(timeout=0.25):
+                    devs.append({
+                        "driver": "hermeslite",
+                        "label": device["label"],
+                        "serial": device["ip"],
+                        "remote": "",
+                    })
+            except Exception as discovery_error:
+                logger.debug("[HERMES] discovery failed: %s", discovery_error)
             devs.append({"driver":"fake","label":"Fake (No Hardware)","serial":"","remote":""})
             return devs
         except Exception:
@@ -2699,6 +2890,10 @@ class SdrEngine:
 
         driver = str(driver or "").strip().lower()
         serial = str(serial or "").strip()
+
+        if driver == "hermeslite":
+            self._open_hermeslite_native(serial)
+            return
 
         # RTL-SDR sometimes benefits from a USB reset before reopening.
         if driver == "rtlsdr":
@@ -2918,6 +3113,13 @@ class SdrEngine:
 
     def _close_stream(self):
         """Close SoapySDR stream and device cleanly."""
+        if self.hermes_source is not None:
+            try:
+                self.hermes_source.stop()
+            except Exception:
+                pass
+            self.hermes_source = None
+
         if self.rx888_source is not None:
             try:
                 self.rx888_source.stop()
@@ -2954,6 +3156,9 @@ class SdrEngine:
         self.audio_fir = (np.sinc(2*3000.0/48000.0*t2) * np.hamming(63)).astype(np.float32)
         self.audio_fir /= np.sum(self.audio_fir)
         self.audio_zi_am = np.zeros(len(self.audio_fir)-1, dtype=np.float32)
+        # Hermes voice shaping: reject sub-audible rumble while retaining SSB speech.
+        self.hermes_voice_fir = scipy.signal.firwin(127, [180.0, 3000.0], pass_zero=False, fs=48000.0).astype(np.float32)
+        self.hermes_voice_zi = np.zeros(len(self.hermes_voice_fir)-1, dtype=np.float32)
         # AM audio LPF (5kHz)
         t3 = np.arange(63) - 31.0
         self.am_audio_fir = (np.sinc(2*5000.0/48000.0*t3) * np.hamming(63)).astype(np.float32)
@@ -3040,16 +3245,69 @@ class SdrEngine:
         if iq is None or len(iq) < 8: return None
         iq = iq.astype(np.complex64, copy=False)
         iq_f = self._filter_to_48k(iq, self.rf_fir, "_ssb_fir_history")
-        if not upper: iq_f = np.conj(iq_f)
-        audio = np.real(iq_f)
-        audio, self.audio_zi_am = scipy.signal.lfilter(
-            self.audio_fir, [1.0], audio, zi=self.audio_zi_am)
+        if self.device_driver != "fake":
+            # Preserve only the requested sideband before converting complex IQ to audio.
+            # Taking real(IQ) directly folds the opposite sideband into the passband,
+            # adding about 3 dB of noise and masking weak digital/voice signals.
+            mode_name = str(getattr(self, "mode", "")).upper()
+            if mode_name in ("CW", "CWR"):
+                # Keep CW centered on the standard sidetone/audio pitch.
+                cw_pitch = 700.0
+                cw_bw = float(np.clip(getattr(self, "bw", 500), 100.0, 3000.0))
+                sideband_low = max(50.0, cw_pitch - cw_bw / 2.0)
+                sideband_high = min(4500.0, cw_pitch + cw_bw / 2.0)
+            else:
+                sideband_high = float(np.clip(getattr(self, "bw", 2700), 300.0, 15000.0))
+                sideband_low = min(100.0, sideband_high * 0.25)
+            sideband_key = (bool(upper), round(sideband_low, 1), round(sideband_high, 1))
+            if getattr(self, "_ssb_sideband_key", None) != sideband_key:
+                tap_count = 255
+                n = np.arange(tap_count, dtype=np.float64) - (tap_count - 1) / 2.0
+                width = max(100.0, sideband_high - sideband_low)
+                center = (sideband_high + sideband_low) / 2.0
+                lowpass = scipy.signal.firwin(
+                    tap_count, width / 2.0, fs=48000.0, window=("kaiser", 8.0)
+                )
+                direction = 1.0 if upper else -1.0
+                shift = np.exp(1j * direction * 2.0 * np.pi * center * n / 48000.0)
+                self._ssb_sideband_fir = (lowpass * shift).astype(np.complex64)
+                self._ssb_sideband_zi = np.zeros(tap_count - 1, dtype=np.complex64)
+                self._ssb_sideband_key = sideband_key
+            iq_f, self._ssb_sideband_zi = scipy.signal.lfilter(
+                self._ssb_sideband_fir, [1.0], iq_f, zi=self._ssb_sideband_zi
+            )
+            audio = (2.0 * np.real(iq_f)).astype(np.float32)
+        else:
+            if not upper:
+                iq_f = np.conj(iq_f)
+            audio = np.real(iq_f)
+        hermes_voice = self.device_driver == "hermeslite" and self.mode in ("USB", "LSB")
+        if str(self.mode).upper() in ("USB", "LSB"):
+            # Follow the selected receive bandwidth, including changes during playback.
+            audio_high = float(np.clip(getattr(self, "bw", 2700), 300.0, 15000.0))
+            audio_key = (bool(hermes_voice), audio_high)
+            if getattr(self, "_ssb_audio_key", None) != audio_key:
+                if hermes_voice:
+                    taps = scipy.signal.firwin(127, [180.0, audio_high], pass_zero=False, fs=48000.0)
+                else:
+                    taps = scipy.signal.firwin(63, audio_high, fs=48000.0)
+                self._ssb_audio_fir = taps.astype(np.float32)
+                self._ssb_audio_zi = np.zeros(len(taps) - 1, dtype=np.float32)
+                self._ssb_audio_key = audio_key
+            audio, self._ssb_audio_zi = scipy.signal.lfilter(
+                self._ssb_audio_fir, [1.0], audio, zi=self._ssb_audio_zi)
+        else:
+            audio, self.audio_zi_am = scipy.signal.lfilter(
+                self.audio_fir, [1.0], audio, zi=self.audio_zi_am)
         rms = float(np.sqrt(np.mean(audio**2)))
         if rms > 1e-6:
-            desired = float(np.clip(0.22 / rms, 0.1, 50.0))
-            # Smooth both directions.  The previous 50-percent attack changed
-            # gain almost instantaneously and was audible as two-level popping.
-            coefficient = 0.08 if desired < self.agc_gain else 0.002
+            target = 0.30 if hermes_voice else 0.22
+            ceiling = 80.0 if hermes_voice else 50.0
+            desired = float(np.clip(target / rms, 0.1, ceiling))
+            # Faster Hermes recovery makes weak speech easier to follow without clicks.
+            attack = 0.12 if hermes_voice else 0.08
+            release = 0.008 if hermes_voice else 0.002
+            coefficient = attack if desired < self.agc_gain else release
             self.agc_gain += coefficient * (desired - self.agc_gain)
         return (audio * self.agc_gain).astype(np.float32)
 
@@ -3177,7 +3435,10 @@ class SdrEngine:
             self.center_freq = hz
             self.zoom_center_hz = hz
             self.tuned_freq_hz = hz
-        if self.sdr:
+        if self.hermes_source is not None:
+            try: self.hermes_source.set_frequency(hz)
+            except Exception as e: logger.error("[HERMES] tune failed: %s", e)
+        elif self.sdr:
             try: self.sdr.setFrequency(SOAPY_SDR_RX, 0, hz)
             except Exception as e: logger.error("[SDR] tune failed: %s", e)
 
@@ -3188,7 +3449,10 @@ class SdrEngine:
             self.center_freq = hz
             self.zoom_center_hz = hz
             self.tuned_freq_hz = hz
-        if self.sdr:
+        if self.hermes_source is not None:
+            try: self.hermes_source.set_frequency(hz)
+            except Exception as e: logger.error("[HERMES] VFO follow tune failed: %s", e)
+        elif self.sdr:
             try: self.sdr.setFrequency(SOAPY_SDR_RX, 0, hz)
             except Exception as e: logger.error("[SDR] vfo follow tune failed: %s", e)
 
@@ -3332,17 +3596,98 @@ class RigCtl:
             return False
 
 # ---- RigSync ----
+_SDR_ALL_MODES = frozenset((
+    "LSB", "CW", "FM", "USB", "CWR", "WFM", "PKTUSB", "AM", "RTTY", "RTTYR",
+))
+_SDR_MODE_MIN_SAMPLE_RATE = {
+    "LSB": 6000, "CW": 2000, "FM": 24000, "USB": 6000, "CWR": 2000,
+    "WFM": 240000, "PKTUSB": 6000, "AM": 16000, "RTTY": 2000, "RTTYR": 2000,
+}
+_SDR_MODE_ALIASES = {"FMN": "FM", "NFM": "FM", "DSB": "AM"}
+_SDR_PANEL_CAPABILITIES = {
+    "hermeslite": {"label": "Hermes-Lite", "ranges": ((0, 38_400_000),), "modes": _SDR_ALL_MODES},
+    "rx888": {"label": "RX-888", "ranges": ((0, 64_000_000),), "modes": frozenset()},
+    "airspyhf": {"label": "Airspy HF+", "ranges": ((0, 31_000_000), (60_000_000, 260_000_000)), "modes": _SDR_ALL_MODES},
+    "hackrf": {"label": "HackRF", "ranges": ((1_000_000, 6_000_000_000),), "modes": _SDR_ALL_MODES},
+    "rtlsdr": {"label": "RTL-SDR", "ranges": ((24_000_000, 1_766_000_000),), "modes": _SDR_ALL_MODES},
+    "kiwi": {"label": "KiwiSDR", "ranges": ((0, 30_000_000),), "modes": _SDR_ALL_MODES, "remote": True},
+    "sdrconnect": {"label": "SDRConnect", "ranges": None, "modes": _SDR_ALL_MODES, "remote": True},
+    "owrx": {"label": "OpenWebRX", "ranges": None, "modes": _SDR_ALL_MODES, "remote": True},
+    "fake": {"label": "No SDR", "ranges": (), "modes": frozenset()},
+}
+
+
+def _sdr_panel_capability_for_engine(engine):
+    remote_clients = (
+        ("sdrconnect", globals().get("sdrconn_client")),
+        ("owrx", globals().get("owrx_client")),
+        ("kiwi", globals().get("kiwi_client")),
+    )
+    for key, client in remote_clients:
+        if client is not None and getattr(client, "connected", False):
+            return _SDR_PANEL_CAPABILITIES[key]
+    driver = str(getattr(engine, "device_driver", "fake") or "fake").lower()
+    return _SDR_PANEL_CAPABILITIES.get(driver, _SDR_PANEL_CAPABILITIES["fake"])
+
+
+def _sdr_frequency_rejection(engine, frequency_hz):
+    capability = _sdr_panel_capability_for_engine(engine)
+    ranges = capability["ranges"]
+    if ranges is None or any(low <= frequency_hz <= high for low, high in ranges):
+        return None
+    return capability["label"], "does not cover this frequency"
+
+
+def _sdr_mode_rejection(engine, rig_mode):
+    capability = _sdr_panel_capability_for_engine(engine)
+    mode = str(rig_mode or "").strip().upper()
+    mode = _SDR_MODE_ALIASES.get(mode, mode)
+    if mode not in capability["modes"]:
+        return capability["label"], "does not support %s" % mode
+    sample_rate = float(getattr(engine, "sample_rate", 0) or 0)
+    minimum = _SDR_MODE_MIN_SAMPLE_RATE.get(mode, 0)
+    if not capability.get("remote") and sample_rate and sample_rate < minimum:
+        return capability["label"], "does not have enough bandwidth for %s" % mode
+    return None
+
+
 class RigSync:
     def __init__(self, rigctl, engine, radio_id=1, rigpi_url=None):
         self.rigctl = rigctl; self.engine = engine
         self.radio_id = radio_id; self.rigpi_url = rigpi_url
         self.pending_freq = None; self.last_freq = None
+        self.last_rig_mode = None
         self.pending_split = None; self.pending_split_mode = None
         self.last_split_on = False; self.last_split_freq = None
         self.last_split_vfo = "VFOB"; self._split_hold_until = 0.0
         self._hold_until = 0.0
+        self.capability_rejections = {}
+        self._capability_rejection_seq = 0
+        self._capability_rejection_keys = {}
         self.lock = threading.Lock(); self.running = True
         threading.Thread(target=self._loop, daemon=True).start()
+
+    def _record_capability_rejection(self, kind, requested, device, reason, force=False):
+        key = (kind, requested, device, reason)
+        if not force and self._capability_rejection_keys.get(kind) == key:
+            return
+        self._capability_rejection_keys[kind] = key
+        self._capability_rejection_seq += 1
+        self.capability_rejections[kind] = {
+            "seq": self._capability_rejection_seq,
+            "kind": kind,
+            "requested": requested,
+            "device": device,
+            "reason": reason,
+        }
+        logger.info(
+            "[RIGSYNC] radio %d left SDR unchanged: %s %s; %s %s",
+            self.radio_id, kind, requested, device, reason,
+        )
+
+    def _clear_capability_rejection(self, kind):
+        self.capability_rejections.pop(kind, None)
+        self._capability_rejection_keys.pop(kind, None)
 
     def request_tune(self, hz, username="admin", mode=None, bw=None):
         with self.lock:
@@ -3445,36 +3790,31 @@ class RigSync:
                         ft8_profile = _notify_ft8_frequency(freq, "RigSync VFO")
                         if ft8_profile:
                             # Elmer Control and front-panel tuning bypass the SDR
-                            # tune API.  Put the physical rig in its digital USB
-                            # mode here so every FT8/FT4 entry path behaves alike.
+                            # tune API. Put the physical rig in its digital USB mode.
                             self._send_freq(freq, "admin", "PKTUSB", 3000)
                             self._hold_until = time.time() + 3.0
-                        # RX888 always captures 0-32 MHz, so an external RigPi
-                        # tune never falls outside its hardware bandwidth.  The
-                        # visible narrow spectrum is produced by the zoom DDC,
-                        # however, and must follow every VFO change.  Ordinary
-                        # IQ receivers retain the previous outside-band retune
-                        # behavior so in-band tuning can remain display-only.
-                        if self.engine.device_driver == "rx888":
-                            with self.engine.lock:
-                                self.engine.zoom_center_hz = float(freq)
-                                self.engine.tuned_freq_hz = float(freq)
-                            # Do not let a completed frame for the previous VFO
-                            # become visible while the new zoom request is queued.
-                            with self.engine._zoom_result_lock:
-                                self.engine._zoom_result = None
-                            logger.info(
-                                "[RIGSYNC] radio %d RX888 zoom center -> %d",
-                                self.radio_id,
-                                freq,
-                            )
+                        frequency_rejection = _sdr_frequency_rejection(self.engine, freq)
+                        if frequency_rejection:
+                            device, reason = frequency_rejection
+                            self._record_capability_rejection("frequency", int(freq), device, reason)
                         else:
-                            # External rig VFO changes must retune ordinary IQ receivers.
-                            # Their audio demodulator follows the SDR hardware center; merely
-                            # changing tuned_freq_hz leaves WSJT-X/JS8Call hearing the old VFO.
-                            self.engine.set_center_only(freq)
-                            with self.engine.audio_lock:
-                                self.engine._loopback_fifo.clear()
+                            self._clear_capability_rejection("frequency")
+                            # Only supported rig readback is allowed to retune the SDR.
+                            if self.engine.device_driver == "rx888":
+                                with self.engine.lock:
+                                    self.engine.zoom_center_hz = float(freq)
+                                    self.engine.tuned_freq_hz = float(freq)
+                                with self.engine._zoom_result_lock:
+                                    self.engine._zoom_result = None
+                                logger.info(
+                                    "[RIGSYNC] radio %d RX888 zoom center -> %d",
+                                    self.radio_id,
+                                    freq,
+                                )
+                            else:
+                                self.engine.set_center_only(freq)
+                                with self.engine.audio_lock:
+                                    self.engine._loopback_fifo.clear()
                     # Read the rig's mode + passband back and follow them on the SDR
                     # demod, so changing mode/filter on the RADIO propagates to the
                     # waterfall/audio (the reverse of the spot-click path). Gated by
@@ -3489,16 +3829,47 @@ class RigSync:
                         # WFM is SDR-only: a transceiver cannot report its mode or filter.
                         if str(getattr(self.engine, 'mode', '')).upper() == 'WFM':
                             rmode, rbw = None, None
+                        mode_rejection = None
                         if rmode:
-                            _r2d = {'PKTUSB':'pktusb','PKTLSB':'pktlsb','USB':'usb','LSB':'lsb',
-                                    'CW':'cw','CWR':'cwr','AM':'am','FM':'fm','FMN':'nfm',
-                                    'WFM':'wfm','RTTY':'rtty','RTTYR':'rttyr','DSB':'am'}
-                            _demod = _r2d.get(rmode.strip().upper())
-                            if _demod and _demod != str(getattr(self.engine, 'mode', '')).lower():
-                                self.engine.mode = _demod.upper()
-                                logger.info("[RIGSYNC] radio %d mode <- rig %s -> demod %s",
-                                            self.radio_id, rmode, _demod)
-                        if rbw and rbw > 0 and rbw != int(getattr(self.engine, 'bw', 0)):
+                            normalized_rmode = str(rmode).strip().upper()
+                            mode_changed = (
+                                self.last_rig_mode is not None
+                                and normalized_rmode != self.last_rig_mode
+                            )
+                            self.last_rig_mode = normalized_rmode
+                            frequency_rejection = (
+                                _sdr_frequency_rejection(self.engine, self.last_freq)
+                                if self.last_freq else None
+                            )
+                            if frequency_rejection:
+                                device, _reason = frequency_rejection
+                                mode_rejection = (
+                                    device,
+                                    "cannot change mode while the selected frequency is outside its coverage",
+                                )
+                                if mode_changed:
+                                    self._record_capability_rejection(
+                                        "mode", normalized_rmode, device, mode_rejection[1]
+                                    )
+                            else:
+                                mode_rejection = _sdr_mode_rejection(self.engine, rmode)
+                                if mode_rejection:
+                                    device, reason = mode_rejection
+                                    self._record_capability_rejection(
+                                        "mode", normalized_rmode, device, reason
+                                    )
+                                else:
+                                    self._clear_capability_rejection("mode")
+                                    _r2d = {'PKTUSB':'pktusb','PKTLSB':'pktlsb','USB':'usb','LSB':'lsb',
+                                            'CW':'cw','CWR':'cwr','AM':'am','FM':'fm','FMN':'nfm',
+                                            'WFM':'wfm','RTTY':'rtty','RTTYR':'rttyr','DSB':'am'}
+                                    _demod = _r2d.get(normalized_rmode)
+                                    if _demod and _demod != str(getattr(self.engine, 'mode', '')).lower():
+                                        self.engine.mode = _demod.upper()
+                                        logger.info("[RIGSYNC] radio %d mode <- rig %s -> demod %s",
+                                                    self.radio_id, rmode, _demod)
+                        if (not mode_rejection and rbw and rbw > 0
+                                and rbw != int(getattr(self.engine, 'bw', 0))):
                             self.engine.bw = int(rbw)
                             logger.info("[RIGSYNC] radio %d bw <- rig %d Hz", self.radio_id, rbw)
                     except Exception as e:
@@ -3665,7 +4036,15 @@ class EngineAudioTrack(AudioStreamTrack):
     @classmethod
     def broadcast(cls, audio_f32, engine=None):
         """Write to ring buffer — fast, no per-track work."""
-        if hasattr(audio_f32, 'astype'):
+        ft8_sink = globals().get("_hermes_ft8_rx_sink")
+        if ft8_sink is not None:
+            ft8_sink(audio_f32)
+        if _rtty_decoder is not None and engine is globals().get("engine") and engine is not None:
+            try:
+                _rtty_decoder.feed(audio_f32)
+            except Exception:
+                pass  # Optional decoder must never interrupt receive audio.
+        if hasattr(audio_f32, "astype"):
             _broadcast_to_ring(audio_f32.astype(np.float32), engine)
         else:
             _broadcast_to_ring(np.array(audio_f32, dtype=np.float32), engine)
@@ -3706,9 +4085,11 @@ class EngineAudioTrack(AudioStreamTrack):
             if take < n:
                 pad = (np.random.randn(n - take) * 0.001).astype(np.float32)
                 audio_f32 = np.concatenate([audio_f32, pad])
-        # Spike suppression
-        mad = float(np.median(np.abs(audio_f32))) + 1e-9
-        audio_f32 = np.clip(audio_f32, -min(0.95, mad*10), min(0.95, mad*10))
+        # Externally demodulated audio is already bounded upstream.
+        # The median limiter is only for isolated local-demodulator spikes.
+        if not (from_kiwi or from_owrx):
+            mad = float(np.median(np.abs(audio_f32))) + 1e-9
+            audio_f32 = np.clip(audio_f32, -min(0.95, mad*10), min(0.95, mad*10))
         pcm_i16 = (np.clip(audio_f32, -1.0, 1.0) * 32767).astype(np.int16)
         frame = av.AudioFrame(format="s16", layout="mono", samples=n)
         frame.sample_rate = self.sample_rate
@@ -3726,6 +4107,7 @@ audio_loop = None
 # ---- ALSA Loopback writer ----
 _alsa_loopback_running = False
 _alsa_loopback_device  = None
+_alsa_loopback_start_lock = threading.Lock()
 _tx_gain = 0.1  # TX audio gain multiplier (10 percent default)
 _tx_vu   = 0.0  # TX VU level 0.0-1.0
 _tx_vu_updated_at=0.0;_tx_mic_source="";_tx_mic_label=""
@@ -3820,7 +4202,7 @@ class HackRFTxController:
             raise RuntimeError("The selected SDR is not a HackRF.")
         if not _hackrf_tx_frequency_allowed(frequency_hz):
             raise RuntimeError("The transmit frequency is outside the allowed amateur bands.")
-        if mode not in ("USB", "PKTUSB", "USB-D", "LSB", "PKTLSB"):
+        if mode not in ("USB", "PKTUSB", "USB-D", "LSB", "PKTLSB", "CW", "CWR"):
             raise RuntimeError("Initial HackRF transmit supports USB and LSB voice modes only.")
         with self.lock:
             if self.active or self.starting:
@@ -3874,7 +4256,7 @@ class HackRFTxController:
         # Browser Opus frames are 48 kHz.  The analytic signal suppresses the
         # unwanted sideband; 125/3 converts exactly to the 2-MS/s HackRF rate.
         analytic = scipy.signal.hilbert(audio).astype(np.complex64)
-        if self.mode in ("LSB", "PKTLSB"):
+        if self.mode in ("LSB", "PKTLSB", "CWR"):
             analytic = np.conj(analytic)
         iq = scipy.signal.resample_poly(analytic, 125, 3)
         peak = max(1.0, float(np.max(np.abs(iq))))
@@ -4005,6 +4387,469 @@ class HackRFTxController:
 
 hackrf_tx_controller = HackRFTxController()
 
+
+class HermesTxController:
+    """Guarded browser-audio transmitter using the native Hermes source."""
+
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.active = False
+        self.starting = False
+        self.frequency_hz = 0
+        self.mode = "USB"
+        self.maximum_seconds = 600.0
+        self.started_at = 0.0
+        self.error = ""
+        self.frames = 0
+        self.cw_queue = []
+        self.cw_running = False
+        self.cw_cancel = threading.Event()
+        self.cw_thread = None
+        self.cw_wpm = 20
+        self._sos = scipy.signal.butter(6, (200.0, 3000.0), btype="bandpass",
+                                        fs=48000.0, output="sos")
+        self._zi = scipy.signal.sosfilt_zi(self._sos) * 0.0
+        from hermes_wsjtx_bridge import DigitalIQ
+        self._voice_iq = DigitalIQ(amplitude=0.5)
+
+    def _source(self):
+        source = getattr(engine, "hermes_source", None)
+        if engine.device_driver != "hermeslite" or source is None:
+            raise RuntimeError("The selected SDR is not a Hermes Lite 2.")
+        return source
+
+    def status(self):
+        source = getattr(engine, "hermes_source", None)
+        native = source.stats().get("tx", {}) if source is not None else {}
+        with self.lock:
+            return {
+                "enabled": bool(HERMES_TX_ENABLED),
+                "active": bool(native.get("active", self.active)),
+                "starting": bool(self.starting),
+                "frequency_hz": int(native.get("frequency_hz", self.frequency_hz)) if native.get("cw", {}).get("requested") else int(self.frequency_hz),
+                "mode": native.get("mode", self.mode),
+                "seconds": float(native.get("seconds", 0.0)),
+                "maximum_seconds": float(self.maximum_seconds),
+                "drive": int(native.get("drive", 0)),
+                "frames": int(self.frames),
+                "underruns": int(native.get("underruns", 0)),
+                "error": str(native.get("error") or self.error),
+                "telemetry": native.get("telemetry", {}),
+                "cw": native.get("cw", {}),
+            }
+
+    def start(self, frequency_hz, mode, maximum_seconds, drive=None):
+        frequency_hz = int(frequency_hz)
+        mode = str(mode or "USB").upper()
+        if not HERMES_TX_ENABLED:
+            raise RuntimeError("Hermes Lite transmit is disabled by the administrator.")
+        if not any(low <= frequency_hz <= high for low, high in _HACKRF_TX_RANGES_HZ[:11]):
+            raise RuntimeError("The transmit frequency is outside the allowed amateur bands.")
+        if mode not in ("USB", "PKTUSB", "USB-D", "LSB", "PKTLSB", "CW", "CWR", "AM", "FM"):
+            raise RuntimeError("Hermes transmit supports SSB, digital, CW, AM, and narrowband FM modes.")
+        tx_drive = HERMES_TX_DRIVE if drive is None else max(0, min(240, int(drive)))
+        source = self._source()
+        with self.lock:
+            if not HERMES_TX_ENABLED:
+                raise RuntimeError("Hermes Lite transmit is disabled by the administrator.")
+            if self.active or self.starting:
+                raise RuntimeError("Hermes Lite transmit is already active.")
+            self.starting = True
+            self.error = ""
+            self.frequency_hz = frequency_hz
+            self.mode = mode
+            self.maximum_seconds = max(30.0, min(3600.0, float(maximum_seconds)))
+            self.frames = 0
+            self._zi = scipy.signal.sosfilt_zi(self._sos) * 0.0
+            self._voice_iq = type(self._voice_iq)(amplitude=0.5)
+            from hermes_amfm import AmFmModulator
+            self._amfm = AmFmModulator(mode, HERMES_TX_AMPLITUDE) if mode in ("AM", "FM") else None
+        try:
+            source.start_tx(frequency_hz, tx_drive, self.maximum_seconds,
+                            idle_amplitude=self._amfm.idle_amplitude if self._amfm else 0.0,
+                            hold_phase=(mode == "FM"))
+            with self.lock:
+                self.active = True
+                self.starting = False
+                self.started_at = time.monotonic()
+            logger.warning("[HERMES TX] ON freq=%d mode=%s drive=%d",
+                           frequency_hz, mode, tx_drive)
+        except Exception:
+            with self.lock:
+                self.starting = False
+            raise
+
+    _MORSE = {
+        "A":".-", "B":"-...", "C":"-.-.", "D":"-..", "E":".", "F":"..-.",
+        "G":"--.", "H":"....", "I":"..", "J":".---", "K":"-.-", "L":".-..",
+        "M":"--", "N":"-.", "O":"---", "P":".--.", "Q":"--.-", "R":".-.",
+        "S":"...", "T":"-", "U":"..-", "V":"...-", "W":".--", "X":"-..-",
+        "Y":"-.--", "Z":"--..", "0":"-----", "1":".----", "2":"..---",
+        "3":"...--", "4":"....-", "5":".....", "6":"-....", "7":"--...",
+        "8":"---..", "9":"----.", ".":".-.-.-", ",":"--..--", "?":"..--..",
+        "/":"-..-.", "=":"-...-", "+":".-.-.", "-":"-....-"
+    }
+
+    def enqueue_cw(self, text, wpm, frequency_hz, mode):
+        text = str(text or "")
+        if text.upper() == "<1B>HH":
+            with self.lock:
+                if self.cw_running:
+                    self.cw_cancel.set()
+                    self.cw_queue.clear()
+                    return {"running": False, "queued": 0}
+            text = "__KEY_DOWN__"
+        if text == "!":
+            self.cw_cancel.set()
+            with self.lock:
+                self.cw_queue.clear()
+            return {"running": False, "queued": 0}
+        text = text[:256]
+        if not text:
+            raise RuntimeError("CW text is empty.")
+        wpm = max(5, min(60, int(wpm or 20)))
+        frequency_hz = int(frequency_hz)
+        mode = str(mode or "CW").upper()
+        if mode not in ("CW", "CWR"):
+            raise RuntimeError("Select CW or CWR before sending keyer text.")
+        with self.lock:
+            if (self.active or self.starting) and not self.cw_running:
+                raise RuntimeError("Transmit is already active.")
+            self.cw_queue.append((text.upper(), wpm, frequency_hz, mode))
+            queued = len(self.cw_queue)
+            if not self.cw_running:
+                self.cw_running = True
+                self.cw_cancel.clear()
+                self.cw_thread = threading.Thread(target=self._cw_worker, daemon=True)
+                self.cw_thread.start()
+        return {"running": True, "queued": queued}
+
+    def set_cw_speed(self, wpm):
+        wpm = max(5, min(60, int(wpm or 20)))
+        with self.lock:
+            self.cw_wpm = wpm
+            running = self.cw_running
+        return {"wpm": wpm, "running": running}
+
+    def _cw_emit(self, keyed, seconds, clock):
+        rate = 48000
+        total = max(1, int(float(seconds) * rate))
+        if keyed:
+            tone_hz = 700.0 if self.mode == "CWR" else -700.0
+            phase = (2.0 * np.pi * tone_hz / rate) * np.arange(total, dtype=np.float32)
+            samples = (HERMES_CW_AMPLITUDE * np.exp(1j * phase)).astype(np.complex64)
+            ramp = min(192, total // 2)
+            if ramp:
+                edge = np.sin(np.linspace(0.0, np.pi / 2.0, ramp, dtype=np.float32)) ** 2
+                samples[:ramp] *= edge
+                samples[-ramp:] *= edge[::-1]
+        else:
+            samples = np.zeros(total, dtype=np.complex64)
+        offset = 0
+        while offset < total and not self.cw_cancel.is_set():
+            chunk = samples[offset:offset + 2400]
+            source = self._source()
+            source.submit_tx_iq(chunk)
+            source.tx_heartbeat()
+            offset += len(chunk)
+            clock[0] += len(chunk) / rate
+            delay = clock[0] - time.monotonic() - 0.08
+            if delay > 0:
+                time.sleep(delay)
+        return not self.cw_cancel.is_set()
+
+    def _cw_codes(self, text):
+        """Yield Morse elements, preserving WinKeyer prosign syntax."""
+        index = 0
+        while index < len(text):
+            if text[index:index + 4].upper() == "<1B>" and index + 5 < len(text):
+                first = self._MORSE.get(text[index + 4].upper())
+                second = self._MORSE.get(text[index + 5].upper())
+                if first and second:
+                    yield first + second
+                    index += 6
+                    continue
+            if index + 3 < len(text) and text[index] == "<" and text[index + 3] == ">":
+                index += 4
+                continue
+            char = text[index].upper()
+            index += 1
+            if char == " ":
+                yield None
+                continue
+            code = self._MORSE.get(char)
+            if code:
+                yield code
+
+    def _cw_worker(self):
+        started = False
+        clock = [time.monotonic()]
+        idle_since = time.monotonic()
+        try:
+            while not self.cw_cancel.is_set():
+                item = None
+                with self.lock:
+                    if self.cw_queue:
+                        item = self.cw_queue.pop(0)
+                if item is None:
+                    if started and time.monotonic() - idle_since >= 0.45:
+                        break
+                    time.sleep(0.03)
+                    continue
+                text, wpm, frequency_hz, mode = item
+                if not started:
+                    with self.lock:
+                        self.cw_wpm = wpm
+                    drive = int(_inst_cfg.get("hermes_cw_drive") or 32)
+                    cw_tone_hz = 700.0 if mode == "CWR" else -700.0
+                    tx_center_hz = int(round(frequency_hz - cw_tone_hz))
+                    self.start(tx_center_hz, mode, 600.0, drive)
+                    started = True
+                    clock[0] = time.monotonic()
+                    if not self._cw_emit(False, 0.25, clock):
+                        break
+                if text == "__KEY_DOWN__":
+                    while not self.cw_cancel.is_set():
+                        if not self._cw_emit(True, 0.25, clock):
+                            break
+                    break
+                for code in self._cw_codes(text):
+                    with self.lock:
+                        dot = 1.2 / self.cw_wpm
+                    if self.cw_cancel.is_set():
+                        break
+                    if code is None:
+                        if not self._cw_emit(False, 4 * dot, clock):
+                            break
+                        continue
+                    for index, symbol in enumerate(code):
+                        if not self._cw_emit(True, dot * (3 if symbol == "-" else 1), clock):
+                            break
+                        if index + 1 < len(code) and not self._cw_emit(False, dot, clock):
+                            break
+                    if not self._cw_emit(False, 3 * dot, clock):
+                        break
+                    idle_since = time.monotonic()
+        except Exception as exc:
+            self.error = str(exc)
+            logger.exception("[HERMES CW] text keying failed")
+        finally:
+            if started:
+                try:
+                    self.stop()
+                except Exception:
+                    logger.exception("[HERMES CW] stop failed")
+            with self.lock:
+                self.cw_running = False
+                self.cw_queue.clear()
+                self.cw_thread = None
+            self.cw_cancel.clear()
+
+    def stop(self):
+        if self.cw_running and threading.current_thread() is not self.cw_thread:
+            self.cw_cancel.set()
+            with self.lock:
+                self.cw_queue.clear()
+        source = getattr(engine, "hermes_source", None)
+        if source is not None:
+            source.stop_tx()
+        with self.lock:
+            was_active = self.active or self.starting
+            self.active = False
+            self.starting = False
+        if was_active:
+            logger.warning("[HERMES TX] OFF")
+
+    def heartbeat(self):
+        source = self._source()
+        source.tx_heartbeat()
+
+    @staticmethod
+    def _audio_array(frame):
+        audio = frame.to_ndarray().astype(np.float32)
+        channels = len(frame.layout.channels)
+        if frame.format.is_planar:
+            audio = audio.reshape(channels, -1).mean(axis=0)
+        else:
+            audio = audio.reshape(-1, channels).mean(axis=1)
+        audio = audio.reshape(-1)
+        peak = float(np.max(np.abs(audio))) if audio.size else 0.0
+        if peak > 2.0:
+            audio /= 32768.0
+        if audio.size:
+            audio -= float(np.mean(audio))
+        return np.clip(audio, -1.0, 1.0)
+
+    def submit(self, frame):
+        global _tx_vu, _tx_vu_updated_at
+        audio = self._audio_array(frame)
+        if not audio.size:
+            return
+        sample_rate = int(getattr(frame, "sample_rate", 48000) or 48000)
+        if sample_rate != 48000:
+            ratio = Fraction(48000, sample_rate).limit_denominator(1000)
+            audio = scipy.signal.resample_poly(audio, ratio.numerator, ratio.denominator)
+        # Browser speech has headroom; apply the Audio-panel gain before limiting.
+        # FT8 supplies IQ directly and never passes through this voice stage.
+        audio = audio * (8.0 * max(0.0, min(2.0, float(_tx_gain))))
+        filtered, self._zi = scipy.signal.sosfilt(self._sos, audio, zi=self._zi)
+        _tx_vu = min(1.0, float(np.max(np.abs(filtered))))
+        _tx_vu_updated_at = time.monotonic()
+        if self.mode in ("AM", "FM"):
+            iq = self._amfm.convert(filtered)
+            self._source().submit_tx_iq(iq)
+            with self.lock:
+                self.frames += 1
+            return
+        # Keep Hilbert history across browser frames: DigitalIQ emits HL2 USB IQ.
+        # Fixed headroom avoids the digital-input clipper before voice peak limiting.
+        analytic = (self._voice_iq.convert(filtered / 32.0) * 64.0).astype(np.complex64)
+        if self.mode in ("LSB", "PKTLSB", "CWR"):
+            analytic = np.conj(analytic)
+        peak = max(1.0, float(np.max(np.abs(analytic))))
+        iq = (analytic * (HERMES_TX_AMPLITUDE / peak)).astype(np.complex64)
+        self._source().submit_tx_iq(iq)
+        with self.lock:
+            self.frames += 1
+
+
+hermes_tx_controller = HermesTxController()
+
+
+def _selected_sdr_tx_controller():
+    return hermes_tx_controller if engine.device_driver == "hermeslite" else hackrf_tx_controller
+
+async def _sdr_tx_feed(track, controller):
+    try:
+        while True:
+            frame = await track.recv()
+            controller.submit(frame)
+    except Exception as exc:
+        logger.info("[SDR TX] audio feed ended: %s", exc)
+    finally:
+        controller.stop()
+
+
+@app.route("/api/hackrf_tx/status", methods=["POST"])
+def api_hackrf_tx_status():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    controller = _selected_sdr_tx_controller()
+    return jsonify({"ok": True, "driver": engine.device_driver, "tx": controller.status()})
+
+
+@app.route("/api/hackrf_tx/heartbeat", methods=["POST"])
+def api_hackrf_tx_heartbeat():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    controller = _selected_sdr_tx_controller()
+    try:
+        controller.heartbeat()
+        return jsonify({"ok": True, "driver": engine.device_driver, "tx": controller.status()})
+    except Exception as exc:
+        return jsonify({"error": str(exc), "tx": controller.status()}), 400
+
+
+@app.route("/api/hackrf_tx/stop", methods=["POST"])
+def api_hackrf_tx_stop():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    controller = _selected_sdr_tx_controller()
+    try:
+        controller.stop()
+        return jsonify({"ok": True, "driver": engine.device_driver, "tx": controller.status()})
+    except Exception as exc:
+        return jsonify({"error": str(exc), "tx": controller.status()}), 500
+
+
+@app.route("/api/hackrf_tx/cw", methods=["POST"])
+def api_hackrf_tx_cw():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    if engine.device_driver != "hermeslite":
+        return jsonify({"ok": True, "handled": False, "driver": engine.device_driver})
+    params = request.get_json(force=True) or {}
+    try:
+        result = hermes_tx_controller.enqueue_cw(
+            params.get("text", ""), params.get("wpm", 20),
+            params.get("frequency_hz", 0), params.get("mode", "")
+        )
+        return jsonify({"ok": True, "handled": True, "cw": result})
+    except Exception as exc:
+        return jsonify({"error": str(exc), "handled": True,
+                        "driver": engine.device_driver,
+                        "tx": hermes_tx_controller.status()}), 400
+
+
+@app.route("/api/hackrf_tx/cw_speed", methods=["POST"])
+def api_hackrf_tx_cw_speed():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    if engine.device_driver != "hermeslite":
+        return jsonify({"ok": True, "handled": False, "driver": engine.device_driver})
+    params = request.get_json(force=True) or {}
+    try:
+        result = hermes_tx_controller.set_cw_speed(params.get("wpm", 20))
+        return jsonify({"ok": True, "handled": True, "cw_speed": result})
+    except Exception as exc:
+        return jsonify({"error": str(exc), "handled": True,
+                        "driver": engine.device_driver,
+                        "tx": hermes_tx_controller.status()}), 400
+
+@app.route("/api/hackrf_tx/offer", methods=["POST"])
+def api_hackrf_tx_offer():
+    if not _hackrf_tx_bridge_authorized():
+        return jsonify({"error": "Unauthorized transmit bridge request."}), 403
+    params = request.get_json(force=True) or {}
+    offer_sdp = params.get("sdp", "")
+    offer_type = params.get("type", "")
+    if not offer_sdp or offer_type != "offer":
+        return jsonify({"error": "Bad transmit audio offer."}), 400
+    controller = _selected_sdr_tx_controller()
+    try:
+        frequency_hz = int(params.get("frequency_hz", 0))
+        mode = str(params.get("mode", "USB")).upper()
+        maximum_seconds = float(params.get("maximum_seconds", 180))
+        if controller is hermes_tx_controller:
+            controller.start(frequency_hz, mode, maximum_seconds, params.get("drive"))
+        else:
+            controller.start(frequency_hz, mode, maximum_seconds)
+    except Exception as exc:
+        return jsonify({"error": str(exc), "driver": engine.device_driver, "tx": controller.status()}), 400
+
+    async def handle_offer():
+        from aiortc import RTCConfiguration, RTCIceServer
+        pc = RTCPeerConnection(RTCConfiguration(
+            iceServers=[RTCIceServer(urls="stun:stun.l.google.com:19302")]))
+        pcs.add(pc)
+
+        @pc.on("track")
+        def on_track(track):
+            if track.kind == "audio":
+                asyncio.ensure_future(_sdr_tx_feed(track, controller))
+
+        @pc.on("connectionstatechange")
+        async def on_state():
+            if pc.connectionState in ("failed", "closed", "disconnected"):
+                controller.stop()
+                if pc.connectionState != "closed":
+                    await pc.close()
+                pcs.discard(pc)
+
+        await pc.setRemoteDescription(RTCSessionDescription(sdp=offer_sdp, type=offer_type))
+        answer = await pc.createAnswer()
+        await pc.setLocalDescription(answer)
+        return {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
+
+    try:
+        future = asyncio.run_coroutine_threadsafe(handle_offer(), audio_loop)
+        return jsonify(future.result(timeout=20))
+    except Exception as exc:
+        controller.stop()
+        logger.exception("[SDR TX] offer failed")
+        return jsonify({"error": str(exc), "driver": engine.device_driver, "tx": controller.status()}), 500
+
+
 def _tx_audio_writer(track, device):
     """Thread: receive audio frames from browser and write to ALSA output (TX)."""
     import sounddevice as sd, asyncio
@@ -4060,8 +4905,8 @@ def _alsa_loopback_worker():
         with sd.OutputStream(
             device=_alsa_loopback_device,
             samplerate=SR,
-            channels=1,
-            dtype="int16",
+            channels=2,
+            dtype="float32",
             blocksize=CHUNK,
             latency="high",
         ) as stream:
@@ -4080,8 +4925,8 @@ def _alsa_loopback_worker():
                 if len(audio) < CHUNK:
                     audio = np.concatenate([audio, np.zeros(CHUNK - len(audio), dtype=np.float32)])
                 try:
-                    audio_i16 = np.clip(audio * 32767.0, -32768, 32767).astype(np.int16)
-                    stream.write(audio_i16.reshape(-1, 1))
+                    audio_f32 = np.clip(audio, -1.0, 1.0).astype(np.float32)
+                    stream.write(np.repeat(audio_f32.reshape(-1, 1), 2, axis=1))
                 except Exception as we:
                     logger.warning("[LOOPBACK] write error: %s", we)
                     break
@@ -4131,6 +4976,9 @@ def serve_root():
     threading.Thread(target=get_rigsync, args=(radio_id,), daemon=True).start()
     with open(os.path.join(BASE_DIR, "index.html")) as f:
         html = f.read()
+    rtty_base = "/sdr" if SERVER_PORT == 8001 else "/sdr" + str(SERVER_PORT - 8000)
+    html = html.replace("./rigpi-rtty.css", rtty_base + "/rigpi-rtty.css")
+    html = html.replace("./rigpi-rtty.js", rtty_base + "/rigpi-rtty.js")
     is_admin = True
     html = html.replace("</head>",
         f'<script>window._sdrBase="{("/sdr" if SERVER_PORT==8001 else "/sdr"+str(SERVER_PORT-8000))}";window._sdrUser="{user}";window._sdrIsAdmin={str(is_admin).lower()};'
@@ -4141,8 +4989,96 @@ def serve_elmer():
     return send_from_directory(BASE_DIR, "c1aud.html")
 
 
+def _system_receiver_status(state, instance_port, remotes):
+    """Build a read-only instance snapshot, never persisted user display state."""
+    import math
+
+    def hz(value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return None
+        return float(value) if math.isfinite(value) and value > 0 else None
+
+    remote = next((r for r in remotes if r.get("connected")), None)
+    local = bool(state.get("device_open")) and state.get("device_driver") not in (None, "", "fake")
+    active = bool(remote) or local
+    frequency = hz(remote.get("frequency_hz")) if remote else (hz(state.get("tuned_freq_hz")) if local else None)
+    return {
+        "schema_version": 1,
+        "instance_port": int(instance_port),
+        "device_driver": state.get("device_driver", ""),
+        "device_serial": state.get("device_serial", ""),
+        "device_open": bool(state.get("device_open")),
+        "available_devices": state.get("available_devices", []),
+        "sdrconn_active": any(r.get("kind") == "sdrconn" and r.get("connected") for r in remotes),
+        "owrx_active": any(r.get("kind") == "owrx" and r.get("connected") for r in remotes),
+        "use_kiwi": any(r.get("kind") == "kiwi" and r.get("connected") for r in remotes),
+        "frequency_hz": frequency,
+        "frequency_basis": (remote.get("label") if remote else "Receiver tuning") if frequency else ("No receiver connected" if not active else "Tuning unavailable"),
+        "spectrum_center_hz": hz(state.get("hw_center")) if active else None,
+        "sample_rate": hz(remote.get("sample_rate")) if remote else (hz(state.get("sample_rate")) if local else None),
+    }
+
+
+def _sdr_master_held():
+    return os.path.exists("/var/lib/rigpi/sdr-master/all-off")
+
+
+@app.before_request
+def _guard_sdr_master_hold():
+    if _sdr_master_held() and request.method == "POST":
+        release_paths = {"/api/hackrf_tx/stop", "/api/owrx/disconnect", "/api/kiwi/disconnect", "/api/sdrconn/disconnect"}
+        if request.path in release_paths:
+            return None
+        if request.path == "/api/audio/tx_gate" and not (request.get_json(silent=True) or {}).get("active", False):
+            return None
+        return jsonify({"error": "All SDRs are off. An administrator must enable SDRs in System Status."}), 409
+    return None
+
+
+def _system_transmit_active():
+    """Read transmit indications without changing any radio state."""
+    try:
+        for controller in (hackrf_tx_controller, hermes_tx_controller):
+            status = controller.status()
+            cw = status.get("cw", {})
+            if status.get("active") or status.get("starting") or cw.get("active") or cw.get("key_down") or cw.get("hardware_ptt"):
+                return True
+        if bool(getattr(hermes_tx_controller, "cw_running", False)):
+            return True
+        ft8_status = globals().get("_hermes_ft8_status")
+        if ft8_status is not None:
+            ft8 = ft8_status()
+            if ft8.get("active") or ft8.get("cat_ptt"):
+                return True
+        return bool(globals().get("_tx_active_browser_source") or globals().get("_tx_macro_active_token") or globals().get("_wsjtx_tx_running"))
+    except Exception:
+        return None  # Unknown must never be treated as safe to stop.
+
+
+@app.route("/api/system/status", methods=["GET"])
+def api_system_status():
+    # Deliberately bypass api_state: it restores per-user display preferences
+    # and can tune hardware. Reading diagnostics must never do either.
+    state = engine.get_state()
+    kiwi_audio = getattr(kiwi_mgr, "_snd_client", None)
+    kiwi_khz = getattr(kiwi_audio, "_freq", None)
+    kiwi_hz = float(kiwi_khz) * 1000 if isinstance(kiwi_khz, (int, float)) else None
+    result = _system_receiver_status(state, SERVER_PORT, [
+        {"kind": "sdrconn", "label": "SDRConnect tuning", "connected": bool(sdrconn_client.connected),
+         "frequency_hz": sdrconn_client._freq_hz, "sample_rate": sdrconn_client._sample_rate},
+        {"kind": "owrx", "label": "OpenWebRX tuning", "connected": bool(owrx_client.connected),
+         "frequency_hz": owrx_client._freq_hz, "sample_rate": getattr(owrx_client, "_sample_rate", None)},
+        {"kind": "kiwi", "label": "KiwiSDR tuning", "connected": bool(kiwi_mgr.connected),
+         "frequency_hz": kiwi_hz, "sample_rate": None},
+    ])
+    result["transmit_active"] = _system_transmit_active()
+    return jsonify(result)
+
+
 @app.route("/api/state")
 def api_state():
+    if _sdr_master_held():
+        return jsonify({**engine.get_state(), "sdr_master_off": True, "sdr_status": "All SDRs Off - stopping receiver services"})
     user = request.args.get("user", "admin").strip().lower()
     us = get_user_state(user)
     state = engine.get_state()
@@ -4165,6 +5101,29 @@ def api_state():
         device_max_span = max(50_000.0, float(engine.sample_rate))
         safe_span = max(50_000.0, min(device_max_span, saved_span))
         engine.span = safe_span
+        # Restore the persisted display frequency to Hermes hardware on startup.
+        saved_center = float(us.get("center_freq", state["center_freq"]))
+        ft8_link = globals().get("_hermes_ft8_bridge")
+        if engine.device_driver == "hermeslite" and ft8_link is not None and ft8_link.control_at > 0 and time.monotonic()-ft8_link.control_at < 0.5:
+            saved_center = float(ft8_link.frequency)
+            us["center_freq"] = saved_center
+        if (
+            engine.device_driver == "hermeslite"
+            and abs(float(engine.center_freq) - saved_center) > 0.5
+        ):
+            # A user's saved display frequency may belong to a different SDR.
+            # Never let state polling restore an out-of-range value into Hermes.
+            frequency_rejection = _sdr_frequency_rejection(engine, saved_center)
+            if frequency_rejection:
+                device, reason = frequency_rejection
+                rigsync._record_capability_rejection(
+                    "frequency", int(saved_center), device, reason
+                )
+            else:
+                rigsync._clear_capability_rejection("frequency")
+                engine.set_center_only(saved_center)
+                state = engine.get_state()
+
 
     state.update({
         "span":       safe_span,
@@ -4191,7 +5150,10 @@ def api_state():
         "kiwi_active_host": kiwi_mgr._hostname if kiwi_mgr.connected else "",
         "tx_vu": _reported_tx_vu(),
         "tx_gain":_tx_gain,"tx_mic_source":_tx_mic_source,"tx_mic_label":_tx_mic_label,
-        "hackrf_tx":   hackrf_tx_controller.status(),
+        # Kept under the established key for browser compatibility; the
+        # payload describes whichever directly attached SDR can transmit.
+        "hackrf_tx":   _selected_sdr_tx_controller().status(),
+        "hermes": _hermes_panel_state(),
         "owrx_active": owrx_client.connected,
         "owrx_url": owrx_client._url or "",
         "sdrconn_active": sdrconn_client.connected,
@@ -4206,10 +5168,18 @@ def api_state():
         "sdrconn_saved_device":      us.get("sdrconn_device", ""),
         "sdrconn_saved_mode":        us.get("sdrconn_mode", "USB"),
         "rig_freq":       rigsync.last_freq,
+        "rig_capability_rejections": list(rigsync.capability_rejections.copy().values()),
         "split_on":       bool(rigsync.last_split_on),
         "split_freq":     rigsync.last_split_freq,
         "split_vfo":      rigsync.last_split_vfo,
     })
+    if engine.device_driver == "hermeslite":
+        source = getattr(engine, "hermes_source", None)
+        state.update({
+            "hw_agc": False,
+            "hw_gain": float(getattr(source, "_lna_gain_db", _inst_cfg.get("hermes_rx_gain_db", 20))),
+            "hw_gain_min": -12.0, "hw_gain_max": 48.0, "hw_gain_step": 1.0,
+        })
     if engine.device_driver == "hackrf":
         # The HackRF driver explicitly reports that AGC is unsupported.
         state["hw_agc"] = False
@@ -4572,11 +5542,21 @@ def api_sdrconn_connect():
         # Persist settings
         user = request.args.get("user", "admin").strip().lower()
         us = get_user_state(user)
+        us["center_freq"] = float(freq_hz)
         us["sdrconn_freq"] = freq_hz
         us["sdrconn_mode"] = mode
         us["sdrconn_sample_rate"] = sample_rate
         if device: us["sdrconn_device"] = device
         save_user_settings(user, us)
+        # Persist the selected source so a reboot cannot reclaim the former USB SDR.
+        with open(_cfg_path) as config_file:
+            instance_config = json.load(config_file)
+        instance_config.update({"device_driver": "sdrconnect", "device_serial": "",
+            "sdrconn_device": device, "sdrconn_freq": freq_hz,
+            "sdrconn_mode": mode, "sdrconn_sample_rate": sample_rate})
+        with open(_cfg_path + ".sdrconnect.tmp", "w") as config_file:
+            json.dump(instance_config, config_file, indent=2)
+        os.replace(_cfg_path + ".sdrconnect.tmp", _cfg_path)
         return jsonify({"ok": True, "freq_hz": freq_hz, "mode": mode})
     except Exception as e:
         logger.error("[SDRCONN] connect error: %s", e)
@@ -4631,12 +5611,32 @@ def api_sdrconn_antenna():
     save_user_settings(user, us)
     return jsonify({"ok": True, "antenna": antenna})
 
+def _tune_sdrconnect_receiver(freq_hz, user, mode=None):
+    """Keep SDRConnect tuning, receiver display and saved user state together."""
+    if not sdrconn_client.connected:
+        raise RuntimeError("SDRConnect is not connected to a receiver.")
+    sdrconn_client.tune(freq_hz, mode)
+    with engine.lock:
+        engine.center_freq = float(freq_hz)
+        engine.zoom_center_hz = float(freq_hz)
+        engine.tuned_freq_hz = float(freq_hz)
+    settings = get_user_state(user)
+    settings["center_freq"] = float(freq_hz)
+    settings["sdrconn_freq"] = int(freq_hz)
+    if mode:
+        settings["sdrconn_mode"] = str(mode).upper()
+    save_user_settings(user, settings)
+
+
 @app.route("/api/sdrconn/tune", methods=["POST"])
 def api_sdrconn_tune():
     d = request.get_json(force=True) or {}
     freq_hz = int(d.get("freq_hz", 14074000))
     mode    = d.get("mode", None)
-    sdrconn_client.tune(freq_hz, mode)
+    user = str(d.get("user", request.args.get("user", "admin"))).strip().lower()
+    if not sdrconn_client.connected:
+        return jsonify({"ok": False, "error": "SDRConnect is not connected to a receiver."}), 409
+    _tune_sdrconnect_receiver(freq_hz, user, mode)
     return jsonify({"ok": True, "freq_hz": freq_hz})
 
 
@@ -4682,18 +5682,31 @@ def _probe_sdrconn_devices():
 
 @app.route("/api/sdrconn/devices")
 def api_sdrconn_devices():
-    """Probe or return cached SDRConnect device list."""
-    import asyncio as _aio, json as _json
+    """Report SDRConnect readiness and probe its available receivers."""
+    import asyncio as _aio, json as _json, os as _os, socket as _socket
     global _sdrconn_devices
-    # Return cache if already populated
-    if _sdrconn_devices:
-        return jsonify({"ok": True, "devices": _sdrconn_devices})
-    # Skip the blocking websocket probe entirely on instances that aren't
-    # using SDRConnect/SDRplay — it can take up to ~10s (websocket connect +
-    # retry loop) and there's nothing to find on an AirSpy/RTL-SDR instance.
-    if DEVICE_DRIVER not in ("sdrconnect", "sdrplay", ""):
-        return jsonify({"ok": True, "devices": []})
-    # Otherwise probe now
+    installed = any(_os.path.isfile(path) for path in (
+        "/opt/sdrconnect/SDRconnect_headless",
+        "/opt/sdrconnect/SDRconnect",
+        "/usr/local/bin/sdrconnect",
+    ))
+    running = False
+    if installed:
+        sock = _socket.socket(_socket.AF_INET, _socket.SOCK_STREAM)
+        sock.settimeout(0.25)
+        try:
+            running = sock.connect_ex(("127.0.0.1", 5454)) == 0
+        finally:
+            sock.close()
+    details = {"installed": installed, "running": running}
+    if not installed or not running:
+        return jsonify({"ok": True, "devices": [], **details})
+    force_probe = request.args.get("probe", "").lower() in ("1", "true", "yes")
+    if _sdrconn_devices and not force_probe:
+        return jsonify({"ok": True, "devices": _sdrconn_devices, **details})
+    if not force_probe and DEVICE_DRIVER not in ("sdrconnect", "sdrplay", ""):
+        return jsonify({"ok": True, "devices": [], **details})
+
     async def _probe():
         try:
             import websockets as _ws
@@ -4718,9 +5731,9 @@ def api_sdrconn_devices():
         if devs:
             _sdrconn_devices = devs
             logger.info("[SDRCONN] devices: %s", devs)
-        return jsonify({"ok": True, "devices": devs})
+        return jsonify({"ok": True, "devices": devs, **details})
     except Exception as e:
-        return jsonify({"ok": False, "devices": [], "error": str(e)})
+        return jsonify({"ok": False, "devices": [], "error": str(e), **details})
 
 @app.route("/api/sdrconn/set_rate", methods=["POST"])
 def api_sdrconn_set_rate():
@@ -4765,11 +5778,6 @@ def api_tune():
     freq = data.get("freq")
     if not freq: return jsonify({"error": "missing freq"}), 400
     freq_hz = int(float(freq))
-    # Audio must follow every requested VFO frequency, including slice_only
-    # tunes that deliberately leave the RX888 spectrum center unchanged.
-    if engine.device_driver == "rx888":
-        with engine.lock:
-            engine.tuned_freq_hz = float(freq_hz)
     tune_user     = data.get("user", "admin").strip().lower()
     tune_callsign = data.get("callsign", "ADMIN").strip().upper()
     radio_id = user_radio_map.get(tune_user, int(data.get("radio", 1)))
@@ -4777,18 +5785,55 @@ def api_tune():
     global active_radio
     active_radio = radio_id
     slice_only = bool(data.get("slice_only", False))
-    # Update per-user center freq and persist (not for slice_only)
-    if not slice_only:
-        get_user_state(tune_user)["center_freq"] = freq_hz
-        save_user_settings(tune_user, get_user_state(tune_user))
     ft8_profile = _notify_ft8_frequency(freq_hz, "tune API")
     requested_mode = "PKTUSB" if ft8_profile else data.get("mode")
     requested_bw = 3000 if ft8_profile else data.get("bw")
+    rigsync = get_rigsync(radio_id)
+
+    # Validate before touching SDR state or hardware. The physical RigPi radio
+    # still receives the selection, but an unsupported SDR band stays put.
+    frequency_rejection = _sdr_frequency_rejection(engine, freq_hz)
+    if frequency_rejection:
+        device, reason = frequency_rejection
+        rigsync._record_capability_rejection(
+            "frequency", freq_hz, device, reason, force=True
+        )
+        rigsync.request_tune(freq_hz, tune_user, requested_mode, requested_bw)
+        rejection = dict(rigsync.capability_rejections["frequency"])
+        return jsonify({
+            "ok": True,
+            "freq": freq_hz,
+            "hw_retuned": False,
+            "sdr_unchanged": True,
+            "capability_rejections": [rejection],
+        })
+    rigsync._clear_capability_rejection("frequency")
+
+    if requested_mode:
+        mode_rejection = _sdr_mode_rejection(engine, requested_mode)
+        if mode_rejection:
+            device, reason = mode_rejection
+            rigsync._record_capability_rejection(
+                "mode", str(requested_mode).strip().upper(), device, reason, force=True
+            )
+        else:
+            rigsync._clear_capability_rejection("mode")
+
+    # SDR state is changed only after its capability checks pass.
+    if engine.device_driver == "rx888":
+        with engine.lock:
+            engine.tuned_freq_hz = float(freq_hz)
+    if not slice_only and not sdrconn_client.connected:
+        get_user_state(tune_user)["center_freq"] = freq_hz
+        save_user_settings(tune_user, get_user_state(tune_user))
+
     if slice_only:
         # RX888 can move its demodulator within the fixed 0-32 MHz capture.
         # Ordinary IQ receivers such as Airspy HF+ must retune their hardware
         # center or their demodulated/Loopback audio remains on the old VFO.
-        if engine.device_driver == "rx888":
+        if sdrconn_client.connected:
+            _tune_sdrconnect_receiver(freq_hz, tune_user)
+        elif engine.device_driver == "rx888":
             with engine.lock:
                 engine.tuned_freq_hz = float(freq_hz)
                 engine.zoom_center_hz = float(freq_hz)
@@ -4801,7 +5846,7 @@ def api_tune():
             with engine.audio_lock:
                 engine._loopback_fifo.clear()
 
-        get_rigsync(radio_id).request_tune(
+        rigsync.request_tune(
             freq_hz, tune_user, requested_mode, requested_bw
         )
         # Notify other users
@@ -4811,7 +5856,9 @@ def api_tune():
                 tune_notify[ws_id] = notify
         return jsonify({"ok": True, "freq": freq_hz, "hw_retuned": False})
     else:
-        if owrx_client.connected:
+        if sdrconn_client.connected:
+            _tune_sdrconnect_receiver(freq_hz, tune_user)
+        elif owrx_client.connected:
             owrx_client.set_freq(freq_hz)
             # Update display center without retuning hardware
             engine.center_freq = float(freq_hz)
@@ -4832,7 +5879,7 @@ def api_tune():
                 _lc, _hc = -min(_bw_hz, 4000), min(_bw_hz, 4000)
             kiwi_mgr.tune(freq_hz / 1000.0, _kiwi_mode, lc=_lc, hc=_hc)
     if not slice_only:
-        get_rigsync(radio_id).request_tune(freq_hz, tune_user, requested_mode, requested_bw)
+        rigsync.request_tune(freq_hz, tune_user, requested_mode, requested_bw)
     # Broadcast notify to ALL connected WebSocket clients on this instance
     # Check if tune is out of current hardware band
     hw_center = engine.center_freq if hasattr(engine, 'center_freq') else freq_hz
@@ -5687,11 +6734,11 @@ def api_audio_loopback():
         return jsonify({"ok": True, "running": False})
     # Start
     device = data.get("device", None)
-    _alsa_loopback_device = device
-    if _alsa_loopback_running:
-        _alsa_loopback_running = False
-        import time; time.sleep(0.1)
-    _alsa_loopback_running = True
+    with _alsa_loopback_start_lock:
+        if _alsa_loopback_running:
+            return jsonify({"ok": True, "running": True, "device": _alsa_loopback_device})
+        _alsa_loopback_device = device
+        _alsa_loopback_running = True
     import threading
     threading.Thread(target=_alsa_loopback_worker, daemon=True).start()
     return jsonify({"ok": True, "running": True, "device": device})
@@ -5708,6 +6755,8 @@ import queue as _queue_mod
 
 _tx_audio_queue = None
 _tx_pipeline_lock = threading.Lock()
+_tx_browser_feeds = {}
+_tx_active_browser_source = None
 _tx_macro_cache = {}
 _tx_macro_active_token = None
 _tx_macro_cancelled = set()
@@ -5789,153 +6838,216 @@ def _start_wsjtx_tx():
     ).start()
 
 def _tx_audio_writer_q(q, device):
-    """Thread: consume audio frames from queue and write to ALSA output (TX)."""
+    """Thread: consume tagged audio frames and route each browser to its ALSA device."""
     global _tx_vu, _tx_vu_updated_at, _tx_macro_active_token
     import sounddevice as sd
     from av.audio.resampler import AudioResampler
     SR = 48000
     CHUNK = 960
     frame_count = 0
-    pending = np.empty(0, dtype=np.int16)
+    streams = {}
+    pending_by_device = {}
     resampler = AudioResampler(format="s16", layout="mono", rate=SR)
-    logger.info("[TX] writer_q started on device: %s", device)
+    resampler_source = None
+    source_level_log_at = {}
+
+    def device_key(target):
+        try:
+            return int(target)
+        except (TypeError, ValueError):
+            return str(target)
+
+    def get_stream(target):
+        key = device_key(target)
+        stream = streams.get(key)
+        if stream is None:
+            stream = sd.OutputStream(
+                device=target, samplerate=SR, channels=1,
+                dtype="int16", blocksize=CHUNK, latency="low"
+            )
+            stream.start()
+            streams[key] = stream
+            pending_by_device[key] = np.empty(0, dtype=np.int16)
+            logger.info("[TX] writer_q opened device: %s", target)
+        return key, stream
+
+    default_key, default_stream = get_stream(device)
+
+    def write_samples(samples, target_key=default_key, target_stream=default_stream):
+        nonlocal frame_count
+        global _tx_vu, _tx_vu_updated_at
+        audio_f = np.asarray(samples).reshape(-1).astype(float)
+        if not audio_f.size:
+            return
+        normalized_audio = audio_f / 32768.0
+        normalized_audio -= float(np.mean(normalized_audio))
+        input_rms = float(np.sqrt(np.mean(normalized_audio**2)))
+        level_db = 20.0 * np.log10(max(input_rms, 1.0e-6))
+        target_vu = min(1.0, max(0.0, (level_db + 50.0) / 47.0))
+        coefficient = 0.30 if target_vu > _tx_vu else 0.08
+        _tx_vu += coefficient * (target_vu - _tx_vu)
+        _tx_vu_updated_at = time.monotonic()
+        audio_i16 = np.clip(audio_f * _tx_gain, -32768, 32767).astype(np.int16)
+        pending = np.concatenate((pending_by_device[target_key], audio_i16))
+        while pending.size >= CHUNK:
+            block = pending[:CHUNK]
+            pending = pending[CHUNK:]
+            target_stream.write(block.reshape(-1, 1))
+            frame_count += 1
+        pending_by_device[target_key] = pending
+
+    def write_resampled(converted, target_key=default_key, target_stream=default_stream):
+        write_samples(converted.to_ndarray(), target_key, target_stream)
+
+    logger.info("[TX] writer_q started; default device: %s", device)
     try:
-        with sd.OutputStream(device=device, samplerate=SR, channels=1,
-                             dtype="int16", blocksize=CHUNK, latency="low") as stream:
-            def write_samples(samples):
-                nonlocal pending, frame_count
-                global _tx_vu, _tx_vu_updated_at
-                audio_f = np.asarray(samples).reshape(-1).astype(float)
-                if not audio_f.size:
-                    return
-                # AudioResampler produces signed 16-bit mono at exactly the
-                # ALSA output rate. Meter before applying the user's TX gain.
-                normalized_audio = audio_f / 32768.0
-                normalized_audio -= float(np.mean(normalized_audio))
-                input_rms = float(np.sqrt(np.mean(normalized_audio**2)))
-                level_db = 20.0 * np.log10(max(input_rms, 1.0e-6))
-                target_vu = min(1.0, max(0.0, (level_db + 50.0) / 47.0))
-                coefficient = 0.30 if target_vu > _tx_vu else 0.08
-                _tx_vu += coefficient * (target_vu - _tx_vu)
-                _tx_vu_updated_at = time.monotonic()
-
-                audio_i16 = np.clip(
-                    audio_f * _tx_gain, -32768, 32767
-                ).astype(np.int16)
-                pending = np.concatenate((pending, audio_i16))
-                while pending.size >= CHUNK:
-                    block = pending[:CHUNK]
-                    pending = pending[CHUNK:]
-                    stream.write(block.reshape(-1, 1))
-                    frame_count += 1
-
-            def write_resampled(converted):
-                write_samples(converted.to_ndarray())
-
-            while True:
-                try:
-                    frame = q.get(timeout=30.0)
-                except _queue_mod.Empty:
-                    logger.debug("[TX] queue empty, continuing...")
-                    continue
-
-                if frame is None:
-                    for converted in resampler.resample(None):
-                        write_resampled(converted)
-                    break
-
-                if isinstance(frame, tuple) and frame:
-                    kind = frame[0]
-
-                    if kind == "wsjtx_frame":
-                        write_samples(frame[1])
-                        continue
-
-                    token = frame[1]
-
-                    if kind == "macro_end":
-                        # Complete the file with silence instead of allowing
-                        # the next live-microphone frame to fill its last
-                        # partial ALSA block. Keep the microphone suppressed
-                        # until after the parent has released PTT.
-                        if pending.size:
-                            tail = np.zeros(CHUNK, dtype=np.int16)
-                            tail[:pending.size] = pending
-                            pending = np.empty(0, dtype=np.int16)
-                            stream.write(tail.reshape(-1, 1))
-                            frame_count += 1
-
-                        silence = np.zeros((CHUNK, 1), dtype=np.int16)
-                        stream.write(silence)
-                        frame_count += 1
-
-                        with _tx_macro_lock:
-                            event = _tx_macro_events.get(token)
-                            if event:
-                                event.set()
-
-                        # Continue clocking silence through ALSA while the
-                        # parent polls the completion event and releases PTT.
-                        for _ in range(29):
-                            stream.write(silence)
-                            frame_count += 1
-
-                        with _tx_macro_lock:
-                            if _tx_macro_active_token == token:
-                                _tx_macro_active_token = None
-                            _tx_macro_cancelled.discard(token)
-                        continue
-
-                    if kind == "macro_frame":
-                        with _tx_macro_lock:
-                            cancelled = token in _tx_macro_cancelled
-                        if cancelled:
-                            continue
-                        write_samples(frame[2])
-                        continue
-
-                for converted in resampler.resample(frame):
+        while True:
+            try:
+                item = q.get(timeout=30.0)
+            except _queue_mod.Empty:
+                logger.debug("[TX] queue empty, continuing...")
+                continue
+            if item is None:
+                for converted in resampler.resample(None):
                     write_resampled(converted)
-
-            if pending.size:
-                tail = np.zeros(CHUNK, dtype=np.int16)
-                tail[:pending.size] = pending
-                stream.write(tail.reshape(-1, 1))
-                frame_count += 1
+                break
+            if isinstance(item, tuple) and item:
+                kind = item[0]
+                if kind == "browser_frame":
+                    browser_source = item[1]
+                    with _tx_pipeline_lock:
+                        if _tx_active_browser_source != browser_source:
+                            continue
+                    # Each RigPi account/browser can control a different radio.
+                    # Route the selected microphone to that browser's configured
+                    # transmit device, not to whichever browser connected first.
+                    target_device = item[2] if item[2] is not None else device
+                    try:
+                        target_key, target_stream = get_stream(target_device)
+                    except Exception as exc:
+                        logger.warning(
+                            "[TX] could not open output device %s for source=%s: %s",
+                            target_device, browser_source, exc
+                        )
+                        continue
+                    if resampler_source != browser_source:
+                        logger.info(
+                            "[TX] writer_q selected source=%s requested_device=%s output_device=%s",
+                            browser_source, item[2], target_device
+                        )
+                        resampler = AudioResampler(format="s16", layout="mono", rate=SR)
+                        resampler_source = browser_source
+                    for converted in resampler.resample(item[3]):
+                        audio_array = converted.to_ndarray()
+                        now = time.monotonic()
+                        if now - source_level_log_at.get(browser_source, 0.0) >= 1.0:
+                            values = np.asarray(audio_array).reshape(-1).astype(np.float32)
+                            peak = int(np.max(np.abs(values))) if values.size else 0
+                            rms = float(np.sqrt(np.mean(values * values))) if values.size else 0.0
+                            logger.info(
+                                "[TX] active audio source=%s requested_device=%s output_device=%s peak=%d rms=%.1f",
+                                browser_source, item[2], target_device, peak, rms
+                            )
+                            source_level_log_at[browser_source] = now
+                        write_samples(audio_array, target_key, target_stream)
+                    continue
+                if kind == "wsjtx_frame":
+                    write_samples(item[1])
+                    continue
+                token = item[1]
+                if kind == "macro_end":
+                    pending = pending_by_device[default_key]
+                    if pending.size:
+                        tail = np.zeros(CHUNK, dtype=np.int16)
+                        tail[:pending.size] = pending
+                        pending_by_device[default_key] = np.empty(0, dtype=np.int16)
+                        default_stream.write(tail.reshape(-1, 1))
+                        frame_count += 1
+                    silence = np.zeros((CHUNK, 1), dtype=np.int16)
+                    default_stream.write(silence)
+                    frame_count += 1
+                    with _tx_macro_lock:
+                        event = _tx_macro_events.get(token)
+                        if event:
+                            event.set()
+                    for _ in range(29):
+                        default_stream.write(silence)
+                        frame_count += 1
+                    with _tx_macro_lock:
+                        if _tx_macro_active_token == token:
+                            _tx_macro_active_token = None
+                        _tx_macro_cancelled.discard(token)
+                    continue
+                if kind == "macro_frame":
+                    with _tx_macro_lock:
+                        cancelled = token in _tx_macro_cancelled
+                    if cancelled:
+                        continue
+                    write_samples(item[2])
+                    continue
+            for converted in resampler.resample(item):
+                write_resampled(converted)
+        pending = pending_by_device.get(default_key, np.empty(0, dtype=np.int16))
+        if pending.size:
+            tail = np.zeros(CHUNK, dtype=np.int16)
+            tail[:pending.size] = pending
+            default_stream.write(tail.reshape(-1, 1))
+            frame_count += 1
     except Exception as e:
         logger.warning("[TX] writer_q stopped: %s", e)
     finally:
+        for stream in streams.values():
+            try:
+                stream.stop()
+                stream.close()
+            except Exception:
+                pass
         _tx_vu = 0.0
         _tx_vu_updated_at = 0.0
         logger.info("[TX] writer_q exited frames=%d", frame_count)
 
-def _start_tx_pipeline(track, device):
-    """Start one TX pipeline only."""
+def _start_tx_pipeline(track, device, source_id):
+    """Register a browser mic feed; only the PTT-selected feed reaches TX."""
     global _tx_audio_queue
 
+    source_id = str(source_id or f"legacy-{id(track)}")
+    feed_token = object()
     with _tx_pipeline_lock:
-        if _tx_audio_queue is not None:
-            logger.info("[TX] pipeline already active; ignoring duplicate")
-            return
+        if _tx_audio_queue is None:
+            q = _queue_mod.Queue(maxsize=100)
+            _tx_audio_queue = q
+            threading.Thread(
+                target=_tx_audio_writer_q,
+                args=(q, device),
+                daemon=True
+            ).start()
+        else:
+            q = _tx_audio_queue
+        _tx_browser_feeds[source_id] = feed_token
+        logger.info("[TX] registered browser mic source=%s feeds=%d", source_id, len(_tx_browser_feeds))
 
-        q = _queue_mod.Queue(maxsize=100)
-        _tx_audio_queue = q
-
-        threading.Thread(
-            target=_tx_audio_writer_q,
-            args=(q, device),
-            daemon=True
-        ).start()
-
-        _start_wsjtx_tx()
+    _start_wsjtx_tx()
     async def _feed():
-        global _tx_audio_queue, _tx_macro_active_token
-        logger.info("[TX] _feed started")
+        global _tx_audio_queue, _tx_macro_active_token, _tx_active_browser_source
+        logger.info("[TX] _feed started source=%s", source_id)
         count = 0
+        recv_task = None
         try:
+            # Keep one receive pending while an idle/background browser is
+            # silent.  A periodic wait must not cancel track.recv(), because
+            # that unregisters the browser before it can take the next PTT.
+            recv_task = asyncio.ensure_future(track.recv())
             while True:
-                frame = await asyncio.wait_for(track.recv(), timeout=10.0)
+                done, _ = await asyncio.wait((recv_task,), timeout=10.0)
+                if not done:
+                    continue
+                frame = recv_task.result()
+                recv_task = asyncio.ensure_future(track.recv())
                 count += 1
+                with _tx_pipeline_lock:
+                    source_active = _tx_active_browser_source == source_id
+                if not source_active:
+                    continue
                 with _tx_macro_lock:
                     macro_active = _tx_macro_active_token is not None
                 if macro_active:
@@ -5943,209 +7055,66 @@ def _start_tx_pipeline(track, device):
                 # WSJT-X gets priority over browser microphone audio
                 if time.monotonic() >= _wsjtx_audio_until:
                     try:
-                        q.put_nowait(frame)
+                        q.put_nowait(("browser_frame", source_id, device, frame))
                     except _queue_mod.Full:
                         logger.warning("[TX] MIC QUEUE FULL")
-        except asyncio.TimeoutError:
-            logger.warning("[TX] _feed recv timeout after %d frames", count)
         except Exception as e:
             logger.info("[TX] _feed ended after %d frames: %s", count, e)
         finally:
-            # Wake the writer immediately so its OutputStream closes and the
-            # radio CODEC is available to a replacement browser connection.
-            try:
-                q.put_nowait(None)
-            except _queue_mod.Full:
-                try:
-                    q.get_nowait()
-                except _queue_mod.Empty:
-                    pass
+            if recv_task is not None and not recv_task.done():
+                recv_task.cancel()
+            last_feed = False
+            with _tx_pipeline_lock:
+                if _tx_browser_feeds.get(source_id) is feed_token:
+                    _tx_browser_feeds.pop(source_id, None)
+                    if _tx_active_browser_source == source_id:
+                        _tx_active_browser_source = None
+                    if not _tx_browser_feeds and _tx_audio_queue is q:
+                        _tx_audio_queue = None
+                        last_feed = True
+                logger.info("[TX] removed browser mic source=%s feeds=%d", source_id, len(_tx_browser_feeds))
+            if last_feed:
+                # Wake the writer only after the final browser feed closes.
                 try:
                     q.put_nowait(None)
                 except _queue_mod.Full:
-                    pass
-            with _tx_macro_lock:
-                with _tx_pipeline_lock:
-                    if _tx_audio_queue is q:
-                        _tx_audio_queue = None
-                if _tx_macro_active_token is not None:
-                    event = _tx_macro_events.get(_tx_macro_active_token)
-                    if event:
-                        event.set()
-                    _tx_macro_active_token = None
+                    try:
+                        q.get_nowait()
+                    except _queue_mod.Empty:
+                        pass
+                    try:
+                        q.put_nowait(None)
+                    except _queue_mod.Full:
+                        pass
+                with _tx_macro_lock:
+                    if _tx_macro_active_token is not None:
+                        event = _tx_macro_events.get(_tx_macro_active_token)
+                        if event:
+                            event.set()
+                        _tx_macro_active_token = None
     asyncio.ensure_future(_feed())
 
 
-@app.route("/api/audio/tx_macro", methods=["POST"])
-def api_audio_tx_macro():
-    """Preload and play local voice-keyer audio without WebRTC/Opus."""
-    global _tx_macro_active_token
-    from urllib.parse import unquote, urlparse
-    from av.audio.resampler import AudioResampler
-
-    data = request.get_json(force=True) or {}
-    action = str(data.get("action", ""))
-    token = str(data.get("token", ""))
-    if not token:
-        return jsonify({"ok": False, "error": "missing token"}), 400
-
-    if action == "prepare":
-        url = str(data.get("url", ""))
-        name = os.path.basename(unquote(urlparse(url).path))
-        if not name or not _re_audio.fullmatch(r"[A-Za-z0-9._ -]+\.(mp3|wav|ogg|m4a)", name, _re_audio.I):
-            return jsonify({"ok": False, "error": "invalid recording"}), 400
-        path = os.path.join("/var/www/html/Recordings", name)
-        if not os.path.isfile(path):
-            return jsonify({"ok": False, "error": "recording not found"}), 404
-        frames = []
-        samples = 0
-        try:
-            resampler = AudioResampler(format="s16", layout="mono", rate=48000)
-            with av.open(path) as container:
-                for decoded in container.decode(audio=0):
-                    for converted in resampler.resample(decoded):
-                        converted.sample_rate = 48000
-                        frames.append(converted.to_ndarray().reshape(-1).astype(np.int16, copy=True))
-                        samples += converted.samples
-                for converted in resampler.resample(None):
-                    converted.sample_rate = 48000
-                    frames.append(converted.to_ndarray().reshape(-1).astype(np.int16, copy=True))
-                    samples += converted.samples
-        except Exception as error:
-            logger.exception("[TX MACRO] decode failed: %s", path)
-            return jsonify({"ok": False, "error": str(error)}), 500
-        duration = samples / 48000.0
-        if not frames or duration <= 0 or duration > 120:
-            return jsonify({"ok": False, "error": "recording must be 0-120 seconds"}), 400
-        with _tx_macro_lock:
-            _tx_macro_cache[token] = frames
-            _tx_macro_events[token] = threading.Event()
-        logger.info("[TX MACRO] prepared %s token=%s duration=%.3f", name, token, duration)
-        return jsonify({"ok": True, "duration": duration})
-
-    if action == "play":
-        with _tx_macro_lock:
-            frames = _tx_macro_cache.pop(token, None)
-            if _tx_audio_queue is None:
-                return jsonify({"ok": False, "error": "TX audio is not running"}), 409
-            if _tx_macro_active_token is not None:
-                return jsonify({"ok": False, "error": "another recording is playing"}), 409
-            if not frames:
-                return jsonify({"ok": False, "error": "recording was not prepared"}), 409
-            _tx_macro_active_token = token
-            event = _tx_macro_events.setdefault(token, threading.Event())
-            event.clear()
-            q = _tx_audio_queue
-        try:
-            while True:
-                q.get_nowait()
-        except _queue_mod.Empty:
-            pass
-
-        def enqueue():
-            for audio_frame in frames:
-                q.put(("macro_frame", token, audio_frame))
-            q.put(("macro_end", token, None))
-
-        threading.Thread(target=enqueue, daemon=True).start()
-        logger.info("[TX MACRO] playing token=%s frames=%d", token, len(frames))
-        return jsonify({"ok": True})
-
-    if action == "status":
-        with _tx_macro_lock:
-            event = _tx_macro_events.get(token)
-            ended = bool(event and event.is_set())
-        return jsonify({"ok": True, "ended": ended})
-
-    if action == "cancel":
-        with _tx_macro_lock:
-            _tx_macro_cache.pop(token, None)
-            _tx_macro_cancelled.add(token)
-            event = _tx_macro_events.setdefault(token, threading.Event())
-        return jsonify({"ok": True})
-
-    return jsonify({"ok": False, "error": "invalid action"}), 400
-
-
-def _start_hackrf_tx_pipeline(track, frequency_hz, mode, maximum_seconds):
-    """Feed browser microphone frames to the guarded HackRF TX controller."""
-    hackrf_tx_controller.start(frequency_hz, mode, maximum_seconds)
-
-    async def _feed():
-        logger.info("[HACKRF TX] browser audio feed started")
-        try:
-            while hackrf_tx_controller.active or hackrf_tx_controller.starting:
-                frame = await asyncio.wait_for(track.recv(), timeout=3.0)
-                hackrf_tx_controller.submit(frame)
-        except asyncio.TimeoutError:
-            logger.warning("[HACKRF TX] browser audio timed out")
-        except Exception as error:
-            logger.info("[HACKRF TX] browser audio ended: %s", error)
-        finally:
-            hackrf_tx_controller.stop()
-
-    asyncio.ensure_future(_feed())
-
-
-@app.route("/api/hackrf_tx/control", methods=["POST"])
-def api_hackrf_tx_control():
-    if not _hackrf_tx_bridge_authorized():
-        return jsonify({"ok": False, "error": "unauthorized"}), 403
-    data = request.get_json(force=True) or {}
-    action = str(data.get("action", "status")).lower()
-    if action == "stop":
-        hackrf_tx_controller.stop()
-    elif action == "heartbeat":
-        hackrf_tx_controller.heartbeat()
-    elif action != "status":
-        return jsonify({"ok": False, "error": "invalid action"}), 400
-    return jsonify({"ok": True, "tx": hackrf_tx_controller.status()})
-
-
-@app.route("/api/hackrf_tx/offer", methods=["POST"])
-def api_hackrf_tx_offer():
-    if not _hackrf_tx_bridge_authorized():
-        return jsonify({"error": "unauthorized"}), 403
+@app.route("/api/audio/tx_gate", methods=["POST"])
+def api_audio_tx_gate():
+    """Select the browser microphone allowed to feed the transmitter."""
+    global _tx_active_browser_source
     params = request.get_json(force=True) or {}
-    offer_sdp = params.get("sdp", "")
-    offer_type = params.get("type", "")
-    frequency_hz = int(params.get("frequency_hz") or 0)
-    mode = str(params.get("mode") or "USB").upper()
-    maximum_seconds = float(params.get("maximum_seconds") or 600)
-    if not offer_sdp or offer_type != "offer":
-        return jsonify({"error": "bad offer"}), 400
+    source_id = str(params.get("source_id", "") or "")
+    active = bool(params.get("active", False))
+    if not source_id:
+        return jsonify({"ok": False, "error": "missing source_id"}), 400
+    with _tx_pipeline_lock:
+        if active:
+            if source_id not in _tx_browser_feeds:
+                return jsonify({"ok": False, "error": "source not connected"}), 409
+            _tx_active_browser_source = source_id
+        elif _tx_active_browser_source == source_id:
+            _tx_active_browser_source = None
+        selected = _tx_active_browser_source
+    logger.info("[TX] browser mic gate source=%s active=%s selected=%s", source_id, active, selected)
+    return jsonify({"ok": True, "active_source": selected})
 
-    async def handle_offer():
-        pc = RTCPeerConnection()
-        pcs.add(pc)
-
-        @pc.on("connectionstatechange")
-        async def on_state():
-            if pc.connectionState in ("failed", "closed", "disconnected"):
-                hackrf_tx_controller.stop()
-                await pc.close()
-                pcs.discard(pc)
-
-        @pc.on("track")
-        def on_track(track):
-            if track.kind == "audio":
-                _start_hackrf_tx_pipeline(
-                    track, frequency_hz, mode, maximum_seconds
-                )
-
-        await pc.setRemoteDescription(
-            RTCSessionDescription(sdp=offer_sdp, type=offer_type)
-        )
-        answer = await pc.createAnswer()
-        await pc.setLocalDescription(answer)
-        return {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
-
-    try:
-        future = asyncio.run_coroutine_threadsafe(handle_offer(), audio_loop)
-        return jsonify(future.result(timeout=20))
-    except Exception as error:
-        logger.exception("[HACKRF TX] offer failed")
-        return jsonify({"error": str(error)}), 500
 
 @app.route("/api/audio/tx_offer", methods=["POST"])
 def api_audio_tx_offer():
@@ -6154,7 +7123,11 @@ def api_audio_tx_offer():
     offer_sdp  = params.get("sdp", "")
     offer_type = params.get("type", "")
     tx_device=params.get("tx_device",None);globals()["_tx_mic_source"]=str(params.get("mic_source","")or"");globals()["_tx_mic_label"]=str(params.get("mic_label","")or"")
-    logger.info("[TX] tx_offer received tx_device=%s", tx_device)
+    source_id = str(params.get("source_id", "") or "")
+    logger.info(
+        "[TX] tx_offer received source=%s tx_device=%s mic_label=%s",
+        source_id, tx_device, globals().get("_tx_mic_label", "")
+    )
     if not offer_sdp or offer_type != "offer":
         return jsonify({"error": "bad offer"}), 400
     async def handle_tx():
@@ -6184,7 +7157,7 @@ def api_audio_tx_offer():
         def on_track(track):
             logger.info("[TX] on_track kind=%s device=%s", track.kind, tx_device)
             if track.kind == "audio" and tx_device is not None:
-                _start_tx_pipeline(track, tx_device)
+                _start_tx_pipeline(track, tx_device, source_id)
         await pc.setRemoteDescription(RTCSessionDescription(sdp=offer_sdp, type=offer_type))
         answer = await pc.createAnswer()
         await pc.setLocalDescription(answer)
@@ -6365,8 +7338,15 @@ def api_active_users():
         pass
     return jsonify({"ok": True, "users": sorted(users)})
 
-AUDIO_FRAME     = 2880          # 60ms @ 48kHz
+AUDIO_FRAME     = 960          # 20ms @ 48kHz
 AUDIO_RING_SIZE = int(4.0 * 48000)
+
+def _hermes_receive_tx_mute():
+    """Read this instance's actual voice, FT8 or external-CW TX state."""
+    if engine.device_driver != "hermeslite":
+        return False
+    source = getattr(engine, "hermes_source", None)
+    return bool(source and source.stats().get("tx", {}).get("active", False))
 
 def spectrum_ws(ws):
     global ws_id_counter
@@ -6390,6 +7370,8 @@ def spectrum_ws(ws):
                 msg = ws.receive()
                 if msg is None:
                     break
+                if _sdr_master_held():
+                    continue
                 try:
                     ws_cmd_queue.append(json.loads(msg))
                 except Exception:
@@ -6403,54 +7385,16 @@ def spectrum_ws(ws):
     except OSError:
         _pi4_display_limit = False
     _next_spectrum_send = 0.0
+    _last_native_tx_mute = None
 
 
     try:
         while True:
-            _spectrum_now = time.monotonic()
-            _spectrum_interval = 0.08 if (_pi4_display_limit and engine.device_driver == 'airspyhf' and engine.sample_rate >= 768000) else 0.02
-            if _spectrum_now >= _next_spectrum_send:
-                _next_spectrum_send = _spectrum_now + _spectrum_interval
-                spec = engine.get_spectrum()
-                full = spec["mags"]
-                mags = [round(v, 1) for v in full]
-                us = get_user_state(ws_user)
-                ws_radio = user_radio_map.get(ws_user, 1)
-                ws_rigsync = rigsyncs.get(ws_radio)
-                rig_freq = ws_rigsync.last_freq if ws_rigsync else None
-                payload = {
-                    "hw_center":      spec["hw_center"],
-                    "center":         spec["center"],
-                    "sample_rate":    sdrconn_client._sample_rate if sdrconn_client.connected else spec["sample_rate"],
-                    "fft_size":       len(full),
-                    "mags":           mags,
-                    "mode":           spec["mode"],
-                    "bw":             spec["bw"],
-                    "rig_freq":       rig_freq,
-                    "split_on":       bool(ws_rigsync.last_split_on) if ws_rigsync else False,
-                    "split_freq":     ws_rigsync.last_split_freq if ws_rigsync else None,
-                    "split_vfo":      ws_rigsync.last_split_vfo if ws_rigsync else "VFOB",
-                    "owrx_connected": owrx_client.connected,
-                    "owrx_center":    float(owrx_client._center_hz) if owrx_client.connected else None,
-                    "owrx_span":      float(owrx_client._span_hz)   if owrx_client.connected else None,
-                    "zoom_active":    spec.get("zoom_active", False),
-                    "decimation":     spec.get("decimation", 1),
-                    "hz_per_bin":     spec.get("hz_per_bin"),
-                }
-                notify = tune_notify.get(ws_id)
-                if notify:
-                    tune_notify[ws_id] = None
-                    payload.update({
-                        "tune_notify": True,
-                        "callsign":    notify["callsign"],
-                        "freq_hz":     notify["freq_hz"],
-                        "in_band":     notify.get("in_band", True),
-                        "self_tune":   (callsign == notify["callsign"]),
-                    })
-    ##            if ws_id == 0 and (time.time() % 5) < 0.02:
-     ##           logger.info("[WS] bins=%d json=%d bytes audio=%s", len(full), len(json.dumps(payload)), ws_audio_enabled)
-                ws.send(json.dumps(payload))
-
+            # Publish mute before audio, independent of the REST poll.
+            _native_tx_mute = _hermes_receive_tx_mute()
+            if _native_tx_mute != _last_native_tx_mute:
+                ws.send(json.dumps({"type": "sdr_tx_mute", "muted": _native_tx_mute}))
+                _last_native_tx_mute = _native_tx_mute
             # Drain command queue FIRST — so audio_on sets read_pos before first send
             while ws_cmd_queue:
                 cmd = ws_cmd_queue.pop(0)
@@ -6500,10 +7444,27 @@ def spectrum_ws(ws):
                     else:
                         wp = ring['write_pos']
                     ring_size = len(capture.buf) if capture is not None else AUDIO_RING_SIZE
+                    # RX888 uses 60 ms browser packets to reduce Web Audio object churn.
+                    frame_samples = (
+                        2880 if capture is None and engine.device_driver == "rx888" else AUDIO_FRAME
+                    )
+                    if _native_tx_mute:
+                        # Discard own-TX audio instead of queueing it for RX.
+                        rp = wp
                     avail = (wp - rp) % ring_size
+                    # Keep live audio close to real time. If processing delivers a
+                    # burst, discard stale samples instead of queueing seconds.
+                    if avail > AUDIO_FRAME * 8 and not (
+                        capture is None and engine.device_driver == "rx888"
+                    ):
+                        rp = (wp - AUDIO_FRAME * 4) % ring_size
+                        avail = (wp - rp) % ring_size
                     sent = 0
-                    while avail >= AUDIO_FRAME and sent < 4:
-                        end = rp + AUDIO_FRAME
+                    max_frames = (
+                        4 if capture is None and engine.device_driver == "rx888" else 2
+                    )
+                    while avail >= frame_samples and sent < max_frames:
+                        end = rp + frame_samples
                         source_buf = capture.buf if capture is not None else ring['buf']
                         if end <= ring_size:
                             audio_f32 = source_buf[rp:end].copy()
@@ -6511,7 +7472,12 @@ def spectrum_ws(ws):
                             first = ring_size - rp
                             audio_f32 = np.concatenate([source_buf[rp:], source_buf[:end - ring_size]])
                         rp = end % ring_size
-                        pcm = (np.clip(audio_f32, -1.0, 1.0) * 32767).astype(np.int16)
+                        playback_scale = (
+                            0.2 if capture is None and engine.device_driver == "rx888" else 1.0
+                        )
+                        pcm = (
+                            np.clip(audio_f32 * playback_scale, -1.0, 1.0) * 32767
+                        ).astype(np.int16)
                         frame = bytes([0x01]) + pcm.tobytes()
                         ws.send(frame)
                         if capture is not None:
@@ -6525,7 +7491,53 @@ def spectrum_ws(ws):
                 except Exception as _ae:
                     logger.warning("[WS] audio send error: %s", _ae)
 
-            gevent.sleep(0.02)
+            # Audio is sent first; display traffic must not hold up playback.
+            _spectrum_now = time.monotonic()
+            _spectrum_interval = (0.10 if sdrconn_client.connected else (0.10 if engine.device_driver == 'rx888' else (0.08 if (_pi4_display_limit and engine.device_driver == 'airspyhf' and engine.sample_rate >= 768000) else 0.02)))
+            if _spectrum_now >= _next_spectrum_send:
+                _next_spectrum_send = _spectrum_now + _spectrum_interval
+                spec = engine.get_spectrum()
+                full = spec["mags"]
+                mags = [round(v, 1) for v in full]
+                us = get_user_state(ws_user)
+                ws_radio = user_radio_map.get(ws_user, 1)
+                ws_rigsync = rigsyncs.get(ws_radio)
+                rig_freq = ws_rigsync.last_freq if ws_rigsync else None
+                payload = {
+                    "hw_center":      spec["hw_center"],
+                    "center":         spec["center"],
+                    "sample_rate":    spec["sample_rate"],
+                    "fft_size":       len(full),
+                    "mags":           mags,
+                    "mode":           spec["mode"],
+                    "bw":             spec["bw"],
+                    "rig_freq":       rig_freq,
+                    "rig_capability_rejections": list(ws_rigsync.capability_rejections.copy().values()) if ws_rigsync else [],
+                    "split_on":       bool(ws_rigsync.last_split_on) if ws_rigsync else False,
+                    "split_freq":     ws_rigsync.last_split_freq if ws_rigsync else None,
+                    "split_vfo":      ws_rigsync.last_split_vfo if ws_rigsync else "VFOB",
+                    "owrx_connected": owrx_client.connected,
+                    "owrx_center":    float(owrx_client._center_hz) if owrx_client.connected else None,
+                    "owrx_span":      float(owrx_client._span_hz)   if owrx_client.connected else None,
+                    "zoom_active":    spec.get("zoom_active", False),
+                    "decimation":     spec.get("decimation", 1),
+                    "hz_per_bin":     spec.get("hz_per_bin"),
+                }
+                notify = tune_notify.get(ws_id)
+                if notify:
+                    tune_notify[ws_id] = None
+                    payload.update({
+                        "tune_notify": True,
+                        "callsign":    notify["callsign"],
+                        "freq_hz":     notify["freq_hz"],
+                        "in_band":     notify.get("in_band", True),
+                        "self_tune":   (callsign == notify["callsign"]),
+                    })
+    ##            if ws_id == 0 and (time.time() % 5) < 0.02:
+     ##           logger.info("[WS] bins=%d json=%d bytes audio=%s", len(full), len(json.dumps(payload)), ws_audio_enabled)
+                ws.send(json.dumps(payload))
+
+            gevent.sleep(0.001 if ws_audio_enabled else 0.02)
     except Exception as e:
         logger.info("[WS] closed: %s", e)
     finally:
@@ -7294,6 +8306,15 @@ def _sdrconn_auto_connect():
         return
     time.sleep(8)  # wait for server to be fully up
     try:
+        if DEVICE_DRIVER in ("sdrconnect", "sdrplay"):
+            settings = load_user_settings(_inst_cfg.get("default_user", "admin"))
+            sdrconn_client.connect(engine,
+                device_name=_inst_cfg.get("sdrconn_device") or settings.get("sdrconn_device"),
+                freq_hz=int(_inst_cfg.get("sdrconn_freq") or settings.get("sdrconn_freq") or 14074000),
+                mode=_inst_cfg.get("sdrconn_mode") or settings.get("sdrconn_mode") or "USB",
+                sample_rate=int(_inst_cfg.get("sdrconn_sample_rate") or settings.get("sdrconn_sample_rate") or 2000000))
+            logger.info("[SDRCONN] restored selected receiver at startup")
+            return
         logger.info("[SDRCONN] auto-connecting at startup to enumerate devices...")
         sdrconn_client.connect(engine, device_name=None,
                                freq_hz=14074000, mode="USB", sample_rate=2_000_000)
@@ -7304,6 +8325,37 @@ def _sdrconn_auto_connect():
         logger.warning("[SDRCONN] auto-connect failed: %s", e)
 
 threading.Thread(target=_sdrconn_auto_connect, daemon=True).start()
+
+@app.route('/api/rtty/status', methods=['GET'])
+def api_rtty_status():
+    if _rtty_decoder is None:
+        return jsonify({'ok': False, 'error': 'RTTY decoder unavailable: ' + _rtty_error}), 503
+    result = _rtty_decoder.status()
+    result['ok'] = True
+    result['mode'] = str(getattr(engine, 'mode', ''))
+    return jsonify(result)
+
+@app.route('/api/rtty/control', methods=['POST'])
+def api_rtty_control():
+    if _rtty_decoder is None:
+        return jsonify({'ok': False, 'error': 'RTTY decoder unavailable: ' + _rtty_error}), 503
+    changes = request.get_json(silent=True)
+    if not isinstance(changes, dict):
+        return jsonify({'ok': False, 'error': 'Expected JSON options'}), 400
+    try:
+        result = _rtty_decoder.configure(changes)
+        result['ok'] = True
+        return jsonify(result)
+    except ValueError as exc:
+        return jsonify({'ok': False, 'error': str(exc)}), 400
+
+@app.route('/rigpi-rtty.js')
+def rtty_script():
+    return send_from_directory(BASE_DIR, 'rigpi-rtty.js')
+
+@app.route('/rigpi-rtty.css')
+def rtty_style():
+    return send_from_directory(BASE_DIR, 'rigpi-rtty.css')
 
 @app.route("/api/ft8/spots", methods=["GET"])
 def api_ft8_spots():
@@ -7396,8 +8448,6 @@ def api_ft8_spots():
                 _fhz = 0
             s['audio_hz'] = (_fhz - dial) if dial else None
             s['dial_hz'] = dial or None
-            if spot_mode == 'FT4' and s.get('de_call') == 'FT8':
-                s['de_call'] = 'FT4'
             spots.append(s)
         return jsonify({"spots":spots,"status":decoder_status,"total_decodes":len(spots)})
     except Exception as e:
@@ -7433,6 +8483,11 @@ def api_ft8_control():
     status.update({'selection':_ft8_selection,'current_hz':_ft8_current_hz})
     return jsonify({'ok':True,'status':status})
 
+from rigpi_hermes_panel import install_panel as _install_hermes_panel
+_install_hermes_panel(app, globals())
+from hermes_wsjtx_bridge import install as _install_hermes_ft8
+_install_hermes_ft8(globals())
+
 if __name__ == "__main__":
     engine = SdrEngine()
     # Probe SDRConnect devices before streaming starts
@@ -7443,7 +8498,7 @@ if __name__ == "__main__":
     _asyncio.set_event_loop(audio_loop)
     threading.Thread(target=audio_loop.run_forever, daemon=True).start()
     # If configured device not found at startup, retry in background
-    if DEVICE_DRIVER and DEVICE_DRIVER != "fake" and engine.device_driver == "fake":
+    if DEVICE_DRIVER and DEVICE_DRIVER not in ("fake", "sdrconnect", "sdrplay") and engine.device_driver == "fake":
         def _retry_open():
             for attempt in range(10):
                 time.sleep(5)

@@ -566,18 +566,66 @@ class PhpSerial
      */
     public function readPort($count)
     {
-        if ($this->_dState !== SERIAL_DEVICE_OPENED || !is_resource($this->_dHandle)) {
+        //    $count = 8;
+        //        echo "phps readport " . bin2hex($count) . "\n";
+        if ($this->_dState !== SERIAL_DEVICE_OPENED) {
             trigger_error("Device must be opened to read it", E_USER_WARNING);
+            //      echo "oops no serial\n";
             return false;
         }
-        // Nonblocking reads must never request a zero/negative remaining length.
-        // Preserve every byte: the Keyer worker separates text from status bytes.
-        $length = (int) $count;
-        $length = $length > 0 ? min($length, 4096) : 128;
-        $content = fread($this->_dHandle, $length);
-        return $content === false ? "" : $content;
+        $content = "";
+        $i = 0;
+
+        if ($count > 0) {
+            do {
+                if ($i > $count) {
+                    $ts = fread($this->_dHandle, $count - $i);
+                    //         echo $ts;
+                    $content .= $ts;
+                } else {
+                    $ts = fread($this->_dHandle, 128);
+                    //                   echo "TS: " . $ts;
+                    $content .= $ts;
+                }
+            } while (($i += 128) === strlen((string) ($content ?? "")));
+        } else {
+            do {
+                $content1 = fread($this->_dHandle, 128);
+                for ($j = 0; $j < strlen((string) ($content1 ?? "")); $i++) {
+                    $content2 = substr($content1, $j, 1);
+                    if (intval($content2) < 96) {
+                        $content .= $content2; //fread($this->_dHandle, 128);
+                    }
+                }
+            } while (($i += 128) === strlen((string) ($content1 ?? "")));
+        }
+        echo "content: " . bin2hex($content) . "\n";
+        if (strlen((string) ($content ?? "")) > 0) {
+            /*      echo "ser serial class reading port: " .
+        $content .
+        " " .
+        bin2hex($content) .
+        " \n";
+
+*/
+            return $content;
+        } else {
+            return "";
+        }
     }
 
+    //        return false;
+    //    }
+
+    /**
+     * Flushes the output buffer
+     * Renamed from flush for osx compat. issues
+     *
+     * @return bool
+     */
+    /**
+     * Convert a hex string (like "0002" or "05051E00") into raw binary bytes.
+     */
     public function hexStringToBinary(string $hex): string
     {
         // Keep only valid hex digits

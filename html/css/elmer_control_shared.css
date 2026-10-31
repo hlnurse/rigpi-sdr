@@ -1,0 +1,14 @@
+/* Reserve space for Elmer Control on the remaining RigPi pages. */
+@media (min-width:768px) {
+  body.elmer-control-shared {box-sizing:border-box;}
+  body.elmer-control-shared.elmer-control-open {padding-right:260px!important;}
+}
+@media (any-hover:hover) {
+  body.elmer-control-shared :is(button, input, textarea, select, summary, a[href], [role="button"], [role="slider"]):hover {
+    outline:3px solid #5de4ff!important;outline-offset:-3px;
+  }
+}
+body.elmer-control-shared :is(button, input, textarea, select, summary, a[href], [role="button"], [role="slider"]):focus-visible {
+  outline:3px solid #fff!important;outline-offset:2px;
+  box-shadow:0 0 0 5px #135a94!important;
+}

@@ -257,11 +257,116 @@ $solar = static function (float $lat, float $lon, string $date) use ($fetchJson)
     return ['sunrise' => (int) $sunrise, 'sunset' => (int) $sunset, 'timezone' => $timezone];
 };
 
+
+// A current band-activity check needs no destination or solar-path model.
+// DX Summit CSV has a free-text info field, not a dedicated mode column.
+// Use explicit mode labels only; frequency fallback is explicitly labeled as an estimate.
+$spotModeFromInfo = static function (string $info, int $band, float $frequency = 0): array {
+    preg_match_all('/\b(FT8|FT4|PSK31|PSK63|PSK125|RTTY|CW|USB|LSB|SSB|FM|AM)\b/i', $info, $matches);
+    $modes = array_values(array_unique(array_map('strtoupper', $matches[1])));
+    // A companion USB/SSB label can accompany an explicitly named digital mode.
+    $digital = array_values(array_intersect($modes, ['FT8','FT4','PSK31','PSK63','PSK125','RTTY']));
+    if (count($digital) === 1 && !array_diff($modes, [$digital[0], 'USB', 'SSB'])) $modes = $digital;
+    if (in_array('SSB', $modes, true) && (in_array('USB', $modes, true) || in_array('LSB', $modes, true)))
+        $modes = array_values(array_diff($modes, ['SSB']));
+    $basis = 'reported';
+    if (!$modes) {
+        // Recognize conventional dial frequencies first. +/- 50 Hz allows
+        // decimal rounding without claiming the whole digital segment is FT8.
+        $ft8 = [1840,3573,5357,7074,10136,14074,18100,21074,24915,28074];
+        $ft4 = [7047.5,10140,14080,18104,21140,24919,28180];
+        foreach ($ft8 as $dial) if (abs($frequency - $dial) <= 0.050001) { $modes = ['FT8']; break; }
+        if (!$modes) foreach ($ft4 as $dial) if (abs($frequency - $dial) <= 0.050001) { $modes = ['FT4']; break; }
+        // Conservative operating-segment defaults; mixed digital, beacon,
+        // satellite and AM areas are deliberately left unidentified.
+        $cw = [160=>[1800,1840],80=>[3500,3570],40=>[7000,7040],30=>[10100,10130],
+            20=>[14000,14070],17=>[18068,18095],15=>[21000,21070],12=>[24890,24915],10=>[28000,28070]];
+        $phone = [160=>[1843,2000],80=>[3600,4000],40=>[7100,7300],20=>[14150,14350],
+            17=>[18120,18168],15=>[21150,21450],12=>[24940,24990],10=>[28300,29000]];
+        if (!$modes && isset($cw[$band]) && $frequency >= $cw[$band][0] && $frequency < $cw[$band][1]) $modes = ['CW'];
+        if (!$modes && isset($phone[$band]) && $frequency >= $phone[$band][0] && $frequency < $phone[$band][1]) $modes = ['SSB'];
+        if (!$modes && $band === 10 && $frequency >= 29520 && $frequency <= 29700) $modes = ['FM'];
+        $basis = 'inferred';
+    }
+    if (count($modes) !== 1) return ['mode' => 'Unknown', 'tune_mode' => '', 'mode_basis' => 'unknown'];
+    $mode = $modes[0];
+    $tune = match ($mode) {
+        'FT8','FT4','PSK31','PSK63','PSK125' => 'PKTUSB',
+        'SSB' => in_array($band, [160,80,40], true) ? 'LSB' : 'USB',
+        default => $mode,
+    };
+    return ['mode' => $mode, 'tune_mode' => $tune, 'mode_basis' => $basis];
+};
+
+$summarizeBandActivity = static function (int $band, array $feed) use ($spotModeFromInfo): array {
+    $now = time();
+    $result = [
+        'schema_version' => 1, 'query_mode' => 'band_activity', 'band_meters' => $band,
+        'scope' => 'worldwide', 'provider' => 'DX Summit', 'reference' => 'https://www.dxsummit.fi/',
+        'retrieved_at' => gmdate('Y-m-d\TH:i:s\Z', $now), 'status' => $feed['status'],
+        'cache_age_seconds' => $feed['cache_age'], 'window_minutes' => 60,
+        'window_start_utc' => gmdate('Y-m-d\TH:i:s\Z', $now - 3600),
+        'window_end_utc' => gmdate('Y-m-d\TH:i:s\Z', $now),
+        'recent_reports' => 0, 'unique_spotters' => 0, 'unique_stations' => 0,
+        'latest_report_utc' => null, 'latest_spots' => [], 'feed_limit_reached' => false,
+        'notice' => 'Worldwide cluster reports are observations, not proof of an opening from your station. No reports does not establish a closed band, especially for FT8. Cached or unavailable feeds limit any current conclusion.',
+    ];
+    if (!is_string($feed['raw'])) return $result;
+    $lines = preg_split('/\r\n|\n|\r/', trim($feed['raw']));
+    $expected = ['id','de_call','dx_call','info','frequency','time','dx_country','de_latitude','de_longitude','dx_latitude','dx_longitude'];
+    if (!$lines || str_getcsv((string) array_shift($lines), ',', '"', '\\') !== $expected) {
+        $result['status'] = 'unavailable';
+        return $result;
+    }
+    $ranges = [160=>[1800,2000],80=>[3500,4000],60=>[5000,5500],40=>[7000,7300],
+        30=>[10100,10150],20=>[14000,14350],17=>[18068,18168],15=>[21000,21450],
+        12=>[24890,24990],10=>[28000,29700]];
+    [$low,$high] = $ranges[$band];
+    $seen = []; $spotters = []; $stations = []; $rows = 0; $latest = null; $reports = [];
+    foreach ($lines as $line) {
+        if ($line === '') continue;
+        $row = str_getcsv($line, ',', '"', '\\');
+        if (count($row) !== count($expected)) continue;
+        $rows++;
+        [$id,$de,$dx,$info,$frequency,$stamp] = $row;
+        $de = strtoupper(trim($de)); $dx = strtoupper(trim($dx));
+        if (!preg_match('/^[A-Z0-9\/]{3,16}$/', $de) || !preg_match('/^[A-Z0-9\/]{3,16}$/', $dx)
+            || !is_numeric($frequency) || (float)$frequency < $low || (float)$frequency > $high) continue;
+        $date = DateTimeImmutable::createFromFormat('!Y-m-d\TH:i:s', $stamp, new DateTimeZone('UTC'));
+        $dateErrors = DateTimeImmutable::getLastErrors();
+        if (!$date || ($dateErrors !== false && ($dateErrors['warning_count'] || $dateErrors['error_count']))) continue;
+        $when = $date->getTimestamp();
+        if ($when < $now - 3600 || $when > $now) continue;
+        $key = $de . '|' . $dx . '|' . $stamp . '|' . (float)$frequency;
+        if (isset($seen[$key])) continue;
+        $seen[$key] = true; $spotters[$de] = true; $stations[$dx] = true;
+        $latest = $latest === null ? $when : max($latest,$when);
+        $reports[] = array_merge(['dx_call' => $dx, 'frequency_khz' => (float)$frequency,
+            'time_utc' => gmdate('Y-m-d\TH:i:s\Z', $when), 'spotter_call' => $de], $spotModeFromInfo($info, $band, (float)$frequency));
+    }
+    $result['recent_reports'] = count($seen);
+    $result['unique_spotters'] = count($spotters);
+    $result['unique_stations'] = count($stations);
+    $result['latest_report_utc'] = $latest === null ? null : gmdate('Y-m-d\TH:i:s\Z',$latest);
+    usort($reports, static function (array $a, array $b): int {
+        return strcmp($b['time_utc'], $a['time_utc']) ?: strcmp($a['dx_call'], $b['dx_call'])
+            ?: strcmp($a['spotter_call'], $b['spotter_call']) ?: ($a['frequency_khz'] <=> $b['frequency_khz']);
+    });
+    $result['latest_spots'] = array_slice($reports, 0, 10);
+    $result['feed_limit_reached'] = $rows >= 10000;
+    return $result;
+};
+
 try {
     $request = json_decode(file_get_contents('php://input'), true, 8, JSON_THROW_ON_ERROR);
     $band = (int) ($request['band_meters'] ?? 0);
     if (!in_array($band, [0, 160, 80, 60, 40, 30, 20, 17, 15, 12, 10], true)) {
         throw new InvalidArgumentException('Please specify a supported HF amateur band.');
+    }
+    if (($request['query_mode'] ?? '') === 'band_activity') {
+        if ($band === 0) throw new InvalidArgumentException('Specify an HF band for the activity check.');
+        echo json_encode($summarizeBandActivity($band, $fetchDxSummit($band)), JSON_UNESCAPED_SLASHES);
+        exit;
     }
     $targetKey = strtolower(trim((string) ($request['target_region'] ?? '')));
     $targetQuery = trim((string) ($request['target_query'] ?? ''));

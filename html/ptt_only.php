@@ -39,7 +39,7 @@ $db = new MysqliDb(
     "localhost",
     $sql_radio_username,
     $sql_radio_password,
-    $sql_radio_database
+    $sql_radio_database,
 );
 $db->where("Username", $tUserName);
 $row = $db->getOne("Users");
@@ -377,6 +377,7 @@ $online = $db->count;
 							var position=rec.top + window.scrollY - window.pageYOffset;
 if (tDisconnected==0 && position>50)  //last && is to prevent PTT whene under hamburger menu on phones
 								{
+									sendLocalMicGate(xmit!=true);
 									if (xmit==true){
 										setPTT(0,0);
 									}else{
@@ -996,7 +997,7 @@ function logOut(){
 								window.open(win, "_self");
 								break;
 							case 84: // t
-								var win="/index.php?x="+tUserName+"&c="+tMyCall;
+								var win="/tuner.php?x="+tUserName+"&c="+tMyCall;
 								window.open(win, "_self");
 								break;
 							case 87: // w
@@ -1039,6 +1040,7 @@ function logOut(){
 							tIgnoreRepeating=true;
 //							trOn=1;
 							if (spacePTT==0){
+							sendLocalMicGate(true);
 									setPTT(1,0);
 //									waitRefresh=10;
 								spacePTT=1;
@@ -1305,7 +1307,28 @@ function logOut(){
 				}
 		};
 ///check here
+		function sendLocalMicGate(active){
+			active=Boolean(active) && tDisconnected==0 && tAccessLevel !=4;
+			var message={type:"rigpi-ptt-mic-gate",active:active};
+			var targets=[window];
+			try {
+				targets.push(window.parent,window.top);
+				for (var i=0;i<window.top.frames.length;i++){
+					targets.push(window.top.frames[i]);
+				}
+			} catch (e) {}
+			for (var j=0;j<targets.length;j++){
+				try { targets[j].postMessage(message,"*"); } catch (e) {}
+			}
+		}
+
+		window.addEventListener("pagehide",function(){ sendLocalMicGate(false); });
+		document.addEventListener("visibilitychange",function(){
+			if (document.hidden) sendLocalMicGate(false);
+		});
+
 		function setPTT(state, pttBypass){
+			if (state==0) sendLocalMicGate(false);
 			if (notGotPerfectWidgets==0 && tAccessLevel !=4 ){
 				var ttPTT=tMyRadioReal;
 				if (tRadioModel=="Net rigctl"){
@@ -1863,6 +1886,7 @@ $(document).on('mousedown', '#ptt', function()
 	if (tDisconnected==1){
 		return;
 	}
+	sendLocalMicGate(xmit!=true);
 	if (xmit==true ){
 		xmit=false;
 		$("#ptt").removeClass("PTTButton-red");

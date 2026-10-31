@@ -413,8 +413,16 @@ echo "[11] Fixing pcmanfm permissions" | tee -a "$LOG"
 find /home/pi/.config/pcmanfm -name "desktop-items*.conf" -exec chmod 666 {} \; 2>/dev/null || true
 echo "[11] pcmanfm permissions fixed" | tee -a "$LOG"
 
-# ── 12. SDRConnect removed — licensing compliance ────────────────────────────
-echo "[12] SDRConnect removed (licensing)" | tee -a "$LOG"
+# ── 12. Remove SDRConnect — licensing compliance ─────────────────────────────
+echo "[12] Removing SDRConnect (licensing)" | tee -a "$LOG"
+pkill -u pi -f "/opt/sdrconnect/SDRconnect" 2>/dev/null || true
+rm -f /usr/local/bin/sdrconnect \
+        /usr/share/applications/sdrconnect.desktop \
+        /usr/local/share/applications/sdrconnect.desktop \
+        /home/pi/.local/share/applications/sdrconnect.desktop \
+        /home/pi/.config/autostart/sdrconnect.desktop 2>/dev/null || true
+rm -rf /home/pi/.sdrconnect /opt/sdrconnect
+echo "[12] SDRConnect files removed" | tee -a "$LOG"
 
 # ── 13. Remove legacy persistent rigctld-dummy services ──────────────────────
 # These per-instance dummy rigctlds were started at boot and had NO instance
@@ -432,8 +440,25 @@ systemctl daemon-reload 2>/dev/null || true
 pkill -f "rigctld -m" 2>/dev/null || true
 echo "[13] Legacy rigctld-dummy services removed" | tee -a "$LOG"
 
-# ── 14. SDRConnect removed — licensing compliance ────────────────────────────
-echo "[14] SDRConnect removed (licensing)" | tee -a "$LOG"
+# ── 14. Verify SDRConnect removal — licensing compliance ─────────────────────
+echo "[14] Verifying SDRConnect removal" | tee -a "$LOG"
+SDRCONNECT_REMAINS=0
+if pgrep -u pi -f "/opt/sdrconnect/SDRconnect" >/dev/null; then
+        SDRCONNECT_REMAINS=1
+fi
+for path in /opt/sdrconnect /usr/local/bin/sdrconnect \
+        /usr/share/applications/sdrconnect.desktop \
+        /usr/local/share/applications/sdrconnect.desktop \
+        /home/pi/.sdrconnect \
+        /home/pi/.local/share/applications/sdrconnect.desktop \
+        /home/pi/.config/autostart/sdrconnect.desktop; do
+        [ -e "$path" ] && SDRCONNECT_REMAINS=1
+done
+if [ "$SDRCONNECT_REMAINS" -ne 0 ]; then
+        echo "[14] ERROR: SDRConnect removal was incomplete" | tee -a "$LOG"
+        exit 1
+fi
+echo "[14] SDRConnect removal verified" | tee -a "$LOG"
 
 # ── 15. Security verification and recovery-backup disposition ──
 echo "[15] Verifying remote services and credentials are detached" | tee -a "$LOG"

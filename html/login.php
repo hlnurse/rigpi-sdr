@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     }
-    $password = trim($_POST["password"]) ?? "";
+$password = trim($_POST["password"] ?? "");
     $password1 = strlen($password) > 0 ? md5($password) : "";
     $_SESSION["myUsername"] = $username;
     if (!empty($username)) {
