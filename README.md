@@ -56,6 +56,10 @@ git push origin main
 - Before reuse on a new machine, review local paths, permissions, and hardware assumptions.
 - Large generated files may need Git LFS or selective cleanup for long-term maintenance.
 
+## Contributors
+
+ChatGPT, aka R1LEY, created significant portions of the SDR code in RigPi-SDR.
+
 ## License
 
 This repository contains multiple components, generated files, and bundled content. Check individual files and directories before reuse or redistribution, as some assets may carry their own licensing terms.
